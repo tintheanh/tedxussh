@@ -13,6 +13,33 @@
       homescreen on Android. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Playfair+Display:400,700|Work+Sans:300,400,700"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/fonts/icomoon/style.css" />
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/magnific-popup.css" />
+    <link rel="stylesheet" href="/css/jquery-ui.css" />
+    <link rel="stylesheet" href="/css/owl.carousel.min.css" />
+    <link rel="stylesheet" href="/css/owl.theme.default.min.css" />
+    <link rel="stylesheet" href="/css/bootstrap-datepicker.css" />
+    <link rel="stylesheet" href="/css/animate.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/mediaelement@4.2.7/build/mediaelementplayer.min.css"
+    />
+
+    <link rel="stylesheet" href="/fonts/flaticon/font/flaticon.css" />
+
+    <link href="/assets/libs/flot/css/float-chart.css" rel="stylesheet">
+    <link href="/dist/css/style.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/aos.css" />
+
+    <link rel="stylesheet" href="/css/style.css" />
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -24,9 +51,10 @@
     -->
     <title>React App</title>
   </head>
+  <!-- <body style="background-color: black;"> -->
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
+    <div id="root" class="site-wrap"></div>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
@@ -37,5 +65,64 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/jquery-migrate-3.0.1.min.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/jquery.stellar.min.js"></script>
+    <script src="js/jquery.countdown.min.js"></script>
+    <script src="js/jquery.magnific-popup.min.js"></script>
+    <script src="js/bootstrap-datepicker.min.js"></script>
+    <script src="js/aos.js"></script>
+
+    <script src="js/mediaelement-and-player.min.js"></script>
+
+    <script src="js/main.js"></script>
+
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="assets/libs/popper.js/dist/umd/popper.min.js"></script>
+    <script src="assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
+    <script src="assets/extra-libs/sparkline/sparkline.js"></script>
+    <!--Wave Effects -->
+    <script src="dist/js/waves.js"></script>
+    <!--Menu sidebar -->
+    <script src="dist/js/sidebarmenu.js"></script>
+    <!--Custom JavaScript -->
+    <script src="dist/js/custom.min.js"></script>
+    <!--This page JavaScript -->
+    <!-- <script src="../../dist/js/pages/dashboards/dashboard1.js"></script> -->
+    <!-- Charts js Files -->
+    <script src="/assets/libs/flot/excanvas.js"></script>
+    <script src="/assets/libs/flot/jquery.flot.js"></script>
+    <script src="/assets/libs/flot/jquery.flot.pie.js"></script>
+    <script src="/assets/libs/flot/jquery.flot.time.js"></script>
+    <script src="/assets/libs/flot/jquery.flot.stack.js"></script>
+    <script src="/assets/libs/flot/jquery.flot.crosshair.js"></script>
+    <script src="/assets/libs/flot.tooltip/js/jquery.flot.tooltip.min.js"></script>
+    <script src="/dist/js/pages/chart/chart-page-init.js"></script>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        var mediaElements = document.querySelectorAll('video, audio'),
+          total = mediaElements.length;
+
+        for (var i = 0; i < total; i++) {
+          new MediaElementPlayer(mediaElements[i], {
+            pluginPath:
+              'https://cdn.jsdelivr.net/npm/mediaelement@4.2.7/build/',
+            shimScriptAccess: 'always',
+            success: function() {
+              var target = document.body.querySelectorAll('.player'),
+                targetTotal = target.length;
+              for (var j = 0; j < targetTotal; j++) {
+                target[j].style.visibility = 'visible';
+              }
+            }
+          });
+        }
+      });
+    </script>
   </body>
 </html>
