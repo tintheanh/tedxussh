@@ -47,25 +47,37 @@ const LeftSideBar = () => (
           </li>
           <li className="sidebar-item">
             {' '}
-            <a
+            <Link
+              to="/admin/footer"
               className="sidebar-link waves-effect waves-dark sidebar-link"
-              href="widgets.html"
               aria-expanded="false"
+              // style={{ backgroundColor: window.location.pathname === '/admin/conference' ? '#27a9e3' : '' }}
+              style={
+                window.location.pathname === '/admin/footer'
+                  ? { backgroundColor: '#27a9e3', opacity: 1 }
+                  : { backgroundColor: '' }
+              }
             >
               <i className="mdi mdi-chart-bubble" />
-              <span className="hide-menu">Widgets</span>
-            </a>
+              <span className="hide-menu">Footer</span>
+            </Link>
           </li>
           <li className="sidebar-item">
             {' '}
-            <a
+            <Link
+              to="/admin/home"
               className="sidebar-link waves-effect waves-dark sidebar-link"
-              href="tables.html"
               aria-expanded="false"
+              // style={{ backgroundColor: window.location.pathname === '/admin/conference' ? '#27a9e3' : '' }}
+              style={
+                window.location.pathname === '/admin/home'
+                  ? { backgroundColor: '#27a9e3', opacity: 1 }
+                  : { backgroundColor: '' }
+              }
             >
               <i className="mdi mdi-border-inside" />
-              <span className="hide-menu">Tables</span>
-            </a>
+              <span className="hide-menu">Home</span>
+            </Link>
           </li>
           <li className="sidebar-item">
             {' '}

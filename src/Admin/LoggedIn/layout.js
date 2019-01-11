@@ -3,8 +3,10 @@ import firebase from 'firebase';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import Header from './Header/layout';
 import LeftSideBar from './LeftSideBar/layout';
-import ConferenceList from './ConferenceList/layout';
-import SalonList from './SalonList/layout';
+import ConferenceList from './Management/ConferenceList/layout';
+import SalonList from './Management/SalonList/layout';
+import FooterSection from './Management/FooterSection/layout';
+import HomeSection from './Management/HomeSection/layout';
 
 class LoggedIn extends React.Component {
   constructor(props) {
@@ -51,6 +53,8 @@ class LoggedIn extends React.Component {
           <Route exact path="/admin" component={ConferenceList} />
           <Route path="/admin/conference" component={ConferenceList} />
           <Route path="/admin/salons" component={SalonList} />
+          <Route path="/admin/footer" component={FooterSection} />
+          <Route path="/admin/home" component={HomeSection} />
         </div>
       </Router>
     );

@@ -1,4 +1,16 @@
 import React from 'react';
+import firebase from 'firebase';
+
+const logout = () => {
+  firebase
+    .auth()
+    .signOut()
+    .then(() => alert('You have been logged out.'))
+    .catch(err => {
+      console.error(err);
+      alert('error occured');
+    });
+};
 
 const Header = () => (
   <header className="topbar" data-navbarbg="skin5">
@@ -115,7 +127,7 @@ const Header = () => (
               <i className="ti-settings m-r-5 m-l-5" /> Account Setting
             </a>
             <div className="dropdown-divider" />
-            <a className="dropdown-item" href="javascript:void(0)">
+            <a className="dropdown-item" onClick={() => logout()}>
               <i className="fa fa-power-off m-r-5 m-l-5" /> Logout
             </a>
             <div className="dropdown-divider" />

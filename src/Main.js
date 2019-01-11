@@ -5,46 +5,62 @@ import NavBar from './NavBar/layout';
 import Home from './Home/layout';
 import Conference from './Events/Conference/layout';
 import Salons from './Events/Salons/layout';
+import Footer from './Footer/layout';
 
 class Main extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      events: []
+      home: {},
+      conference: {},
+      footer: {}
     };
   }
 
   componentDidMount() {
     firebase
       .database()
-      .ref('events')
+      .ref('home')
       .on('value', snapshot => {
-        const eventObj = snapshot.val();
-        const events = [];
-        if (eventObj) {
-          Object.keys(eventObj).forEach(e => {
-            const event = {
-              id: e,
-              title: eventObj[e].title
-            };
-            events.push(event);
-          });
-          this.setState({ events });
+        const homeObj = snapshot.val();
+        if (homeObj) {
+          this.setState({ home: homeObj });
         }
-      })
-      .bind(this);
+      });
+
+    firebase
+      .database()
+      .ref('conference')
+      .on('value', snapshot =>
+        this.setState({ conference: snapshot.val() }, () =>
+          console.log(this.state.conference)
+        )
+      );
+
+    firebase
+      .database()
+      .ref('footer')
+      .on('value', snapshot =>
+        this.setState({ footer: snapshot.val() }, () =>
+          console.log(this.state.footer)
+        )
+      );
   }
 
   render() {
-    console.log(this.state.events);
+    const { footer, home, conference } = this.state;
     return (
       <Router>
         <div>
           <NavBar />
-          {/* <Route exact path="/" component={NavBar} /> */}
-          <Route exact path="/" component={Home} />
-          <Route path="/conference" component={Conference} />
+          {/* <Route exact path="/" component={Home} /> */}
+          <Route exact path="/" render={() => <Home home={home} />} />
+          <Route
+            path="/conference"
+            render={() => <Conference conference={conference} />}
+          />
           <Route path="/salons" component={Salons} />
+          <Footer {...footer} />
         </div>
       </Router>
     );

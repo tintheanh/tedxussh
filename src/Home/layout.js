@@ -1,26 +1,30 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-
 class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
 
-  componentDidMount() {}
+  // componentDidMount() {}
 
   render() {
+    const { background, title, description } = this.props.home;
     return (
       <div>
         <div
           className="site-blocks-cover overlay"
+          data-aos="fade"
+          data-stellar-background-ratio="0.5"
+          style={{ backgroundImage: `url(${background})` }}
         >
           <div className="container">
             <div className="row align-items-center">
               <div className="col-md-7">
-                <h1 className="mb-2">Welcome To Suites</h1>
-                <h2 className="caption">Hotel &amp; Resort</h2>
+                <h1 className="mb-1">{title}</h1>
+                <p className="p-2">{description}</p>
+                <br />
                 <Link to="/conference">Explore the event</Link>
               </div>
             </div>
