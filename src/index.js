@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import firebase from 'firebase';
+import 'react-datepicker/dist/react-datepicker.css';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';

@@ -5,16 +5,6 @@ class FooterSection extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // footer: {
-      //   left: {
-      //     links: {
-      //       facebook: ''
-      //     }
-      //   }
-      // },
-      // test: {
-      //   another: 'bla'
-      // }
       copyright: '',
       getUpdate: '',
       facebook: '',

@@ -13,7 +13,7 @@ class ImageManagement extends React.Component {
   componentDidMount() {
     firebase
       .database()
-      .ref('stockImages')
+      .ref(`images/${this.props.category}`)
       .on('value', snapshot => {
         const imgObj = snapshot.val();
         const imgs = [];
@@ -55,17 +55,19 @@ class ImageManagement extends React.Component {
         className="col-3"
         key={e.id}
         onClick={() => {
-          this.props.pick(e.url);
+          // this.props.pick(e.url);
           this.pickImg(e.url);
         }}
       >
-        <div className="hotel-room text-center">
-          <div className="d-block mb-0 thumbnail">
-            <img src={e.url} className="img-fluid" />
+        <div className="hotel-room text-center notransition">
+          <div className="d-block mb-0 thumbnail notransition">
+            <img src={e.url} className="img-fluid notransition" />
           </div>
           <div
             className="hotel-room-body"
-            style={{ backgroundColor: this.state.pickedImg === e.url ? 'cyan' : '' }}
+            style={{
+              backgroundColor: this.state.pickedImg === e.url ? 'cyan' : ''
+            }}
           >
             <strong className="price">{e.name}</strong>
           </div>
@@ -94,6 +96,22 @@ class ImageManagement extends React.Component {
       return (
         <div>
           <div className="row">{this.renderAllImg(imgs)}</div>
+          <button
+            type="button"
+            onClick={() => {
+              if (this.props.speakerID !== null)
+                this.props.pick(
+                  this.props.speakerID,
+                  'picture',
+                  this.state.pickedImg
+                );
+              else this.props.pick(this.state.pickedImg);
+              this.props.closeModal();
+            }}
+          >
+            Save
+          </button>
+          <button onClick={() => this.props.closeModal()}>Cancel</button>
         </div>
       );
     }

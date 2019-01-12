@@ -1,7 +1,7 @@
 import React from 'react';
 import firebase from 'firebase';
 import Modal from 'react-responsive-modal';
-import ImageManagement from './ImageMangement/layout';
+import ImageManagement from '../ImageMangement/layout';
 
 class HomeSection extends React.Component {
   constructor(props) {
@@ -90,7 +90,7 @@ class HomeSection extends React.Component {
   }
 
   pickImg(url) {
-    this.setState({ background: url }, () => console.log(this.state.background));
+    this.setState({ background: url });
   }
 
   renderShowOrEdit() {
@@ -131,7 +131,7 @@ class HomeSection extends React.Component {
 
           <button onClick={this.openModal}>Edit image</button>
           <Modal open={this.state.modalIsOpen} onClose={this.closeModal} center>
-            <ImageManagement pick={this.pickImg.bind(this)} />
+            <ImageManagement category="stockImages" pick={this.pickImg.bind(this)} />
           </Modal>
         </div>
       );
