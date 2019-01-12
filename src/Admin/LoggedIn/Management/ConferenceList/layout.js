@@ -8,6 +8,7 @@ import EditSpeakers from './EditSpeakers/layout';
 import MapView from '../../../../MapView/layout';
 import MapWithSearch from '../../../../MapWithSearch/layout';
 import EditAgenda from './EditAgenda/layout';
+import EditSponsors from './EditSponsors/layout';
 
 class ConferenceList extends React.Component {
   constructor(props) {
@@ -41,7 +42,8 @@ class ConferenceList extends React.Component {
       modalPicture: false,
       modalLocation: false,
       modalChangeImg: false,
-      modalAgenda: false
+      modalAgenda: false,
+      modalSponsors: false
     };
     this.openModalLocation = this.openModalLocation.bind(this);
     this.closeModalLocation = this.closeModalLocation.bind(this);
@@ -57,11 +59,13 @@ class ConferenceList extends React.Component {
 
     this.openModalAgenda = this.openModalAgenda.bind(this);
     this.closeModalAgenda = this.closeModalAgenda.bind(this);
+
+    this.openModalSponsors = this.openModalSponsors.bind(this);
+    this.closeModalSponsors = this.closeModalSponsors.bind(this);
   }
 
   componentDidMount() {
     this.fetchData();
-    console.log(moment('Fri Jan 11 2019').toDate());
   }
 
   openModalLocation() {
@@ -102,6 +106,14 @@ class ConferenceList extends React.Component {
 
   closeModalAgenda() {
     this.setState({ modalAgenda: false });
+  }
+
+  openModalSponsors() {
+    this.setState({ modalSponsors: true });
+  }
+
+  closeModalSponsors() {
+    this.setState({ modalSponsors: false });
   }
 
   onChangeTextInput(e, arg) {
@@ -213,6 +225,20 @@ class ConferenceList extends React.Component {
       });
   }
 
+  sortAgenda(agenda) {
+    return agenda.sort(
+      (a, b) => this.convertTime(a.time) - this.convertTime(b.time)
+    );
+  }
+
+  convertTime(time) {
+    const hour = parseInt(time.substring(0, 2));
+    const min = parseInt(time.substring(3, 5));
+
+    const decimalMin = min / 60;
+    return hour + decimalMin;
+  }
+
   fetchData() {
     firebase
       .database()
@@ -235,7 +261,7 @@ class ConferenceList extends React.Component {
             };
             agenda.push(oneAgenda);
           });
-          console.log(agenda);
+          console.log(this.sortAgenda(agenda));
 
           Object.keys(conferenceObj.speakers).forEach(e => {
             const speaker = {
@@ -503,23 +529,41 @@ class ConferenceList extends React.Component {
         </div>
       ));
     }
-    return imgs.slice(startIndex, endIndex).map(e => (
-      <div className="col-3" key={e.id}>
-        <div className="hotel-room text-center notransition">
-          <div className="d-block mb-0 thumbnail notransition">
-            <a href={e.website} target="_blank">
-              <img src={e.logo} className="img-fluid notransition" alt="" />
-            </a>
-          </div>
-        </div>
-        {renderBtn ? (
-          <div>
+
+    if (check === 'sponsors') {
+      return imgs.slice(startIndex, endIndex).map(e => {
+        if (!renderBtn) {
+          return (
+            <div className="col-3" key={e.id}>
+              <div className="hotel-room text-center notransition">
+                <div className="d-block mb-0 thumbnail notransition">
+                  <a href={e.website} target="_blank">
+                    <img
+                      src={e.logo}
+                      className="img-fluid notransition"
+                      alt=""
+                    />
+                  </a>
+                </div>
+              </div>
+            </div>
+          );
+        }
+        return (
+          <div className="col-3" key={e.id}>
+            <div className="hotel-room text-center notransition">
+              <div className="d-block mb-0 thumbnail notransition">
+                <img src={e.logo} className="img-fluid notransition" alt="" />
+                <p>{e.website}</p>
+              </div>
+            </div>
             <button>Edit</button>
             <button>Delete</button>
           </div>
-        ) : null}
-      </div>
-    ));
+        );
+      });
+    }
+    return null;
   }
 
   renderImg(totalRows, imgs, check, renderBtn) {
@@ -566,12 +610,6 @@ class ConferenceList extends React.Component {
     );
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   if (this.state.lat !== nextProps.lat) {
-  //     this.forceUpdate();
-  //   }
-  // }
-
   renderMap(lat, lng) {
     return (
       <MapView
@@ -594,6 +632,19 @@ class ConferenceList extends React.Component {
 
   handleDateChange(date) {
     this.setState({ date });
+  }
+
+  removeAgenda(agendaID) {
+    const ask = window.confirm(`Are you sure to remove this?`);
+    if (ask) {
+      const newAgenda = this.state.agenda.filter(a => {
+        return a.id !== agendaID;
+      });
+
+      this.setState({ agenda: newAgenda }, () =>
+        console.log(this.state.agenda)
+      );
+    }
   }
 
   renderShowOrEdit() {
@@ -789,6 +840,10 @@ class ConferenceList extends React.Component {
           <EditAgenda
             agenda={this.state.agenda}
             updateOneAgenda={this.updateOneAgenda.bind(this)}
+            removeAgenda={this.removeAgenda.bind(this)}
+            closeModalAgenda={this.closeModalAgenda}
+            onUpdateAgenda={this.onUpdate.bind(this)}
+            refetchAfterClosed={this.fetchData.bind(this)}
           />
         </Modal>
 
@@ -796,6 +851,17 @@ class ConferenceList extends React.Component {
         <div className="row">
           {this.renderAllImg(sponsors, 'sponsors', false)}
         </div>
+        <button onClick={this.openModalSponsors}>Edit sponsors</button>
+        <Modal
+          open={this.state.modalSponsors}
+          onClose={this.closeModalSponsors}
+          center
+        >
+          <EditSponsors
+            sponsors={this.state.sponsors}
+            renderSponsors={this.renderAllImg.bind(this)}
+          />
+        </Modal>
 
         {/* --------------------------------------------------------------------Location */}
         <div className="row">
