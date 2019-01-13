@@ -131,7 +131,7 @@ class HomeSection extends React.Component {
 
           <button onClick={this.openModal}>Edit image</button>
           <Modal open={this.state.modalIsOpen} onClose={this.closeModal} center>
-            <ImageManagement category="stockImages" pick={this.pickImg.bind(this)} />
+            <ImageManagement category="stockImages" pick={this.pickImg.bind(this)} closeModal={this.closeModal} />
           </Modal>
         </div>
       );

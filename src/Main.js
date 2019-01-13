@@ -12,7 +12,7 @@ class Main extends React.Component {
     super(props);
     this.state = {
       home: {},
-      conference: {},
+      // conference: {},
       footer: {}
     };
   }
@@ -28,14 +28,14 @@ class Main extends React.Component {
         }
       });
 
-    firebase
-      .database()
-      .ref('conference')
-      .on('value', snapshot =>
-        this.setState({ conference: snapshot.val() }, () =>
-          console.log(this.state.conference)
-        )
-      );
+    // firebase
+    //   .database()
+    //   .ref('conference')
+    //   .on('value', snapshot =>
+    //     this.setState({ conference: snapshot.val() }, () =>
+    //       console.log(this.state.conference)
+    //     )
+    //   );
 
     firebase
       .database()
@@ -48,7 +48,7 @@ class Main extends React.Component {
   }
 
   render() {
-    const { footer, home, conference } = this.state;
+    const { footer, home } = this.state;
     return (
       <Router>
         <div>
@@ -57,7 +57,7 @@ class Main extends React.Component {
           <Route exact path="/" render={() => <Home home={home} />} />
           <Route
             path="/conference"
-            render={() => <Conference conference={conference} />}
+            component={Conference}
           />
           <Route path="/salons" component={Salons} />
           <Footer {...footer} />
