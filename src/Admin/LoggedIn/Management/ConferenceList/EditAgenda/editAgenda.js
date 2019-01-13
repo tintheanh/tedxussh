@@ -1,7 +1,8 @@
 import React from 'react';
 import TimePicker from 'react-time-picker';
+import firebase from 'firebase';
 import Modal from 'react-responsive-modal';
-import AddAgenda from './AddAgenda/layout';
+import AddAgenda from './AddAgenda/addAgenda';
 
 class EditAgenda extends React.Component {
   constructor(props) {
@@ -12,7 +13,7 @@ class EditAgenda extends React.Component {
       changedDetail: '',
       changedParticipants: '',
       changedTime: '',
-      
+
       focus: [],
 
       modalAdd: false
@@ -70,21 +71,53 @@ class EditAgenda extends React.Component {
     this.setState({ changedTime: time, focus });
   }
 
+  onSaveChanges(agd) {
+    const update = {
+      id: agd.id,
+      header:
+        this.state.changedHeader === '' && !this.state.focus.includes('header')
+          ? agd.header
+          : this.state.changedHeader,
+      detail:
+        this.state.changedDetail === '' && !this.state.focus.includes('detail')
+          ? agd.detail
+          : this.state.changedDetail,
+      participants:
+        this.state.changedParticipants === '' &&
+        !this.state.focus.includes('participants')
+          ? agd.participants
+          : this.state.changedParticipants,
+      time:
+        this.state.changedTime === '' && !this.state.focus.includes('time')
+          ? agd.time
+          : this.state.changedTime
+    };
+
+    this.props.updateOneAgenda(update);
+    this.setState({
+      keySelected: ''
+    });
+  }
+
+  deleteAgenda(agdID) {
+    firebase.database().ref(`conference/agenda/${agdID}`).remove();
+  }
+
   render() {
     return (
       <div>
-        {this.props.agenda.map(a => {
-          if (this.state.keySelected !== a.id) {
+        {this.props.agenda.map(agd => {
+          if (this.state.keySelected !== agd.id) {
             return (
-              <div key={a.id}>
-                <h1>{a.header}</h1>
-                <p>{a.detail}</p>
-                <p>{a.participants}</p>
-                <p>{a.time}</p>
+              <div key={agd.id}>
+                <h1>{agd.header}</h1>
+                <p>{agd.detail}</p>
+                <p>{agd.participants}</p>
+                <p>{agd.time}</p>
                 <button
                   onClick={() =>
                     this.setState({
-                      keySelected: a.id,
+                      keySelected: agd.id,
                       changedDetail: '',
                       changedHeader: '',
                       changedParticipants: '',
@@ -95,69 +128,41 @@ class EditAgenda extends React.Component {
                 >
                   Edit
                 </button>
-                <button onClick={() => this.props.removeAgenda(a.id)}>
+                <button onClick={this.deleteAgenda.bind(this, agd.id)}>
                   Delete
                 </button>
               </div>
             );
           }
           return (
-            <div key={a.id}>
+            <div key={agd.id}>
               <input
                 type="text"
-                defaultValue={a.header}
+                defaultValue={agd.header}
                 onChange={this.onHeaderChange.bind(this)}
               />
               <br />
               <input
                 type="text"
-                defaultValue={a.detail}
+                defaultValue={agd.detail}
                 onChange={this.onDetailChange.bind(this)}
               />
               <br />
               <input
                 type="text"
-                defaultValue={a.participants}
+                defaultValue={agd.participants}
                 onChange={this.onParticipantsChange.bind(this)}
               />
               <br />
               <TimePicker
                 disableClock
                 clockIcon={null}
-                value={a.time}
+                value={agd.time}
                 onChange={this.onTimeChange.bind(this)}
               />
               <button
                 type="button"
-                onClick={() => {
-                  const updated = {
-                    id: a.id,
-                    header:
-                      this.state.changedHeader === '' &&
-                      !this.state.focus.includes('header')
-                        ? a.header
-                        : this.state.changedHeader,
-                    detail:
-                      this.state.changedDetail === '' &&
-                      !this.state.focus.includes('detail')
-                        ? a.detail
-                        : this.state.changedDetail,
-                    participants:
-                      this.state.changedParticipants === '' &&
-                      !this.state.focus.includes('participants')
-                        ? a.participants
-                        : this.state.changedParticipants,
-                    time:
-                      this.state.changedTime === '' &&
-                      !this.state.focus.includes('time')
-                        ? a.time
-                        : this.state.changedTime
-                  };
-                  this.props.updateOneAgenda(updated);
-                  this.setState({
-                    keySelected: ''
-                  });
-                }}
+                onClick={this.onSaveChanges.bind(this, agd)}
               >
                 Save
               </button>
@@ -165,10 +170,10 @@ class EditAgenda extends React.Component {
                 onClick={() =>
                   this.setState({
                     keySelected: '',
-                    header: a.header,
-                    detail: a.detail,
-                    participants: a.participants,
-                    time: a.time
+                    header: agd.header,
+                    detail: agd.detail,
+                    participants: agd.participants,
+                    time: agd.time
                   })
                 }
               >
@@ -180,24 +185,13 @@ class EditAgenda extends React.Component {
         <button
           onClick={() => {
             this.props.closeModalAgenda();
-            this.props.refetchAfterClosed();
           }}
         >
-          Cancel
-        </button>
-        <button
-          onClick={() => {
-            this.props.onUpdateAgenda('agenda');
-            this.props.closeModalAgenda();
-          }}
-        >
-          Save
+          Done
         </button>
         <button onClick={this.openModalAdd}>Add</button>
         <Modal open={this.state.modalAdd} onClose={this.closeModalAdd} center>
-          <AddAgenda
-            closeModalAdd={this.closeModalAdd}
-          />
+          <AddAgenda closeModalAdd={this.closeModalAdd} />
         </Modal>
       </div>
     );

@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import Main from './Main';
-import Admin from './Admin/layout';
+import Admin from './Admin/admin';
 
 console.log(window.location.pathname);
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import firebase from 'firebase';
-import LoggedIn from './LoggedIn/layout';
-import LoggedOut from './LoggedOut/layout';
+import LoggedIn from './LoggedIn/loggedIn';
+import LoggedOut from './LoggedOut/loggedOut';
 
 class Admin extends React.Component {
   constructor(props) {

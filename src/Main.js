@@ -1,11 +1,11 @@
 import React from 'react';
 import firebase from 'firebase';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import NavBar from './NavBar/layout';
-import Home from './Home/layout';
-import Conference from './Events/Conference/layout';
-import Salons from './Events/Salons/layout';
-import Footer from './Footer/layout';
+import NavBar from './NavBar/navBar';
+import Home from './Home/home';
+import Conference from './Events/Conference/conference';
+import Salons from './Events/Salons/salons';
+import Footer from './Footer/footer';
 
 class Main extends React.Component {
   constructor(props) {

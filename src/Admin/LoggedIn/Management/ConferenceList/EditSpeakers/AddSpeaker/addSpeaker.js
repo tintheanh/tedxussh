@@ -1,7 +1,7 @@
 import React from 'react';
 import Modal from 'react-responsive-modal';
 import firebase from 'firebase';
-import ImageManagement from '../../../ImageMangement/layout';
+import ImageManagement from '../../../ImageMangement/imageManagement';
 
 class AddSpeaker extends React.Component {
   constructor(props) {
@@ -79,7 +79,6 @@ class AddSpeaker extends React.Component {
         >
           <ImageManagement
             category="speakers"
-            speakerID={null}
             closeModal={this.closeModalPicture}
             pick={this.pickImg.bind(this)}
           />

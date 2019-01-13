@@ -1,7 +1,7 @@
 import React from 'react';
 import firebase from 'firebase';
 import Modal from 'react-responsive-modal';
-import ImageManagement from '../ImageMangement/layout';
+import ImageManagement from '../ImageMangement/imageManagement';
 
 class HomeSection extends React.Component {
   constructor(props) {

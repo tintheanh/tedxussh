@@ -3,12 +3,13 @@ import firebase from 'firebase';
 import Modal from 'react-responsive-modal';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
-import ImageManagement from '../ImageMangement/layout';
-import EditSpeakers from './EditSpeakers/layout';
-import MapView from '../../../../MapView/layout';
-import MapWithSearch from '../../../../MapWithSearch/layout';
-import EditAgenda from './EditAgenda/layout';
-import EditSponsors from './EditSponsors/layout';
+import ImageManagement from '../ImageMangement/imageManagement';
+import EditSpeakers from './EditSpeakers/editSpeaker';
+import MapView from '../../../../MapView/mapView';
+import MapWithSearch from '../../../../MapWithSearch/mapWithSearch';
+import EditAgenda from './EditAgenda/editAgenda';
+import EditSponsors from './EditSponsors/editSponsors';
+import EditHighlight from './EditHighlight/editHighlight';
 
 class ConferenceList extends React.Component {
   constructor(props) {
@@ -41,6 +42,7 @@ class ConferenceList extends React.Component {
       toggleEditTitle: false,
       toggleEditDate: false,
       toggleEditDescription: false,
+      toggleEditAddress: false,
 
       modalSpeakers: false,
       modalPicture: false,
@@ -48,7 +50,8 @@ class ConferenceList extends React.Component {
       modalChangeImg: false,
       modalChangeSponsorImg: false,
       modalAgenda: false,
-      modalSponsors: false
+      modalSponsors: false,
+      modalHighLight: false
     };
     this.openModalLocation = this.openModalLocation.bind(this);
     this.closeModalLocation = this.closeModalLocation.bind(this);
@@ -72,6 +75,9 @@ class ConferenceList extends React.Component {
 
     this.openModalSponsors = this.openModalSponsors.bind(this);
     this.closeModalSponsors = this.closeModalSponsors.bind(this);
+
+    this.openModalHighLight = this.openModalHighLight.bind(this);
+    this.closeModalHighLight = this.closeModalHighLight.bind(this);
   }
 
   componentDidMount() {
@@ -134,6 +140,14 @@ class ConferenceList extends React.Component {
     this.setState({ modalSponsors: false });
   }
 
+  openModalHighLight() {
+    this.setState({ modalHighLight: true });
+  }
+
+  closeModalHighLight() {
+    this.setState({ modalHighLight: false });
+  }
+
   onChangeTextInput(e, arg) {
     switch (arg) {
       case 'conferencePicture':
@@ -169,6 +183,15 @@ class ConferenceList extends React.Component {
       default:
         break;
     }
+  }
+
+  toObject(arr) {
+    const obj = {};
+    for (let i = 0; i < arr.length; ++i) obj[arr[i].id] = arr[i];
+    Object.keys(arr).forEach(e => {
+      delete arr[e].id;
+    });
+    return obj;
   }
 
   onUpdate(type) {
@@ -209,23 +232,13 @@ class ConferenceList extends React.Component {
 
     if (type === 'speakers') {
       update = {
-        speakers: this.state.speakers.map(e => ({
-          name: e.name,
-          occupation: e.occupation,
-          introduction: e.introduction,
-          picture: e.picture
-        }))
+        speakers: this.toObject(this.state.speakers)
       };
     }
 
     if (type === 'agenda') {
       update = {
-        agenda: this.state.agenda.map(e => ({
-          header: e.header,
-          detail: e.detail,
-          participants: e.participants,
-          time: e.time
-        }))
+        agenda: this.toObject(this.state.agenda)
       };
     }
 
@@ -238,18 +251,37 @@ class ConferenceList extends React.Component {
       };
     }
 
-    firebase
-      .database()
-      .ref('conference')
-      .update(update)
-      .then(() => {
-        console.log('Updated');
-        // this.setState({ toggleEdit: false });
-      })
-      .catch(err => {
-        console.error(err);
-        alert('Error occured!');
-      });
+    if (type === 'address') {
+      update = {
+        address: this.state.address
+      };
+      firebase
+        .database()
+        .ref('conference/location')
+        .update(update)
+        .then(() => {
+          console.log('Updated');
+          // this.setState({ toggleEdit: false });
+        })
+        .catch(err => {
+          console.error(err);
+          alert('Error occured!');
+        });
+    }
+    if (type !== 'address') {
+      firebase
+        .database()
+        .ref('conference')
+        .update(update)
+        .then(() => {
+          console.log('Updated');
+          // this.setState({ toggleEdit: false });
+        })
+        .catch(err => {
+          console.error(err);
+          alert('Error occured!');
+        });
+    }
   }
 
   sortAgenda(agenda) {
@@ -274,7 +306,7 @@ class ConferenceList extends React.Component {
         const conferenceObj = snapshot.val();
         if (conferenceObj !== undefined) {
           const agenda = [];
-          const highlight = [...conferenceObj.highlight];
+          const highlight = [];
           const speakers = [];
           const sponsors = [];
 
@@ -309,31 +341,42 @@ class ConferenceList extends React.Component {
             };
             sponsors.push(sponsor);
           });
-          console.log(sponsors);
 
-          this.setState({
-            address: conferenceObj.location.address,
-            conferencePicture: conferenceObj.conferencePicture,
-            date: conferenceObj.date,
-            description: conferenceObj.description,
-            title: conferenceObj.title,
-            lat: conferenceObj.location.lat,
-            lng: conferenceObj.location.lng,
-            agenda,
-            speakers,
-            sponsors,
-            highlight,
-
-            speakerSelected: false
-
-            // toggleEditTitle: false,
-            // toggleEditDate: false,
-            // toggleEditDescription: false,
-
-            // modalSpeakers: false,
-            // modalPicture: false,
-            // modalLocation: false
+          Object.keys(conferenceObj.highlight).forEach(e => {
+            const oneHighlight = {
+              id: e,
+              name: conferenceObj.highlight[e].name,
+              url: conferenceObj.highlight[e].url
+            };
+            highlight.push(oneHighlight);
           });
+
+          this.setState(
+            {
+              address: conferenceObj.location.address,
+              conferencePicture: conferenceObj.conferencePicture,
+              date: conferenceObj.date,
+              description: conferenceObj.description,
+              title: conferenceObj.title,
+              lat: conferenceObj.location.lat,
+              lng: conferenceObj.location.lng,
+              agenda,
+              speakers,
+              sponsors,
+              highlight,
+
+              speakerSelected: false
+
+              // toggleEditTitle: false,
+              // toggleEditDate: false,
+              // toggleEditDescription: false,
+
+              // modalSpeakers: false,
+              // modalPicture: false,
+              // modalLocation: false
+            },
+            () => console.log(this.state.highlight)
+          );
         }
       });
   }
@@ -364,21 +407,35 @@ class ConferenceList extends React.Component {
     }
   }
 
-  updateOneSpeaker(id, propName, value) {
-    const speakers = [...this.state.speakers];
-    const speaker = speakers.find(s => s.id === id);
-    if (speaker && speaker.hasOwnProperty(propName)) {
-      speaker[propName] = value;
-    }
-    if (propName !== 'picture')
-      this.setState({ speakers }, () => this.onUpdate('speakers'));
-    else this.setState({ speakers });
+  updateOneSpeaker(update) {
+    // const speakers = [...this.state.speakers];
+
+    // const foundIndex = speakers.indexOf(
+    //   speakers.find(speaker => speaker.id === updated.id)
+    // );
+
+    // // console.log(foundIndex, updated);
+
+    // speakers[foundIndex] = updated;
+
+    // console.log('new', speakers);
+    // this.setState({ speakers }, () => this.onUpdate('speakers'));
+
+    firebase
+      .database()
+      .ref(`conference/speakers/${update.id}`)
+      .update(update);
   }
 
-  updateOneAgenda(updated) {
-    const agenda = [...this.state.agenda];
-    agenda[updated.id] = updated;
-    this.setState({ agenda }, () => this.onUpdate('agenda'));
+  updateOneAgenda(update) {
+    // const agenda = [...this.state.agenda];
+    // agenda[updated.id] = updated;
+    // this.setState({ agenda }, () => this.onUpdate('agenda'));
+
+    firebase
+      .database()
+      .ref(`conference/agenda/${update.id}`)
+      .update(update);
   }
 
   updateOneSponsor(sponsorUpdated) {
@@ -400,287 +457,50 @@ class ConferenceList extends React.Component {
     else this.setState({ sponsors });
   }
 
-  renderRow(startIndex, endIndex, imgs, check, renderBtn) {
+  renderRow(startIndex, endIndex, imgs, check) {
     if (check === 'speakers') {
       return imgs.slice(startIndex, endIndex).map(e => (
         <div className="col-3" key={e.id}>
           <div className="hotel-room text-center notransition">
             <div className="d-block mb-0 thumbnail notransition">
-              {!renderBtn ? (
-                <img
-                  src={e.picture}
-                  className="img-fluid notransition"
-                  alt=""
-                />
-              ) : (
-                <div>
-                  <img
-                    src={e.picture}
-                    className="img-fluid notransition"
-                    alt=""
-                    onClick={() => this.openModalChangeImg(e.id)}
-                  />
-                  <Modal
-                    open={this.state.modalChangeImg}
-                    onClose={this.closeModalChangeImg}
-                    center
-                  >
-                    <ImageManagement
-                      category="speakers"
-                      speakerID={this.state.tempSpeakerID}
-                      closeModal={this.closeModalChangeImg}
-                      pick={this.updateOneSpeaker.bind(this)}
-                    />
-                  </Modal>
-                </div>
-              )}
+              <img src={e.picture} className="img-fluid notransition" alt="" />
             </div>
             <div className="hotel-room-body">
-              {this.state.speakerSelected === e.id && renderBtn ? (
-                <div>
-                  <input
-                    type="text"
-                    defaultValue={e.name}
-                    onChange={event =>
-                      this.setState({ nameUpdated: event.target.value })
-                    }
-                  />
-                  <input
-                    type="text"
-                    defaultValue={e.occupation}
-                    onChange={event =>
-                      this.setState({ occupationUpdated: event.target.value })
-                    }
-                  />
-                  <textarea
-                    defaultValue={e.introduction}
-                    onChange={event =>
-                      this.setState({ introductionUpdated: event.target.value })
-                    }
-                  />
-                  <button
-                    type="button"
-                    onClick={() => {
-                      if (this.state.nameUpdated === '') {
-                        this.setState(
-                          { nameUpdated: e.name, speakerSelected: '' },
-                          () => {
-                            this.updateOneSpeaker(
-                              e.id,
-                              'name',
-                              this.state.nameUpdated
-                            );
-                            this.updateOneSpeaker(
-                              e.id,
-                              'occupation',
-                              this.state.occupationUpdated
-                            );
-                            this.updateOneSpeaker(
-                              e.id,
-                              'introduction',
-                              this.state.introductionUpdated
-                            );
-                          }
-                        );
-                      }
-                      if (this.state.occupationUpdated === '') {
-                        this.setState(
-                          {
-                            occupationUpdated: e.occupation,
-                            speakerSelected: ''
-                          },
-                          () => {
-                            this.updateOneSpeaker(
-                              e.id,
-                              'name',
-                              this.state.nameUpdated
-                            );
-                            this.updateOneSpeaker(
-                              e.id,
-                              'occupation',
-                              this.state.occupationUpdated
-                            );
-                            this.updateOneSpeaker(
-                              e.id,
-                              'introduction',
-                              this.state.introductionUpdated
-                            );
-                          }
-                        );
-                      }
-                      if (this.state.introductionUpdated === '') {
-                        this.setState(
-                          {
-                            introductionUpdated: e.introduction,
-                            speakerSelected: ''
-                          },
-                          () => {
-                            this.updateOneSpeaker(
-                              e.id,
-                              'name',
-                              this.state.nameUpdated
-                            );
-                            this.updateOneSpeaker(
-                              e.id,
-                              'occupation',
-                              this.state.occupationUpdated
-                            );
-                            this.updateOneSpeaker(
-                              e.id,
-                              'introduction',
-                              this.state.introductionUpdated
-                            );
-                          }
-                        );
-                      }
-                      if (
-                        this.state.nameUpdated !== '' &&
-                        this.state.occupationUpdated !== '' &&
-                        this.state.introductionUpdated !== ''
-                      ) {
-                        this.setState({ speakerSelected: '' }, () => {
-                          this.updateOneSpeaker(
-                            e.id,
-                            'name',
-                            this.state.nameUpdated
-                          );
-                          this.updateOneSpeaker(
-                            e.id,
-                            'occupation',
-                            this.state.occupationUpdated
-                          );
-                          this.updateOneSpeaker(
-                            e.id,
-                            'introduction',
-                            this.state.introductionUpdated
-                          );
-                        });
-                      }
-                    }}
-                  >
-                    Save
-                  </button>
-                </div>
-              ) : (
-                <div>
-                  <h3 className="heading mb-0">{e.name}</h3>
-                  <strong className="price">{e.occupation}</strong>
-                  <p>{e.introduction}</p>
-                </div>
-              )}
+              <div>
+                <h3 className="heading mb-0">{e.name}</h3>
+                <strong className="price">{e.occupation}</strong>
+                <p>{e.introduction}</p>
+              </div>
             </div>
           </div>
-          {renderBtn ? (
-            <div>
-              <button
-                onClick={() =>
-                  this.setState({
-                    speakerSelected: e.id,
-                    nameUpdated: '',
-                    occupationUpdated: ''
-                  })
-                }
-              >
-                Edit
-              </button>
-              <button onClick={this.removeSpeaker.bind(this, e)}>Delete</button>
-            </div>
-          ) : null}
         </div>
       ));
     }
 
     if (check === 'sponsors') {
-      return imgs.slice(startIndex, endIndex).map(e => {
-        if (!renderBtn) {
-          return (
-            <div className="col-3" key={e.id}>
-              <div className="hotel-room text-center notransition">
-                <div className="d-block mb-0 thumbnail notransition">
-                  <a href={e.website} target="_blank">
-                    <img
-                      src={e.logo}
-                      className="img-fluid notransition"
-                      alt=""
-                    />
-                  </a>
-                </div>
-              </div>
-            </div>
-          );
-        }
-        return this.state.sponsorSelected === e.id ? (
-          <div className="col-3" key={e.id}>
-            <div className="hotel-room text-center notransition">
-              <div className="d-block mb-0 thumbnail notransition">
-                <img src={e.logo} className="img-fluid notransition" alt="" onClick={this.openModalChangeSponsorImg} />
-                <Modal
-                  open={this.state.modalChangeSponsorImg}
-                  onClose={this.closeModalChangeSponsorImg}
-                  center
-                >
-                  <ImageManagement
-                    category="sponsors"
-                    speakerID={this.state.tempSponsorID} // fix later
-                    closeModal={this.closeModalChangeSponsorImg}
-                    pick={this.updateOneSponsor2.bind(this)}
-                  />
-                </Modal>
-                <input
-                  type="text"
-                  defaultValue={e.website}
-                  onChange={e =>
-                    this.setState({ websiteUpdated: e.target.value }, () =>
-                      console.log(this.state.websiteUpdated)
-                    )
-                  }
-                />
-              </div>
-            </div>
-            <button
-              type="button"
-              onClick={() => {
-                const updated = {
-                  id: e.id,
-                  logo: e.logo,
-                  website:
-                    this.state.websiteUpdated === ''
-                      ? e.website
-                      : this.state.websiteUpdated
-                };
-                this.updateOneSponsor(updated);
-                this.setState({ sponsorSelected: '' });
-              }}
-            >
-              Save
-            </button>
-            <button
-              onClick={() =>
-                this.setState({ sponsorSelected: '', websiteUpdated: '' })
-              }
-            >
-              Cancel
-            </button>
-          </div>
-        ) : (
-          <div className="col-3" key={e.id}>
-            <div className="hotel-room text-center notransition">
-              <div className="d-block mb-0 thumbnail notransition">
+      return imgs.slice(startIndex, endIndex).map(e => (
+        <div className="col-3" key={e.id}>
+          <div className="hotel-room text-center notransition">
+            <div className="d-block mb-0 thumbnail notransition">
+              <a href={e.website} target="_blank">
                 <img src={e.logo} className="img-fluid notransition" alt="" />
-                <p>{e.website}</p>
-              </div>
+              </a>
             </div>
-            <button
-              onClick={() =>
-                this.setState({ sponsorSelected: e.id, websiteUpdated: '' })
-              }
-            >
-              Edit
-            </button>
-            <button onClick={() => this.removeOneSponsor(e)}>Delete</button>
           </div>
-        );
-      });
+        </div>
+      ));
+    }
+
+    if (check === 'highlight') {
+      return imgs.slice(startIndex, endIndex).map(e => (
+        <div className="col-3" key={e.id}>
+          <div className="hotel-room text-center notransition">
+            <div className="d-block mb-0 thumbnail notransition">
+              <img src={e.url} className="img-fluid notransition" alt="" />
+            </div>
+          </div>
+        </div>
+      ));
     }
     return null;
   }
@@ -781,7 +601,8 @@ class ConferenceList extends React.Component {
       sponsors,
       toggleEditTitle,
       toggleEditDate,
-      toggleEditDescription
+      toggleEditDescription,
+      toggleEditAddress
     } = this.state;
     return (
       // --------------------------------------------------------------------Main Picture
@@ -940,10 +761,10 @@ class ConferenceList extends React.Component {
             <div style={{ width: '700px' }}>
               <EditSpeakers
                 speakers={speakers}
-                renderAllImg={this.renderAllImg.bind(this)}
-                updateSpeakers={this.onUpdate.bind(this)}
+                updateOneSpeaker={this.updateOneSpeaker.bind(this)}
+                // updatePicture={this.onUpdate.bind(this)}
                 closeModalSpeakers={this.closeModalSpeakers}
-                refetchAfterClosed={this.fetchData.bind(this)}
+                // refetchAfterClosed={this.fetchData.bind(this)}
               />
             </div>
           </Modal>
@@ -959,10 +780,10 @@ class ConferenceList extends React.Component {
           <EditAgenda
             agenda={this.state.agenda}
             updateOneAgenda={this.updateOneAgenda.bind(this)}
-            removeAgenda={this.removeAgenda.bind(this)}
+            // removeAgenda={this.removeAgenda.bind(this)}
             closeModalAgenda={this.closeModalAgenda}
-            onUpdateAgenda={this.onUpdate.bind(this)}
-            refetchAfterClosed={this.fetchData.bind(this)}
+            // onUpdateAgenda={this.onUpdate.bind(this)}
+            // refetchAfterClosed={this.fetchData.bind(this)}
           />
         </Modal>
 
@@ -978,16 +799,47 @@ class ConferenceList extends React.Component {
         >
           <EditSponsors
             sponsors={this.state.sponsors}
-            renderSponsors={this.renderAllImg.bind(this)}
-            updateSponsors={this.onUpdate.bind(this)}
-            closeModalSponsors={this.closeModalSponsors}
+            // updateSponsors={this.onUpdate.bind(this)}
+            closeModal={this.closeModalSponsors}
           />
         </Modal>
 
         {/* --------------------------------------------------------------------Location */}
-        <div className="row">
-          <p>{address}</p>
-        </div>
+        {!toggleEditAddress ? (
+          <div className="row">
+            <p>{address}</p>
+            <button onClick={() => this.setState({ toggleEditAddress: true })}>
+              Edit address
+            </button>
+          </div>
+        ) : (
+          <div className="row">
+            <input
+              type="text"
+              value={address}
+              onChange={e => this.onChangeTextInput(e, 'address')}
+            />
+            <button
+              type="button"
+              onClick={() => {
+                this.onUpdate('address');
+                this.setState({ toggleEditAddress: false });
+              }}
+            >
+              Save
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                this.fetchData();
+                this.setState({ toggleEditAddress: false });
+              }}
+            >
+              Cancel
+            </button>
+          </div>
+        )}
+
         <div className="row">{this.renderMap(lat, lng)}</div>
 
         <button onClick={this.openModalLocation}>Edit location</button>
@@ -1005,6 +857,24 @@ class ConferenceList extends React.Component {
             />
           </div>
         </Modal>
+
+        {/* --------------------------------------------------------------------Highlight */}
+        <div className="row">
+          {this.renderAllImg(this.state.highlight, 'highlight')}
+        </div>
+        <div className="row">
+          <button onClick={this.openModalHighLight}>Edit highlight</button>
+          <Modal
+            open={this.state.modalHighLight}
+            onClose={this.closeModalHighLight}
+            center
+          >
+            <EditHighlight
+              highlight={this.state.highlight}
+              closeModal={this.closeModalHighLight}
+            />
+          </Modal>
+        </div>
       </div>
     );
   }

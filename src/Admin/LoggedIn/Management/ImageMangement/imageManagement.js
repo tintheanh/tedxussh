@@ -6,7 +6,8 @@ class ImageManagement extends React.Component {
     super(props);
     this.state = {
       imgs: [],
-      pickedImg: ''
+      pickedImgUrl: '',
+      pickedImgName: ''
     };
   }
 
@@ -56,7 +57,7 @@ class ImageManagement extends React.Component {
         key={e.id}
         onClick={() => {
           // this.props.pick(e.url);
-          this.pickImg(e.url);
+          this.pickImg(e);
         }}
       >
         <div className="hotel-room text-center notransition">
@@ -66,7 +67,7 @@ class ImageManagement extends React.Component {
           <div
             className="hotel-room-body"
             style={{
-              backgroundColor: this.state.pickedImg === e.url ? 'cyan' : ''
+              backgroundColor: this.state.pickedImgUrl === e.url ? 'cyan' : ''
             }}
           >
             <strong className="price">{e.name}</strong>
@@ -86,8 +87,8 @@ class ImageManagement extends React.Component {
     return <h2>No imgs available</h2>;
   }
 
-  pickImg(url) {
-    this.setState({ pickedImg: url });
+  pickImg(img) {
+    this.setState({ pickedImgUrl: img.url, pickedImgName: img.name });
   }
 
   render() {
@@ -99,13 +100,18 @@ class ImageManagement extends React.Component {
           <button
             type="button"
             onClick={() => {
-              if (this.props.speakerID !== null)
-                this.props.pick(
-                  this.props.speakerID,
-                  'picture',
-                  this.state.pickedImg
-                );
-              else this.props.pick(this.state.pickedImg);
+              // if (this.props.speakerID !== null)
+              //   this.props.pick(
+              //     this.props.speakerID,
+              //     'picture',
+              //     this.state.pickedImgUrl
+              //   );
+              // else this.props.pick(this.state.pickedImgUrl);
+              // this.props.closeModal();
+              this.props.pick(
+                this.state.pickedImgUrl,
+                this.state.pickedImgName
+              );
               this.props.closeModal();
             }}
           >

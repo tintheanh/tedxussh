@@ -1,12 +1,12 @@
 import React from 'react';
 import firebase from 'firebase';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import Header from './Header/layout';
-import LeftSideBar from './LeftSideBar/layout';
-import ConferenceList from './Management/ConferenceList/layout';
-import SalonList from './Management/SalonList/layout';
-import FooterSection from './Management/FooterSection/layout';
-import HomeSection from './Management/HomeSection/layout';
+import Header from './Header/header';
+import LeftSideBar from './LeftSideBar/leftSideBar';
+import ConferenceList from './Management/ConferenceList/conferenceList';
+import SalonList from './Management/SalonList/salonList';
+import FooterSection from './Management/FooterSection/footerSection';
+import HomeSection from './Management/HomeSection/homeSection';
 
 class LoggedIn extends React.Component {
   constructor(props) {
