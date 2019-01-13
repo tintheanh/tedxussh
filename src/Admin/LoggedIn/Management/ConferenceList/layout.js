@@ -26,13 +26,17 @@ class ConferenceList extends React.Component {
       speakers: [],
       sponsors: [],
 
-      speakerSelected: false,
+      speakerSelected: '',
+      sponsorSelected: '',
 
       nameUpdated: '',
       occupationUpdated: '',
       introductionUpdated: '',
 
       tempSpeakerID: '',
+      tempSponsorID: '',
+
+      websiteUpdated: '',
 
       toggleEditTitle: false,
       toggleEditDate: false,
@@ -42,6 +46,7 @@ class ConferenceList extends React.Component {
       modalPicture: false,
       modalLocation: false,
       modalChangeImg: false,
+      modalChangeSponsorImg: false,
       modalAgenda: false,
       modalSponsors: false
     };
@@ -56,6 +61,11 @@ class ConferenceList extends React.Component {
 
     this.openModalChangeImg = this.openModalChangeImg.bind(this);
     this.closeModalChangeImg = this.closeModalChangeImg.bind(this);
+
+    this.openModalChangeSponsorImg = this.openModalChangeSponsorImg.bind(this);
+    this.closeModalChangeSponsorImg = this.closeModalChangeSponsorImg.bind(
+      this
+    );
 
     this.openModalAgenda = this.openModalAgenda.bind(this);
     this.closeModalAgenda = this.closeModalAgenda.bind(this);
@@ -98,6 +108,14 @@ class ConferenceList extends React.Component {
 
   closeModalChangeImg() {
     this.setState({ modalChangeImg: false });
+  }
+
+  openModalChangeSponsorImg(speakerID) {
+    this.setState({ modalChangeSponsorImg: true, tempSponsorID: speakerID });
+  }
+
+  closeModalChangeSponsorImg() {
+    this.setState({ modalChangeSponsorImg: false });
   }
 
   openModalAgenda() {
@@ -211,6 +229,15 @@ class ConferenceList extends React.Component {
       };
     }
 
+    if (type === 'sponsors') {
+      update = {
+        sponsors: this.state.sponsors.map(e => ({
+          logo: e.logo,
+          website: e.website
+        }))
+      };
+    }
+
     firebase
       .database()
       .ref('conference')
@@ -261,7 +288,7 @@ class ConferenceList extends React.Component {
             };
             agenda.push(oneAgenda);
           });
-          console.log(this.sortAgenda(agenda));
+          this.sortAgenda(agenda);
 
           Object.keys(conferenceObj.speakers).forEach(e => {
             const speaker = {
@@ -282,6 +309,7 @@ class ConferenceList extends React.Component {
             };
             sponsors.push(sponsor);
           });
+          console.log(sponsors);
 
           this.setState({
             address: conferenceObj.location.address,
@@ -323,6 +351,19 @@ class ConferenceList extends React.Component {
     }
   }
 
+  removeOneSponsor(sponsor) {
+    const ask = window.confirm(`Are you sure to remove ?`);
+    if (ask) {
+      const newSponsors = this.state.sponsors.filter(e => {
+        return e.id !== sponsor.id;
+      });
+
+      this.setState({ sponsors: newSponsors }, () =>
+        console.log(this.state.sponsors)
+      );
+    }
+  }
+
   updateOneSpeaker(id, propName, value) {
     const speakers = [...this.state.speakers];
     const speaker = speakers.find(s => s.id === id);
@@ -338,6 +379,25 @@ class ConferenceList extends React.Component {
     const agenda = [...this.state.agenda];
     agenda[updated.id] = updated;
     this.setState({ agenda }, () => this.onUpdate('agenda'));
+  }
+
+  updateOneSponsor(sponsorUpdated) {
+    // console.log(sponsorUpdated);
+    const sponsors = [...this.state.sponsors];
+    sponsors[sponsorUpdated.id] = sponsorUpdated;
+
+    this.setState({ sponsors }, () => this.onUpdate('sponsors'));
+  }
+
+  updateOneSponsor2(id, propName, value) {
+    const sponsors = [...this.state.sponsors];
+    const sponsor = sponsors.find(s => s.id === id);
+    if (sponsor && sponsor.hasOwnProperty(propName)) {
+      sponsor[propName] = value;
+    }
+    if (propName !== 'website')
+      this.setState({ sponsors }, () => this.onUpdate('sponsors'));
+    else this.setState({ sponsors });
   }
 
   renderRow(startIndex, endIndex, imgs, check, renderBtn) {
@@ -549,7 +609,60 @@ class ConferenceList extends React.Component {
             </div>
           );
         }
-        return (
+        return this.state.sponsorSelected === e.id ? (
+          <div className="col-3" key={e.id}>
+            <div className="hotel-room text-center notransition">
+              <div className="d-block mb-0 thumbnail notransition">
+                <img src={e.logo} className="img-fluid notransition" alt="" onClick={this.openModalChangeSponsorImg} />
+                <Modal
+                  open={this.state.modalChangeSponsorImg}
+                  onClose={this.closeModalChangeSponsorImg}
+                  center
+                >
+                  <ImageManagement
+                    category="sponsors"
+                    speakerID={this.state.tempSponsorID} // fix later
+                    closeModal={this.closeModalChangeSponsorImg}
+                    pick={this.updateOneSponsor2.bind(this)}
+                  />
+                </Modal>
+                <input
+                  type="text"
+                  defaultValue={e.website}
+                  onChange={e =>
+                    this.setState({ websiteUpdated: e.target.value }, () =>
+                      console.log(this.state.websiteUpdated)
+                    )
+                  }
+                />
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                const updated = {
+                  id: e.id,
+                  logo: e.logo,
+                  website:
+                    this.state.websiteUpdated === ''
+                      ? e.website
+                      : this.state.websiteUpdated
+                };
+                this.updateOneSponsor(updated);
+                this.setState({ sponsorSelected: '' });
+              }}
+            >
+              Save
+            </button>
+            <button
+              onClick={() =>
+                this.setState({ sponsorSelected: '', websiteUpdated: '' })
+              }
+            >
+              Cancel
+            </button>
+          </div>
+        ) : (
           <div className="col-3" key={e.id}>
             <div className="hotel-room text-center notransition">
               <div className="d-block mb-0 thumbnail notransition">
@@ -557,8 +670,14 @@ class ConferenceList extends React.Component {
                 <p>{e.website}</p>
               </div>
             </div>
-            <button>Edit</button>
-            <button>Delete</button>
+            <button
+              onClick={() =>
+                this.setState({ sponsorSelected: e.id, websiteUpdated: '' })
+              }
+            >
+              Edit
+            </button>
+            <button onClick={() => this.removeOneSponsor(e)}>Delete</button>
           </div>
         );
       });
@@ -860,6 +979,8 @@ class ConferenceList extends React.Component {
           <EditSponsors
             sponsors={this.state.sponsors}
             renderSponsors={this.renderAllImg.bind(this)}
+            updateSponsors={this.onUpdate.bind(this)}
+            closeModalSponsors={this.closeModalSponsors}
           />
         </Modal>
 
