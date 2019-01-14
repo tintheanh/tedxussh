@@ -1,8 +1,10 @@
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
+import Modal from 'react-responsive-modal';
 import PostList from './PostList/postList';
-import FullPost from './FullPost/fullPost';
+import FullPost from '../../../../FullPost/fullPost';
+import AddPost from './AddPost/addPost';
 
 const history = createBrowserHistory();
 
@@ -10,8 +12,20 @@ class LearnSection extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      post: {}
+      post: {},
+      modalAdd: false
     };
+
+    this.openModalAdd = this.openModalAdd.bind(this);
+    this.closeModalAdd = this.closeModalAdd.bind(this);
+  }
+
+  openModalAdd() {
+    this.setState({ modalAdd: true });
+  }
+
+  closeModalAdd() {
+    this.setState({ modalAdd: false });
   }
 
   getPost(post) {
@@ -27,7 +41,19 @@ class LearnSection extends React.Component {
   manualRouter() {
     const { href } = window.location;
     if (href.includes('learn') && !href.includes('post'))
-      return <PostList getPost={this.getPost.bind(this)} />;
+      return (
+        <div>
+          <PostList getPost={this.getPost.bind(this)} />
+          <button onClick={this.openModalAdd}>Add</button>
+          <Modal
+            open={this.state.modalAdd}
+            showCloseIcon={false}
+            onClose={() => console.log('')}
+          >
+            <AddPost closeModal={this.closeModalAdd} />
+          </Modal>
+        </div>
+      );
     if (this.processUrl(href).includes('post'))
       return (
         <FullPost
@@ -50,12 +76,6 @@ class LearnSection extends React.Component {
             </div>
           </div>
           {this.manualRouter()}
-          {/* <Route
-            exact
-            path="/admin/learn/post1"
-            // component={FullPost}
-            render={() => <FullPost history={history} />}
-          /> */}
         </div>
       </Router>
     );

@@ -34,6 +34,14 @@ class FullPost extends React.Component {
     this.props.history.goBack();
   }
 
+  renderContent(content) {
+    var div = document.createElement('div');
+    div.innerHTML = content.trim();
+
+    // Change this to div.childNodes to support multiple top-level nodes
+    return div.firstChild;
+  }
+
   render() {
     const { post } = this.state;
     return (
@@ -44,7 +52,9 @@ class FullPost extends React.Component {
         </div>
         <div className="row">
           <h1>{post.title}</h1>
-          <p>{post.content}</p>
+        </div>
+        <div className="row">
+          <div dangerouslySetInnerHTML={{ __html: post.content }} />
         </div>
       </div>
     );

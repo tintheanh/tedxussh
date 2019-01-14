@@ -1,6 +1,50 @@
 import React from 'react';
+import firebase from 'firebase';
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Redirect
+} from 'react-router-dom';
+import { createBrowserHistory } from 'history';
+import Pagination from 'react-paginating';
+import FullPost from '../FullPost/fullPost';
+import PostListAndPage from './PostListAndPage/postListandPage';
+
+const history = createBrowserHistory();
 
 class Learn extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      post: {}
+    };
+  }
+
+  getPost(post) {
+    this.setState({ post });
+  }
+
+  processUrl(href) {
+    const n = href.lastIndexOf('/');
+    const result = href.substring(n + 1);
+    return result;
+  }
+
+  manualRouter() {
+    const { href } = window.location;
+    if (href.includes('learn') && !href.includes('post'))
+      return <PostListAndPage getPost={this.getPost.bind(this)} />;
+    if (this.processUrl(href).includes('post'))
+      return (
+        <FullPost
+          history={history}
+          postID={`${this.processUrl(window.location.href).slice(6)}`}
+        />
+      );
+    return null;
+  }
+
   render() {
     return (
       <div>
@@ -18,29 +62,7 @@ class Learn extends React.Component {
             </div>
           </div>
         </div>
-
-        <div class="site-section">
-          <div class="container">
-            <div class="row">
-              <div className="col-md-6 col-lg-4 mb-5">
-                <div className="media-with-text">
-                  <div className="img-border-sm mb-4">
-                    <img src="images/img_1.jpg" alt="" className="img-fluid" />
-                  </div>
-                  <h2 className="heading mb-0">Lorem Ipsum Dolor Sit Amet</h2>
-                  <span className="mb-3 d-block post-date">
-                    Dec 20th, 2018 &bullet; By Admin
-                  </span>
-                  <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Optio dolores culpa qui aliquam placeat nobis veritatis
-                    tempora natus rerum obcaecati.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        {this.manualRouter()}
       </div>
     );
   }

@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 console.log(window.location.pathname);
+
 const LeftSideBar = () => (
   <aside
     className="left-sidebar"
@@ -19,7 +20,9 @@ const LeftSideBar = () => (
               aria-expanded="false"
               // style={{ backgroundColor: window.location.pathname === '/admin/conference' ? '#27a9e3' : '' }}
               style={
-                window.location.pathname === '/admin/conference'
+                window.location.pathname === '/admin/conference' ||
+                window.location.pathname === '/admin' ||
+                window.location.pathname === '/admin/'
                   ? { backgroundColor: '#27a9e3', opacity: 1 }
                   : { backgroundColor: '' }
               }
@@ -81,39 +84,37 @@ const LeftSideBar = () => (
           </li>
           <li className="sidebar-item">
             {' '}
-            <a
+            <Link
+              to="/admin/about"
               className="sidebar-link waves-effect waves-dark sidebar-link"
               href="grid.html"
               aria-expanded="false"
+              style={
+                window.location.pathname === '/admin/about'
+                  ? { backgroundColor: '#27a9e3', opacity: 1 }
+                  : { backgroundColor: '' }
+              }
             >
               <i className="mdi mdi-blur-linear" />
-              <span className="hide-menu">Full Width</span>
-            </a>
+              <span className="hide-menu">About</span>
+            </Link>
           </li>
           <li className="sidebar-item">
             {' '}
-            <a
-              className="sidebar-link has-arrow waves-effect waves-dark"
-              href="javascript:void(0)"
+            <Link
+              to="/admin/images"
+              className="sidebar-link waves-effect waves-dark sidebar-link"
+              href="grid.html"
               aria-expanded="false"
+              style={
+                window.location.pathname === '/admin/images'
+                  ? { backgroundColor: '#27a9e3', opacity: 1 }
+                  : { backgroundColor: '' }
+              }
             >
-              <i className="mdi mdi-receipt" />
-              <span className="hide-menu">Forms </span>
-            </a>
-            <ul aria-expanded="false" className="collapse  first-level">
-              <li className="sidebar-item">
-                <a href="form-basic.html" className="sidebar-link">
-                  <i className="mdi mdi-note-outline" />
-                  <span className="hide-menu"> Form Basic </span>
-                </a>
-              </li>
-              <li className="sidebar-item">
-                <a href="form-wizard.html" className="sidebar-link">
-                  <i className="mdi mdi-note-plus" />
-                  <span className="hide-menu"> Form Wizard </span>
-                </a>
-              </li>
-            </ul>
+              <i className="mdi mdi-blur-linear" />
+              <span className="hide-menu">Images</span>
+            </Link>
           </li>
           <li className="sidebar-item">
             {' '}

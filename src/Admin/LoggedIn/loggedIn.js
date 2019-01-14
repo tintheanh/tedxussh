@@ -7,6 +7,8 @@ import ConferenceList from './Management/ConferenceList/conferenceList';
 import LearnSection from './Management/LearnSection/learnSection';
 import FooterSection from './Management/FooterSection/footerSection';
 import HomeSection from './Management/HomeSection/homeSection';
+import AboutSection from './Management/AboutSection/aboutSection';
+import ImageSection from './Management/ImageSection/imageSection';
 
 class LoggedIn extends React.Component {
   constructor(props) {
@@ -55,6 +57,8 @@ class LoggedIn extends React.Component {
           <Route path="/admin/learn" component={LearnSection} />
           <Route path="/admin/footer" component={FooterSection} />
           <Route path="/admin/home" component={HomeSection} />
+          <Route path="/admin/about" component={AboutSection} />
+          <Route path="/admin/images" component={ImageSection} />
         </div>
       </Router>
     );
