@@ -31,18 +31,18 @@ const LeftSideBar = () => (
           <li className="sidebar-item">
             {' '}
             <Link
-              to="/admin/salons"
+              to="/admin/learn"
               className="sidebar-link waves-effect waves-dark sidebar-link"
               aria-expanded="false"
               // style={{ backgroundColor: window.location.pathname === '/admin/conference' ? '#27a9e3' : '' }}
               style={
-                window.location.pathname === '/admin/salons'
+                window.location.pathname === '/admin/learn'
                   ? { backgroundColor: '#27a9e3', opacity: 1 }
                   : { backgroundColor: '' }
               }
             >
               <i className="mdi mdi-chart-bar" />
-              <span className="hide-menu">Salons</span>
+              <span className="hide-menu">Learn</span>
             </Link>
           </li>
           <li className="sidebar-item">

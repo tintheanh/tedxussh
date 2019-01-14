@@ -505,7 +505,7 @@ class ConferenceList extends React.Component {
     return null;
   }
 
-  renderImg(totalRows, imgs, check, renderBtn) {
+  renderImg(totalRows, imgs, check) {
     let startIndex = -4;
     let endIndex = startIndex + 4;
     const temp = Array.from({ length: totalRows }, () =>
@@ -517,18 +517,18 @@ class ConferenceList extends React.Component {
       endIndex += 4;
       return (
         <div className="row" key={i}>
-          {this.renderRow(startIndex, endIndex, imgs, check, renderBtn)}
+          {this.renderRow(startIndex, endIndex, imgs, check)}
         </div>
       );
     });
   }
 
-  renderAllImg(imgs, check, renderBtn) {
+  renderAllImg(imgs, check) {
     if (imgs.length > 0) {
       if (imgs.length % 4 === 0) {
-        return this.renderImg(imgs.length / 4, imgs, check, renderBtn);
+        return this.renderImg(imgs.length / 4, imgs, check);
       }
-      return this.renderImg(imgs.length / 4 + 1, imgs, check, renderBtn);
+      return this.renderImg(imgs.length / 4 + 1, imgs, check);
     }
     return <h2>No imgs available</h2>;
   }

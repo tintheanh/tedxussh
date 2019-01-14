@@ -5,6 +5,7 @@ import NavBar from './NavBar/navBar';
 import Home from './Home/home';
 import Conference from './Events/Conference/conference';
 import Salons from './Events/Salons/salons';
+import Learn from './Learn/learn'
 import Footer from './Footer/footer';
 
 class Main extends React.Component {
@@ -60,6 +61,7 @@ class Main extends React.Component {
             component={Conference}
           />
           <Route path="/salons" component={Salons} />
+          <Route path="/learn" component={Learn} />
           <Footer {...footer} />
         </div>
       </Router>

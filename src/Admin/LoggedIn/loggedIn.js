@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import Header from './Header/header';
 import LeftSideBar from './LeftSideBar/leftSideBar';
 import ConferenceList from './Management/ConferenceList/conferenceList';
-import SalonList from './Management/SalonList/salonList';
+import LearnSection from './Management/LearnSection/learnSection';
 import FooterSection from './Management/FooterSection/footerSection';
 import HomeSection from './Management/HomeSection/homeSection';
 
@@ -52,7 +52,7 @@ class LoggedIn extends React.Component {
           {/* <Route exact path="/" component={Home} /> */}
           <Route exact path="/admin" component={ConferenceList} />
           <Route path="/admin/conference" component={ConferenceList} />
-          <Route path="/admin/salons" component={SalonList} />
+          <Route path="/admin/learn" component={LearnSection} />
           <Route path="/admin/footer" component={FooterSection} />
           <Route path="/admin/home" component={HomeSection} />
         </div>

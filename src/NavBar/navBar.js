@@ -62,7 +62,7 @@ const NavBar = () => (
                         </ul>
                       </li>
                       <li>
-                        <a href="events.html">Events</a>
+                        <Link to="/learn">Learn</Link>
                       </li>
                       <li>
                         <a href="about.html">About</a>

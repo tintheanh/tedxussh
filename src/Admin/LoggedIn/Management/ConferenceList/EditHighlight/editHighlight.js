@@ -34,7 +34,9 @@ class EditHighlight extends React.Component {
   onAddImg(url, name) {
     const newImg = {
       name,
-      url
+      url,
+      width: 7,
+      height: 9
     };
     firebase
       .database()
