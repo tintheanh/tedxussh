@@ -35,8 +35,8 @@ class EditHighlight extends React.Component {
     const newImg = {
       name,
       url,
-      width: 7,
-      height: 9
+      width: Math.floor(Math.random() * (5 - 1 + 1)) + 1,
+      height: Math.floor(Math.random() * (5 - 1 + 1)) + 1
     };
     firebase
       .database()

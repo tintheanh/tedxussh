@@ -12,7 +12,7 @@ const MapView = withScriptjs(
     if (isNumber(props.lat) && isNumber(props.lng)) {
       return (
         <GoogleMap
-          defaultZoom={15}
+          defaultZoom={18}
           center={{ lat: props.lat, lng: props.lng }}
         >
           {props.isMarkerShown && (

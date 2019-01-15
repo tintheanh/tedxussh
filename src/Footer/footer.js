@@ -14,38 +14,30 @@ const Footer = props => {
           <div className="row">
             <div className="col-md-4">
               <p className="text-center">
-                <a href="" className="pb-1 pr-2 pl-0">
-                  FAQs
-                </a>
-                <a href="#" className="p-2">
-                  Organizers
-                </a>
-                <a href="#" className="p-2">
-                  Get Event Updates
-                </a>
-                <a href={playlist} className="p-2" target="_blank">
-                  Playlist
-                </a>
-                <a href="#" className="p-2">
-                  Contact
-                </a>
-              </p>
-              <p className="text-center">
                 <a
                   href={links.facebook}
                   target="_blank"
                   className="pb-2 pr-2 pl-0"
                 >
-                  <span className="icon-facebook" />
+                  <span
+                    className="icon-facebook"
+                    style={{ fontSize: '20px' }}
+                  />
                 </a>
                 <a href={links.twitter} target="_blank" className="p-2">
-                  <span className="icon-twitter" />
+                  <span className="icon-twitter" style={{ fontSize: '20px' }} />
                 </a>
                 <a href={links.instagram} target="_blank" className="p-2">
-                  <span className="icon-instagram" />
+                  <span
+                    className="icon-instagram"
+                    style={{ fontSize: '20px' }}
+                  />
                 </a>
                 <a href={links.linkedin} target="_blank" className="p-2">
-                  <span className="icon-linkedin" />
+                  <span
+                    className="icon-linkedin"
+                    style={{ fontSize: '20px' }}
+                  />
                 </a>
               </p>
             </div>

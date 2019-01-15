@@ -1,6 +1,7 @@
 import React from 'react';
 import Modal from 'react-responsive-modal';
 import SmoothCollapse from 'react-smooth-collapse';
+import { ReactHeight } from 'react-height';
 import SpeakerInfo from './SpeakerInfo/speakerInfo';
 
 class SpeakerList extends React.Component {
@@ -14,14 +15,6 @@ class SpeakerList extends React.Component {
     };
     this.openModalSpeaker = this.openModalSpeaker.bind(this);
     this.closeModalSpeaker = this.closeModalSpeaker.bind(this);
-
-    this.element = React.createRef();
-  }
-
-  componentDidMount() {
-    const collapsedHeight = this.element.current.clientHeight;
-    if (collapsedHeight !== null)
-      this.setState({ collapsedHeight: collapsedHeight + 120 });
   }
 
   openModalSpeaker(speakerID) {
@@ -43,7 +36,11 @@ class SpeakerList extends React.Component {
       startIndex += 4;
       endIndex += 4;
       return (
-        <div className="row" key={i}>
+        <div
+          className="row speakers-section"
+          key={i}
+          // style={{ width: '100%', margin: '0 142px', paddingBottom: '24px' }}
+        >
           {this.renderRow(startIndex, endIndex, imgs)}
         </div>
       );
@@ -54,12 +51,12 @@ class SpeakerList extends React.Component {
     return imgs.slice(startIndex, endIndex).map(e => {
       if (this.state.speakerSelected === e.id) {
         return (
-          <div className="col-3" key={e.id}>
+          <div className="col-md-6 col-lg-3 mb-2" key={e.id}>
             <div
               className="hotel-room text-center notransition"
               onClick={() => this.openModalSpeaker(e.id)}
             >
-              <div className="d-block mb-0 thumbnail notransition">
+              <div className="d-block mb-2 thumbnail notransition">
                 <img
                   src={e.picture}
                   alt=""
@@ -67,7 +64,7 @@ class SpeakerList extends React.Component {
                 />
               </div>
               <div className="hotel-room-body">
-                <h3 class="heading mb-0">{e.name}</h3>
+                <h3 class="heading mb-2">{e.name}</h3>
                 <strong class="price">{e.occupation}</strong>
               </div>
             </div>
@@ -82,16 +79,16 @@ class SpeakerList extends React.Component {
         );
       }
       return (
-        <div className="col-3" key={e.id}>
+        <div className="col-md-6 col-lg-3 mb-2 speaker" key={e.id}>
           <div
             className="hotel-room text-center notransition"
             onClick={() => this.openModalSpeaker(e.id)}
           >
-            <div className="d-block mb-0 thumbnail notransition">
+            <div className="d-block mb-2 thumbnail notransition">
               <img src={e.picture} alt="" className="img-fluid notransition" />
             </div>
             <div className="hotel-room-body">
-              <h3 class="heading mb-0">{e.name}</h3>
+              <h3 class="heading mb-2">{e.name}</h3>
               <strong class="price">{e.occupation}</strong>
             </div>
           </div>
@@ -115,13 +112,21 @@ class SpeakerList extends React.Component {
 
   render() {
     return (
-      <div className="site-section">
-        <div className="container" ref={this.element}>
-          <div className="row">
-            <div className="col-md-6 mx-auto text-center mb-5 section-heading">
-              <h2 className="mb-5">Speakers</h2>
+      <div className="site-section bg-light">
+        <div className="container">
+          <ReactHeight
+            onHeightReady={height =>
+              this.setState({ collapsedHeight: height + 160 })
+            }
+          >
+            <div className="row">
+              <div className="col-md-6 mx-auto text-center mb-5 section-heading">
+                <h2 className="mb-5" style={{ fontFamily: 'Roboto' }}>
+                  Speakers
+                </h2>
+              </div>
             </div>
-          </div>
+          </ReactHeight>
           <SmoothCollapse
             expanded={this.state.expanded}
             collapsedHeight={`${this.state.collapsedHeight}px`}
@@ -129,7 +134,15 @@ class SpeakerList extends React.Component {
             <div className="row">{this.renderAllImg(this.props.speakers)}</div>
           </SmoothCollapse>
           <div className="row">
-            <button onClick={this.toggle.bind(this)}>View All</button>
+            {!this.state.expanded ? (
+              <button className="view-btn" onClick={this.toggle.bind(this)}>
+                View All
+              </button>
+            ) : (
+              <button className="view-btn" onClick={this.toggle.bind(this)}>
+                View Less
+              </button>
+            )}
           </div>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { ParallaxProvider } from 'react-scroll-parallax';
 import Main from './Main';
 import Admin from './Admin/admin';
 

@@ -1,11 +1,13 @@
 import React from 'react';
+// import { Parallax } from 'react-scroll-parallax';
 
 const ConferenceHeader = props => (
   <div
-    className="site-blocks-cover overlay"
-    data-aos="fade"
-    data-stellar-background-ratio="0.5"
-    style={{ backgroundImage: `url(${props.background})` }}
+    className="site-blocks-cover"
+    style={{
+      backgroundImage: `url(${props.background})`,
+      height: 'calc(30vh)'
+    }}
   />
 );
 

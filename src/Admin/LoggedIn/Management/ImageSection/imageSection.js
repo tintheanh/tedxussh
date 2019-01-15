@@ -260,7 +260,7 @@ class ImageSection extends React.Component {
             onClose={this.closeModalUpload}
             center
           >
-            <UploadImage />
+            <UploadImage closeModal={this.closeModalUpload} />
           </Modal>
         </div>
       </div>

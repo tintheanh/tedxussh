@@ -53,8 +53,8 @@ class Highlight extends React.Component {
   render() {
     return (
       <div
-        className="site-section"
-        style={{ width: '100%', padding: '0', margin: '0' }}
+        className="site-section removePaddingBottom"
+        style={{ width: '100%', margin: '0' }}
       >
         <div
           className="row"

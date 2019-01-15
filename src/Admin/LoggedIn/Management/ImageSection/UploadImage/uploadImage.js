@@ -39,14 +39,41 @@ class UploadImage extends React.Component {
         }
       },
       error => {
-        // Handle unsuccessful uploads
+        alert(error.message);
       },
       () => {
-        // Handle successful uploads on complete
-        // For instance, get the download URL: https://firebasestorage.googleapis.com/...
         uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
           console.log('File available at', downloadURL);
           this.setState({ uploadedImg: downloadURL });
+          const { path } = this.state;
+          const picture = {
+            name: file.name,
+            url: downloadURL
+          };
+          let databasePath = '';
+          if (path === 'conference-images/main-picture') {
+            databasePath = 'conferenceImages';
+          }
+          if (path === 'conference-images/highlight') {
+            databasePath = 'highlightImages';
+          }
+          if (path === 'conference-images/speakers') {
+            databasePath = 'speakers';
+          }
+          if (path === 'conference-images/sponsors') {
+            databasePath = 'sponsors';
+          }
+          if (path === 'stock-images') {
+            databasePath = 'stockImages';
+          }
+          if (path === 'learn-post-images/thumbnails') {
+            databasePath = 'thumbnails';
+          }
+          firebase
+            .database()
+            .ref(`images/${databasePath}`)
+            .push(picture)
+            .then(() => console.log('added to database successfully'));
         });
       }
     );
@@ -67,6 +94,7 @@ class UploadImage extends React.Component {
           <option value="stock-images">Stock</option>
         </select>
         <button onClick={this.onUpload.bind(this)}>Submit</button>
+        <button onClick={() => this.props.closeModal()}>Done</button>
       </div>
     );
   }

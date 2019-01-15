@@ -6,7 +6,7 @@ body {
   font-size: 1rem;
   font-family: 'Work Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI',
     Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji',
-    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji', 'Roboto';
 }
 
 ::-moz-selection {
@@ -141,6 +141,7 @@ a:hover {
 
 .site-section {
   padding: 3em 0;
+  position: relative;
 }
 @media (min-width: 768px) {
   .site-section {
@@ -689,7 +690,6 @@ a:hover {
 
 /* Blocks */
 .site-blocks-cover {
-  background-image: url('../images/img_1.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
@@ -1908,7 +1908,7 @@ a:hover {
   -moz-transition: none !important;
   -o-transition: none !important;
   transition: none !important;
-  transform: none!important;
+  transform: none !important;
 }
 .hotel-room {
   -webkit-transition: 0.3s all ease;
@@ -1974,4 +1974,230 @@ a:hover {
 }
 .img-opacity:hover img {
   opacity: 0.5;
+}
+
+/* My CSS */
+.container {
+  /* margin-right: 48px !important; */
+  /* margin-left: 48px !important; */
+}
+@media (min-width: 1600px) {
+  .container {
+    max-width: 95% !important;
+  }
+}
+
+.description {
+  padding: 0 !important;
+}
+
+.explore {
+  color: #fff;
+  border: 2px solid #fff;
+  padding: 12px 22px;
+}
+
+.explore:hover {
+  background-color: #fff;
+  color: #000;
+}
+
+.text-inside {
+  position: absolute;
+  left: 0;
+  text-align: center;
+  width: 100%;
+  color: #fff;
+  font-size: 22px;
+}
+
+.text-vertical-center {
+  display: flex !important;
+  justify-content: center !important;
+  align-content: center !important;
+  flex-direction: column !important; /* column | row */
+}
+
+.my-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  color: #fff;
+  display: block;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.overview-section {
+  font-family: 'Roboto';
+  font-size: 22px;
+}
+
+@media (min-width: 768px) {
+  .site-section {
+    padding: 3em 0 !important;
+  }
+}
+.view-btn {
+  background-color: #000;
+  color: #fff;
+  padding: 14px 64px;
+  border: none;
+  font-size: 18px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin: auto;
+}
+
+.agd-time {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.agd-header {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.react-photo-gallery--gallery img {
+  object-fit: cover;
+}
+.removePaddingBottom {
+  padding-bottom: 0 !important;
+}
+
+.speakers-section {
+  width: 100% !important;
+  padding-bottom: 24px;
+}
+
+.sponsors-section {
+  width: 100% !important;
+}
+
+.add-border-agenda {
+  border-right: 3px solid #ffdc1a;
+}
+
+.venue-section {
+  position: absolute;
+  left: 100px;
+  margin-top: 100px;
+  width: 30%;
+  height: 400px;
+  box-shadow: 0 0 15px 2px rgba(0, 0, 0, 0.3);
+}
+
+.venue-address {
+  margin: 0 124px;
+  font-size: 18px;
+  position: relative;
+  top: -44px;
+}
+.home-title {
+  font-family: 'Roboto' !important;
+  font-weight: 400 !important;
+  font-size: 42px !important;
+  text-transform: uppercase !important;
+}
+
+@media screen and (min-width: 1600px) {
+  .overview-section {
+    margin: 0 234px;
+  }
+
+  .speakers-section {
+    margin: 0 194px;
+  }
+
+  .agenda-section {
+    margin: 0 284px;
+  }
+}
+
+@media screen and (max-width: 1256px) {
+  .venue-address {
+    position: relative;
+    top: -70px;
+    margin: 0 84px;
+  }
+}
+
+@media screen and (max-width: 948px) {
+  .venue-address {
+    position: relative;
+    margin: 0 64px;
+  }
+  .venue-section {
+    height: 294px;
+  }
+  .venue-title {
+    margin-top: 48px !important;
+  }
+}
+
+@media screen and (max-width: 840px) {
+  .venue-address {
+    font-size: 16px;
+    margin: 0 24px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .add-border-agenda {
+    border-right: none;
+    text-align: center;
+  }
+
+  .add-border-bottom-agenda {
+    border-bottom: 1px solid #ccc;
+    padding-top: 24px;
+    text-align: center;
+  }
+  .venue-section {
+    position: absolute;
+    left: 42px;
+  }
+}
+
+@media screen and (max-width: 686px) {
+  .venue-section {
+    position: relative;
+    left: 0;
+    margin-top: 0;
+    width: 100%;
+    height: 200px;
+    box-shadow: none;
+  }
+  .overview-section {
+    font-size: 18px !important;
+  }
+}
+
+@media screen and (max-width: 414px) {
+  .home-title {
+    font-size: 34px !important;
+    margin-top: 12px !important;
+  }
+}
+
+@media screen and (max-height: 667px) {
+  .home-title {
+    margin-top: 74px !important;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .overview-section {
+    margin: 0 34px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .home-title {
+    font-size: 34px !important;
+    margin-top: 182px !important;
+  }
 }

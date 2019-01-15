@@ -18,7 +18,7 @@ class SponsorList extends React.Component {
       startIndex += 4;
       endIndex += 4;
       return (
-        <div className="row" key={i}>
+        <div className="row sponsors-section" key={i}>
           {this.renderRow(startIndex, endIndex, imgs)}
         </div>
       );
@@ -27,7 +27,7 @@ class SponsorList extends React.Component {
 
   renderRow(startIndex, endIndex, imgs) {
     return imgs.slice(startIndex, endIndex).map(e => (
-      <div className="col-3" key={e.id}>
+      <div className="col-md-6 col-lg-3 mb-2" key={e.id}>
         <div className="hotel-room text-center notransition">
           <div className="d-block mb-0 thumbnail notransition">
             <a href={e.website} target="_blank">
@@ -55,7 +55,9 @@ class SponsorList extends React.Component {
         <div className="container" ref={this.element}>
           <div className="row">
             <div className="col-md-6 mx-auto text-center mb-5 section-heading">
-              <h2 className="mb-5">Sponsors</h2>
+              <h2 className="mb-5" style={{ fontFamily: 'Roboto' }}>
+                Sponsors
+              </h2>
             </div>
           </div>
           <div className="row">{this.renderAllImg(this.props.sponsors)}</div>
