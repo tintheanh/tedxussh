@@ -7,36 +7,40 @@ class HomeSection extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // footer: {
-      //   left: {
-      //     links: {
-      //       title: ''
-      //     }
-      //   }
-      // },
-      // test: {
-      //   another: 'bla'
-      // }
-      background: '',
+      height: 0,
       description: '',
       title: '',
-      modalIsOpen: false,
-      toggleEdit: false
+
+      toggleEditTitle: '',
+      toggleEditDesc: false,
+
+      modalEditPic: false
     };
-    this.openModal = this.openModal.bind(this);
-    this.closeModal = this.closeModal.bind(this);
+    this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+    this.openModalEditPic = this.openModalEditPic.bind(this);
+    this.closeModalEditPic = this.closeModalEditPic.bind(this);
   }
 
-  openModal() {
-    this.setState({ modalIsOpen: true });
+  openModalEditPic() {
+    this.setState({ modalEditPic: true });
   }
 
-  closeModal() {
-    this.setState({ modalIsOpen: false });
+  closeModalEditPic() {
+    this.setState({ modalEditPic: false });
   }
 
   componentDidMount() {
+    this.updateWindowDimensions();
+    window.addEventListener('resize', this.updateWindowDimensions);
     this.fetchData();
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateWindowDimensions);
+  }
+
+  updateWindowDimensions() {
+    this.setState({ height: window.innerHeight });
   }
 
   onChangeTextInput(e, arg) {
@@ -46,9 +50,6 @@ class HomeSection extends React.Component {
         break;
       case 'title':
         this.setState({ title: e.target.value });
-        break;
-      case 'background':
-        this.setState({ background: e.target.value });
         break;
       default:
         break;
@@ -68,111 +69,156 @@ class HomeSection extends React.Component {
       );
   }
 
-  onUpdate() {
+  onUpdatePic(newPic) {
     const update = {
-      background: this.state.background,
-      title: this.state.title,
-      description: this.state.description
+      background: newPic
     };
 
     firebase
       .database()
       .ref('home')
       .update(update)
-      .then(() => {
-        alert('Saved!');
-        this.setState({ toggleEdit: false });
-      })
-      .catch(err => {
-        console.error(err);
-        alert('Error occured!');
-      });
+      .catch(err => alert(err.message));
   }
 
-  pickImg(url) {
-    this.setState({ background: url });
-  }
-
-  renderShowOrEdit() {
-    const { background, description, title } = this.state;
-    if (this.state.toggleEdit) {
-      return (
-        <div>
-          <div className="row">
-            <input
-              type="text"
-              value={description}
-              onChange={e => this.onChangeTextInput(e, 'description')}
-            />
-          </div>
-          <div className="row">
-            <input
-              type="text"
-              value={title}
-              onChange={e => this.onChangeTextInput(e, 'title')}
-            />
-          </div>
-          <div className="row">
-            <div style={{ height: '50%', width: '50%' }}>
-              <img src={background} alt="" className="img-fluid" />
-            </div>
-          </div>
-          <button
-            type="button"
-            onClick={() =>
-              this.setState({ toggleEdit: false }, () => this.fetchData())
-            }
-          >
-            Cancel
-          </button>
-          <button type="button" onClick={() => this.onUpdate()}>
-            Save
-          </button>
-
-          <button onClick={this.openModal}>Edit image</button>
-          <Modal open={this.state.modalIsOpen} onClose={this.closeModal} center>
-            <ImageManagement category="stockImages" pick={this.pickImg.bind(this)} closeModal={this.closeModal} />
-          </Modal>
-        </div>
-      );
+  onUpdateText(type) {
+    let update = {};
+    if (type === 'title') {
+      update = {
+        title: this.state.title
+      };
     }
-    return (
-      <div>
-        <div className="row">
-          <p>{description}</p>
-        </div>
-        <div className="row">
-          <p>{title}</p>
-        </div>
-        <div className="row">
-          <div style={{ height: '50%', width: '50%' }}>
-            <img src={background} alt="" className="img-fluid" />
-          </div>
-        </div>
-        <button
-          type="button"
-          onClick={() =>
-            this.setState({
-              toggleEdit: true
-            })
-          }
-        >
-          Edit
-        </button>
-      </div>
-    );
+    if (type === 'description') {
+      update = {
+        description: this.state.description
+      };
+    }
+    firebase
+      .database()
+      .ref('home')
+      .update(update)
+      .catch(err => alert(err.message));
   }
 
   render() {
     return (
-      <div className="page-wrapper">
+      <div
+        className="page-wrapper"
+        style={{ height: `${this.state.height - 64}px`, overflowY: 'scroll' }}
+      >
         <div className="page-breadcrumb">
           <div className="row">
             <div className="col-12 d-flex no-block align-items-center">
-              <h4 className="page-title">Dashboard</h4>
+              <h2 className="page-title">Home Edit Section</h2>
             </div>
           </div>
-          {this.renderShowOrEdit()}
+          {/* {this.renderShowOrEdit()} */}
+          <div>
+            <div className="row style-section">
+              <div className="col-12">
+                <h3>Cover picture</h3>
+              </div>
+              <div className="col-12">
+                <img src={this.state.background} alt="" className="img-fluid" />
+              </div>
+              <div className="col-12">
+                <button onClick={this.openModalEditPic}>Edit cover</button>
+              </div>
+              <Modal
+                open={this.state.modalEditPic}
+                onClose={this.closeModalEditPic}
+                center
+              >
+                <ImageManagement
+                  category="stockImages"
+                  pick={this.onUpdatePic.bind(this)}
+                  closeModal={this.closeModalEditPic}
+                />
+              </Modal>
+            </div>
+            {!this.state.toggleEditTitle ? (
+              <div className="row style-section">
+                <p>{this.state.title}</p>
+                <div className="col-12">
+                  <button
+                    onClick={() => this.setState({ toggleEditTitle: true })}
+                  >
+                    Edit title
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="row style-section">
+                <input
+                  type="text"
+                  value={this.state.title}
+                  onChange={e => this.onChangeTextInput(e, 'title')}
+                />
+                <div className="col-12">
+                  <button
+                    onClick={() => {
+                      this.onUpdateText('title');
+                      this.setState({ toggleEditTitle: false });
+                    }}
+                  >
+                    Save
+                  </button>
+                  <button
+                    onClick={() => {
+                      this.setState({ toggleEditTitle: false });
+                      this.fetchData();
+                    }}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {!this.state.toggleEditDesc ? (
+              <div
+                className="row style-section"
+                style={{ marginBottom: '54px' }}
+              >
+                <p>{this.state.description}</p>
+                <div className="col-12">
+                  <button
+                    onClick={() => this.setState({ toggleEditDesc: true })}
+                  >
+                    Edit description
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div
+                className="row style-section"
+                style={{ marginBottom: '54px' }}
+              >
+                <textarea
+                  value={this.state.description}
+                  onChange={e => this.onChangeTextInput(e, 'description')}
+                />
+                <div className="col-12">
+                  <button
+                    onClick={() => {
+                      this.onUpdateText('description');
+                      this.setState({ toggleEditDesc: false });
+                    }}
+                  >
+                    Save
+                  </button>
+                  <button
+                    onClick={() => {
+                      this.setState({ toggleEditDesc: false });
+                      this.fetchData();
+                    }}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     );

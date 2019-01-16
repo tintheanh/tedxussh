@@ -1,5 +1,6 @@
 import React from 'react';
 import { isNumber } from 'util';
+import { relative } from 'path';
 
 const _ = require('lodash');
 const { compose, withProps, lifecycle } = require('recompose');
@@ -78,7 +79,7 @@ const MapWithSearch = compose(
 )(props => {
   if (isNumber(props.lat) && isNumber(props.lng)) {
     return (
-      <div>
+      <div style={{ position: 'relative', top: '-8px' }}>
         <GoogleMap
           ref={props.onMapMounted}
           defaultZoom={15}
@@ -94,6 +95,7 @@ const MapWithSearch = compose(
               type="text"
               placeholder="Customized your placeholder"
               style={{
+                background: '#fff',
                 boxSizing: 'border-box',
                 border: '1px solid transparent',
                 width: '240px',

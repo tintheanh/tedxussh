@@ -13,25 +13,24 @@ import ImageSection from './Management/ImageSection/imageSection';
 class LoggedIn extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      title: ''
-    };
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.state = { width: 0, height: 0 };
+    this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
   }
 
-  handleSubmit(event) {
-    const eventsRef = firebase.database().ref('events');
-    const data = {
-      title: this.state.title
-    };
-    eventsRef
-      .push(data)
-      .then(() => alert('added successfully'))
-      .catch(err => {
-        console.error(err);
-        alert('error occured');
-      });
-    event.preventDefault();
+  componentDidMount() {
+    this.updateWindowDimensions();
+    window.addEventListener('resize', this.updateWindowDimensions);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateWindowDimensions);
+  }
+
+  updateWindowDimensions() {
+    this.setState(
+      { width: window.innerWidth, height: window.innerHeight },
+      () => console.log(this.state.width, this.state.height)
+    );
   }
 
   logout() {
@@ -52,7 +51,7 @@ class LoggedIn extends React.Component {
           <Header />
           <LeftSideBar />
           {/* <Route exact path="/" component={Home} /> */}
-          <Route exact path="/admin" component={ConferenceList} />
+          <Route exact path="/admin" component={HomeSection} />
           <Route path="/admin/conference" component={ConferenceList} />
           <Route path="/admin/learn" component={LearnSection} />
           <Route path="/admin/footer" component={FooterSection} />

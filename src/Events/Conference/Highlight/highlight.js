@@ -61,7 +61,9 @@ class Highlight extends React.Component {
           style={{ width: '100%', padding: '0', margin: '0' }}
         >
           <div className="col-md-6 mx-auto text-center mb-5 section-heading">
-            <h2 className="mb-5">Highlight</h2>
+            <h2 className="mb-5" style={{ fontFamily: 'Roboto' }}>
+              Highlight
+            </h2>
           </div>
         </div>
         {/* <div className="row"> */}

@@ -21,9 +21,12 @@ class About extends React.Component {
   }
 
   renderVisions(visions) {
-    return visions.map(v => (
-      <div className="col-md-6 col-lg-4 mb-5">
-        <div className="hotel-room text-center">
+    return visions.map((v, i) => (
+      <div className="col-md-12 col-lg-4 mb-2" key={i}>
+        <div
+          className="hotel-room text-center"
+          style={{ background: 'transparent' }}
+        >
           <div className="hotel-room-body">
             <h3 className="heading mb-0">{v.title}</h3>
             <strong className="price">{v.description}</strong>
@@ -44,17 +47,17 @@ class About extends React.Component {
       const { background, header, left, middle, right, visions } = this.props;
       return (
         <div>
-          <div
-            className="site-blocks-cover overlay"
-            data-aos="fade"
-            data-stellar-background-ratio="0.5"
-            style={{ backgroundImage: `url(${background})` }}
-          >
-            <div className="container">
-              <div className="row align-items-center">
-                <div className="col-md-7">
-                  <h1 className="mb-1">{header}</h1>
-                  <br />
+          <div>
+            <div
+              className="about-header text-vertical-center"
+              data-aos="fade"
+              style={{
+                backgroundImage: `url(${background})`
+              }}
+            >
+              <div className="row" style={{ width: '100%' }}>
+                <div className="col-md-12">
+                  <h1 className="about-title">{header}</h1>
                 </div>
               </div>
             </div>
@@ -63,12 +66,15 @@ class About extends React.Component {
           <div className="site-section bg-light">
             <div className="container">
               <div className="row">
-                <div className="col-md-6 col-lg-4 mb-5">
-                  <div className="hotel-room text-center">
+                <div className="col-md-12 col-lg-4 mb-2">
+                  <div
+                    className="hotel-room text-center"
+                    style={{ background: 'transparent' }}
+                  >
                     <div className="d-block mb-0 thumbnail">
                       <img
                         src={left.picture}
-                        alt="Image"
+                        alt=""
                         className="img-fluid"
                       />
                     </div>
@@ -78,12 +84,15 @@ class About extends React.Component {
                     </div>
                   </div>
                 </div>
-                <div className="col-md-6 col-lg-4 mb-5">
-                  <div className="hotel-room text-center">
+                <div className="col-md-12 col-lg-4 mb-2">
+                  <div
+                    className="hotel-room text-center"
+                    style={{ background: 'transparent' }}
+                  >
                     <YouTube
                       videoId={this.youtube_parser(middle.video)}
                       onReady={this.onReady}
-                      className="img-fluid"
+                      className="youtube"
                     />
 
                     <div className="hotel-room-body">
@@ -92,12 +101,15 @@ class About extends React.Component {
                     </div>
                   </div>
                 </div>
-                <div className="col-md-6 col-lg-4 mb-5">
-                  <div className="hotel-room text-center">
+                <div className="col-md-12 col-lg-4 mb-2">
+                  <div
+                    className="hotel-room text-center"
+                    style={{ background: 'transparent' }}
+                  >
                     <a href="#" className="d-block mb-0 thumbnail">
                       <img
                         src={right.picture}
-                        alt="Image"
+                        alt=""
                         className="img-fluid"
                       />
                     </a>
@@ -114,7 +126,9 @@ class About extends React.Component {
           <div className="site-section bg-light">
             <div className="container">
               <div className="col-md-6 mx-auto text-center mb-5 section-heading">
-                <h2 className="mb-5">Visions and Goals</h2>
+                <h2 className="mb-5" style={{ fontFamily: 'Roboto' }}>
+                  Vision and Goals
+                </h2>
               </div>
               <div className="row">{this.renderVisions(visions)}</div>
             </div>

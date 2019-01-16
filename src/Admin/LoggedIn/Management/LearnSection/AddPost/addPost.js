@@ -89,7 +89,7 @@ class AddPost extends React.Component {
 
     firebase
       .database()
-      .ref('learnPosts')
+      .ref('learnPosts/postList')
       .push(post)
       .then(() => alert('Posted!'))
       .catch(err => alert(err.message));

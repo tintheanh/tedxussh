@@ -14,6 +14,7 @@ class PostList extends React.Component {
       selectedPost: '',
       modalEdit: false
     };
+
     this.openModalEdit = this.openModalEdit.bind(this);
     this.closeModalEdit = this.closeModalEdit.bind(this);
   }
@@ -29,7 +30,7 @@ class PostList extends React.Component {
   componentDidMount() {
     firebase
       .database()
-      .ref('learnPosts')
+      .ref('learnPosts/postList')
       .on('value', snapshot => {
         const learnPostsObj = snapshot.val();
         if (learnPostsObj) {
@@ -167,7 +168,14 @@ class PostList extends React.Component {
   }
 
   render() {
-    return <div>{this.renderAllImg(this.state.posts)}</div>;
+    return (
+      <div className="style-section-pictures">
+        <div className="col-12">
+          <h2>Posts</h2>
+        </div>
+        {this.renderAllImg(this.state.posts)}
+      </div>
+    );
   }
 }
 

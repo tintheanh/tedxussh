@@ -1,7 +1,6 @@
 import React from 'react';
 import Modal from 'react-responsive-modal';
 import SmoothCollapse from 'react-smooth-collapse';
-import { ReactHeight } from 'react-height';
 import SpeakerInfo from './SpeakerInfo/speakerInfo';
 
 class SpeakerList extends React.Component {
@@ -10,8 +9,7 @@ class SpeakerList extends React.Component {
     this.state = {
       speakerSelected: '',
       modalSpeaker: false,
-      expanded: false,
-      collapsedHeight: 0
+      expanded: false
     };
     this.openModalSpeaker = this.openModalSpeaker.bind(this);
     this.closeModalSpeaker = this.closeModalSpeaker.bind(this);
@@ -25,6 +23,31 @@ class SpeakerList extends React.Component {
     this.setState({ modalSpeaker: false });
   }
 
+  renderFirstRow(totalRows, imgs) {
+    let startIndex = -4;
+    let endIndex = startIndex + 4;
+    const temp = Array.from({ length: totalRows }, () =>
+      Math.floor(Math.random())
+    );
+
+    return temp.map((_, i) => {
+      startIndex += 4;
+      endIndex += 4;
+      if (i === 0) {
+        return (
+          <div
+            className="row speakers-section first-roll-speakers"
+            key={i}
+            // style={{ margin: '0 10px' }}
+          >
+            {this.renderRow(startIndex, endIndex, imgs)}
+          </div>
+        );
+      }
+      return null;
+    });
+  }
+
   renderImg(totalRows, imgs) {
     let startIndex = -4;
     let endIndex = startIndex + 4;
@@ -35,15 +58,19 @@ class SpeakerList extends React.Component {
     return temp.map((_, i) => {
       startIndex += 4;
       endIndex += 4;
-      return (
-        <div
-          className="row speakers-section"
-          key={i}
-          // style={{ width: '100%', margin: '0 142px', paddingBottom: '24px' }}
-        >
-          {this.renderRow(startIndex, endIndex, imgs)}
-        </div>
-      );
+      if (i !== 0) {
+        return (
+          // <ReactHeight
+          //   onHeightReady={height => this.setState({ collapsedHeight: height })}
+          //   className="myComponent"
+          // >
+          <div className="row speakers-section" key={i}>
+            {this.renderRow(startIndex, endIndex, imgs)}
+          </div>
+          // </ReactHeight>
+        );
+      }
+      return null;
     });
   }
 
@@ -114,36 +141,46 @@ class SpeakerList extends React.Component {
     return (
       <div className="site-section bg-light">
         <div className="container">
-          <ReactHeight
-            onHeightReady={height =>
-              this.setState({ collapsedHeight: height + 160 })
-            }
-          >
-            <div className="row">
-              <div className="col-md-6 mx-auto text-center mb-5 section-heading">
-                <h2 className="mb-5" style={{ fontFamily: 'Roboto' }}>
-                  Speakers
-                </h2>
+          <div className="row">
+            <div className="col-md-6 mx-auto text-center mb-5 section-heading">
+              <h2 className="mb-5" style={{ fontFamily: 'Roboto' }}>
+                Speakers
+              </h2>
+            </div>
+          </div>
+          {this.props.speakers.length <= 4 ? (
+            <div className="row">{this.renderImg(1, this.props.speakers)}</div>
+          ) : (
+            <div>
+              <div className="row">
+                {this.renderFirstRow(1, this.props.speakers)}
+              </div>
+              <SmoothCollapse expanded={this.state.expanded}>
+                <div className="row">
+                  {this.renderAllImg(this.props.speakers)}
+                </div>
+              </SmoothCollapse>
+              <div className="row">
+                {!this.state.expanded ? (
+                  <button
+                    className="view-btn"
+                    onClick={this.toggle.bind(this)}
+                    style={{ textDecoration: 'none' }}
+                  >
+                    View All
+                  </button>
+                ) : (
+                  <button
+                    className="view-btn"
+                    onClick={this.toggle.bind(this)}
+                    style={{ textDecoration: 'none' }}
+                  >
+                    View Less
+                  </button>
+                )}
               </div>
             </div>
-          </ReactHeight>
-          <SmoothCollapse
-            expanded={this.state.expanded}
-            collapsedHeight={`${this.state.collapsedHeight}px`}
-          >
-            <div className="row">{this.renderAllImg(this.props.speakers)}</div>
-          </SmoothCollapse>
-          <div className="row">
-            {!this.state.expanded ? (
-              <button className="view-btn" onClick={this.toggle.bind(this)}>
-                View All
-              </button>
-            ) : (
-              <button className="view-btn" onClick={this.toggle.bind(this)}>
-                View Less
-              </button>
-            )}
-          </div>
+          )}
         </div>
       </div>
     );

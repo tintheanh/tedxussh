@@ -217,35 +217,35 @@ class FooterSection extends React.Component {
       );
     }
     return (
-      <div>
-        <div className="row">
+      <div className="row style-section">
+        <div className="col-12">
           <p>{getUpdate}</p>
         </div>
-        <div className="row">
+        <div className="col-12">
           <p>{facebook}</p>
         </div>
-        <div className="row">
+        <div className="col-12">
           <p>{instagram}</p>
         </div>
-        <div className="row">
+        <div className="col-12">
           <p>{twitter}</p>
         </div>
-        <div className="row">
+        <div className="col-12">
           <p>{linkedin}</p>
         </div>
-        <div className="row">
+        <div className="col-12">
           <p>{playlist}</p>
         </div>
-        <div className="row">
+        <div className="col-12">
           <p>{sentence}</p>
         </div>
-        <div className="row">
+        <div className="col-12">
           <p>{quote}</p>
         </div>
-        <div className="row">
+        <div className="col-12">
           <p>{sourceQuote}</p>
         </div>
-        <div className="row">
+        <div className="col-12">
           <p>{copyright}</p>
         </div>
         <button
@@ -268,7 +268,7 @@ class FooterSection extends React.Component {
         <div className="page-breadcrumb">
           <div className="row">
             <div className="col-12 d-flex no-block align-items-center">
-              <h4 className="page-title">Dashboard</h4>
+              <h2 className="page-title">Footer Edit Section</h2>
             </div>
           </div>
           {this.renderShowOrEdit()}

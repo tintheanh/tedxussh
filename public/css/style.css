@@ -1988,7 +1988,10 @@ a:hover {
 }
 
 .description {
-  padding: 0 !important;
+  padding: 0;
+  font-family: 'Roboto';
+  font-weight: 400;
+  font-size: 18px;
 }
 
 .explore {
@@ -2075,6 +2078,7 @@ a:hover {
 
 .sponsors-section {
   width: 100% !important;
+  margin: 0 5px;
 }
 
 .add-border-agenda {
@@ -2103,6 +2107,97 @@ a:hover {
   text-transform: uppercase !important;
 }
 
+.con-header,
+.learn-header,
+.about-header {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  height: 60vh;
+}
+
+.post-page {
+  margin: 0 24px;
+}
+
+.learn-pagination span {
+  background: transparent;
+  border: 1px solid #ccc;
+  margin: 0 6px;
+  padding: 12px 12px;
+  cursor: pointer;
+}
+
+.learn-pagination span {
+  color: #f23a2e;
+  font-weight: 500;
+}
+
+.post-section {
+  margin-top: 48px;
+}
+
+.text-section img {
+  max-width: 100%;
+  height: auto;
+}
+
+.thumb {
+  margin: 0 24px 24px 0;
+}
+
+.location {
+  padding: 0 !important;
+}
+
+.speaker {
+  cursor: pointer;
+}
+
+.back-btn {
+  margin: auto;
+  text-align: center;
+  padding-bottom: 48px;
+}
+
+.back-btn button {
+  background: transparent;
+  border: 2px solid #ccc;
+  padding: 6px 28px;
+  cursor: pointer;
+}
+
+.about-title {
+  text-align: center;
+  margin: auto;
+  font-family: 'Roboto';
+  color: #fff;
+  font-weight: 300;
+  font-size: 34px;
+  text-transform: uppercase;
+}
+
+.first-roll-speakers {
+  margin: 0 10px;
+}
+
+.youtube {
+  width: 100%;
+}
+
+/* @media screen and (max-width: 991px) {
+  .youtube {
+    width: 100% !important;
+    min-height: 100%;
+  }
+} */
+
+@media screen and (max-width: 1599px) and (min-width: 992px) {
+  .youtube {
+    height: auto;
+  }
+}
+
 @media screen and (min-width: 1600px) {
   .overview-section {
     margin: 0 234px;
@@ -2114,6 +2209,10 @@ a:hover {
 
   .agenda-section {
     margin: 0 284px;
+  }
+
+  .post-section {
+    max-width: 75% !important;
   }
 }
 
@@ -2179,13 +2278,28 @@ a:hover {
 @media screen and (max-width: 414px) {
   .home-title {
     font-size: 34px !important;
-    margin-top: 12px !important;
+    margin-top: 102px !important;
+  }
+  .description {
+    font-size: 18px !important;
+  }
+  .learn-header,
+  .about-header,
+  .con-header {
+    max-height: 45vh !important;
+  }
+  .speaker {
+    padding: 0;
   }
 }
 
-@media screen and (max-height: 667px) {
+@media screen and (max-height: 884px) {
   .home-title {
+    font-size: 30px !important;
     margin-top: 74px !important;
+  }
+  .description {
+    font-size: 14px !important;
   }
 }
 
@@ -2195,9 +2309,15 @@ a:hover {
   }
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 768px) and (max-height: 1024px) {
   .home-title {
-    font-size: 34px !important;
-    margin-top: 182px !important;
+    margin-top: 84px !important;
+  }
+}
+
+@media screen and (max-width: 400px) and (max-height: 600px) {
+  .home-title {
+    font-size: 22px !important;
+    margin-top: 54px !important;
   }
 }

@@ -1,0 +1,44 @@
+button {
+  background: transparent;
+  border: none;
+  color: #635d9c;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+  outline: none;
+}
+
+input,
+textarea {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+textarea {
+  height: 182px;
+}
+
+.style-section {
+  width: 50%;
+  border: 2px solid #ccc;
+  margin-top: 34px;
+  padding: 14px;
+  border-radius: 10px;
+  background: #ccc;
+}
+
+.style-section-pictures {
+  width: 100%;
+  border: 2px solid #ccc;
+  margin-top: 34px;
+  padding: 24px;
+  border-radius: 10px;
+  background: #ccc;
+}

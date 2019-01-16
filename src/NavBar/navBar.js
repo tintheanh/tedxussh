@@ -17,10 +17,7 @@ const NavBar = () => (
           <div className="py-1">
             <div className="row align-items-center">
               <div className="col-2">
-                <h2
-                  className="mb-0 site-logo"
-                  style={{ fontFamily: 'Work Sans', fontWeight: '300' }}
-                >
+                <h2 className="mb-0 site-logo" style={{ fontFamily: 'Roboto' }}>
                   <Link to="/">Home</Link>
                 </h2>
               </div>
@@ -34,16 +31,24 @@ const NavBar = () => (
                     </div>
                     <ul className="site-menu js-clone-nav d-none d-lg-block">
                       <li>
-                        <Link to="/conference">Conference</Link>
+                        <Link to="/conference" style={{ fontFamily: 'Roboto' }}>
+                          Conference
+                        </Link>
                       </li>
                       <li>
-                        <Link to="/learn">Learn</Link>
+                        <Link to="/learn" style={{ fontFamily: 'Roboto' }}>
+                          Learn
+                        </Link>
                       </li>
                       <li>
-                        <Link to="/about">About</Link>
+                        <Link to="/about" style={{ fontFamily: 'Roboto' }}>
+                          About
+                        </Link>
                       </li>
                       <li>
-                        <a href="contact.html">Contact</a>
+                        <a href="contact.html" style={{ fontFamily: 'Roboto' }}>
+                          Contact
+                        </a>
                       </li>
                     </ul>
                   </div>

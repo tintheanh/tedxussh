@@ -48,7 +48,10 @@
     "react/no-unescaped-entities": 0,
     "jsx-a11y/anchor-is-valid": 0,
     "arrow-parens": 0,
-    "sort-comp": 0
+    "react/sort-comp": 0,
+    "nonblock-statement-body-position": 0,
+    "curly": 0,
+    "operator-linebreak": 0
   },
   "env": {
     "browser": true,

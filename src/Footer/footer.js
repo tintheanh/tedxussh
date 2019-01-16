@@ -20,22 +20,25 @@ const Footer = props => {
                   className="pb-2 pr-2 pl-0"
                 >
                   <span
-                    className="icon-facebook"
+                    className="fa icon-facebook"
                     style={{ fontSize: '20px' }}
                   />
                 </a>
                 <a href={links.twitter} target="_blank" className="p-2">
-                  <span className="icon-twitter" style={{ fontSize: '20px' }} />
+                  <span
+                    className="fa icon-twitter"
+                    style={{ fontSize: '20px' }}
+                  />
                 </a>
                 <a href={links.instagram} target="_blank" className="p-2">
                   <span
-                    className="icon-instagram"
+                    className="fa icon-instagram"
                     style={{ fontSize: '20px' }}
                   />
                 </a>
                 <a href={links.linkedin} target="_blank" className="p-2">
                   <span
-                    className="icon-linkedin"
+                    className="fa icon-linkedin"
                     style={{ fontSize: '20px' }}
                   />
                 </a>

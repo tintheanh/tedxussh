@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import NavBar from './NavBar/navBar';
 import Home from './Home/home';
 import Conference from './Events/Conference/conference';
-import Salons from './Events/Salons/salons';
 import Learn from './Learn/learn';
 import About from './About/about';
 import Footer from './Footer/footer';
@@ -59,10 +58,8 @@ class Main extends React.Component {
         <ScrollToTop>
           <div>
             <NavBar />
-            {/* <Route exact path="/" component={Home} /> */}
             <Route exact path="/" render={() => <Home home={home} />} />
             <Route path="/conference" component={Conference} />
-            <Route path="/salons" component={Salons} />
             <Route path="/learn" component={Learn} />
             <Route path="/about" render={() => <About {...about} />} />
             <Footer {...footer} />

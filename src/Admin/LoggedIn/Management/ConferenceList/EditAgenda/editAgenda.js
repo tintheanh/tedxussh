@@ -100,7 +100,10 @@ class EditAgenda extends React.Component {
   }
 
   deleteAgenda(agdID) {
-    firebase.database().ref(`conference/agenda/${agdID}`).remove();
+    firebase
+      .database()
+      .ref(`conference/agenda/${agdID}`)
+      .remove();
   }
 
   render() {
@@ -109,8 +112,8 @@ class EditAgenda extends React.Component {
         {this.props.agenda.map(agd => {
           if (this.state.keySelected !== agd.id) {
             return (
-              <div key={agd.id}>
-                <h1>{agd.header}</h1>
+              <div key={agd.id} style={{ borderBottom: '2px solid #ccc' }}>
+                <strong>{agd.header}</strong>
                 <p>{agd.detail}</p>
                 <p>{agd.participants}</p>
                 <p>{agd.time}</p>

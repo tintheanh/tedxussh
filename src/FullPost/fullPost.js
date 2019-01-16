@@ -14,7 +14,7 @@ class FullPost extends React.Component {
   componentDidMount() {
     firebase
       .database()
-      .ref(`learnPosts/${this.props.postID}`)
+      .ref(`learnPosts/postList/${this.props.postID}`)
       .on('value', snapshot => {
         const learnPostsObj = snapshot.val();
         if (learnPostsObj) {
@@ -45,16 +45,36 @@ class FullPost extends React.Component {
   render() {
     const { post } = this.state;
     return (
-      <div>
-        <button onClick={this.goBack}>Go back</button>
+      <div className="container post-section">
         <div className="row">
-          <img className="img-fluid" src={post.thumbnail} alt="" />
+          {/* <div className="col-lg-4">
+            <img className="img-fluid" src={post.thumbnail} alt="" />
+          </div> */}
+          <div className="col-lg-12">
+            <div className="col-lg-4">
+              <img
+                className="img-fluid thumb"
+                src={post.thumbnail}
+                alt=""
+                style={{ float: 'left' }}
+              />
+            </div>
+            <h1>{post.title}</h1>
+            <div
+              className="text-section"
+              dangerouslySetInnerHTML={{ __html: post.content }}
+            />
+          </div>
         </div>
         <div className="row">
-          <h1>{post.title}</h1>
-        </div>
-        <div className="row">
-          <div dangerouslySetInnerHTML={{ __html: post.content }} />
+          <div className="back-btn">
+            <button
+              onClick={this.goBack}
+              style={{ textDecoration: 'none', color: '#000' }}
+            >
+              Go Back
+            </button>
+          </div>
         </div>
       </div>
     );

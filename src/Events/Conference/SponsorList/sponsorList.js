@@ -51,7 +51,7 @@ class SponsorList extends React.Component {
 
   render() {
     return (
-      <div className="site-section">
+      <div className="site-section bg-light">
         <div className="container" ref={this.element}>
           <div className="row">
             <div className="col-md-6 mx-auto text-center mb-5 section-heading">

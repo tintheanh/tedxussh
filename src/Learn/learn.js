@@ -1,13 +1,6 @@
 import React from 'react';
 import firebase from 'firebase';
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  Redirect
-} from 'react-router-dom';
 import { createBrowserHistory } from 'history';
-import Pagination from 'react-paginating';
 import FullPost from '../FullPost/fullPost';
 import PostListAndPage from './PostListAndPage/postListandPage';
 
@@ -17,8 +10,23 @@ class Learn extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      cover: '',
       post: {}
     };
+  }
+
+  componentDidMount() {
+    firebase
+      .database()
+      .ref('learnPosts')
+      .on('value', snapshot => {
+        const learnPostsObj = snapshot.val();
+        if (learnPostsObj) {
+          this.setState({ cover: learnPostsObj.cover }, () =>
+            console.log('learn', this.state.cover)
+          );
+        }
+      });
   }
 
   getPost(post) {
@@ -49,19 +57,12 @@ class Learn extends React.Component {
     return (
       <div>
         <div
-          className="site-blocks-cover overlay"
+          className="learn-header"
           data-aos="fade"
-          data-stellar-background-ratio="0.5"
-        >
-          <div className="container">
-            <div className="row align-items-center">
-              <div className="col-md-7">
-                <h1 className="mb-1">Learn</h1>
-                <br />
-              </div>
-            </div>
-          </div>
-        </div>
+          style={{
+            backgroundImage: `url(${this.state.cover})`
+          }}
+        />
         {this.manualRouter()}
       </div>
     );

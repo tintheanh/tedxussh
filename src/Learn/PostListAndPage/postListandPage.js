@@ -21,7 +21,7 @@ class PostListandPage extends React.Component {
   componentDidMount() {
     firebase
       .database()
-      .ref('learnPosts')
+      .ref('learnPosts/postList')
       .on('value', snapshot => {
         const learnPostsObj = snapshot.val();
         if (learnPostsObj) {
@@ -57,11 +57,11 @@ class PostListandPage extends React.Component {
       let group = [];
       for (let index = 0; index < posts.length; index++) {
         group.push(posts[index]);
-        if ((index + 1) % 3 === 0 && index !== 0) {
+        if ((index + 1) % 6 === 0 && index !== 0) {
           result.push(group);
           group = [];
         }
-        if (index === posts.length - 1 && posts.length % 3 !== 0)
+        if (index === posts.length - 1 && posts.length % 6 !== 0)
           result.push(group);
       }
       return result;
@@ -82,7 +82,7 @@ class PostListandPage extends React.Component {
         posts[currentPage - 1].map(item => (
           <Link
             to={`/learn/?post=${item.id}`}
-            className="col-3"
+            className="col-md-12 col-lg-4 mb-2"
             key={item.id}
           >
             <div className="hotel-room text-center notransition">
@@ -95,7 +95,10 @@ class PostListandPage extends React.Component {
                   />
                 </div>
                 <h2 className="heading mb-0">{item.title}</h2>
-                <span className="mb-3 d-block post-date">
+                <span
+                  className="mb-3 d-block post-date"
+                  style={{ paddingBottom: '12px' }}
+                >
                   {item.datePosted} By {item.by}
                 </span>
               </div>
@@ -109,14 +112,16 @@ class PostListandPage extends React.Component {
 
   render() {
     const { currentPage, posts } = this.state;
-    const limit = 3;
-    const pageCount = 3;
+    const limit = 6;
+    const pageCount = 6;
     const total = posts.length * limit;
     if (this.getUserPath(window.location.href) <= posts.length) {
       return (
-        <div class="site-section">
+        <div className="site-section">
           {/* <div class="container">{this.renderAllImg(this.state.posts)}</div> */}
-          <div className="row">{this.renderItems(posts, currentPage)}</div>
+          <div className="row post-page">
+            {this.renderItems(posts, currentPage)}
+          </div>
           <Pagination
             total={total}
             limit={limit}
@@ -133,65 +138,81 @@ class PostListandPage extends React.Component {
               totalPages,
               getPageItemProps
             }) => (
-              <div>
-                <button
-                  {...getPageItemProps({
-                    pageValue: 1,
-                    onPageChange: this.handlePageChange
-                  })}
-                >
-                  <Link to={`/learn/1`}>first</Link>
-                </button>
+              <div className="row mt-5" style={{ width: '100%' }}>
+                <div className="col-md-12 text-center">
+                  <div className="learn-pagination">
+                    <Link to={`/learn/1`}>
+                      <span
+                        {...getPageItemProps({
+                          pageValue: 1,
+                          onPageChange: this.handlePageChange
+                        })}
+                      >
+                        first
+                      </span>
+                    </Link>
 
-                {hasPreviousPage && (
-                  <button
-                    {...getPageItemProps({
-                      pageValue: previousPage,
-                      onPageChange: this.handlePageChange
+                    {hasPreviousPage && (
+                      <Link to={`/learn/${previousPage}`}>
+                        <span
+                          {...getPageItemProps({
+                            pageValue: previousPage,
+                            onPageChange: this.handlePageChange
+                          })}
+                        >
+                          {'<'}
+                        </span>
+                      </Link>
+                    )}
+
+                    {pages.map((page, i) => {
+                      let activePage = null;
+                      if (currentPage === page) {
+                        activePage = {
+                          backgroundColor: '#f23a2e',
+                          color: '#fff'
+                        };
+                      }
+                      return (
+                        <Link key={i} to={`/learn/${page}`}>
+                          <span
+                            {...getPageItemProps({
+                              pageValue: page,
+                              key: page,
+                              style: activePage,
+                              onPageChange: this.handlePageChange
+                            })}
+                          >
+                            {page}
+                          </span>
+                        </Link>
+                      );
                     })}
-                  >
-                    <Link to={`/learn/${previousPage}`}>{'<'}</Link>
-                  </button>
-                )}
 
-                {pages.map(page => {
-                  let activePage = null;
-                  if (currentPage === page) {
-                    activePage = { backgroundColor: '#fdce09' };
-                  }
-                  return (
-                    <button
-                      {...getPageItemProps({
-                        pageValue: page,
-                        key: page,
-                        style: activePage,
-                        onPageChange: this.handlePageChange
-                      })}
-                    >
-                      <Link to={`/learn/${page}`}>{page}</Link>
-                    </button>
-                  );
-                })}
-
-                {hasNextPage && (
-                  <button
-                    {...getPageItemProps({
-                      pageValue: nextPage,
-                      onPageChange: this.handlePageChange
-                    })}
-                  >
-                    <Link to={`/learn/${nextPage}`}>{'>'}</Link>
-                  </button>
-                )}
-
-                <button
-                  {...getPageItemProps({
-                    pageValue: totalPages,
-                    onPageChange: this.handlePageChange
-                  })}
-                >
-                  <Link to={`/learn/${totalPages}`}>last</Link>
-                </button>
+                    {hasNextPage && (
+                      <Link to={`/learn/${nextPage}`}>
+                        <span
+                          {...getPageItemProps({
+                            pageValue: nextPage,
+                            onPageChange: this.handlePageChange
+                          })}
+                        >
+                          {'>'}
+                        </span>
+                      </Link>
+                    )}
+                    <Link to={`/learn/${totalPages}`}>
+                      <span
+                        {...getPageItemProps({
+                          pageValue: totalPages,
+                          onPageChange: this.handlePageChange
+                        })}
+                      >
+                        last
+                      </span>
+                    </Link>
+                  </div>
+                </div>
               </div>
             )}
           </Pagination>

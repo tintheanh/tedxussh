@@ -3,10 +3,10 @@ import React from 'react';
 
 const ConferenceHeader = props => (
   <div
-    className="site-blocks-cover"
+    className="con-header"
+    data-aos="fade"
     style={{
-      backgroundImage: `url(${props.background})`,
-      height: 'calc(30vh)'
+      backgroundImage: `url(${props.background})`
     }}
   />
 );

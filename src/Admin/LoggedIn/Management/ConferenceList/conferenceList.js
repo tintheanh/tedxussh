@@ -15,6 +15,8 @@ class ConferenceList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      height: 0,
+
       address: '',
       conferencePicture: '',
       date: '',
@@ -27,18 +29,6 @@ class ConferenceList extends React.Component {
       speakers: [],
       sponsors: [],
 
-      speakerSelected: '',
-      sponsorSelected: '',
-
-      nameUpdated: '',
-      occupationUpdated: '',
-      introductionUpdated: '',
-
-      tempSpeakerID: '',
-      tempSponsorID: '',
-
-      websiteUpdated: '',
-
       toggleEditTitle: false,
       toggleEditDate: false,
       toggleEditDescription: false,
@@ -47,12 +37,13 @@ class ConferenceList extends React.Component {
       modalSpeakers: false,
       modalPicture: false,
       modalLocation: false,
-      modalChangeImg: false,
-      modalChangeSponsorImg: false,
       modalAgenda: false,
       modalSponsors: false,
       modalHighLight: false
     };
+
+    this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+
     this.openModalLocation = this.openModalLocation.bind(this);
     this.closeModalLocation = this.closeModalLocation.bind(this);
 
@@ -61,14 +52,6 @@ class ConferenceList extends React.Component {
 
     this.openModalSpeakers = this.openModalSpeakers.bind(this);
     this.closeModalSpeakers = this.closeModalSpeakers.bind(this);
-
-    this.openModalChangeImg = this.openModalChangeImg.bind(this);
-    this.closeModalChangeImg = this.closeModalChangeImg.bind(this);
-
-    this.openModalChangeSponsorImg = this.openModalChangeSponsorImg.bind(this);
-    this.closeModalChangeSponsorImg = this.closeModalChangeSponsorImg.bind(
-      this
-    );
 
     this.openModalAgenda = this.openModalAgenda.bind(this);
     this.closeModalAgenda = this.closeModalAgenda.bind(this);
@@ -81,7 +64,17 @@ class ConferenceList extends React.Component {
   }
 
   componentDidMount() {
+    this.updateWindowDimensions();
+    window.addEventListener('resize', this.updateWindowDimensions);
     this.fetchData();
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateWindowDimensions);
+  }
+
+  updateWindowDimensions() {
+    this.setState({ height: window.innerHeight });
   }
 
   openModalLocation() {
@@ -106,22 +99,6 @@ class ConferenceList extends React.Component {
 
   closeModalSpeakers() {
     this.setState({ modalSpeakers: false });
-  }
-
-  openModalChangeImg(speakerID) {
-    this.setState({ modalChangeImg: true, tempSpeakerID: speakerID });
-  }
-
-  closeModalChangeImg() {
-    this.setState({ modalChangeImg: false });
-  }
-
-  openModalChangeSponsorImg(speakerID) {
-    this.setState({ modalChangeSponsorImg: true, tempSponsorID: speakerID });
-  }
-
-  closeModalChangeSponsorImg() {
-    this.setState({ modalChangeSponsorImg: false });
   }
 
   openModalAgenda() {
@@ -162,20 +139,11 @@ class ConferenceList extends React.Component {
       case 'description':
         this.setState({ description: e.target.value });
         break;
-      case 'linkedin':
-        this.setState({ linkedin: e.target.value });
-        break;
-      case 'playlist':
-        this.setState({ playlist: e.target.value });
-        break;
       case 'lat':
         this.setState({ lat: e.target.value });
         break;
       case 'lng':
         this.setState({ lng: e.target.value });
-        break;
-      case 'sourceQuote':
-        this.setState({ sourceQuote: e.target.value });
         break;
       case 'address':
         this.setState({ address: e.target.value });
@@ -469,7 +437,6 @@ class ConferenceList extends React.Component {
               <div>
                 <h3 className="heading mb-0">{e.name}</h3>
                 <strong className="price">{e.occupation}</strong>
-                <p>{e.introduction}</p>
               </div>
             </div>
           </div>
@@ -523,6 +490,43 @@ class ConferenceList extends React.Component {
     });
   }
 
+  renderFirstRow(totalRows, imgs, check) {
+    let startIndex = -4;
+    let endIndex = startIndex + 4;
+    const temp = Array.from({ length: totalRows }, () =>
+      Math.floor(Math.random())
+    );
+
+    return temp.map((_, i) => {
+      startIndex += 4;
+      endIndex += 4;
+      return (
+        <div className="row" key={i}>
+          {/* {this.renderRow(startIndex, endIndex, imgs, check)} */}
+          {imgs.slice(startIndex, endIndex).map(e => (
+            <div className="col-3" key={e.id}>
+              <div className="hotel-room text-center notransition">
+                <div className="d-block mb-0 thumbnail notransition">
+                  <img
+                    src={e.picture}
+                    className="img-fluid notransition"
+                    alt=""
+                  />
+                </div>
+                <div className="hotel-room-body">
+                  <div>
+                    <h3 className="heading mb-0">{e.name}</h3>
+                    <strong className="price">{e.occupation}</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      );
+    });
+  }
+
   renderAllImg(imgs, check) {
     if (imgs.length > 0) {
       if (imgs.length % 4 === 0) {
@@ -539,7 +543,7 @@ class ConferenceList extends React.Component {
         {agenda.map(e => (
           <div className="col-12" key={e.id}>
             <p>
-              {e.time} - {e.header}
+              <strong>{e.time}</strong> - {e.header}
             </p>
             <p>{e.detail}</p>
             <p>{e.participants}</p>
@@ -607,14 +611,19 @@ class ConferenceList extends React.Component {
     return (
       // --------------------------------------------------------------------Main Picture
       <div>
-        <div className="row">
-          <div style={{ height: '50%', width: '50%' }}>
+        <div className="row style-section">
+          <div className="col-12">
+            <h3>Cover picture</h3>
+          </div>
+          <div className="col-12">
             <img src={conferencePicture} alt="" className="img-fluid" />
           </div>
           <div>
-            <button type="button" onClick={this.openModalPicture}>
-              Edit Picture
-            </button>
+            <div className="col-12">
+              <button type="button" onClick={this.openModalPicture}>
+                Edit Picture
+              </button>
+            </div>
             <Modal
               open={this.state.modalPicture}
               onClose={this.closeModalPicture}
@@ -632,100 +641,132 @@ class ConferenceList extends React.Component {
 
         {/* --------------------------------------------------------------------Date */}
         {!toggleEditDate ? (
-          <div className="row">
-            <p>{date}</p>
-            <button
-              type="button"
-              onClick={() => this.setState({ toggleEditDate: true })}
-            >
-              Edit date
-            </button>
+          <div className="row style-section">
+            <div className="col-12">
+              <h3>Event date</h3>
+            </div>
+            <div className="col-12">
+              <p>{date}</p>
+            </div>
+            <div className="col-12">
+              <button
+                type="button"
+                onClick={() => this.setState({ toggleEditDate: true })}
+              >
+                Edit date
+              </button>
+            </div>
           </div>
         ) : (
-          <div className="row">
-            <DatePicker
-              selected={moment(date).toDate()}
-              onChange={this.handleDateChange.bind(this)}
-            />
-            <button
-              type="button"
-              onClick={() => {
-                this.onUpdate('date');
-                this.setState({ toggleEditDate: false });
-              }}
-            >
-              Save
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                this.fetchData();
-                this.setState({ toggleEditDate: false });
-              }}
-            >
-              Cancel
-            </button>
+          <div className="row style-section">
+            <div className="col-12">
+              <DatePicker
+                selected={moment(date).toDate()}
+                onChange={this.handleDateChange.bind(this)}
+              />
+            </div>
+            <div className="col-12">
+              <button
+                type="button"
+                onClick={() => {
+                  this.onUpdate('date');
+                  this.setState({ toggleEditDate: false });
+                }}
+              >
+                Save
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  this.fetchData();
+                  this.setState({ toggleEditDate: false });
+                }}
+              >
+                Cancel
+              </button>
+            </div>
           </div>
         )}
 
         {/* --------------------------------------------------------------------Title */}
         {!toggleEditTitle ? (
-          <div className="row">
-            <p>{title}</p>
-            <button
-              type="button"
-              onClick={() => this.setState({ toggleEditTitle: true })}
-            >
-              Edit title
-            </button>
+          <div className="row style-section">
+            <div className="col-12">
+              <h3>Event title</h3>
+            </div>
+            <div className="col-12">
+              <p>{title}</p>
+            </div>
+            <div className="col-12">
+              <button
+                type="button"
+                onClick={() => this.setState({ toggleEditTitle: true })}
+              >
+                Edit title
+              </button>
+            </div>
           </div>
         ) : (
-          <div className="row">
-            <input
-              type="text"
-              value={title}
-              onChange={e => this.onChangeTextInput(e, 'title')}
-            />
-            <button
-              type="button"
-              onClick={() => {
-                this.onUpdate('title');
-                this.setState({ toggleEditTitle: false });
-              }}
-            >
-              Save
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                this.fetchData();
-                this.setState({ toggleEditTitle: false });
-              }}
-            >
-              Cancel
-            </button>
+          <div className="row style-section">
+            <div className="col-12">
+              <input
+                type="text"
+                value={title}
+                onChange={e => this.onChangeTextInput(e, 'title')}
+              />
+            </div>
+            <div className="col-12">
+              <button
+                type="button"
+                onClick={() => {
+                  this.onUpdate('title');
+                  this.setState({ toggleEditTitle: false });
+                }}
+              >
+                Save
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  this.fetchData();
+                  this.setState({ toggleEditTitle: false });
+                }}
+              >
+                Cancel
+              </button>
+            </div>
           </div>
         )}
 
         {/* --------------------------------------------------------------------Description */}
         {!toggleEditDescription ? (
-          <div className="row">
-            <p>{description}</p>
-            <button
-              type="button"
-              onClick={() => this.setState({ toggleEditDescription: true })}
-            >
-              Edit description
-            </button>
+          <div className="row style-section">
+            <div className="col-12">
+              <h3>Event description</h3>
+            </div>
+            <div className="col-12">
+              <p>{description}</p>
+            </div>
+            <div className="col-12">
+              <button
+                type="button"
+                onClick={() => this.setState({ toggleEditDescription: true })}
+              >
+                Edit description
+              </button>
+            </div>
           </div>
         ) : (
-          <div className="row">
-            <textarea
-              type="text"
-              value={description}
-              onChange={e => this.onChangeTextInput(e, 'description')}
-            />
-            <div>
+          <div className="row style-section">
+            <div className="col-12">
+              <textarea
+                type="text"
+                value={description}
+                onChange={e => this.onChangeTextInput(e, 'description')}
+              />
+            </div>
+            <div className="col-12">
               <button
                 type="button"
                 onClick={() => {
@@ -748,10 +789,13 @@ class ConferenceList extends React.Component {
           </div>
         )}
         {/* --------------------------------------------------------------------Speakers */}
-        <div className="row">
-          {this.renderAllImg(speakers, 'speakers', false)}
+        <div className="row style-section-pictures">
+          <div className="col-12">
+            <h3>Speakers</h3>
+          </div>
+          {this.renderImg(1, speakers, 'speakers')}
           <div className="row">
-            <button onClick={this.openModalSpeakers}>Edit speakers</button>
+            <button onClick={this.openModalSpeakers}>Edit speakers ...</button>
           </div>
           <Modal
             open={this.state.modalSpeakers}
@@ -770,99 +814,129 @@ class ConferenceList extends React.Component {
           </Modal>
         </div>
         {/* --------------------------------------------------------------------Agenda */}
-        <div className="row">{this.renderAgenda(agenda)}</div>
-        <button onClick={this.openModalAgenda}>Edit agenda</button>
-        <Modal
-          open={this.state.modalAgenda}
-          onClose={this.closeModalAgenda}
-          center
-        >
-          <EditAgenda
-            agenda={this.state.agenda}
-            updateOneAgenda={this.updateOneAgenda.bind(this)}
-            // removeAgenda={this.removeAgenda.bind(this)}
-            closeModalAgenda={this.closeModalAgenda}
-            // onUpdateAgenda={this.onUpdate.bind(this)}
-            // refetchAfterClosed={this.fetchData.bind(this)}
-          />
-        </Modal>
+        <div className="row style-section">
+          <div className="col-12">
+            <h2>Agenda</h2>
+            <p>(Each agenda header is seperated by '//')</p>
+          </div>
+          {this.renderAgenda(agenda)}
+          <div className="col-12">
+            <button onClick={this.openModalAgenda}>Edit agenda</button>
+          </div>
+          <Modal
+            open={this.state.modalAgenda}
+            onClose={this.closeModalAgenda}
+            center
+          >
+            <EditAgenda
+              agenda={this.state.agenda}
+              updateOneAgenda={this.updateOneAgenda.bind(this)}
+              // removeAgenda={this.removeAgenda.bind(this)}
+              closeModalAgenda={this.closeModalAgenda}
+              // onUpdateAgenda={this.onUpdate.bind(this)}
+              // refetchAfterClosed={this.fetchData.bind(this)}
+            />
+          </Modal>
+        </div>
 
         {/* --------------------------------------------------------------------Sponsors */}
-        <div className="row">
-          {this.renderAllImg(sponsors, 'sponsors', false)}
-        </div>
-        <button onClick={this.openModalSponsors}>Edit sponsors</button>
-        <Modal
-          open={this.state.modalSponsors}
-          onClose={this.closeModalSponsors}
-          center
-        >
-          <EditSponsors
-            sponsors={this.state.sponsors}
-            // updateSponsors={this.onUpdate.bind(this)}
-            closeModal={this.closeModalSponsors}
-          />
-        </Modal>
+        <div className="row style-section-pictures">
+          <div className="col-12">
+            <h3>Sponsors</h3>
+          </div>
+          {this.renderImg(1, sponsors, 'sponsors')}
 
+          <button onClick={this.openModalSponsors}>Edit sponsors ...</button>
+          <Modal
+            open={this.state.modalSponsors}
+            onClose={this.closeModalSponsors}
+            center
+          >
+            <EditSponsors
+              sponsors={this.state.sponsors}
+              // updateSponsors={this.onUpdate.bind(this)}
+              closeModal={this.closeModalSponsors}
+            />
+          </Modal>
+        </div>
         {/* --------------------------------------------------------------------Location */}
-        {!toggleEditAddress ? (
-          <div className="row">
-            <p>{address}</p>
-            <button onClick={() => this.setState({ toggleEditAddress: true })}>
-              Edit address
-            </button>
+        <div className="row style-section-pictures">
+          <div className="col-12">
+            <h2>Location</h2>
           </div>
-        ) : (
-          <div className="row">
-            <input
-              type="text"
-              value={address}
-              onChange={e => this.onChangeTextInput(e, 'address')}
-            />
-            <button
-              type="button"
-              onClick={() => {
-                this.onUpdate('address');
-                this.setState({ toggleEditAddress: false });
-              }}
+          {!toggleEditAddress ? (
+            <div className="row">
+              <div className="col-12">
+                <p>{address}</p>
+              </div>
+              <div className="col-12">
+                <button
+                  onClick={() => this.setState({ toggleEditAddress: true })}
+                >
+                  Edit address
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="row">
+              <div className="col-12">
+                <input
+                  type="text"
+                  value={address}
+                  onChange={e => this.onChangeTextInput(e, 'address')}
+                />
+              </div>
+              <div className="col-12">
+                <button
+                  type="button"
+                  onClick={() => {
+                    this.onUpdate('address');
+                    this.setState({ toggleEditAddress: false });
+                  }}
+                >
+                  Save
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    this.fetchData();
+                    this.setState({ toggleEditAddress: false });
+                  }}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          )}
+
+          <div className="col-12">{this.renderMap(lat, lng)}</div>
+          <div className="col-12">
+            <button onClick={this.openModalLocation}>Edit location</button>
+            <Modal
+              open={this.state.modalLocation}
+              onClose={this.closeModalLocation}
+              center
             >
-              Save
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                this.fetchData();
-                this.setState({ toggleEditAddress: false });
-              }}
-            >
-              Cancel
-            </button>
+              <div style={{ width: '700px' }}>
+                <MapWithSearch
+                  lat={lat}
+                  lng={lng}
+                  closeModal={this.closeModalLocation}
+                  setNewLocation={this.setNewLocation.bind(this)}
+                />
+              </div>
+            </Modal>
           </div>
-        )}
-
-        <div className="row">{this.renderMap(lat, lng)}</div>
-
-        <button onClick={this.openModalLocation}>Edit location</button>
-        <Modal
-          open={this.state.modalLocation}
-          onClose={this.closeModalLocation}
-          center
-        >
-          <div style={{ width: '700px' }}>
-            <MapWithSearch
-              lat={lat}
-              lng={lng}
-              closeModal={this.closeModalLocation}
-              setNewLocation={this.setNewLocation.bind(this)}
-            />
-          </div>
-        </Modal>
-
-        {/* --------------------------------------------------------------------Highlight */}
-        <div className="row">
-          {this.renderAllImg(this.state.highlight, 'highlight')}
         </div>
-        <div className="row">
+        {/* --------------------------------------------------------------------Highlight */}
+        <div
+          className="row style-section-pictures"
+          style={{ marginBottom: '54px' }}
+        >
+          <div className="col-12">
+            <h2>Location</h2>
+          </div>
+          {this.renderImg(1, this.state.highlight, 'highlight')}
           <button onClick={this.openModalHighLight}>Edit highlight</button>
           <Modal
             open={this.state.modalHighLight}
@@ -885,11 +959,14 @@ class ConferenceList extends React.Component {
 
   render() {
     return (
-      <div className="page-wrapper">
+      <div
+        className="page-wrapper"
+        style={{ height: `${this.state.height - 64}px`, overflowY: 'scroll' }}
+      >
         <div className="page-breadcrumb">
           <div className="row">
             <div className="col-12 d-flex no-block align-items-center">
-              <h4 className="page-title">Dashboard</h4>
+              <h2 className="page-title">Conference Edit Section</h2>
             </div>
           </div>
           {this.renderShowOrEdit()}

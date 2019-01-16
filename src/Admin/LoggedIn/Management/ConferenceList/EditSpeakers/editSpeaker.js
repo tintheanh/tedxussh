@@ -95,7 +95,10 @@ class EditSpeakers extends React.Component {
   deleteSpeaker(speaker) {
     const ask = window.confirm(`Want to delete ${speaker.name}?`);
     if (ask) {
-      firebase.database().ref(`conference/speakers/${speaker.id}`).remove();
+      firebase
+        .database()
+        .ref(`conference/speakers/${speaker.id}`)
+        .remove();
     } else console.log('Stopped');
   }
 
@@ -140,7 +143,7 @@ class EditSpeakers extends React.Component {
                 <div>
                   <h3 className="heading mb-0">{speaker.name}</h3>
                   <strong className="price">{speaker.occupation}</strong>
-                  <p>{speaker.introduction}</p>
+                  {/* <p>{speaker.introduction}</p> */}
                 </div>
               </div>
               <button
