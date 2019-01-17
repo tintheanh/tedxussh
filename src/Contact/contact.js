@@ -9,7 +9,9 @@ class Contact extends React.Component {
       lname: '',
       email: '',
       reason: '',
-      message: ''
+      message: '',
+
+      submitted: false
     };
   }
 
@@ -40,6 +42,7 @@ class Contact extends React.Component {
         .then(
           response => {
             console.log('SUCCESS!', response.status, response.text);
+            this.setState({ submitted: true });
           },
           err => {
             console.log('FAILED...', err);
@@ -66,159 +69,174 @@ class Contact extends React.Component {
           <div className="container">
             <div className="row">
               <div className="col-md-6 col-lg-4">
-                <h1>Contact Us</h1>
+                <h1 style={{ fontWeight: '300' }}>CONTACT US</h1>
                 <p>{hqName}</p>
                 <p>{hqAddress}</p>
                 <p>{comment}</p>
               </div>
               <div className="col-md-6 col-lg-8">
-                <form onSubmit={this.handleSubmit.bind(this)}>
-                  <div className="row">
-                    <p>Name</p>
-                  </div>
-                  <div className="row">
-                    <div className="col-md-12 col-lg-6">
-                      <input
-                        type="text"
-                        className="contact-input"
-                        onChange={e =>
-                          this.setState({ fname: e.target.value }, () =>
-                            console.log(this.state.fname)
-                          )
-                        }
-                      />
-                      <p>First name</p>
+                {!this.state.submitted ? (
+                  <form onSubmit={this.handleSubmit.bind(this)}>
+                    <div className="row">
+                      <div className="col-12">
+                        <p className="contact-header">Name</p>
+                      </div>
+                      <div className="col-md-12 col-lg-6">
+                        <input
+                          type="text"
+                          className="contact-input"
+                          onChange={e =>
+                            this.setState({ fname: e.target.value }, () =>
+                              console.log(this.state.fname)
+                            )
+                          }
+                        />
+                        <p style={{ fontSize: '12px' }}>First name</p>
+                      </div>
+                      <div className="col-md-12 col-lg-6">
+                        <input
+                          type="text"
+                          className="contact-input"
+                          onChange={e =>
+                            this.setState({ lname: e.target.value }, () =>
+                              console.log(this.state.lname)
+                            )
+                          }
+                        />
+                        <p style={{ fontSize: '12px' }}>Last name</p>
+                      </div>
                     </div>
-                    <div className="col-md-12 col-lg-6">
-                      <input
-                        type="text"
-                        className="contact-input"
-                        onChange={e =>
-                          this.setState({ lname: e.target.value }, () =>
-                            console.log(this.state.lname)
-                          )
-                        }
-                      />
-                      <p>Last name</p>
+                    <div className="row">
+                      <div className="col-12">
+                        <p className="contact-header">Email</p>
+                      </div>
+                      <div className="col-12">
+                        <input
+                          type="email"
+                          className="contact-input"
+                          onChange={e =>
+                            this.setState({ email: e.target.value }, () =>
+                              console.log(this.state.email)
+                            )
+                          }
+                        />
+                      </div>
                     </div>
-                  </div>
-                  <div className="row">
-                    <p>Email address</p>
-                  </div>
+                    <div className="row">
+                      <div className="col-12">
+                        <p className="contact-header">Reason for contacting</p>
+                      </div>
+                      <div className="col-12">
+                        <div className="row">
+                          <div className="col-1 radio-btn">
+                            <input
+                              type="radio"
+                              name="reason"
+                              value="Attending"
+                              onChange={e =>
+                                this.setState({ reason: e.target.value }, () =>
+                                  console.log(this.state.reason)
+                                )
+                              }
+                            />
+                          </div>
+                          <div className="col-11 radio-content">Attending</div>
+                        </div>
+                        <div className="row">
+                          <div className="col-1 radio-btn">
+                            <input
+                              type="radio"
+                              name="reason"
+                              value="Partnering"
+                              onChange={e =>
+                                this.setState({ reason: e.target.value }, () =>
+                                  console.log(this.state.reason)
+                                )
+                              }
+                            />
+                          </div>
+                          <div className="col-11 radio-content">Partnering</div>
+                        </div>
+                        <div className="row">
+                          <div className="col-1 radio-btn">
+                            <input
+                              type="radio"
+                              name="reason"
+                              value="Speaking"
+                              onChange={e =>
+                                this.setState({ reason: e.target.value }, () =>
+                                  console.log(this.state.reason)
+                                )
+                              }
+                            />
+                          </div>
+                          <div className="col-11 radio-content">Speaking</div>
+                        </div>
+                        <div className="row">
+                          <div className="col-1 radio-btn">
+                            <input
+                              type="radio"
+                              name="reason"
+                              value="Volunteer"
+                              onChange={e =>
+                                this.setState({ reason: e.target.value }, () =>
+                                  console.log(this.state.reason)
+                                )
+                              }
+                            />
+                          </div>
+                          <div className="col-11 radio-content">Volunteer</div>
+                        </div>
+                        <div className="row">
+                          <div className="col-1 radio-btn">
+                            <input
+                              type="radio"
+                              name="reason"
+                              value="Other"
+                              onChange={e =>
+                                this.setState({ reason: e.target.value }, () =>
+                                  console.log(this.state.reason)
+                                )
+                              }
+                            />
+                          </div>
+                          <div className="col-11 radio-content">Other</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="col-12">
+                        <p className="contact-header">Message</p>
+                      </div>
+                      <div className="col-12">
+                        <textarea
+                          className="contact-input-mes"
+                          onChange={e =>
+                            this.setState({ message: e.target.value }, () =>
+                              console.log(this.state.message)
+                            )
+                          }
+                        />
+                      </div>
+                      <div className="col-12">
+                        <input
+                          className="send-btn"
+                          type="submit"
+                          value="SEND"
+                        />
+                      </div>
+                    </div>
+                  </form>
+                ) : (
                   <div className="row">
                     <div className="col-12">
-                      <input
-                        type="email"
-                        className="contact-input"
-                        onChange={e =>
-                          this.setState({ email: e.target.value }, () =>
-                            console.log(this.state.email)
-                          )
-                        }
-                      />
+                      <p>
+                        Thank you for reaching out! We'll get back to you as
+                        soon as possible.
+                      </p>
                     </div>
                   </div>
-                  <div className="row">
-                    <p>Reason for contacting</p>
-                  </div>
-                  <div className="row">
-                    <div className="col-12">
-                      <div className="row">
-                        <div className="col-1">
-                          <input
-                            type="radio"
-                            name="reason"
-                            value="Attending"
-                            onChange={e =>
-                              this.setState({ reason: e.target.value }, () =>
-                                console.log(this.state.reason)
-                              )
-                            }
-                          />
-                        </div>
-                        <div className="col-11">Attending</div>
-                      </div>
-                      <div className="row">
-                        <div className="col-1">
-                          <input
-                            type="radio"
-                            name="reason"
-                            value="Partnering"
-                            onChange={e =>
-                              this.setState({ reason: e.target.value }, () =>
-                                console.log(this.state.reason)
-                              )
-                            }
-                          />
-                        </div>
-                        <div className="col-11">Partnering</div>
-                      </div>
-                      <div className="row">
-                        <div className="col-1">
-                          <input
-                            type="radio"
-                            name="reason"
-                            value="Speaking"
-                            onChange={e =>
-                              this.setState({ reason: e.target.value }, () =>
-                                console.log(this.state.reason)
-                              )
-                            }
-                          />
-                        </div>
-                        <div className="col-11">Speaking</div>
-                      </div>
-                      <div className="row">
-                        <div className="col-1">
-                          <input
-                            type="radio"
-                            name="reason"
-                            value="Volunteer"
-                            onChange={e =>
-                              this.setState({ reason: e.target.value }, () =>
-                                console.log(this.state.reason)
-                              )
-                            }
-                          />
-                        </div>
-                        <div className="col-11">Volunteer</div>
-                      </div>
-                      <div className="row">
-                        <div className="col-1">
-                          <input
-                            type="radio"
-                            name="reason"
-                            value="Other"
-                            onChange={e =>
-                              this.setState({ reason: e.target.value }, () =>
-                                console.log(this.state.reason)
-                              )
-                            }
-                          />
-                        </div>
-                        <div className="col-11">Other</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <p>Message</p>
-                  </div>
-                  <div className="row">
-                    <div className="col-12">
-                      <textarea
-                        className="contact-input"
-                        onChange={e =>
-                          this.setState({ message: e.target.value }, () =>
-                            console.log(this.state.message)
-                          )
-                        }
-                      />
-                    </div>
-                  </div>
-                  <div className="row">
-                    <input type="submit" value="SEND" />
-                  </div>
-                </form>
+                )}
               </div>
             </div>
           </div>

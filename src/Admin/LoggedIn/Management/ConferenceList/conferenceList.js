@@ -5,6 +5,9 @@ import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import ImageManagement from '../ImageMangement/imageManagement';
 import EditSpeakers from './EditSpeakers/editSpeaker';
+import EditHosts from './EditHosts/editHosts';
+import EditPerformers from './EditPerformers/editPerformers';
+import EditAdventures from './EditAdventures/editAdventures';
 import MapView from '../../../../MapView/mapView';
 import MapWithSearch from '../../../../MapWithSearch/mapWithSearch';
 import EditAgenda from './EditAgenda/editAgenda';
@@ -27,14 +30,29 @@ class ConferenceList extends React.Component {
       lat: '',
       lng: '',
       speakers: [],
+      adventures: [],
+      hosts: [],
+      performers: [],
       sponsors: [],
+
+      gapHeader: '',
+      gapDetail: '',
+      gapPic: '',
 
       toggleEditTitle: false,
       toggleEditDate: false,
       toggleEditDescription: false,
       toggleEditAddress: false,
+      toggleEditAdventureHeader: false,
+      toggleEditAdventureDesc: false,
+      toggleEditGapHeader: false,
+      toggleEditGapDetail: false,
 
+      modalGapPic: false,
       modalSpeakers: false,
+      modalHosts: false,
+      modalPerformers: false,
+      modalAdventures: false,
       modalPicture: false,
       modalLocation: false,
       modalAgenda: false,
@@ -53,6 +71,15 @@ class ConferenceList extends React.Component {
     this.openModalSpeakers = this.openModalSpeakers.bind(this);
     this.closeModalSpeakers = this.closeModalSpeakers.bind(this);
 
+    this.openModalHosts = this.openModalHosts.bind(this);
+    this.closeModalHosts = this.closeModalHosts.bind(this);
+
+    this.openModalPerformers = this.openModalPerformers.bind(this);
+    this.closeModalPerformers = this.closeModalPerformers.bind(this);
+
+    this.openModalAdventures = this.openModalAdventures.bind(this);
+    this.closeModalAdventures = this.closeModalAdventures.bind(this);
+
     this.openModalAgenda = this.openModalAgenda.bind(this);
     this.closeModalAgenda = this.closeModalAgenda.bind(this);
 
@@ -61,6 +88,9 @@ class ConferenceList extends React.Component {
 
     this.openModalHighLight = this.openModalHighLight.bind(this);
     this.closeModalHighLight = this.closeModalHighLight.bind(this);
+
+    this.openModalGapPic = this.openModalGapPic.bind(this);
+    this.closeModalGapPic = this.closeModalGapPic.bind(this);
   }
 
   componentDidMount() {
@@ -101,6 +131,30 @@ class ConferenceList extends React.Component {
     this.setState({ modalSpeakers: false });
   }
 
+  openModalAdventures() {
+    this.setState({ modalAdventures: true });
+  }
+
+  closeModalAdventures() {
+    this.setState({ modalAdventures: false });
+  }
+
+  openModalHosts() {
+    this.setState({ modalHosts: true });
+  }
+
+  closeModalHosts() {
+    this.setState({ modalHosts: false });
+  }
+
+  openModalPerformers() {
+    this.setState({ modalPerformers: true });
+  }
+
+  closeModalPerformers() {
+    this.setState({ modalPerformers: false });
+  }
+
   openModalAgenda() {
     this.setState({ modalAgenda: true });
   }
@@ -125,6 +179,14 @@ class ConferenceList extends React.Component {
     this.setState({ modalHighLight: false });
   }
 
+  openModalGapPic() {
+    this.setState({ modalGapPic: true });
+  }
+
+  closeModalGapPic() {
+    this.setState({ modalGapPic: false });
+  }
+
   onChangeTextInput(e, arg) {
     switch (arg) {
       case 'conferencePicture':
@@ -147,6 +209,15 @@ class ConferenceList extends React.Component {
         break;
       case 'address':
         this.setState({ address: e.target.value });
+        break;
+      case 'adventureHeader':
+        this.setState({ adventureHeader: e.target.value });
+        break;
+      case 'adventureDescription':
+        this.setState({ adventureDescription: e.target.value });
+        break;
+      case 'gapHeader':
+        this.setState({ gapHeader: e.target.value });
         break;
       default:
         break;
@@ -180,6 +251,41 @@ class ConferenceList extends React.Component {
       };
     }
 
+    if (type === 'gapPicture') {
+      update = {
+        picture: this.state.gapPic
+      };
+      firebase
+        .database()
+        .ref('conference/gap')
+        .update(update)
+        .then(() => {
+          console.log('Updated');
+          // this.setState({ toggleEdit: false });
+        })
+        .catch(err => {
+          console.error(err);
+          alert('Error occured!');
+        });
+    }
+    if (type === 'gapHeader') {
+      update = {
+        header: this.state.gapHeader
+      };
+      firebase
+        .database()
+        .ref('conference/gap')
+        .update(update)
+        .then(() => {
+          console.log('Updated');
+          // this.setState({ toggleEdit: false });
+        })
+        .catch(err => {
+          console.error(err);
+          alert('Error occured!');
+        });
+    }
+
     if (type === 'title') {
       update = {
         title: this.state.title
@@ -198,25 +304,40 @@ class ConferenceList extends React.Component {
       };
     }
 
-    if (type === 'speakers') {
+    if (type === 'adventureHeader') {
       update = {
-        speakers: this.toObject(this.state.speakers)
+        adventureHeader: this.state.adventureHeader
       };
+      firebase
+        .database()
+        .ref('conference/adventures')
+        .update(update)
+        .then(() => {
+          console.log('Updated');
+          // this.setState({ toggleEdit: false });
+        })
+        .catch(err => {
+          console.error(err);
+          alert('Error occured!');
+        });
     }
 
-    if (type === 'agenda') {
+    if (type === 'adventureDescription') {
       update = {
-        agenda: this.toObject(this.state.agenda)
+        adventureDesc: this.state.adventureDescription
       };
-    }
-
-    if (type === 'sponsors') {
-      update = {
-        sponsors: this.state.sponsors.map(e => ({
-          logo: e.logo,
-          website: e.website
-        }))
-      };
+      firebase
+        .database()
+        .ref('conference/adventures')
+        .update(update)
+        .then(() => {
+          console.log('Updated');
+          // this.setState({ toggleEdit: false });
+        })
+        .catch(err => {
+          console.error(err);
+          alert('Error occured!');
+        });
     }
 
     if (type === 'address') {
@@ -236,7 +357,13 @@ class ConferenceList extends React.Component {
           alert('Error occured!');
         });
     }
-    if (type !== 'address') {
+    if (
+      type !== 'address' &&
+      type !== 'adventureHeader' &&
+      type !== 'adventureDescription' &&
+      type !== 'gapPicture' &&
+      type !== 'gapHeader'
+    ) {
       firebase
         .database()
         .ref('conference')
@@ -276,7 +403,10 @@ class ConferenceList extends React.Component {
           const agenda = [];
           const highlight = [];
           const speakers = [];
+          const hosts = [];
+          const performers = [];
           const sponsors = [];
+          const adventures = [];
 
           Object.keys(conferenceObj.agenda).forEach(e => {
             const oneAgenda = {
@@ -301,6 +431,39 @@ class ConferenceList extends React.Component {
             speakers.push(speaker);
           });
 
+          Object.keys(conferenceObj.hosts).forEach(e => {
+            const host = {
+              id: e,
+              introduction: conferenceObj.hosts[e].introduction,
+              name: conferenceObj.hosts[e].name,
+              occupation: conferenceObj.hosts[e].occupation,
+              picture: conferenceObj.hosts[e].picture
+            };
+            hosts.push(host);
+          });
+
+          Object.keys(conferenceObj.performers).forEach(e => {
+            const performer = {
+              id: e,
+              introduction: conferenceObj.performers[e].introduction,
+              name: conferenceObj.performers[e].name,
+              occupation: conferenceObj.performers[e].occupation,
+              picture: conferenceObj.performers[e].picture
+            };
+            performers.push(performer);
+          });
+          if (conferenceObj.adventures) {
+            Object.keys(conferenceObj.adventures.listAdventures).forEach(e => {
+              const adventure = {
+                id: e,
+                name: conferenceObj.adventures.listAdventures[e].name,
+                detail: conferenceObj.adventures.listAdventures[e].detail,
+                picture: conferenceObj.adventures.listAdventures[e].picture
+              };
+              adventures.push(adventure);
+            });
+          }
+
           Object.keys(conferenceObj.sponsors).forEach(e => {
             const sponsor = {
               id: e,
@@ -319,32 +482,37 @@ class ConferenceList extends React.Component {
             highlight.push(oneHighlight);
           });
 
-          this.setState(
-            {
-              address: conferenceObj.location.address,
-              conferencePicture: conferenceObj.conferencePicture,
-              date: conferenceObj.date,
-              description: conferenceObj.description,
-              title: conferenceObj.title,
-              lat: conferenceObj.location.lat,
-              lng: conferenceObj.location.lng,
-              agenda,
-              speakers,
-              sponsors,
-              highlight,
+          this.setState({
+            address: conferenceObj.location.address,
+            conferencePicture: conferenceObj.conferencePicture,
+            date: conferenceObj.date,
+            description: conferenceObj.description,
+            title: conferenceObj.title,
+            lat: conferenceObj.location.lat,
+            lng: conferenceObj.location.lng,
+            agenda,
+            speakers,
+            adventures,
+            adventureHeader: conferenceObj.adventures.adventureHeader,
+            adventureDescription: conferenceObj.adventures.adventureDesc,
+            gapHeader: conferenceObj.gap.header,
+            gapDetail: conferenceObj.gap.detail,
+            gapPic: conferenceObj.gap.picture,
+            hosts,
+            performers,
+            sponsors,
+            highlight,
 
-              speakerSelected: false
+            speakerSelected: false
 
-              // toggleEditTitle: false,
-              // toggleEditDate: false,
-              // toggleEditDescription: false,
+            // toggleEditTitle: false,
+            // toggleEditDate: false,
+            // toggleEditDescription: false,
 
-              // modalSpeakers: false,
-              // modalPicture: false,
-              // modalLocation: false
-            },
-            () => console.log(this.state.highlight)
-          );
+            // modalSpeakers: false,
+            // modalPicture: false,
+            // modalLocation: false
+          });
         }
       });
   }
@@ -437,6 +605,60 @@ class ConferenceList extends React.Component {
               <div>
                 <h3 className="heading mb-0">{e.name}</h3>
                 <strong className="price">{e.occupation}</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      ));
+    }
+
+    if (check === 'hosts') {
+      return imgs.slice(startIndex, endIndex).map(e => (
+        <div className="col-3" key={e.id}>
+          <div className="hotel-room text-center notransition">
+            <div className="d-block mb-0 thumbnail notransition">
+              <img src={e.picture} className="img-fluid notransition" alt="" />
+            </div>
+            <div className="hotel-room-body">
+              <div>
+                <h3 className="heading mb-0">{e.name}</h3>
+                <strong className="price">{e.occupation}</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      ));
+    }
+
+    if (check === 'performers') {
+      return imgs.slice(startIndex, endIndex).map(e => (
+        <div className="col-3" key={e.id}>
+          <div className="hotel-room text-center notransition">
+            <div className="d-block mb-0 thumbnail notransition">
+              <img src={e.picture} className="img-fluid notransition" alt="" />
+            </div>
+            <div className="hotel-room-body">
+              <div>
+                <h3 className="heading mb-0">{e.name}</h3>
+                <strong className="price">{e.occupation}</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      ));
+    }
+
+    if (check === 'adventures') {
+      return imgs.slice(startIndex, endIndex).map(e => (
+        <div className="col-3" key={e.id}>
+          <div className="hotel-room text-center notransition">
+            <div className="d-block mb-0 thumbnail notransition">
+              <img src={e.picture} className="img-fluid notransition" alt="" />
+            </div>
+            <div className="hotel-room-body">
+              <div>
+                <h3 className="heading mb-0">{e.name}</h3>
+                <p>{e.detail}</p>
               </div>
             </div>
           </div>
@@ -573,6 +795,10 @@ class ConferenceList extends React.Component {
     );
   }
 
+  updateGapPic(url) {
+    this.setState({ gapPic: url }, () => this.onUpdate('gapPicture'));
+  }
+
   handleDateChange(date) {
     this.setState({ date });
   }
@@ -602,6 +828,14 @@ class ConferenceList extends React.Component {
       lat,
       lng,
       speakers,
+      gapPic,
+      gapHeader,
+      gapDetail,
+      adventures,
+      adventureHeader,
+      adventureDescription,
+      hosts,
+      performers,
       sponsors,
       toggleEditTitle,
       toggleEditDate,
@@ -609,7 +843,7 @@ class ConferenceList extends React.Component {
       toggleEditAddress
     } = this.state;
     return (
-      // --------------------------------------------------------------------Main Picture
+      //  --------------------------------------------------------------------Main Picture
       <div>
         <div className="row style-section">
           <div className="col-12">
@@ -631,7 +865,6 @@ class ConferenceList extends React.Component {
             >
               <ImageManagement
                 category="conferenceImages"
-                speakerID={null}
                 closeModal={this.closeModalPicture}
                 pick={this.updateConferencePicture.bind(this)}
               />
@@ -805,14 +1038,176 @@ class ConferenceList extends React.Component {
             <div style={{ width: '700px' }}>
               <EditSpeakers
                 speakers={speakers}
-                updateOneSpeaker={this.updateOneSpeaker.bind(this)}
-                // updatePicture={this.onUpdate.bind(this)}
-                closeModalSpeakers={this.closeModalSpeakers}
-                // refetchAfterClosed={this.fetchData.bind(this)}
+                closeModal={this.closeModalSpeakers}
               />
             </div>
           </Modal>
         </div>
+        {/* --------------------------------------------------------------------Hosts */}
+        <div className="row style-section-pictures">
+          <div className="col-12">
+            <h3>Hosts</h3>
+          </div>
+          {this.renderImg(1, hosts, 'hosts')}
+          <div className="row">
+            <button onClick={this.openModalHosts}>Edit Hosts ...</button>
+          </div>
+          <Modal
+            open={this.state.modalHosts}
+            onClose={this.closeModalHosts}
+            center
+          >
+            <div style={{ width: '700px' }}>
+              <EditHosts hosts={hosts} closeModal={this.closeModalHosts} />
+            </div>
+          </Modal>
+        </div>
+        {/* --------------------------------------------------------------------Performers */}
+        <div className="row style-section-pictures">
+          <div className="col-12">
+            <h3>Performers</h3>
+          </div>
+          {this.renderImg(1, performers, 'performers')}
+          <div className="row">
+            <button onClick={this.openModalPerformers}>
+              Edit Performers ...
+            </button>
+          </div>
+          <Modal
+            open={this.state.modalPerformers}
+            onClose={this.closeModalPerformers}
+            center
+          >
+            <div style={{ width: '700px' }}>
+              <EditPerformers
+                performers={performers}
+                closeModal={this.closeModalPerformers}
+              />
+            </div>
+          </Modal>
+        </div>
+        {/* --------------------------------------------------------------------Adventures */}
+        <div className="row style-section-pictures">
+          <div className="col-12">
+            <h3>Adventures</h3>
+          </div>
+          <div className="col-12">
+            {!this.state.toggleEditAdventureHeader ? (
+              <div className="row">
+                <div className="col-2">
+                  <p>{adventureHeader}</p>
+                </div>
+                <div className="col-10">
+                  <button
+                    onClick={() =>
+                      this.setState({ toggleEditAdventureHeader: true })
+                    }
+                  >
+                    Edit
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="row">
+                <div className="col-2">
+                  <input
+                    type="text"
+                    value={adventureHeader}
+                    onChange={e => this.onChangeTextInput(e, 'adventureHeader')}
+                  />
+                </div>
+                <div className="col-10">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      this.onUpdate('adventureHeader');
+                      this.setState({ toggleEditAdventureHeader: false });
+                    }}
+                  >
+                    Save
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      this.fetchData();
+                      this.setState({ toggleEditAdventureHeader: false });
+                    }}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+          <div className="col-12">
+            {!this.state.toggleEditAdventureDesc ? (
+              <div className="row">
+                <div className="col-2">
+                  <p>{adventureDescription}</p>
+                </div>
+                <div className="col-10">
+                  <button
+                    onClick={() =>
+                      this.setState({ toggleEditAdventureDesc: true })
+                    }
+                  >
+                    Edit
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="row">
+                <div className="col-2">
+                  <textarea
+                    value={adventureDescription}
+                    onChange={e =>
+                      this.onChangeTextInput(e, 'adventureDescription')
+                    }
+                  />
+                </div>
+                <div className="col-10">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      this.onUpdate('adventureDescription');
+                      this.setState({ toggleEditAdventureDesc: false });
+                    }}
+                  >
+                    Save
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      this.fetchData();
+                      this.setState({ toggleEditAdventureDesc: false });
+                    }}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+          {this.renderImg(1, adventures, 'adventures')}
+          <div className="row">
+            <button onClick={this.openModalAdventures}>
+              Edit Adventures ...
+            </button>
+          </div>
+          <Modal
+            open={this.state.modalAdventures}
+            onClose={this.closeModalAdventures}
+            center
+          >
+            <div style={{ width: '700px' }}>
+              <EditAdventures
+                adventures={adventures}
+                closeModal={this.closeModalAdventures}
+              />
+            </div>
+          </Modal>
+        </div>
+
         {/* --------------------------------------------------------------------Agenda */}
         <div className="row style-section">
           <div className="col-12">
@@ -837,6 +1232,79 @@ class ConferenceList extends React.Component {
               // refetchAfterClosed={this.fetchData.bind(this)}
             />
           </Modal>
+        </div>
+        {/* --------------------------------------------------------------------Gap */}
+        <div className="row style-section">
+          <div className="col-12">
+            <h3>Gap</h3>
+          </div>
+          <div className="col-12">
+            {!this.state.toggleEditGapHeader ? (
+              <div className="row">
+                <div className="col-2">
+                  <p>{gapHeader}</p>
+                </div>
+                <div className="col-10">
+                  <button
+                    onClick={() => this.setState({ toggleEditGapHeader: true })}
+                  >
+                    Edit
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="row">
+                <div className="col-2">
+                  <input
+                    type="text"
+                    value={gapHeader}
+                    onChange={e => this.onChangeTextInput(e, 'gapHeader')}
+                  />
+                </div>
+                <div className="col-10">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      this.onUpdate('gapHeader');
+                      this.setState({ toggleEditGapHeader: false });
+                    }}
+                  >
+                    Save
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      this.fetchData();
+                      this.setState({ toggleEditGapHeader: false });
+                    }}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+          <div className="col-12">
+            <img src={gapPic} alt="" className="img-fluid" />
+          </div>
+          <div>
+            <div className="col-12">
+              <button type="button" onClick={this.openModalGapPic}>
+                Edit Picture
+              </button>
+            </div>
+            <Modal
+              open={this.state.modalGapPic}
+              onClose={this.closeModalGapPic}
+              center
+            >
+              <ImageManagement
+                category="stockImages"
+                closeModal={this.closeModalGapPic}
+                pick={this.updateGapPic.bind(this)}
+              />
+            </Modal>
+          </div>
         </div>
 
         {/* --------------------------------------------------------------------Sponsors */}

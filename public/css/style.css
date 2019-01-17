@@ -2212,8 +2212,37 @@ a:hover {
 }
 
 .contact-input {
-  background: #ccc;
-  border: 1px solid grey;
+  background: #fafafa;
+  border: 1px solid #ccc;
+  height: 42px;
+}
+
+.contact-input-mes {
+  background: #fafafa;
+  border: 1px solid #ccc;
+  height: 94px;
+}
+
+.contact-header {
+  font-weight: 700;
+}
+
+.radio-btn {
+  max-width: 5% !important;
+  padding-right: 0 !important;
+}
+
+.radio-content {
+  padding-left: 0 !important;
+  /* margin-left: -48px !important; */
+}
+
+.send-btn {
+  width: 114px;
+  border: 2px solid #000;
+  padding: 8px 0;
+  cursor: pointer;
+  font-weight: 700;
 }
 
 @media screen and (max-width: 1599px) and (min-width: 992px) {

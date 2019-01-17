@@ -72,11 +72,7 @@ class About extends React.Component {
                     style={{ background: 'transparent' }}
                   >
                     <div className="d-block mb-0 thumbnail">
-                      <img
-                        src={left.picture}
-                        alt=""
-                        className="img-fluid"
-                      />
+                      <img src={left.picture} alt="" className="img-fluid" />
                     </div>
                     <div className="hotel-room-body">
                       <h3 className="heading mb-0">{left.title}</h3>
@@ -107,11 +103,7 @@ class About extends React.Component {
                     style={{ background: 'transparent' }}
                   >
                     <a href="#" className="d-block mb-0 thumbnail">
-                      <img
-                        src={right.picture}
-                        alt=""
-                        className="img-fluid"
-                      />
+                      <img src={right.picture} alt="" className="img-fluid" />
                     </a>
                     <div className="hotel-room-body">
                       <h3 className="heading mb-0">{right.title}</h3>

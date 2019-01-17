@@ -58,19 +58,12 @@ class SpeakerList extends React.Component {
     return temp.map((_, i) => {
       startIndex += 4;
       endIndex += 4;
-      if (i !== 0) {
-        return (
-          // <ReactHeight
-          //   onHeightReady={height => this.setState({ collapsedHeight: height })}
-          //   className="myComponent"
-          // >
-          <div className="row speakers-section" key={i}>
-            {this.renderRow(startIndex, endIndex, imgs)}
-          </div>
-          // </ReactHeight>
-        );
-      }
-      return null;
+
+      return (
+        <div className="row speakers-section" key={i}>
+          {this.renderRow(startIndex, endIndex, imgs)}
+        </div>
+      );
     });
   }
 
@@ -138,6 +131,7 @@ class SpeakerList extends React.Component {
   }
 
   render() {
+    console.log(this.props.speakers);
     return (
       <div className="site-section bg-light">
         <div className="container">

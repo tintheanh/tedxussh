@@ -3,7 +3,7 @@ import Modal from 'react-responsive-modal';
 import firebase from 'firebase';
 import ImageManagement from '../../../ImageMangement/imageManagement';
 
-class AddMem extends React.Component {
+class AddHost extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -31,8 +31,8 @@ class AddMem extends React.Component {
     this.setState({ picture: newPic });
   }
 
-  onAddSpeaker() {
-    const newSpeaker = {
+  onAddHost() {
+    const newHost = {
       name: this.state.name,
       occupation: this.state.occupation,
       picture: this.state.picture,
@@ -41,8 +41,8 @@ class AddMem extends React.Component {
 
     firebase
       .database()
-      .ref('conference/speakers')
-      .push(newSpeaker)
+      .ref('conference/hosts')
+      .push(newHost)
       .then(() => {
         alert('Added');
         this.props.closeModal();
@@ -80,11 +80,11 @@ class AddMem extends React.Component {
             pick={this.selectPic.bind(this)}
           />
         </Modal>
-        <button onClick={this.onAddSpeaker.bind(this)}>Add</button>
+        <button onClick={this.onAddHost.bind(this)}>Add</button>
         <button onClick={() => this.props.closeModal()}>Done</button>
       </div>
     );
   }
 }
 
-export default AddMem;
+export default AddHost;

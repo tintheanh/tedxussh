@@ -3,13 +3,12 @@ import Modal from 'react-responsive-modal';
 import firebase from 'firebase';
 import ImageManagement from '../../../ImageMangement/imageManagement';
 
-class AddMem extends React.Component {
+class AddHost extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       name: '',
-      occupation: '',
-      introduction: '',
+      detail: '',
       picture: '',
 
       modalPic: false
@@ -31,18 +30,17 @@ class AddMem extends React.Component {
     this.setState({ picture: newPic });
   }
 
-  onAddSpeaker() {
-    const newSpeaker = {
+  onAddAdventure() {
+    const newAdventure = {
       name: this.state.name,
-      occupation: this.state.occupation,
       picture: this.state.picture,
-      introduction: this.state.introduction
+      detail: this.state.detail
     };
 
     firebase
       .database()
-      .ref('conference/speakers')
-      .push(newSpeaker)
+      .ref('conference/adventures/listAdventures')
+      .push(newAdventure)
       .then(() => {
         alert('Added');
         this.props.closeModal();
@@ -51,7 +49,7 @@ class AddMem extends React.Component {
   }
 
   render() {
-    const { name, occupation, introduction, picture } = this.state;
+    const { name, detail, picture } = this.state;
     return (
       <div>
         <input
@@ -60,31 +58,25 @@ class AddMem extends React.Component {
           value={name}
           onChange={e => this.setState({ name: e.target.value })}
         />
-        <input
-          type="text"
-          placeholder="occupation"
-          value={occupation}
-          onChange={e => this.setState({ occupation: e.target.value })}
-        />
         <textarea
-          placeholder="introduction"
-          value={introduction}
-          onChange={e => this.setState({ introduction: e.target.value })}
+          placeholder="detail"
+          value={detail}
+          onChange={e => this.setState({ detail: e.target.value })}
         />
         <img src={picture} alt="" className="img-fluid" />
         <button onClick={this.openModalPic}>Select picture</button>
         <Modal open={this.state.modalPic} onClose={this.closeModalPic} center>
           <ImageManagement
-            category="speakers"
+            category="adventures"
             closeModal={this.closeModalPic}
             pick={this.selectPic.bind(this)}
           />
         </Modal>
-        <button onClick={this.onAddSpeaker.bind(this)}>Add</button>
+        <button onClick={this.onAddAdventure.bind(this)}>Add</button>
         <button onClick={() => this.props.closeModal()}>Done</button>
       </div>
     );
   }
 }
 
-export default AddMem;
+export default AddHost;

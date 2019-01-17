@@ -7,6 +7,7 @@ import Agenda from './Agenda/agenda';
 import SponsorList from './SponsorList/sponsorList';
 import Location from './Location/location';
 import Highlight from './Highlight/highlight';
+import Gap from './Gap/gap';
 
 class Conference extends React.Component {
   constructor(props) {
@@ -22,7 +23,8 @@ class Conference extends React.Component {
       lng: 0,
       speakers: [],
       sponsors: [],
-      title: ''
+      title: '',
+      gap: ''
     };
   }
 
@@ -50,7 +52,13 @@ class Conference extends React.Component {
           });
           this.sortAgenda(agenda);
 
-          const { conferencePicture, date, description, title } = conferenceObj;
+          const {
+            conferencePicture,
+            date,
+            description,
+            title,
+            gap
+          } = conferenceObj;
 
           const { address, lat, lng } = conferenceObj.location;
 
@@ -96,7 +104,8 @@ class Conference extends React.Component {
             lng,
             speakers,
             sponsors,
-            title
+            title,
+            gap
           });
         }
       });
@@ -128,7 +137,8 @@ class Conference extends React.Component {
       lng,
       speakers,
       sponsors,
-      title
+      title,
+      gap
     } = this.state;
     return (
       <div>
@@ -136,6 +146,7 @@ class Conference extends React.Component {
         <Overview description={description} />
         <SpeakerList speakers={speakers} />
         <Agenda date={date} agenda={agenda} />
+        <Gap img={gap} />
         <SponsorList sponsors={sponsors} />
         <Location lat={lat} lng={lng} address={address} />
         <Highlight highlight={highlight} />

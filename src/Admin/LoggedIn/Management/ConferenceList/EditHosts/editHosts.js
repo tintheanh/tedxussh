@@ -1,9 +1,9 @@
 import React from 'react';
 import Modal from 'react-responsive-modal';
-import Speaker from './Speaker/speaker';
-import AddSpeaker from './AddSpeaker/addSpeaker';
+import Host from './Host/host';
+import AddHost from './AddHost/addHost';
 
-class EditTeamMem extends React.Component {
+class EditHost extends React.Component {
   constructor(props) {
     super(props);
     this.state = { modalAdd: false };
@@ -40,7 +40,7 @@ class EditTeamMem extends React.Component {
   renderRow(startIndex, endIndex, imgs) {
     return imgs
       .slice(startIndex, endIndex)
-      .map(e => <Speaker speaker={e} key={e.id} />);
+      .map(e => <Host host={e} key={e.id} />);
   }
 
   renderAllImg(imgs) {
@@ -56,14 +56,14 @@ class EditTeamMem extends React.Component {
   render() {
     return (
       <div>
-        {this.renderAllImg(this.props.speakers)}
+        {this.renderAllImg(this.props.hosts)}
         <button onClick={this.openModalAdd}>Add</button>
         <Modal
           open={this.state.modalAdd}
           onClose={() => console.log('')}
           center
         >
-          <AddSpeaker closeModal={this.closeModalAdd} />
+          <AddHost closeModal={this.closeModalAdd} />
         </Modal>
         <button onClick={() => this.props.closeModal()}>Done</button>
       </div>
@@ -71,4 +71,4 @@ class EditTeamMem extends React.Component {
   }
 }
 
-export default EditTeamMem;
+export default EditHost;
