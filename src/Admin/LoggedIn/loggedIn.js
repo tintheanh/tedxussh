@@ -11,6 +11,7 @@ import AboutSection from './Management/AboutSection/aboutSection';
 import ImageSection from './Management/ImageSection/imageSection';
 import GetEventUpdateSection from './Management/GetEventUpdateSection/getEventUpdateSection';
 import Organizers from './Management/OrganizersSection/organizersSection';
+import ContactSection from './Management/ContactSection/contactSection';
 
 class LoggedIn extends React.Component {
   constructor(props) {
@@ -65,6 +66,7 @@ class LoggedIn extends React.Component {
             component={GetEventUpdateSection}
           />
           <Route path="/admin/organizers" component={Organizers} />
+          <Route path="/admin/contact" component={ContactSection} />
         </div>
       </Router>
     );

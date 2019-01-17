@@ -3,17 +3,18 @@ import firebase from 'firebase';
 import Modal from 'react-responsive-modal';
 import ImageManagement from '../ImageMangement/imageManagement';
 
-class HomeSection extends React.Component {
+class ContactSection extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       height: 0,
       background: '',
-      description: '',
-      title: '',
+      comment: '',
+      hqName: '',
 
-      toggleEditTitle: false,
-      toggleEditDesc: false,
+      toggleEditHQName: false,
+      toggleEditHQAddress: false,
+      toggleEditComment: false,
 
       modalEditPic: false
     };
@@ -47,11 +48,14 @@ class HomeSection extends React.Component {
 
   onChangeTextInput(e, arg) {
     switch (arg) {
-      case 'description':
-        this.setState({ description: e.target.value });
+      case 'comment':
+        this.setState({ comment: e.target.value });
         break;
-      case 'title':
-        this.setState({ title: e.target.value });
+      case 'hqName':
+        this.setState({ hqName: e.target.value });
+        break;
+      case 'hqAddress':
+        this.setState({ hqAddress: e.target.value });
         break;
       default:
         break;
@@ -61,14 +65,17 @@ class HomeSection extends React.Component {
   fetchData() {
     firebase
       .database()
-      .ref('home')
+      .ref('contact')
       .on('value', snapshot => {
-        const homeObj = snapshot.val();
-        this.setState({
-          background: homeObj.background,
-          description: homeObj.description,
-          title: homeObj.title
-        });
+        const contactObj = snapshot.val();
+        if (contactObj) {
+          this.setState({
+            background: contactObj.background,
+            comment: contactObj.comment,
+            hqName: contactObj.hqName,
+            hqAddress: contactObj.hqAddress
+          });
+        }
       });
   }
 
@@ -79,26 +86,31 @@ class HomeSection extends React.Component {
 
     firebase
       .database()
-      .ref('home')
+      .ref('contact')
       .update(update)
       .catch(err => alert(err.message));
   }
 
   onUpdateText(type) {
     let update = {};
-    if (type === 'title') {
+    if (type === 'hqName') {
       update = {
-        title: this.state.title
+        hqName: this.state.hqName
       };
     }
-    if (type === 'description') {
+    if (type === 'hqAddress') {
       update = {
-        description: this.state.description
+        hqAddress: this.state.hqAddress
+      };
+    }
+    if (type === 'comment') {
+      update = {
+        comment: this.state.comment
       };
     }
     firebase
       .database()
-      .ref('home')
+      .ref('contact')
       .update(update)
       .catch(err => alert(err.message));
   }
@@ -112,7 +124,7 @@ class HomeSection extends React.Component {
         <div className="page-breadcrumb">
           <div className="row">
             <div className="col-12 d-flex no-block align-items-center">
-              <h2 className="page-title">Home Edit Section</h2>
+              <h2 className="page-hqName">Contact Edit Section</h2>
             </div>
           </div>
           <div>
@@ -138,14 +150,14 @@ class HomeSection extends React.Component {
                 />
               </Modal>
             </div>
-            {!this.state.toggleEditTitle ? (
+            {!this.state.toggleEditHQName ? (
               <div className="row style-section">
-                <p>{this.state.title}</p>
+                <p>{this.state.hqName}</p>
                 <div className="col-12">
                   <button
-                    onClick={() => this.setState({ toggleEditTitle: true })}
+                    onClick={() => this.setState({ toggleEditHQName: true })}
                   >
-                    Edit title
+                    Edit HQ name
                   </button>
                 </div>
               </div>
@@ -153,21 +165,21 @@ class HomeSection extends React.Component {
               <div className="row style-section">
                 <input
                   type="text"
-                  value={this.state.title}
-                  onChange={e => this.onChangeTextInput(e, 'title')}
+                  value={this.state.hqName}
+                  onChange={e => this.onChangeTextInput(e, 'hqName')}
                 />
                 <div className="col-12">
                   <button
                     onClick={() => {
-                      this.onUpdateText('title');
-                      this.setState({ toggleEditTitle: false });
+                      this.onUpdateText('hqName');
+                      this.setState({ toggleEditHQName: false });
                     }}
                   >
                     Save
                   </button>
                   <button
                     onClick={() => {
-                      this.setState({ toggleEditTitle: false });
+                      this.setState({ toggleEditHQName: false });
                       this.fetchData();
                     }}
                   >
@@ -176,18 +188,55 @@ class HomeSection extends React.Component {
                 </div>
               </div>
             )}
-
-            {!this.state.toggleEditDesc ? (
+            {!this.state.toggleEditHQAddress ? (
+              <div className="row style-section">
+                <p>{this.state.hqAddress}</p>
+                <div className="col-12">
+                  <button
+                    onClick={() => this.setState({ toggleEditHQAddress: true })}
+                  >
+                    Edit HQ address
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="row style-section">
+                <input
+                  type="text"
+                  value={this.state.hqAddress}
+                  onChange={e => this.onChangeTextInput(e, 'hqAddress')}
+                />
+                <div className="col-12">
+                  <button
+                    onClick={() => {
+                      this.onUpdateText('hqAddress');
+                      this.setState({ toggleEditHQAddress: false });
+                    }}
+                  >
+                    Save
+                  </button>
+                  <button
+                    onClick={() => {
+                      this.setState({ toggleEditHQAddress: false });
+                      this.fetchData();
+                    }}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            )}
+            {!this.state.toggleEditComment ? (
               <div
                 className="row style-section"
                 style={{ marginBottom: '54px' }}
               >
-                <p>{this.state.description}</p>
+                <p>{this.state.comment}</p>
                 <div className="col-12">
                   <button
-                    onClick={() => this.setState({ toggleEditDesc: true })}
+                    onClick={() => this.setState({ toggleEditComment: true })}
                   >
-                    Edit description
+                    Edit comment
                   </button>
                 </div>
               </div>
@@ -197,21 +246,21 @@ class HomeSection extends React.Component {
                 style={{ marginBottom: '54px' }}
               >
                 <textarea
-                  value={this.state.description}
-                  onChange={e => this.onChangeTextInput(e, 'description')}
+                  value={this.state.comment}
+                  onChange={e => this.onChangeTextInput(e, 'comment')}
                 />
                 <div className="col-12">
                   <button
                     onClick={() => {
-                      this.onUpdateText('description');
-                      this.setState({ toggleEditDesc: false });
+                      this.onUpdateText('comment');
+                      this.setState({ toggleEditComment: false });
                     }}
                   >
                     Save
                   </button>
                   <button
                     onClick={() => {
-                      this.setState({ toggleEditDesc: false });
+                      this.setState({ toggleEditComment: false });
                       this.fetchData();
                     }}
                   >
@@ -227,4 +276,4 @@ class HomeSection extends React.Component {
   }
 }
 
-export default HomeSection;
+export default ContactSection;

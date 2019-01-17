@@ -117,6 +117,22 @@ const LeftSideBar = () => (
           <li className="sidebar-item">
             {' '}
             <Link
+              to="/admin/contact"
+              className="sidebar-link waves-effect waves-dark sidebar-link"
+              aria-expanded="false"
+              style={
+                window.location.pathname === '/admin/contact'
+                  ? { backgroundColor: '#27a9e3', opacity: 1 }
+                  : { backgroundColor: '' }
+              }
+            >
+              <i className="mdi mdi-blur-linear" />
+              <span className="hide-menu">Contact</span>
+            </Link>
+          </li>
+          <li className="sidebar-item">
+            {' '}
+            <Link
               to="/admin/images"
               className="sidebar-link waves-effect waves-dark sidebar-link"
               aria-expanded="false"

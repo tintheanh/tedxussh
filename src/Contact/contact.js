@@ -15,25 +15,41 @@ class Contact extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const submit = {
-      fname: this.state.fname,
-      lname: this.state.lname,
-      email: this.state.email,
-      reason: this.state.reason,
-      message: this.state.message
-    };
-
-    emailjs.send('sendgrid', 'template_H4PLMkqb', submit, 'user_8ap9pGXVd7RplukevbdIU').then(
-      function(response) {
-        console.log('SUCCESS!', response.status, response.text);
-      },
-      function(err) {
-        console.log('FAILED...', err);
-      }
-    );
+    const { fname, lname, email, reason, message } = this.state;
+    if (
+      fname !== '' &&
+      lname !== '' &&
+      email !== '' &&
+      reason !== '' &&
+      message !== ''
+    ) {
+      const submit = {
+        fname: fname,
+        lname: lname,
+        email: email,
+        reason: reason,
+        message: message
+      };
+      emailjs
+        .send(
+          'sendgrid',
+          'template_H4PLMkqb',
+          submit,
+          'user_8ap9pGXVd7RplukevbdIU'
+        )
+        .then(
+          response => {
+            console.log('SUCCESS!', response.status, response.text);
+          },
+          err => {
+            console.log('FAILED...', err);
+          }
+        );
+    } else alert('Please fill all the fields!');
   }
 
   render() {
+    const { background, comment, hqAddress, hqName } = this.props.contact;
     return (
       <div>
         <div>
@@ -41,7 +57,7 @@ class Contact extends React.Component {
             className="about-header text-vertical-center"
             data-aos="fade"
             style={{
-              backgroundImage: `url(${this.props.contact.background})`
+              backgroundImage: `url(${background})`
             }}
           />
         </div>
@@ -51,6 +67,9 @@ class Contact extends React.Component {
             <div className="row">
               <div className="col-md-6 col-lg-4">
                 <h1>Contact Us</h1>
+                <p>{hqName}</p>
+                <p>{hqAddress}</p>
+                <p>{comment}</p>
               </div>
               <div className="col-md-6 col-lg-8">
                 <form onSubmit={this.handleSubmit.bind(this)}>
@@ -89,7 +108,7 @@ class Contact extends React.Component {
                   <div className="row">
                     <div className="col-12">
                       <input
-                        type="text"
+                        type="email"
                         className="contact-input"
                         onChange={e =>
                           this.setState({ email: e.target.value }, () =>
