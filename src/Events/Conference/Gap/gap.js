@@ -3,7 +3,7 @@ import React from 'react';
 const Gap = props => (
   <div
     style={{
-      backgroundImage: `url(${props.img})`,
+      backgroundImage: `url(${props.gap.picture})`,
       height: '400px',
       backgroundAttachment: 'fixed',
       backgroundPosition: 'center',
@@ -12,7 +12,8 @@ const Gap = props => (
     }}
     className="text-vertical-center"
   >
-    <h1>Theme</h1>
+    <h1>{props.gap.header}</h1>
+    <p>{props.gap.detail}</p>
   </div>
 );
 

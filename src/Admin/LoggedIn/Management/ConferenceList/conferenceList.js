@@ -219,6 +219,9 @@ class ConferenceList extends React.Component {
       case 'gapHeader':
         this.setState({ gapHeader: e.target.value });
         break;
+      case 'gapDetail':
+        this.setState({ gapDetail: e.target.value });
+        break;
       default:
         break;
     }
@@ -271,6 +274,24 @@ class ConferenceList extends React.Component {
     if (type === 'gapHeader') {
       update = {
         header: this.state.gapHeader
+      };
+      firebase
+        .database()
+        .ref('conference/gap')
+        .update(update)
+        .then(() => {
+          console.log('Updated');
+          // this.setState({ toggleEdit: false });
+        })
+        .catch(err => {
+          console.error(err);
+          alert('Error occured!');
+        });
+    }
+
+    if (type === 'gapDetail') {
+      update = {
+        detail: this.state.gapDetail
       };
       firebase
         .database()
@@ -362,7 +383,8 @@ class ConferenceList extends React.Component {
       type !== 'adventureHeader' &&
       type !== 'adventureDescription' &&
       type !== 'gapPicture' &&
-      type !== 'gapHeader'
+      type !== 'gapHeader' &&
+      type !== 'gapDetail'
     ) {
       firebase
         .database()
@@ -1276,6 +1298,51 @@ class ConferenceList extends React.Component {
                     onClick={() => {
                       this.fetchData();
                       this.setState({ toggleEditGapHeader: false });
+                    }}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+          <div className="col-12">
+            {!this.state.toggleEditGapDetail ? (
+              <div className="row">
+                <div className="col-2">
+                  <p>{gapDetail}</p>
+                </div>
+                <div className="col-10">
+                  <button
+                    onClick={() => this.setState({ toggleEditGapDetail: true })}
+                  >
+                    Edit
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="row">
+                <div className="col-2">
+                  <textarea
+                    value={gapDetail}
+                    onChange={e => this.onChangeTextInput(e, 'gapDetail')}
+                  />
+                </div>
+                <div className="col-10">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      this.onUpdate('gapDetail');
+                      this.setState({ toggleEditGapDetail: false });
+                    }}
+                  >
+                    Save
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      this.fetchData();
+                      this.setState({ toggleEditGapDetail: false });
                     }}
                   >
                     Cancel

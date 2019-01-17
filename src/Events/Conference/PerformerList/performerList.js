@@ -1,26 +1,26 @@
 import React from 'react';
 import Modal from 'react-responsive-modal';
 import SmoothCollapse from 'react-smooth-collapse';
-import SpeakerInfo from './SpeakerInfo/speakerInfo';
+import PerformerInfo from './PerformerInfo/performerInfo';
 
-class SpeakerList extends React.Component {
+class HostList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      speakerSelected: '',
-      modalSpeaker: false,
+      performerSelected: '',
+      modalPerformer: false,
       expanded: false
     };
-    this.openModalSpeaker = this.openModalSpeaker.bind(this);
-    this.closeModalSpeaker = this.closeModalSpeaker.bind(this);
+    this.openModalPerformer = this.openModalPerformer.bind(this);
+    this.closeModalPerformer = this.closeModalPerformer.bind(this);
   }
 
-  openModalSpeaker(speakerID) {
-    this.setState({ modalSpeaker: true, speakerSelected: speakerID });
+  openModalPerformer(speakerID) {
+    this.setState({ modalPerformer: true, performerSelected: speakerID });
   }
 
-  closeModalSpeaker() {
-    this.setState({ modalSpeaker: false });
+  closeModalPerformer() {
+    this.setState({ modalPerformer: false });
   }
 
   renderFirstRow(totalRows, imgs) {
@@ -69,12 +69,12 @@ class SpeakerList extends React.Component {
 
   renderRow(startIndex, endIndex, imgs) {
     return imgs.slice(startIndex, endIndex).map(e => {
-      if (this.state.speakerSelected === e.id) {
+      if (this.state.performerSelected === e.id) {
         return (
           <div className="col-md-6 col-lg-3 mb-2" key={e.id}>
             <div
               className="hotel-room text-center notransition"
-              onClick={() => this.openModalSpeaker(e.id)}
+              onClick={() => this.openModalPerformer(e.id)}
             >
               <div className="d-block mb-2 thumbnail notransition">
                 <img
@@ -89,11 +89,11 @@ class SpeakerList extends React.Component {
               </div>
             </div>
             <Modal
-              open={this.state.modalSpeaker}
-              onClose={this.closeModalSpeaker}
+              open={this.state.modalPerformer}
+              onClose={this.closeModalPerformer}
               center
             >
-              <SpeakerInfo speaker={e} />
+              <PerformerInfo performer={e} />
             </Modal>
           </div>
         );
@@ -102,7 +102,7 @@ class SpeakerList extends React.Component {
         <div className="col-md-6 col-lg-3 mb-2 speaker" key={e.id}>
           <div
             className="hotel-room text-center notransition"
-            onClick={() => this.openModalSpeaker(e.id)}
+            onClick={() => this.openModalPerformer(e.id)}
           >
             <div className="d-block mb-2 thumbnail notransition">
               <img src={e.picture} alt="" className="img-fluid notransition" />
@@ -131,27 +131,27 @@ class SpeakerList extends React.Component {
   }
 
   render() {
-    console.log(this.props.speakers);
+    console.log(this.props.performers);
     return (
-      <div className="site-section bg-light">
+      <div className="site-section bg-white">
         <div className="container">
           <div className="row">
             <div className="col-md-6 mx-auto text-center mb-5 section-heading">
               <h2 className="mb-5" style={{ fontFamily: 'Roboto' }}>
-                Speakers
+                Performers
               </h2>
             </div>
           </div>
-          {this.props.speakers.length <= 4 ? (
-            <div className="row">{this.renderImg(1, this.props.speakers)}</div>
+          {this.props.performers.length <= 4 ? (
+            <div className="row">{this.renderImg(1, this.props.performers)}</div>
           ) : (
             <div>
               <div className="row">
-                {this.renderFirstRow(1, this.props.speakers)}
+                {this.renderFirstRow(1, this.props.performers)}
               </div>
               <SmoothCollapse expanded={this.state.expanded}>
                 <div className="row">
-                  {this.renderAllImg(this.props.speakers)}
+                  {this.renderAllImg(this.props.performers)}
                 </div>
               </SmoothCollapse>
               <div className="row">
@@ -181,4 +181,4 @@ class SpeakerList extends React.Component {
   }
 }
 
-export default SpeakerList;
+export default HostList;

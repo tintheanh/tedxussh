@@ -3,11 +3,14 @@ import firebase from 'firebase';
 import ConferenceHeader from './ConferenceHeader/conHeader';
 import Overview from './Overview/overview';
 import SpeakerList from './SpeakerList/speakerList';
+import HostList from './HostList/hostList';
+import PerformerList from './PerformerList/performerList';
 import Agenda from './Agenda/agenda';
 import SponsorList from './SponsorList/sponsorList';
 import Location from './Location/location';
 import Highlight from './Highlight/highlight';
 import Gap from './Gap/gap';
+import Adventures from './Adventures/adventures';
 
 class Conference extends React.Component {
   constructor(props) {
@@ -22,7 +25,12 @@ class Conference extends React.Component {
       lat: 0,
       lng: 0,
       speakers: [],
+      hosts: [],
+      performers: [],
       sponsors: [],
+      adventures: [],
+      adventureHeader: '',
+      adventureDesc: '',
       title: '',
       gap: ''
     };
@@ -38,7 +46,10 @@ class Conference extends React.Component {
           const agenda = [];
           const highlight = [];
           const speakers = [];
+          const hosts = [];
+          const performers = [];
           const sponsors = [];
+          const adventures = [];
 
           Object.keys(conferenceObj.agenda).forEach(e => {
             const oneAgenda = {
@@ -84,6 +95,38 @@ class Conference extends React.Component {
             speakers.push(speaker);
           });
 
+          Object.keys(conferenceObj.hosts).forEach(e => {
+            const host = {
+              id: e,
+              introduction: conferenceObj.hosts[e].introduction,
+              name: conferenceObj.hosts[e].name,
+              occupation: conferenceObj.hosts[e].occupation,
+              picture: conferenceObj.hosts[e].picture
+            };
+            hosts.push(host);
+          });
+
+          Object.keys(conferenceObj.performers).forEach(e => {
+            const performer = {
+              id: e,
+              introduction: conferenceObj.performers[e].introduction,
+              name: conferenceObj.performers[e].name,
+              occupation: conferenceObj.performers[e].occupation,
+              picture: conferenceObj.performers[e].picture
+            };
+            performers.push(performer);
+          });
+
+          Object.keys(conferenceObj.adventures.listAdventures).forEach(e => {
+            const adventure = {
+              id: e,
+              name: conferenceObj.adventures.listAdventures[e].name,
+              detail: conferenceObj.adventures.listAdventures[e].detail,
+              picture: conferenceObj.adventures.listAdventures[e].picture
+            };
+            adventures.push(adventure);
+          });
+
           Object.keys(conferenceObj.sponsors).forEach(e => {
             const sponsor = {
               id: e,
@@ -103,9 +146,14 @@ class Conference extends React.Component {
             lat,
             lng,
             speakers,
+            hosts,
+            performers,
             sponsors,
             title,
-            gap
+            gap,
+            adventures,
+            adventureHeader: conferenceObj.adventures.adventureHeader,
+            adventureDesc: conferenceObj.adventures.adventureDesc
           });
         }
       });
@@ -136,17 +184,33 @@ class Conference extends React.Component {
       lat,
       lng,
       speakers,
+      hosts,
+      performers,
       sponsors,
       title,
-      gap
+      gap,
+      adventures,
+      adventureHeader,
+      adventureDesc
     } = this.state;
     return (
       <div>
-        <ConferenceHeader background={conferencePicture} />
-        <Overview description={description} />
+        <ConferenceHeader
+          background={conferencePicture}
+          title={title}
+          description={description}
+        />
+        {/* <Overview description={description} /> */}
         <SpeakerList speakers={speakers} />
+        <HostList hosts={hosts} />
+        <PerformerList performers={performers} />
         <Agenda date={date} agenda={agenda} />
-        <Gap img={gap} />
+        <Gap gap={gap} />
+        <Adventures
+          adventures={adventures}
+          adventureHeader={adventureHeader}
+          adventureDesc={adventureDesc}
+        />
         <SponsorList sponsors={sponsors} />
         <Location lat={lat} lng={lng} address={address} />
         <Highlight highlight={highlight} />

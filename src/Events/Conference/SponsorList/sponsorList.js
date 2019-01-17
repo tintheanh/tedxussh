@@ -28,7 +28,7 @@ class SponsorList extends React.Component {
   renderRow(startIndex, endIndex, imgs) {
     return imgs.slice(startIndex, endIndex).map(e => (
       <div className="col-md-6 col-lg-3 mb-2" key={e.id}>
-        <div className="hotel-room text-center notransition">
+        <div className="hotel-room text-center notransition" style={{ background: 'transparent' }}>
           <div className="d-block mb-0 thumbnail notransition">
             <a href={e.website} target="_blank">
               <img src={e.logo} alt="" className="img-fluid notransition" />
