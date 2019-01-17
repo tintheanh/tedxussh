@@ -87,7 +87,6 @@ const LeftSideBar = () => (
             <Link
               to="/admin/about"
               className="sidebar-link waves-effect waves-dark sidebar-link"
-              href="grid.html"
               aria-expanded="false"
               style={
                 window.location.pathname === '/admin/about'
@@ -102,9 +101,24 @@ const LeftSideBar = () => (
           <li className="sidebar-item">
             {' '}
             <Link
+              to="/admin/organizers"
+              className="sidebar-link waves-effect waves-dark sidebar-link"
+              aria-expanded="false"
+              style={
+                window.location.pathname === '/admin/organizers'
+                  ? { backgroundColor: '#27a9e3', opacity: 1 }
+                  : { backgroundColor: '' }
+              }
+            >
+              <i className="mdi mdi-blur-linear" />
+              <span className="hide-menu">Organizers</span>
+            </Link>
+          </li>
+          <li className="sidebar-item">
+            {' '}
+            <Link
               to="/admin/images"
               className="sidebar-link waves-effect waves-dark sidebar-link"
-              href="grid.html"
               aria-expanded="false"
               style={
                 window.location.pathname === '/admin/images'
@@ -114,6 +128,22 @@ const LeftSideBar = () => (
             >
               <i className="mdi mdi-blur-linear" />
               <span className="hide-menu">Images</span>
+            </Link>
+          </li>
+          <li className="sidebar-item">
+            {' '}
+            <Link
+              to="/admin/get-event-update"
+              className="sidebar-link waves-effect waves-dark sidebar-link"
+              aria-expanded="false"
+              style={
+                window.location.pathname === '/admin/get-event-update'
+                  ? { backgroundColor: '#27a9e3', opacity: 1 }
+                  : { backgroundColor: '' }
+              }
+            >
+              <i className="mdi mdi-blur-linear" />
+              <span className="hide-menu">Get event update</span>
             </Link>
           </li>
         </ul>

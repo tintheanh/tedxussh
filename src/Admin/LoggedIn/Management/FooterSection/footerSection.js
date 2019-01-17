@@ -64,20 +64,23 @@ class FooterSection extends React.Component {
     firebase
       .database()
       .ref('footer')
-      .on('value', snapshot =>
-        this.setState({
-          copyright: snapshot.val().copyright,
-          getUpdate: snapshot.val().left.getUpdate,
-          facebook: snapshot.val().left.links.facebook,
-          instagram: snapshot.val().left.links.instagram,
-          twitter: snapshot.val().left.links.twitter,
-          linkedin: snapshot.val().left.links.linkedin,
-          playlist: snapshot.val().left.playlist,
-          sentence: snapshot.val().middle.sentence,
-          quote: snapshot.val().right.quote,
-          sourceQuote: snapshot.val().right.sourceQuote
-        })
-      );
+      .on('value', snapshot => {
+        const footerObj = snapshot.val();
+        if (footerObj) {
+          this.setState({
+            copyright: footerObj.copyright,
+            getUpdate: footerObj.left.getUpdate,
+            facebook: footerObj.left.links.facebook,
+            instagram: footerObj.left.links.instagram,
+            twitter: footerObj.left.links.twitter,
+            linkedin: footerObj.left.links.linkedin,
+            playlist: footerObj.left.playlist,
+            sentence: footerObj.middle.sentence,
+            quote: footerObj.right.quote,
+            sourceQuote: footerObj.right.sourceQuote
+          });
+        }
+      });
   }
 
   onUpdate() {

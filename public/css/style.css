@@ -2185,12 +2185,36 @@ a:hover {
   width: 100%;
 }
 
-/* @media screen and (max-width: 991px) {
-  .youtube {
-    width: 100% !important;
-    min-height: 100%;
-  }
-} */
+.get-event-update {
+  font-family: 'Roboto';
+  border: 1px solid #ccc;
+  padding: 8px 24px !important;
+  cursor: pointer;
+}
+
+.get-event-update:hover {
+  background: #ccc;
+  color: #000 !important;
+}
+
+.ticket-btn {
+  border: none;
+  padding: 6px 24px;
+  background: #000;
+  color: #fff;
+  text-decoration: none;
+}
+
+.ticket-btn:disabled {
+  background: grey;
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+.contact-input {
+  background: #ccc;
+  border: 1px solid grey;
+}
 
 @media screen and (max-width: 1599px) and (min-width: 992px) {
   .youtube {

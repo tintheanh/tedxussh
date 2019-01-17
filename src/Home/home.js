@@ -44,7 +44,7 @@ class Home extends React.Component {
                   <h1 className="home-title mb-1">{title}</h1>
                   <p className="p-2 description">{description}</p>
                   <br />
-                  <Link to="/conference" class="explore">
+                  <Link to="/attend" className="explore">
                     Explore the event
                   </Link>
                 </div>

@@ -5,6 +5,7 @@
   "dependencies": {
     "draft-js": "latest",
     "draft-js-plugins-editor": "^2.1.1",
+    "emailjs-com": "^2.3.2",
     "firebase": "^5.7.2",
     "material-icons": "^0.3.0",
     "moment": "^2.23.0",

@@ -17,6 +17,7 @@ class HomeSection extends React.Component {
       modalEditPic: false
     };
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+
     this.openModalEditPic = this.openModalEditPic.bind(this);
     this.closeModalEditPic = this.closeModalEditPic.bind(this);
   }
@@ -112,7 +113,6 @@ class HomeSection extends React.Component {
               <h2 className="page-title">Home Edit Section</h2>
             </div>
           </div>
-          {/* {this.renderShowOrEdit()} */}
           <div>
             <div className="row style-section">
               <div className="col-12">
