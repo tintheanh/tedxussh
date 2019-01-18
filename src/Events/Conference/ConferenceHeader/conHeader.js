@@ -10,15 +10,17 @@ const ConferenceHeader = props => (
     tag="figure"
   >
     <div
-      className="site-blocks-cover overlay"
+      className="site-blocks-cover overlay header-cover"
       data-aos="fade"
       style={{ backgroundImage: `url(${props.background})` }}
     >
       <div className="container">
         <div className="row align-items-center">
-          <div className="col-lg-12 col-md-12">
-            <h1 className="event-title mb-1">{props.title}</h1>
-            <p className="p-2 event-description">{props.description}</p>
+          <div className="header-wrapper">
+            <div className="col-lg-12 col-md-12">
+              <h1 className="event-title mb-1">{props.title}</h1>
+              <p className="p-2 event-description">{props.description}</p>
+            </div>
           </div>
         </div>
       </div>

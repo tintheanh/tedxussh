@@ -5,11 +5,25 @@ import Lightbox from 'react-images';
 class Highlight extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { currentImage: 0 };
+    this.state = { currentImage: 0, width: 0 };
     this.closeLightbox = this.closeLightbox.bind(this);
     this.openLightbox = this.openLightbox.bind(this);
     this.gotoNext = this.gotoNext.bind(this);
     this.gotoPrevious = this.gotoPrevious.bind(this);
+    this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+  }
+
+  componentDidMount() {
+    this.updateWindowDimensions();
+    window.addEventListener('resize', this.updateWindowDimensions);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateWindowDimensions);
+  }
+
+  updateWindowDimensions() {
+    this.setState({ width: window.innerWidth });
   }
 
   openLightbox(event, obj) {
@@ -50,6 +64,14 @@ class Highlight extends React.Component {
     return set;
   }
 
+  findColumns(num) {
+    let i = num - 1;
+    while (num % i !== 0 && i > 1) {
+      i--;
+    }
+    return i === 1 ? num : i;
+  }
+
   render() {
     return (
       <div
@@ -69,7 +91,11 @@ class Highlight extends React.Component {
         {/* <div className="row"> */}
         <Gallery
           photos={this.processImgs(this.props.highlight)}
-          // direction="column"
+          columns={
+            this.state.width > 575
+              ? this.findColumns(this.props.highlight.length)
+              : 1
+          }
           onClick={this.openLightbox}
         />
         <Lightbox

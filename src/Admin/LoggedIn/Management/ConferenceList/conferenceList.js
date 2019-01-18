@@ -236,6 +236,11 @@ class ConferenceList extends React.Component {
     return obj;
   }
 
+  toVNDate(inputDate) {
+    const date = moment(inputDate).format('D/M/YYYY');
+    return date;
+  }
+
   onUpdate(type) {
     let update = {};
     if (type === 'location') {
@@ -321,7 +326,7 @@ class ConferenceList extends React.Component {
 
     if (type === 'date') {
       update = {
-        date: this.state.date.toDateString()
+        date: this.state.date
       };
     }
 
@@ -429,52 +434,58 @@ class ConferenceList extends React.Component {
           const performers = [];
           const sponsors = [];
           const adventures = [];
+          if (conferenceObj.agenda) {
+            Object.keys(conferenceObj.agenda).forEach(e => {
+              const oneAgenda = {
+                id: e,
+                header: conferenceObj.agenda[e].header,
+                detail: conferenceObj.agenda[e].detail,
+                participants: conferenceObj.agenda[e].participants,
+                time: conferenceObj.agenda[e].time
+              };
+              agenda.push(oneAgenda);
+            });
+            this.sortAgenda(agenda);
+          }
+          if (conferenceObj.speakers) {
+            Object.keys(conferenceObj.speakers).forEach(e => {
+              const speaker = {
+                id: e,
+                introduction: conferenceObj.speakers[e].introduction,
+                name: conferenceObj.speakers[e].name,
+                occupation: conferenceObj.speakers[e].occupation,
+                picture: conferenceObj.speakers[e].picture
+              };
+              speakers.push(speaker);
+            });
+          }
 
-          Object.keys(conferenceObj.agenda).forEach(e => {
-            const oneAgenda = {
-              id: e,
-              header: conferenceObj.agenda[e].header,
-              detail: conferenceObj.agenda[e].detail,
-              participants: conferenceObj.agenda[e].participants,
-              time: conferenceObj.agenda[e].time
-            };
-            agenda.push(oneAgenda);
-          });
-          this.sortAgenda(agenda);
+          if (conferenceObj.hosts) {
+            Object.keys(conferenceObj.hosts).forEach(e => {
+              const host = {
+                id: e,
+                introduction: conferenceObj.hosts[e].introduction,
+                name: conferenceObj.hosts[e].name,
+                occupation: conferenceObj.hosts[e].occupation,
+                picture: conferenceObj.hosts[e].picture
+              };
+              hosts.push(host);
+            });
+          }
 
-          Object.keys(conferenceObj.speakers).forEach(e => {
-            const speaker = {
-              id: e,
-              introduction: conferenceObj.speakers[e].introduction,
-              name: conferenceObj.speakers[e].name,
-              occupation: conferenceObj.speakers[e].occupation,
-              picture: conferenceObj.speakers[e].picture
-            };
-            speakers.push(speaker);
-          });
-
-          Object.keys(conferenceObj.hosts).forEach(e => {
-            const host = {
-              id: e,
-              introduction: conferenceObj.hosts[e].introduction,
-              name: conferenceObj.hosts[e].name,
-              occupation: conferenceObj.hosts[e].occupation,
-              picture: conferenceObj.hosts[e].picture
-            };
-            hosts.push(host);
-          });
-
-          Object.keys(conferenceObj.performers).forEach(e => {
-            const performer = {
-              id: e,
-              introduction: conferenceObj.performers[e].introduction,
-              name: conferenceObj.performers[e].name,
-              occupation: conferenceObj.performers[e].occupation,
-              picture: conferenceObj.performers[e].picture
-            };
-            performers.push(performer);
-          });
-          if (conferenceObj.adventures) {
+          if (conferenceObj.performers) {
+            Object.keys(conferenceObj.performers).forEach(e => {
+              const performer = {
+                id: e,
+                introduction: conferenceObj.performers[e].introduction,
+                name: conferenceObj.performers[e].name,
+                occupation: conferenceObj.performers[e].occupation,
+                picture: conferenceObj.performers[e].picture
+              };
+              performers.push(performer);
+            });
+          }
+          if (conferenceObj.adventures.listAdventures) {
             Object.keys(conferenceObj.adventures.listAdventures).forEach(e => {
               const adventure = {
                 id: e,
@@ -485,24 +496,27 @@ class ConferenceList extends React.Component {
               adventures.push(adventure);
             });
           }
+          if (conferenceObj.sponsors) {
+            Object.keys(conferenceObj.sponsors).forEach(e => {
+              const sponsor = {
+                id: e,
+                logo: conferenceObj.sponsors[e].logo,
+                website: conferenceObj.sponsors[e].website
+              };
+              sponsors.push(sponsor);
+            });
+          }
 
-          Object.keys(conferenceObj.sponsors).forEach(e => {
-            const sponsor = {
-              id: e,
-              logo: conferenceObj.sponsors[e].logo,
-              website: conferenceObj.sponsors[e].website
-            };
-            sponsors.push(sponsor);
-          });
-
-          Object.keys(conferenceObj.highlight).forEach(e => {
-            const oneHighlight = {
-              id: e,
-              name: conferenceObj.highlight[e].name,
-              url: conferenceObj.highlight[e].url
-            };
-            highlight.push(oneHighlight);
-          });
+          if (conferenceObj.highlight) {
+            Object.keys(conferenceObj.highlight).forEach(e => {
+              const oneHighlight = {
+                id: e,
+                name: conferenceObj.highlight[e].name,
+                url: conferenceObj.highlight[e].url
+              };
+              highlight.push(oneHighlight);
+            });
+          }
 
           this.setState({
             address: conferenceObj.location.address,
@@ -822,7 +836,7 @@ class ConferenceList extends React.Component {
   }
 
   handleDateChange(date) {
-    this.setState({ date });
+    this.setState({ date: moment(date).format('YYYY-M-DD') });
   }
 
   removeAgenda(agendaID) {
@@ -869,29 +883,28 @@ class ConferenceList extends React.Component {
       <div>
         <div className="row style-section">
           <div className="col-12">
-            <h3>Cover picture</h3>
+            <h3>Title picture</h3>
           </div>
           <div className="col-12">
             <img src={conferencePicture} alt="" className="img-fluid" />
           </div>
-          <div>
-            <div className="col-12">
-              <button type="button" onClick={this.openModalPicture}>
-                Edit Picture
-              </button>
-            </div>
-            <Modal
-              open={this.state.modalPicture}
-              onClose={this.closeModalPicture}
-              center
-            >
-              <ImageManagement
-                category="conferenceImages"
-                closeModal={this.closeModalPicture}
-                pick={this.updateConferencePicture.bind(this)}
-              />
-            </Modal>
+
+          <div className="col-12">
+            <button type="button" onClick={this.openModalPicture}>
+              Edit
+            </button>
           </div>
+          <Modal
+            open={this.state.modalPicture}
+            onClose={this.closeModalPicture}
+            center
+          >
+            <ImageManagement
+              category="conferenceImages"
+              closeModal={this.closeModalPicture}
+              pick={this.updateConferencePicture.bind(this)}
+            />
+          </Modal>
         </div>
 
         {/* --------------------------------------------------------------------Date */}
@@ -901,14 +914,14 @@ class ConferenceList extends React.Component {
               <h3>Event date</h3>
             </div>
             <div className="col-12">
-              <p>{date}</p>
+              <p>{this.toVNDate(date)}</p>
             </div>
             <div className="col-12">
               <button
                 type="button"
                 onClick={() => this.setState({ toggleEditDate: true })}
               >
-                Edit date
+                Edit
               </button>
             </div>
           </div>
@@ -916,6 +929,7 @@ class ConferenceList extends React.Component {
           <div className="row style-section">
             <div className="col-12">
               <DatePicker
+                dateFormat="d/M/YYYY"
                 selected={moment(date).toDate()}
                 onChange={this.handleDateChange.bind(this)}
               />
@@ -1113,103 +1127,102 @@ class ConferenceList extends React.Component {
           <div className="col-12">
             <h3>Adventures</h3>
           </div>
-          <div className="col-12">
-            {!this.state.toggleEditAdventureHeader ? (
-              <div className="row">
-                <div className="col-2">
-                  <p>{adventureHeader}</p>
-                </div>
-                <div className="col-10">
-                  <button
-                    onClick={() =>
-                      this.setState({ toggleEditAdventureHeader: true })
-                    }
-                  >
-                    Edit
-                  </button>
-                </div>
+
+          {!this.state.toggleEditAdventureHeader ? (
+            <div className="col-12">
+              <div>
+                <p>{adventureHeader}</p>
               </div>
-            ) : (
-              <div className="row">
-                <div className="col-2">
-                  <input
-                    type="text"
-                    value={adventureHeader}
-                    onChange={e => this.onChangeTextInput(e, 'adventureHeader')}
-                  />
-                </div>
-                <div className="col-10">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      this.onUpdate('adventureHeader');
-                      this.setState({ toggleEditAdventureHeader: false });
-                    }}
-                  >
-                    Save
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      this.fetchData();
-                      this.setState({ toggleEditAdventureHeader: false });
-                    }}
-                  >
-                    Cancel
-                  </button>
-                </div>
+              <div>
+                <button
+                  onClick={() =>
+                    this.setState({ toggleEditAdventureHeader: true })
+                  }
+                >
+                  Edit
+                </button>
               </div>
-            )}
-          </div>
-          <div className="col-12">
-            {!this.state.toggleEditAdventureDesc ? (
-              <div className="row">
-                <div className="col-2">
-                  <p>{adventureDescription}</p>
-                </div>
-                <div className="col-10">
-                  <button
-                    onClick={() =>
-                      this.setState({ toggleEditAdventureDesc: true })
-                    }
-                  >
-                    Edit
-                  </button>
-                </div>
+            </div>
+          ) : (
+            <div className="col-12">
+              <div>
+                <input
+                  type="text"
+                  value={adventureHeader}
+                  onChange={e => this.onChangeTextInput(e, 'adventureHeader')}
+                />
               </div>
-            ) : (
-              <div className="row">
-                <div className="col-2">
-                  <textarea
-                    value={adventureDescription}
-                    onChange={e =>
-                      this.onChangeTextInput(e, 'adventureDescription')
-                    }
-                  />
-                </div>
-                <div className="col-10">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      this.onUpdate('adventureDescription');
-                      this.setState({ toggleEditAdventureDesc: false });
-                    }}
-                  >
-                    Save
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      this.fetchData();
-                      this.setState({ toggleEditAdventureDesc: false });
-                    }}
-                  >
-                    Cancel
-                  </button>
-                </div>
+              <div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    this.onUpdate('adventureHeader');
+                    this.setState({ toggleEditAdventureHeader: false });
+                  }}
+                >
+                  Save
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    this.fetchData();
+                    this.setState({ toggleEditAdventureHeader: false });
+                  }}
+                >
+                  Cancel
+                </button>
               </div>
-            )}
-          </div>
+            </div>
+          )}
+
+          {!this.state.toggleEditAdventureDesc ? (
+            <div className="col-12">
+              <div>
+                <p>{adventureDescription}</p>
+              </div>
+              <div>
+                <button
+                  onClick={() =>
+                    this.setState({ toggleEditAdventureDesc: true })
+                  }
+                >
+                  Edit
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="col-12">
+              <div>
+                <textarea
+                  value={adventureDescription}
+                  onChange={e =>
+                    this.onChangeTextInput(e, 'adventureDescription')
+                  }
+                />
+              </div>
+              <div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    this.onUpdate('adventureDescription');
+                    this.setState({ toggleEditAdventureDesc: false });
+                  }}
+                >
+                  Save
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    this.fetchData();
+                    this.setState({ toggleEditAdventureDesc: false });
+                  }}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          )}
+
           {this.renderImg(1, adventures, 'adventures')}
           <div className="row">
             <button onClick={this.openModalAdventures}>
@@ -1263,10 +1276,13 @@ class ConferenceList extends React.Component {
           <div className="col-12">
             {!this.state.toggleEditGapHeader ? (
               <div className="row">
-                <div className="col-2">
+                <div className="col-12">
+                  <h5>Gap title</h5>
+                </div>
+                <div className="col-12">
                   <p>{gapHeader}</p>
                 </div>
-                <div className="col-10">
+                <div className="col-12">
                   <button
                     onClick={() => this.setState({ toggleEditGapHeader: true })}
                   >
@@ -1276,14 +1292,14 @@ class ConferenceList extends React.Component {
               </div>
             ) : (
               <div className="row">
-                <div className="col-2">
+                <div className="col-12">
                   <input
                     type="text"
                     value={gapHeader}
                     onChange={e => this.onChangeTextInput(e, 'gapHeader')}
                   />
                 </div>
-                <div className="col-10">
+                <div className="col-12">
                   <button
                     type="button"
                     onClick={() => {
@@ -1309,10 +1325,13 @@ class ConferenceList extends React.Component {
           <div className="col-12">
             {!this.state.toggleEditGapDetail ? (
               <div className="row">
-                <div className="col-2">
+                <div className="col-12">
+                  <h5>Gap description</h5>
+                </div>
+                <div className="col-12">
                   <p>{gapDetail}</p>
                 </div>
-                <div className="col-10">
+                <div className="col-12">
                   <button
                     onClick={() => this.setState({ toggleEditGapDetail: true })}
                   >
@@ -1322,13 +1341,13 @@ class ConferenceList extends React.Component {
               </div>
             ) : (
               <div className="row">
-                <div className="col-2">
+                <div className="col-12">
                   <textarea
                     value={gapDetail}
                     onChange={e => this.onChangeTextInput(e, 'gapDetail')}
                   />
                 </div>
-                <div className="col-10">
+                <div className="col-12">
                   <button
                     type="button"
                     onClick={() => {
@@ -1350,6 +1369,9 @@ class ConferenceList extends React.Component {
                 </div>
               </div>
             )}
+          </div>
+          <div className="col-12">
+            <h5>Gap picture</h5>
           </div>
           <div className="col-12">
             <img src={gapPic} alt="" className="img-fluid" />
@@ -1469,7 +1491,7 @@ class ConferenceList extends React.Component {
           style={{ marginBottom: '54px' }}
         >
           <div className="col-12">
-            <h2>Location</h2>
+            <h2>Highlight</h2>
           </div>
           {this.renderImg(1, this.state.highlight, 'highlight')}
           <button onClick={this.openModalHighLight}>Edit highlight</button>

@@ -28,10 +28,9 @@ class Footer extends React.Component {
       this.props.middle &&
       this.props.right
     ) {
-      const { links, playlist } = this.props.left;
+      const { links } = this.props.left;
       const { sentence } = this.props.middle;
       const { quote } = this.props.right;
-      const { sourceQuote } = this.props.right;
       const { copyright } = this.props;
       return (
         <footer className="site-footer">
@@ -63,21 +62,9 @@ class Footer extends React.Component {
                         style={{ fontSize: '20px' }}
                       />
                     </a>
-                    <a href={links.twitter} target="_blank" className="p-2">
+                    <a href={links.youtube} target="_blank" className="p-2">
                       <span
-                        className="fa icon-twitter"
-                        style={{ fontSize: '20px' }}
-                      />
-                    </a>
-                    <a href={links.instagram} target="_blank" className="p-2">
-                      <span
-                        className="fa icon-instagram"
-                        style={{ fontSize: '20px' }}
-                      />
-                    </a>
-                    <a href={links.linkedin} target="_blank" className="p-2">
-                      <span
-                        className="fa icon-linkedin"
+                        className="fa icon-youtube-play"
                         style={{ fontSize: '20px' }}
                       />
                     </a>
@@ -87,16 +74,17 @@ class Footer extends React.Component {
               <div className="col-md-4">
                 <div className="row align-items-center justify-content-center">
                   <div className="col-md-12 text-center">
-                    <p>{sentence}</p>
+                    {/* <p>{sentence}</p> */}
+                    <div dangerouslySetInnerHTML={{ __html: sentence }} />
                   </div>
                 </div>
               </div>
 
               <div className="col-md-4">
                 <div className="col-md-12 text-center">
-                  <a href={sourceQuote} target="_blank">
+                  <Link to="/attend">
                     <p>{quote}</p>
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>

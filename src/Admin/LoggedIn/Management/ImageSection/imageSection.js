@@ -7,15 +7,21 @@ class ImageSection extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      height: 0,
       conferenceImages: [],
       highlightImages: [],
       speakerImages: [],
       sponsorImages: [],
       stockImages: [],
       thumbnails: [],
+      hostImages: [],
+      performerImages: [],
+      adventureImages: [],
 
       modalUpload: false
     };
+    this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+
     this.openModalUpload = this.openModalUpload.bind(this);
     this.closeModalUpload = this.closeModalUpload.bind(this);
   }
@@ -28,7 +34,17 @@ class ImageSection extends React.Component {
     this.setState({ modalUpload: false });
   }
 
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateWindowDimensions);
+  }
+
+  updateWindowDimensions() {
+    this.setState({ height: window.innerHeight });
+  }
+
   componentDidMount() {
+    this.updateWindowDimensions();
+    window.addEventListener('resize', this.updateWindowDimensions);
     firebase
       .database()
       .ref('images/conferenceImages')
@@ -142,6 +158,63 @@ class ImageSection extends React.Component {
           this.setState({ thumbnails });
         }
       });
+
+    firebase
+      .database()
+      .ref('images/hosts')
+      .on('value', snapshot => {
+        const hostsObj = snapshot.val();
+        if (hostsObj) {
+          const hostImages = [];
+          Object.keys(hostsObj).forEach(e => {
+            const host = {
+              id: e,
+              name: hostsObj[e].name,
+              url: hostsObj[e].url
+            };
+            hostImages.push(host);
+          });
+          this.setState({ hostImages });
+        }
+      });
+
+    firebase
+      .database()
+      .ref('images/performers')
+      .on('value', snapshot => {
+        const performersObj = snapshot.val();
+        if (performersObj) {
+          const performerImages = [];
+          Object.keys(performersObj).forEach(e => {
+            const performer = {
+              id: e,
+              name: performersObj[e].name,
+              url: performersObj[e].url
+            };
+            performerImages.push(performer);
+          });
+          this.setState({ performerImages });
+        }
+      });
+
+    firebase
+      .database()
+      .ref('images/adventures')
+      .on('value', snapshot => {
+        const adventuresObj = snapshot.val();
+        if (adventuresObj) {
+          const adventureImages = [];
+          Object.keys(adventuresObj).forEach(e => {
+            const adventure = {
+              id: e,
+              name: adventuresObj[e].name,
+              url: adventuresObj[e].url
+            };
+            adventureImages.push(adventure);
+          });
+          this.setState({ adventureImages });
+        }
+      });
   }
 
   renderImg(totalRows, imgs, storage, database) {
@@ -211,49 +284,92 @@ class ImageSection extends React.Component {
 
   render() {
     return (
-      <div className="page-wrapper">
+      <div
+        className="page-wrapper"
+        style={{
+          height: `${this.state.height - 64}px`,
+          overflowY: 'scroll'
+        }}
+      >
         <div className="page-breadcrumb">
           <div className="row">
             <div className="col-12 d-flex no-block align-items-center">
               <h4 className="page-title">Dashboard</h4>
             </div>
           </div>
-          <h1>Conference images</h1>
-          {this.renderAllImg(
-            this.state.conferenceImages,
-            'conference-images/main-picture',
-            'conferenceImages'
-          )}
-          <h1>Highlight images</h1>
-          {this.renderAllImg(
-            this.state.highlightImages,
-            'conference-images/highlight',
-            'highlightImages'
-          )}
-          <h1>Speakers images</h1>
-          {this.renderAllImg(
-            this.state.speakerImages,
-            'conference-images/speakers',
-            'speakers'
-          )}
-          <h1>Sponsor images</h1>
-          {this.renderAllImg(
-            this.state.sponsorImages,
-            'conference-images/sponsors',
-            'sponsors'
-          )}
-          <h1>Stock images</h1>
-          {this.renderAllImg(
-            this.state.stockImages,
-            'stock-images',
-            'stockImages'
-          )}
-          <h1>Thumbnails</h1>
-          {this.renderAllImg(
-            this.state.thumbnails,
-            'learn-posts-images/thumbnails',
-            'thumbnails'
-          )}
+          <div className="row style-section-pictures">
+            <h3>Conference main images</h3>
+            {this.renderAllImg(
+              this.state.conferenceImages,
+              'conference-images/main-picture',
+              'conferenceImages'
+            )}
+          </div>
+          <div className="row style-section-pictures">
+            <h3>Speakers images</h3>
+            {this.renderAllImg(
+              this.state.speakerImages,
+              'conference-images/speakers',
+              'speakers'
+            )}
+          </div>
+          <div className="row style-section-pictures">
+            <h3>Hosts</h3>
+            {this.renderAllImg(
+              this.state.hostImages,
+              'conference-images/hosts',
+              'hosts'
+            )}
+          </div>
+          <div className="row style-section-pictures">
+            <h3>Performers</h3>
+            {this.renderAllImg(
+              this.state.performerImages,
+              'conference-images/performers',
+              'performers'
+            )}
+          </div>
+          <div className="row style-section-pictures">
+            <h3>Sponsor images</h3>
+            {this.renderAllImg(
+              this.state.sponsorImages,
+              'conference-images/sponsors',
+              'sponsors'
+            )}
+          </div>
+          <div className="row style-section-pictures">
+            <h3>adventures</h3>
+            {this.renderAllImg(
+              this.state.adventureImages,
+              'conference-images/adventures',
+              'adventures'
+            )}
+          </div>
+          <div className="row style-section-pictures">
+            <h3>Highlight images</h3>
+            {this.renderAllImg(
+              this.state.highlightImages,
+              'conference-images/highlight',
+              'highlightImages'
+            )}
+          </div>
+          <div className="row style-section-pictures">
+            <h3>Thumbnails for blog posts</h3>
+            {this.renderAllImg(
+              this.state.thumbnails,
+              'learn-posts-images/thumbnails',
+              'thumbnails'
+            )}
+          </div>
+          <div className="row style-section-pictures">
+            <h3>Stock images</h3>
+            {this.renderAllImg(
+              this.state.stockImages,
+              'stock-images',
+              'stockImages'
+            )}
+          </div>
+
           <button onClick={this.openModalUpload}>Upload</button>
           <Modal
             open={this.state.modalUpload}

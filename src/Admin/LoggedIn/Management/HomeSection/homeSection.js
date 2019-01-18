@@ -11,16 +11,31 @@ class HomeSection extends React.Component {
       background: '',
       description: '',
       title: '',
+      cover1: '',
+      cover2: '',
+      cover3: '',
 
       toggleEditTitle: false,
       toggleEditDesc: false,
 
-      modalEditPic: false
+      modalEditPic: false,
+      modalEditCover1: false,
+      modalEditCover2: false,
+      modalEditCover3: false
     };
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
 
     this.openModalEditPic = this.openModalEditPic.bind(this);
     this.closeModalEditPic = this.closeModalEditPic.bind(this);
+
+    this.openModalEditCover1 = this.openModalEditCover1.bind(this);
+    this.closeModalEditCover1 = this.closeModalEditCover1.bind(this);
+
+    this.openModalEditCover2 = this.openModalEditCover2.bind(this);
+    this.closeModalEditCover2 = this.closeModalEditCover2.bind(this);
+
+    this.openModalEditCover3 = this.openModalEditCover3.bind(this);
+    this.closeModalEditCover3 = this.closeModalEditCover3.bind(this);
   }
 
   openModalEditPic() {
@@ -29,6 +44,30 @@ class HomeSection extends React.Component {
 
   closeModalEditPic() {
     this.setState({ modalEditPic: false });
+  }
+
+  openModalEditCover1() {
+    this.setState({ modalEditCover1: true });
+  }
+
+  openModalEditCover2() {
+    this.setState({ modalEditCover2: true });
+  }
+
+  openModalEditCover3() {
+    this.setState({ modalEditCover3: true });
+  }
+
+  closeModalEditCover1() {
+    this.setState({ modalEditCover1: false });
+  }
+
+  closeModalEditCover2() {
+    this.setState({ modalEditCover2: false });
+  }
+
+  closeModalEditCover3() {
+    this.setState({ modalEditCover3: false });
   }
 
   componentDidMount() {
@@ -64,17 +103,58 @@ class HomeSection extends React.Component {
       .ref('home')
       .on('value', snapshot => {
         const homeObj = snapshot.val();
-        this.setState({
-          background: homeObj.background,
-          description: homeObj.description,
-          title: homeObj.title
-        });
+        if (homeObj) {
+          this.setState({
+            background: homeObj.background,
+            description: homeObj.description,
+            title: homeObj.title,
+            cover1: homeObj.cover1,
+            cover2: homeObj.cover2,
+            cover3: homeObj.cover3
+          });
+        }
       });
   }
 
   onUpdatePic(newPic) {
     const update = {
       background: newPic
+    };
+
+    firebase
+      .database()
+      .ref('home')
+      .update(update)
+      .catch(err => alert(err.message));
+  }
+
+  onUpdateCover1(newPic) {
+    const update = {
+      cover1: newPic
+    };
+
+    firebase
+      .database()
+      .ref('home')
+      .update(update)
+      .catch(err => alert(err.message));
+  }
+
+  onUpdateCover2(newPic) {
+    const update = {
+      cover2: newPic
+    };
+
+    firebase
+      .database()
+      .ref('home')
+      .update(update)
+      .catch(err => alert(err.message));
+  }
+
+  onUpdateCover3(newPic) {
+    const update = {
+      cover3: newPic
     };
 
     firebase
@@ -118,7 +198,7 @@ class HomeSection extends React.Component {
           <div>
             <div className="row style-section">
               <div className="col-12">
-                <h3>Cover picture</h3>
+                <h3>Background picture</h3>
               </div>
               <div className="col-12">
                 <img src={this.state.background} alt="" className="img-fluid" />
@@ -140,7 +220,12 @@ class HomeSection extends React.Component {
             </div>
             {!this.state.toggleEditTitle ? (
               <div className="row style-section">
-                <p>{this.state.title}</p>
+                <div className="col-12">
+                  <h3>Home title</h3>
+                </div>
+                <div className="col-12">
+                  <p>{this.state.title}</p>
+                </div>
                 <div className="col-12">
                   <button
                     onClick={() => this.setState({ toggleEditTitle: true })}
@@ -178,11 +263,13 @@ class HomeSection extends React.Component {
             )}
 
             {!this.state.toggleEditDesc ? (
-              <div
-                className="row style-section"
-                style={{ marginBottom: '54px' }}
-              >
-                <p>{this.state.description}</p>
+              <div className="row style-section">
+                <div className="col-12">
+                  <h3>Home description</h3>
+                </div>
+                <div className="col-12">
+                  <p>{this.state.description}</p>
+                </div>
                 <div className="col-12">
                   <button
                     onClick={() => this.setState({ toggleEditDesc: true })}
@@ -192,10 +279,7 @@ class HomeSection extends React.Component {
                 </div>
               </div>
             ) : (
-              <div
-                className="row style-section"
-                style={{ marginBottom: '54px' }}
-              >
+              <div className="row style-section">
                 <textarea
                   value={this.state.description}
                   onChange={e => this.onChangeTextInput(e, 'description')}
@@ -220,6 +304,72 @@ class HomeSection extends React.Component {
                 </div>
               </div>
             )}
+            <div className="row style-section">
+              <div className="col-12">
+                <h3>Left picture (Explore the event)</h3>
+              </div>
+              <div className="col-12">
+                <img src={this.state.cover1} alt="" className="img-fluid" />
+              </div>
+              <div className="col-12">
+                <button onClick={this.openModalEditCover1}>Edit cover</button>
+              </div>
+              <Modal
+                open={this.state.modalEditCover1}
+                onClose={this.closeModalEditCover1}
+                center
+              >
+                <ImageManagement
+                  category="stockImages"
+                  pick={this.onUpdateCover1.bind(this)}
+                  closeModal={this.closeModalEditCover1}
+                />
+              </Modal>
+            </div>
+            <div className="row style-section">
+              <div className="col-12">
+                <h3>Middle picture (Read out blog)</h3>
+              </div>
+              <div className="col-12">
+                <img src={this.state.cover2} alt="" className="img-fluid" />
+              </div>
+              <div className="col-12">
+                <button onClick={this.openModalEditCover2}>Edit cover</button>
+              </div>
+              <Modal
+                open={this.state.modalEditCover2}
+                onClose={this.closeModalEditCover2}
+                center
+              >
+                <ImageManagement
+                  category="stockImages"
+                  pick={this.onUpdateCover2.bind(this)}
+                  closeModal={this.closeModalEditCover2}
+                />
+              </Modal>
+            </div>
+            <div className="row style-section" style={{ marginBottom: '54px' }}>
+              <div className="col-12">
+                <h3>Right picture (About us)</h3>
+              </div>
+              <div className="col-12">
+                <img src={this.state.cover3} alt="" className="img-fluid" />
+              </div>
+              <div className="col-12">
+                <button onClick={this.openModalEditCover3}>Edit cover</button>
+              </div>
+              <Modal
+                open={this.state.modalEditCover3}
+                onClose={this.closeModalEditCover3}
+                center
+              >
+                <ImageManagement
+                  category="stockImages"
+                  pick={this.onUpdateCover3.bind(this)}
+                  closeModal={this.closeModalEditCover3}
+                />
+              </Modal>
+            </div>
           </div>
         </div>
       </div>

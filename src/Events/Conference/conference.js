@@ -51,18 +51,19 @@ class Conference extends React.Component {
           const sponsors = [];
           const adventures = [];
 
-          Object.keys(conferenceObj.agenda).forEach(e => {
-            const oneAgenda = {
-              id: e,
-              header: conferenceObj.agenda[e].header,
-              detail: conferenceObj.agenda[e].detail,
-              participants: conferenceObj.agenda[e].participants,
-              time: conferenceObj.agenda[e].time
-            };
-            agenda.push(oneAgenda);
-          });
-          this.sortAgenda(agenda);
-
+          if (conferenceObj.agenda) {
+            Object.keys(conferenceObj.agenda).forEach(e => {
+              const oneAgenda = {
+                id: e,
+                header: conferenceObj.agenda[e].header,
+                detail: conferenceObj.agenda[e].detail,
+                participants: conferenceObj.agenda[e].participants,
+                time: conferenceObj.agenda[e].time
+              };
+              agenda.push(oneAgenda);
+            });
+            this.sortAgenda(agenda);
+          }
           const {
             conferencePicture,
             date,
@@ -73,68 +74,78 @@ class Conference extends React.Component {
 
           const { address, lat, lng } = conferenceObj.location;
 
-          Object.keys(conferenceObj.highlight).forEach(e => {
-            const oneHighlight = {
-              id: e,
-              name: conferenceObj.highlight[e].name,
-              url: conferenceObj.highlight[e].url,
-              width: conferenceObj.highlight[e].width,
-              height: conferenceObj.highlight[e].height
-            };
-            highlight.push(oneHighlight);
-          });
+          if (conferenceObj.highlight) {
+            Object.keys(conferenceObj.highlight).forEach(e => {
+              const oneHighlight = {
+                id: e,
+                name: conferenceObj.highlight[e].name,
+                url: conferenceObj.highlight[e].url,
+                width: conferenceObj.highlight[e].width,
+                height: conferenceObj.highlight[e].height
+              };
+              highlight.push(oneHighlight);
+            });
+          }
 
-          Object.keys(conferenceObj.speakers).forEach(e => {
-            const speaker = {
-              id: e,
-              introduction: conferenceObj.speakers[e].introduction,
-              name: conferenceObj.speakers[e].name,
-              occupation: conferenceObj.speakers[e].occupation,
-              picture: conferenceObj.speakers[e].picture
-            };
-            speakers.push(speaker);
-          });
+          if (conferenceObj.speakers) {
+            Object.keys(conferenceObj.speakers).forEach(e => {
+              const speaker = {
+                id: e,
+                introduction: conferenceObj.speakers[e].introduction,
+                name: conferenceObj.speakers[e].name,
+                occupation: conferenceObj.speakers[e].occupation,
+                picture: conferenceObj.speakers[e].picture
+              };
+              speakers.push(speaker);
+            });
+          }
+          if (conferenceObj.hosts) {
+            Object.keys(conferenceObj.hosts).forEach(e => {
+              const host = {
+                id: e,
+                introduction: conferenceObj.hosts[e].introduction,
+                name: conferenceObj.hosts[e].name,
+                occupation: conferenceObj.hosts[e].occupation,
+                picture: conferenceObj.hosts[e].picture
+              };
+              hosts.push(host);
+            });
+          }
 
-          Object.keys(conferenceObj.hosts).forEach(e => {
-            const host = {
-              id: e,
-              introduction: conferenceObj.hosts[e].introduction,
-              name: conferenceObj.hosts[e].name,
-              occupation: conferenceObj.hosts[e].occupation,
-              picture: conferenceObj.hosts[e].picture
-            };
-            hosts.push(host);
-          });
+          if (conferenceObj.performers) {
+            Object.keys(conferenceObj.performers).forEach(e => {
+              const performer = {
+                id: e,
+                introduction: conferenceObj.performers[e].introduction,
+                name: conferenceObj.performers[e].name,
+                occupation: conferenceObj.performers[e].occupation,
+                picture: conferenceObj.performers[e].picture
+              };
+              performers.push(performer);
+            });
+          }
 
-          Object.keys(conferenceObj.performers).forEach(e => {
-            const performer = {
-              id: e,
-              introduction: conferenceObj.performers[e].introduction,
-              name: conferenceObj.performers[e].name,
-              occupation: conferenceObj.performers[e].occupation,
-              picture: conferenceObj.performers[e].picture
-            };
-            performers.push(performer);
-          });
-
-          Object.keys(conferenceObj.adventures.listAdventures).forEach(e => {
-            const adventure = {
-              id: e,
-              name: conferenceObj.adventures.listAdventures[e].name,
-              detail: conferenceObj.adventures.listAdventures[e].detail,
-              picture: conferenceObj.adventures.listAdventures[e].picture
-            };
-            adventures.push(adventure);
-          });
-
-          Object.keys(conferenceObj.sponsors).forEach(e => {
-            const sponsor = {
-              id: e,
-              logo: conferenceObj.sponsors[e].logo,
-              website: conferenceObj.sponsors[e].website
-            };
-            sponsors.push(sponsor);
-          });
+          if (conferenceObj.adventures.listAdventures) {
+            Object.keys(conferenceObj.adventures.listAdventures).forEach(e => {
+              const adventure = {
+                id: e,
+                name: conferenceObj.adventures.listAdventures[e].name,
+                detail: conferenceObj.adventures.listAdventures[e].detail,
+                picture: conferenceObj.adventures.listAdventures[e].picture
+              };
+              adventures.push(adventure);
+            });
+          }
+          if (conferenceObj.sponsors) {
+            Object.keys(conferenceObj.sponsors).forEach(e => {
+              const sponsor = {
+                id: e,
+                logo: conferenceObj.sponsors[e].logo,
+                website: conferenceObj.sponsors[e].website
+              };
+              sponsors.push(sponsor);
+            });
+          }
 
           this.setState({
             agenda,

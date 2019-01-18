@@ -2072,9 +2072,12 @@ a:hover {
   padding-bottom: 0 !important;
 }
 
-.speakers-section {
+.speakers-section,
+.hosts-section,
+.performers-section,
+.adventures-section {
   width: 100% !important;
-  padding-bottom: 24px;
+  margin: 0 10px;
 }
 
 .sponsors-section {
@@ -2114,14 +2117,9 @@ a:hover {
   text-align: center;
 }
 
-.event-title {
-  margin: 0 404px;
-}
-
 .event-description {
   font-weight: 300;
   font-size: 16px !important;
-  margin: 0 484px !important;
 }
 
 .con-header,
@@ -2167,8 +2165,13 @@ a:hover {
   padding: 0 !important;
 }
 
-.speaker {
+.speaker,
+.host,
+.performer,
+.adventure,
+.sponsor {
   cursor: pointer;
+  padding-bottom: 24px !important;
 }
 
 .back-btn {
@@ -2192,10 +2195,6 @@ a:hover {
   font-weight: 300;
   font-size: 34px;
   text-transform: uppercase;
-}
-
-.first-roll-speakers {
-  margin: 0 10px;
 }
 
 .youtube {
@@ -2262,7 +2261,7 @@ a:hover {
   font-weight: 700;
 }
 
-@media screen and (max-width: 1599px) and (min-width: 992px) {
+@media screen and (max-width: 1599.98px) and (min-width: 992px) {
   .youtube {
     height: auto;
   }
@@ -2273,7 +2272,9 @@ a:hover {
     margin: 0 234px;
   }
 
-  .speakers-section {
+  .speakers-section,
+  .hosts-section,
+  .performers-section {
     margin: 0 194px;
   }
 
@@ -2283,6 +2284,22 @@ a:hover {
 
   .post-section {
     max-width: 75% !important;
+  }
+
+  .header-wrapper {
+    margin: 0 440px;
+  }
+}
+
+@media screen and (max-width: 1600px) and (min-width: 992px) {
+  .header-wrapper {
+    margin: 0 204px;
+  }
+}
+
+@media screen and (max-width: 991.98px) and (min-width: 768px) {
+  .header-wrapper {
+    margin: 0 104px;
   }
 }
 
@@ -2314,6 +2331,15 @@ a:hover {
   }
 }
 
+.adv-wrapper {
+  width: 50vw;
+  margin: auto;
+}
+.adv-header {
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
 @media screen and (max-width: 767px) {
   .add-border-agenda {
     border-right: none;
@@ -2328,6 +2354,12 @@ a:hover {
   .venue-section {
     position: absolute;
     left: 42px;
+  }
+  .home-wrapper {
+    margin: 0 14px !important;
+  }
+  .adv-wrapper {
+    width: 60vw;
   }
 }
 
@@ -2358,9 +2390,6 @@ a:hover {
   .con-header {
     max-height: 45vh !important;
   }
-  .speaker {
-    padding: 0;
-  }
 }
 
 @media screen and (max-height: 884px) {
@@ -2389,5 +2418,46 @@ a:hover {
   .home-title {
     font-size: 22px !important;
     margin-top: 54px !important;
+  }
+  .event-title {
+    font-size: 24px !important;
+  }
+}
+
+@media screen and (min-height: 600px) and (max-height: 700px) {
+  .event-title {
+    font-size: 32px !important;
+  }
+}
+
+.gap-header,
+.gap-detail {
+  color: #fff;
+}
+
+.gap-header {
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.gap-detail {
+  padding: 0 !important;
+  margin: 0 !important;
+  width: 30vw;
+}
+
+@media screen and (max-width: 575px) {
+  .gap-header,
+  .gap-detail {
+    text-align: center;
+  }
+
+  .gap-detail {
+    width: 100%;
+    margin: auto;
+  }
+
+  .adv-wrapper {
+    width: 70vw;
   }
 }

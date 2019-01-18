@@ -71,7 +71,7 @@ class HostList extends React.Component {
     return imgs.slice(startIndex, endIndex).map(e => {
       if (this.state.performerSelected === e.id) {
         return (
-          <div className="col-md-6 col-lg-3 mb-2" key={e.id}>
+          <div className="col-sm-6 col-lg-3 mb-2" key={e.id}>
             <div
               className="hotel-room text-center notransition"
               onClick={() => this.openModalPerformer(e.id)}
@@ -99,7 +99,7 @@ class HostList extends React.Component {
         );
       }
       return (
-        <div className="col-md-6 col-lg-3 mb-2 speaker" key={e.id}>
+        <div className="col-sm-6 col-lg-3 mb-2 speaker" key={e.id}>
           <div
             className="hotel-room text-center notransition"
             onClick={() => this.openModalPerformer(e.id)}
@@ -136,22 +136,26 @@ class HostList extends React.Component {
       <div className="site-section bg-white">
         <div className="container">
           <div className="row">
-            <div className="col-md-6 mx-auto text-center mb-5 section-heading">
+            <div className="col-sm-6 mx-auto text-center mb-5 section-heading">
               <h2 className="mb-5" style={{ fontFamily: 'Roboto' }}>
                 Performers
               </h2>
             </div>
           </div>
           {this.props.performers.length <= 4 ? (
-            <div className="row">{this.renderImg(1, this.props.performers)}</div>
+            <div className="row">
+              {this.renderAllImg(this.props.performers)}
+            </div>
           ) : (
             <div>
               <div className="row">
-                {this.renderFirstRow(1, this.props.performers)}
+                {this.renderAllImg(this.props.performers.slice(0, 4))}
               </div>
               <SmoothCollapse expanded={this.state.expanded}>
                 <div className="row">
-                  {this.renderAllImg(this.props.performers)}
+                  {this.renderAllImg(
+                    this.props.performers.slice(4, this.props.performers.length)
+                  )}
                 </div>
               </SmoothCollapse>
               <div className="row">

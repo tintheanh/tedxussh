@@ -1,5 +1,4 @@
 import React from 'react';
-import Modal from 'react-responsive-modal';
 
 class SponsorList extends React.Component {
   constructor(props) {
@@ -27,7 +26,7 @@ class SponsorList extends React.Component {
 
   renderRow(startIndex, endIndex, imgs) {
     return imgs.slice(startIndex, endIndex).map(e => (
-      <div className="col-md-6 col-lg-3 mb-2" key={e.id}>
+      <div className="col-sm-6 col-lg-3 mb-2 sponsor" key={e.id}>
         <div className="hotel-room text-center notransition" style={{ background: 'transparent' }}>
           <div className="d-block mb-0 thumbnail notransition">
             <a href={e.website} target="_blank">
@@ -54,7 +53,7 @@ class SponsorList extends React.Component {
       <div className="site-section bg-light">
         <div className="container" ref={this.element}>
           <div className="row">
-            <div className="col-md-6 mx-auto text-center mb-5 section-heading">
+            <div className="col-sm-6 mx-auto text-center mb-5 section-heading">
               <h2 className="mb-5" style={{ fontFamily: 'Roboto' }}>
                 Sponsors
               </h2>

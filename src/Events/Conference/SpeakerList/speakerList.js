@@ -23,31 +23,6 @@ class SpeakerList extends React.Component {
     this.setState({ modalSpeaker: false });
   }
 
-  renderFirstRow(totalRows, imgs) {
-    let startIndex = -4;
-    let endIndex = startIndex + 4;
-    const temp = Array.from({ length: totalRows }, () =>
-      Math.floor(Math.random())
-    );
-
-    return temp.map((_, i) => {
-      startIndex += 4;
-      endIndex += 4;
-      if (i === 0) {
-        return (
-          <div
-            className="row speakers-section first-roll-speakers"
-            key={i}
-            // style={{ margin: '0 10px' }}
-          >
-            {this.renderRow(startIndex, endIndex, imgs)}
-          </div>
-        );
-      }
-      return null;
-    });
-  }
-
   renderImg(totalRows, imgs) {
     let startIndex = -4;
     let endIndex = startIndex + 4;
@@ -71,7 +46,7 @@ class SpeakerList extends React.Component {
     return imgs.slice(startIndex, endIndex).map(e => {
       if (this.state.speakerSelected === e.id) {
         return (
-          <div className="col-md-6 col-lg-3 mb-2" key={e.id}>
+          <div className="col-sm-6 col-lg-3 speaker" key={e.id}>
             <div
               className="hotel-room text-center notransition"
               onClick={() => this.openModalSpeaker(e.id)}
@@ -99,7 +74,7 @@ class SpeakerList extends React.Component {
         );
       }
       return (
-        <div className="col-md-6 col-lg-3 mb-2 speaker" key={e.id}>
+        <div className="col-sm-6 col-lg-3 speaker" key={e.id}>
           <div
             className="hotel-room text-center notransition"
             onClick={() => this.openModalSpeaker(e.id)}
@@ -136,22 +111,24 @@ class SpeakerList extends React.Component {
       <div className="site-section bg-light">
         <div className="container">
           <div className="row">
-            <div className="col-md-6 mx-auto text-center mb-5 section-heading">
+            <div className="col-sm-6 mx-auto text-center mb-5 section-heading">
               <h2 className="mb-5" style={{ fontFamily: 'Roboto' }}>
                 Speakers
               </h2>
             </div>
           </div>
           {this.props.speakers.length <= 4 ? (
-            <div className="row">{this.renderImg(1, this.props.speakers)}</div>
+            <div className="row">{this.renderAllImg(this.props.speakers)}</div>
           ) : (
             <div>
               <div className="row">
-                {this.renderFirstRow(1, this.props.speakers)}
+                {this.renderAllImg(this.props.speakers.slice(0, 4))}
               </div>
               <SmoothCollapse expanded={this.state.expanded}>
                 <div className="row">
-                  {this.renderAllImg(this.props.speakers)}
+                  {this.renderAllImg(
+                    this.props.speakers.slice(4, this.props.speakers.length)
+                  )}
                 </div>
               </SmoothCollapse>
               <div className="row">

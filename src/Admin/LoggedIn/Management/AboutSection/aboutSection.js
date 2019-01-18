@@ -8,6 +8,7 @@ class AboutSection extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      height: 0,
       background: '',
       header: '',
       leftDescription: '',
@@ -40,6 +41,8 @@ class AboutSection extends React.Component {
       toggleEditRightDesc: false,
       toggleEditVision: false
     };
+
+    this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
 
     this.openModalEditBackground = this.openModalEditBackground.bind(this);
     this.closeModalEditBackground = this.closeModalEditBackground.bind(this);
@@ -76,7 +79,17 @@ class AboutSection extends React.Component {
   }
 
   componentDidMount() {
+    this.updateWindowDimensions();
+    window.addEventListener('resize', this.updateWindowDimensions);
     this.fetchData();
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateWindowDimensions);
+  }
+
+  updateWindowDimensions() {
+    this.setState({ height: window.innerHeight });
   }
 
   fetchData() {
@@ -252,44 +265,70 @@ class AboutSection extends React.Component {
       vision_3_description
     } = this.state;
     return (
-      <div className="page-wrapper">
-        <div className="page-breadcrumb">
+      <div
+        className="page-wrapper"
+        style={{ height: `${this.state.height - 64}px`, overflowY: 'scroll' }}
+      >
+        <div className="page-breadcrumb" style={{ paddingBottom: '54px' }}>
           <div className="row">
             <div className="col-12 d-flex no-block align-items-center">
-              <h4 className="page-title">Dashboard</h4>
+              <h2 className="page-title">About edit section</h2>
             </div>
           </div>
           {/* ----------------------------------------------------------------------BACKGROUND */}
-          <img className="img-fluid" src={background} alt="" />
-          <button onClick={this.openModalEditBackground}>
-            Edit background
-          </button>
-          <Modal
-            open={this.state.modalEditBackground}
-            onClose={this.closeModalEditBackground}
-            center
-          >
-            <ImageManagement
-              category="stockImages"
-              pick={this.onSaveBackground.bind(this)}
-              closeModal={this.closeModalEditBackground}
-            />
-          </Modal>
+          <div className="row style-section">
+            <div className="col-12">
+              <h3>Background picture</h3>
+            </div>
+            <div className="col-12">
+              <img className="img-fluid" src={background} alt="" />
+            </div>
+            <button onClick={this.openModalEditBackground}>Edit</button>
+            <Modal
+              open={this.state.modalEditBackground}
+              onClose={this.closeModalEditBackground}
+              center
+            >
+              <ImageManagement
+                category="stockImages"
+                pick={this.onSaveBackground.bind(this)}
+                closeModal={this.closeModalEditBackground}
+              />
+            </Modal>
+          </div>
           {/* ----------------------------------------------------------------------HEADER */}
           {!this.state.toggleEditHeader ? (
-            <div>
-              <p>{header}</p>
+            <div className="row style-section">
+              <div className="col-12">
+                <h3>Title</h3>
+              </div>
+              <div className="col-12">
+                <p>{header}</p>
+              </div>
               <button onClick={() => this.setState({ toggleEditHeader: true })}>
-                Edit header
+                Edit
               </button>
             </div>
           ) : (
-            <div>
-              <input
-                type="text"
-                value={header}
-                onChange={e => this.setState({ header: e.target.value })}
-              />
+            <div className="row style-section">
+              <div className="col-12">
+                <h3>Title</h3>
+              </div>
+              <div className="col-12">
+                <input
+                  type="text"
+                  value={header}
+                  onChange={e => this.setState({ header: e.target.value })}
+                />
+              </div>
+              <button
+                onClick={() => {
+                  this.onUpdateText('header');
+                  this.setState({ toggleEditHeader: false });
+                }}
+              >
+                Save
+              </button>
               <button
                 onClick={() =>
                   this.setState({ toggleEditHeader: false }, () =>
@@ -299,385 +338,511 @@ class AboutSection extends React.Component {
               >
                 Cancel
               </button>
-              <button
-                onClick={() => {
-                  this.onUpdateText('header');
-                  this.setState({ toggleEditHeader: false });
-                }}
-              >
-                Save
-              </button>
             </div>
           )}
 
-          <h1>Left</h1>
           {/* ----------------------------------------------------------------------LEFTPIC */}
-          <img className="img-fluid" src={leftPicture} alt="" />
-          <button onClick={this.openModalEditLeftPic}>Edit left picture</button>
-          <Modal
-            open={this.state.modalEditLeftPic}
-            onClose={this.closeModalEditLeftPic}
-            center
-          >
-            <ImageManagement
-              category="stockImages"
-              pick={this.onSaveLeftPic.bind(this)}
-              closeModal={this.closeModalEditLeftPic}
-            />
-          </Modal>
-          {/* ----------------------------------------------------------------------LEFTTITLE */}
-          {!this.state.toggleEditLeftTitle ? (
-            <div>
-              <p>{leftTitle}</p>
-              <button
-                onClick={() => this.setState({ toggleEditLeftTitle: true })}
+          <div className="row style-section">
+            <div className="col-12">
+              <div>
+                <h3>Left</h3>
+              </div>
+              <div>
+                <h5>Left pic</h5>
+              </div>
+              <div>
+                <img className="img-fluid" src={leftPicture} alt="" />
+              </div>
+              <button onClick={this.openModalEditLeftPic}>Edit</button>
+              <Modal
+                open={this.state.modalEditLeftPic}
+                onClose={this.closeModalEditLeftPic}
+                center
               >
-                Edit left title
-              </button>
+                <ImageManagement
+                  category="stockImages"
+                  pick={this.onSaveLeftPic.bind(this)}
+                  closeModal={this.closeModalEditLeftPic}
+                />
+              </Modal>
             </div>
-          ) : (
-            <div>
-              <input
-                type="text"
-                value={leftTitle}
-                onChange={e => this.setState({ leftTitle: e.target.value })}
-              />
-              <button
-                onClick={() =>
-                  this.setState({ toggleEditLeftTitle: false }, () =>
-                    this.fetchData()
-                  )
-                }
-              >
-                Cancel
-              </button>
-              <button
-                onClick={() => {
-                  this.onUpdateText('left-title');
-                  this.setState({ toggleEditLeftTitle: false });
-                }}
-              >
-                Save
-              </button>
-            </div>
-          )}
-          {/* ----------------------------------------------------------------------LEFTDESCRIPTION */}
-          {!this.state.toggleEditLeftDesc ? (
-            <div>
-              <p>{leftDescription}</p>
-              <button
-                onClick={() => this.setState({ toggleEditLeftDesc: true })}
-              >
-                Edit left description
-              </button>
-            </div>
-          ) : (
-            <div>
-              <textarea
-                value={leftDescription}
-                onChange={e =>
-                  this.setState({ leftDescription: e.target.value })
-                }
-              />
-              <button
-                onClick={() =>
-                  this.setState({ toggleEditLeftDesc: false }, () =>
-                    this.fetchData()
-                  )
-                }
-              >
-                Cancel
-              </button>
-              <button
-                onClick={() => {
-                  this.onUpdateText('left-description');
-                  this.setState({ toggleEditLeftDesc: false });
-                }}
-              >
-                Save
-              </button>
-            </div>
-          )}
-          <h1>Middle</h1>
+            {/* ----------------------------------------------------------------------LEFTTITLE */}
+            {!this.state.toggleEditLeftTitle ? (
+              <div className="col-12">
+                <div>
+                  <h5>Left title</h5>
+                </div>
+                <div>
+                  <p>{leftTitle}</p>
+                </div>
+                <div>
+                  <button
+                    onClick={() => this.setState({ toggleEditLeftTitle: true })}
+                  >
+                    Edit
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="col-12">
+                <div>
+                  <input
+                    type="text"
+                    value={leftTitle}
+                    onChange={e => this.setState({ leftTitle: e.target.value })}
+                  />
+                </div>
+                <div>
+                  <button
+                    onClick={() =>
+                      this.setState({ toggleEditLeftTitle: false }, () =>
+                        this.fetchData()
+                      )
+                    }
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={() => {
+                      this.onUpdateText('left-title');
+                      this.setState({ toggleEditLeftTitle: false });
+                    }}
+                  >
+                    Save
+                  </button>
+                </div>
+              </div>
+            )}
+            {/* ----------------------------------------------------------------------LEFTDESCRIPTION */}
+            {!this.state.toggleEditLeftDesc ? (
+              <div className="col-12">
+                <div>
+                  <h5>Left description</h5>
+                </div>
+                <div>
+                  <p>{leftDescription}</p>
+                </div>
+                <div>
+                  <button
+                    onClick={() => this.setState({ toggleEditLeftDesc: true })}
+                  >
+                    Edit
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="col-12">
+                <div>
+                  <textarea
+                    value={leftDescription}
+                    onChange={e =>
+                      this.setState({ leftDescription: e.target.value })
+                    }
+                  />
+                </div>
+                <div>
+                  <button
+                    onClick={() =>
+                      this.setState({ toggleEditLeftDesc: false }, () =>
+                        this.fetchData()
+                      )
+                    }
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={() => {
+                      this.onUpdateText('left-description');
+                      this.setState({ toggleEditLeftDesc: false });
+                    }}
+                  >
+                    Save
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
           {/* ----------------------------------------------------------------------VIDEO */}
+          <div className="row style-section">
+            {!this.state.toggleEditVideo ? (
+              <div className="col-12">
+                <div>
+                  <h3>Middle</h3>
+                </div>
+                <div>
+                  <h5>Youtube video</h5>
+                </div>
+                <div>
+                  <YouTube
+                    videoId={this.youtube_parser(video)}
+                    onReady={this.onReady}
+                  />
+                </div>
+                <div>
+                  <button
+                    onClick={() => this.setState({ toggleEditVideo: true })}
+                  >
+                    Edit
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="col-12">
+                <div>
+                  <input
+                    value={video}
+                    onChange={e => this.setState({ video: e.target.value })}
+                  />
+                </div>
+                <div>
+                  <button
+                    onClick={() => {
+                      this.onUpdateText('video');
+                      this.setState({ toggleEditVideo: false });
+                    }}
+                  >
+                    Save
+                  </button>
+                  <button
+                    onClick={() =>
+                      this.setState({ toggleEditVideo: false }, () =>
+                        this.fetchData()
+                      )
+                    }
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            )}
+            {/* ----------------------------------------------------------------------MIDDLETITLE */}
+            {!this.state.toggleEditMidTitle ? (
+              <div className="col-12">
+                <div>
+                  <h5>Title</h5>
+                </div>
+                <div>
+                  <p>{middleTitle}</p>
+                </div>
+                <div>
+                  <button
+                    onClick={() => this.setState({ toggleEditMidTitle: true })}
+                  >
+                    Edit
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="col-12">
+                <div>
+                  <input
+                    type="text"
+                    value={middleTitle}
+                    onChange={e =>
+                      this.setState({ middleTitle: e.target.value })
+                    }
+                  />
+                </div>
+                <div>
+                  <button
+                    onClick={() => {
+                      this.onUpdateText('middle-title');
+                      this.setState({ toggleEditMidTitle: false });
+                    }}
+                  >
+                    Save
+                  </button>
+                  <button
+                    onClick={() =>
+                      this.setState({ toggleEditMidTitle: false }, () =>
+                        this.fetchData()
+                      )
+                    }
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            )}
 
-          {!this.state.toggleEditVideo ? (
-            <div>
-              <YouTube
-                videoId={this.youtube_parser(video)}
-                onReady={this.onReady}
-                className="img-fluid"
-              />
-              <button onClick={() => this.setState({ toggleEditVideo: true })}>
-                Edit video
-              </button>
-            </div>
-          ) : (
-            <div>
-              <input
-                value={video}
-                onChange={e => this.setState({ video: e.target.value })}
-              />
-              <button
-                onClick={() =>
-                  this.setState({ toggleEditVideo: false }, () =>
-                    this.fetchData()
-                  )
-                }
-              >
-                Cancel
-              </button>
-              <button
-                onClick={() => {
-                  this.onUpdateText('video');
-                  this.setState({ toggleEditVideo: false });
-                }}
-              >
-                Save
-              </button>
-            </div>
-          )}
-          {/* ----------------------------------------------------------------------MIDDLETITLE */}
-          {!this.state.toggleEditMidTitle ? (
-            <div>
-              <p>{middleTitle}</p>
-              <button
-                onClick={() => this.setState({ toggleEditMidTitle: true })}
-              >
-                Edit middle title
-              </button>
-            </div>
-          ) : (
-            <div>
-              <input
-                type="text"
-                value={middleTitle}
-                onChange={e => this.setState({ middleTitle: e.target.value })}
-              />
-              <button
-                onClick={() =>
-                  this.setState({ toggleEditMidTitle: false }, () =>
-                    this.fetchData()
-                  )
-                }
-              >
-                Cancel
-              </button>
-              <button
-                onClick={() => {
-                  this.onUpdateText('middle-title');
-                  this.setState({ toggleEditMidTitle: false });
-                }}
-              >
-                Save
-              </button>
-            </div>
-          )}
-          {/* ----------------------------------------------------------------------MIDDLEDESCRIPTION */}
-          {!this.state.toggleEditMidDesc ? (
-            <div>
-              <p>{middleDescription}</p>
-              <button
-                onClick={() => this.setState({ toggleEditMidDesc: true })}
-              >
-                Edit middle description
-              </button>
-            </div>
-          ) : (
-            <div>
-              <textarea
-                value={middleDescription}
-                onChange={e =>
-                  this.setState({ middleDescription: e.target.value })
-                }
-              />
-              <button
-                onClick={() =>
-                  this.setState({ toggleEditMidDesc: false }, () =>
-                    this.fetchData()
-                  )
-                }
-              >
-                Cancel
-              </button>
-              <button
-                onClick={() => {
-                  this.onUpdateText('middle-description');
-                  this.setState({ toggleEditMidDesc: false });
-                }}
-              >
-                Save
-              </button>
-            </div>
-          )}
-          <h1>Right</h1>
+            {/* ----------------------------------------------------------------------MIDDLEDESCRIPTION */}
+            {!this.state.toggleEditMidDesc ? (
+              <div className="col-12">
+                <div>
+                  <h5>Description</h5>
+                </div>
+                <div>
+                  <p>{middleDescription}</p>
+                </div>
+                <div>
+                  <button
+                    onClick={() => this.setState({ toggleEditMidDesc: true })}
+                  >
+                    Edit middle description
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div>
+                <textarea
+                  value={middleDescription}
+                  onChange={e =>
+                    this.setState({ middleDescription: e.target.value })
+                  }
+                />
+                <button
+                  onClick={() =>
+                    this.setState({ toggleEditMidDesc: false }, () =>
+                      this.fetchData()
+                    )
+                  }
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => {
+                    this.onUpdateText('middle-description');
+                    this.setState({ toggleEditMidDesc: false });
+                  }}
+                >
+                  Save
+                </button>
+              </div>
+            )}
+          </div>
           {/* ----------------------------------------------------------------------RIGHTPIC */}
-          <img className="img-fluid" src={rightPicture} alt="" />
-          <button onClick={this.openModalEditRightPic}>
-            Edit right picture
-          </button>
-          <Modal
-            open={this.state.modalEditRightPic}
-            onClose={this.closeModalEditRightPic}
-            center
-          >
-            <ImageManagement
-              category="stockImages"
-              pick={this.onSaveRightPic.bind(this)}
-              closeModal={this.closeModalEditRightPic}
-            />
-          </Modal>
-          {/* ----------------------------------------------------------------------RIGHTTITLE */}
-          {!this.state.toggleEditRightTitle ? (
-            <div>
-              <p>{rightTitle}</p>
-              <button
-                onClick={() => this.setState({ toggleEditRightTitle: true })}
+          <div className="row style-section">
+            <div className="col-12">
+              <div>
+                <h3>Right</h3>
+              </div>
+              <div>
+                <h5>Right picture</h5>
+              </div>
+              <div>
+                <img className="img-fluid" src={rightPicture} alt="" />
+              </div>
+              <div>
+                <button onClick={this.openModalEditRightPic}>Edit</button>
+              </div>
+              <Modal
+                open={this.state.modalEditRightPic}
+                onClose={this.closeModalEditRightPic}
+                center
               >
-                Edit right title
-              </button>
+                <ImageManagement
+                  category="stockImages"
+                  pick={this.onSaveRightPic.bind(this)}
+                  closeModal={this.closeModalEditRightPic}
+                />
+              </Modal>
             </div>
-          ) : (
-            <div>
-              <input
-                type="text"
-                value={rightTitle}
-                onChange={e => this.setState({ rightTitle: e.target.value })}
-              />
-              <button
-                onClick={() =>
-                  this.setState({ toggleEditRightTitle: false }, () =>
-                    this.fetchData()
-                  )
-                }
-              >
-                Cancel
-              </button>
-              <button
-                onClick={() => {
-                  this.onUpdateText('right-title');
-                  this.setState({ toggleEditRightTitle: false });
-                }}
-              >
-                Save
-              </button>
-            </div>
-          )}
-          {/* ----------------------------------------------------------------------RIGHTDESCRIPTION */}
-          {!this.state.toggleEditRightDesc ? (
-            <div>
-              <p>{rightDescription}</p>
-              <button
-                onClick={() => this.setState({ toggleEditRightDesc: true })}
-              >
-                Edit right description
-              </button>
-            </div>
-          ) : (
-            <div>
-              <textarea
-                value={rightDescription}
-                onChange={e =>
-                  this.setState({ rightDescription: e.target.value })
-                }
-              />
-              <button
-                onClick={() =>
-                  this.setState({ toggleEditRightDesc: false }, () =>
-                    this.fetchData()
-                  )
-                }
-              >
-                Cancel
-              </button>
-              <button
-                onClick={() => {
-                  this.onUpdateText('right-description');
-                  this.setState({ toggleEditRightDesc: false });
-                }}
-              >
-                Save
-              </button>
-            </div>
-          )}
-
+            {/* ----------------------------------------------------------------------RIGHTTITLE */}
+            {!this.state.toggleEditRightTitle ? (
+              <div className="col-12">
+                <div>
+                  <h5>Right title</h5>
+                </div>
+                <div>
+                  <p>{rightTitle}</p>
+                </div>
+                <div>
+                  <button
+                    onClick={() =>
+                      this.setState({ toggleEditRightTitle: true })
+                    }
+                  >
+                    Edit
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="col-12">
+                <div>
+                  <h5>Right title</h5>
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    value={rightTitle}
+                    onChange={e =>
+                      this.setState({ rightTitle: e.target.value })
+                    }
+                  />
+                </div>
+                <div>
+                  <button
+                    onClick={() => {
+                      this.onUpdateText('right-title');
+                      this.setState({ toggleEditRightTitle: false });
+                    }}
+                  >
+                    Save
+                  </button>
+                  <button
+                    onClick={() =>
+                      this.setState({ toggleEditRightTitle: false }, () =>
+                        this.fetchData()
+                      )
+                    }
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            )}
+            {/* ----------------------------------------------------------------------RIGHTDESCRIPTION */}
+            {!this.state.toggleEditRightDesc ? (
+              <div className="col-12">
+                <div>
+                  <p>{rightDescription}</p>
+                </div>
+                <div>
+                  <button
+                    onClick={() => this.setState({ toggleEditRightDesc: true })}
+                  >
+                    Edit
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="col-12">
+                <div>
+                  <textarea
+                    value={rightDescription}
+                    onChange={e =>
+                      this.setState({ rightDescription: e.target.value })
+                    }
+                  />
+                </div>
+                <div>
+                  <button
+                    onClick={() => {
+                      this.onUpdateText('right-description');
+                      this.setState({ toggleEditRightDesc: false });
+                    }}
+                  >
+                    Save
+                  </button>
+                  <button
+                    onClick={() =>
+                      this.setState({ toggleEditRightDesc: false }, () =>
+                        this.fetchData()
+                      )
+                    }
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
           {/* ----------------------------------------------------------------------VISION */}
-          <h1>Vision and goals</h1>
-          {!this.state.toggleEditVision ? (
-            <div>
-              {' '}
-              <p>{vision_1_title}</p>
-              <p>{vision_1_description}</p>
-              <p>{vision_2_title}</p>
-              <p>{vision_2_description}</p>
-              <p>{vision_3_title}</p>
-              <p>{vision_3_description}</p>
-              <button onClick={() => this.setState({ toggleEditVision: true })}>
-                Edit vision
-              </button>
-            </div>
-          ) : (
-            <div>
-              <input
-                type="text"
-                value={vision_1_title}
-                onChange={e =>
-                  this.setState({ vision_1_title: e.target.value })
-                }
-              />
-              <br />
-              <textarea
-                value={vision_1_description}
-                onChange={e =>
-                  this.setState({ vision_1_description: e.target.value })
-                }
-              />
-              <br />
-              <input
-                type="text"
-                value={vision_2_title}
-                onChange={e =>
-                  this.setState({ vision_2_title: e.target.value })
-                }
-              />
-              <br />
-              <textarea
-                value={vision_2_description}
-                onChange={e =>
-                  this.setState({ vision_2_description: e.target.value })
-                }
-              />
-              <br />
-              <input
-                type="text"
-                value={vision_3_title}
-                onChange={e =>
-                  this.setState({ vision_3_title: e.target.value })
-                }
-              />
-              <br />
-              <textarea
-                value={vision_3_description}
-                onChange={e =>
-                  this.setState({ vision_3_description: e.target.value })
-                }
-              />
-              <br />
-              <button
-                onClick={() => {
-                  this.onUpdateText('vision');
-                  this.setState({ toggleEditVision: false });
-                }}
-              >
-                Save
-              </button>
-              <button
-                onClick={() => this.setState({ toggleEditVision: false })}
-              >
-                Cancel
-              </button>
-            </div>
-          )}
+          <div className="row style-section">
+            {!this.state.toggleEditVision ? (
+              <div className="col-12">
+                <h3>Vision and goals</h3>{' '}
+                <div>
+                  <h5>Vision 1 title</h5>
+                  <p>{vision_1_title}</p>
+                </div>
+                <div>
+                  <h5>Vision 1 description</h5>
+                  <p>{vision_1_description}</p>
+                </div>
+                <div>
+                  <h5>Vision 2 title</h5>
+                  <p>{vision_2_title}</p>
+                </div>
+                <div>
+                  <h5>Vision 2 description</h5>
+                  <p>{vision_2_description}</p>
+                </div>
+                <div>
+                  <h5>Vision 3 title</h5>
+                  <p>{vision_3_title}</p>
+                </div>
+                <div>
+                  <h5>Vision 3 description</h5>
+                  <p>{vision_3_description}</p>
+                </div>
+                <button
+                  onClick={() => this.setState({ toggleEditVision: true })}
+                >
+                  Edit
+                </button>
+              </div>
+            ) : (
+              <div className="col-12">
+                <div>
+                  <input
+                    type="text"
+                    value={vision_1_title}
+                    onChange={e =>
+                      this.setState({ vision_1_title: e.target.value })
+                    }
+                  />
+                </div>
+                <div>
+                  <textarea
+                    value={vision_1_description}
+                    onChange={e =>
+                      this.setState({ vision_1_description: e.target.value })
+                    }
+                  />
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    value={vision_2_title}
+                    onChange={e =>
+                      this.setState({ vision_2_title: e.target.value })
+                    }
+                  />
+                </div>
+                <div>
+                  <textarea
+                    value={vision_2_description}
+                    onChange={e =>
+                      this.setState({ vision_2_description: e.target.value })
+                    }
+                  />
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    value={vision_3_title}
+                    onChange={e =>
+                      this.setState({ vision_3_title: e.target.value })
+                    }
+                  />
+                </div>
+                <div>
+                  <textarea
+                    value={vision_3_description}
+                    onChange={e =>
+                      this.setState({ vision_3_description: e.target.value })
+                    }
+                  />
+                </div>
+                <div>
+                  <button
+                    onClick={() => {
+                      this.onUpdateText('vision');
+                      this.setState({ toggleEditVision: false });
+                    }}
+                  >
+                    Save
+                  </button>
+                  <button
+                    onClick={() => this.setState({ toggleEditVision: false })}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     );

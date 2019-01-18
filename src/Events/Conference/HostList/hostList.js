@@ -23,31 +23,6 @@ class HostList extends React.Component {
     this.setState({ modalHost: false });
   }
 
-  renderFirstRow(totalRows, imgs) {
-    let startIndex = -4;
-    let endIndex = startIndex + 4;
-    const temp = Array.from({ length: totalRows }, () =>
-      Math.floor(Math.random())
-    );
-
-    return temp.map((_, i) => {
-      startIndex += 4;
-      endIndex += 4;
-      if (i === 0) {
-        return (
-          <div
-            className="row speakers-section first-roll-speakers"
-            key={i}
-            // style={{ margin: '0 10px' }}
-          >
-            {this.renderRow(startIndex, endIndex, imgs)}
-          </div>
-        );
-      }
-      return null;
-    });
-  }
-
   renderImg(totalRows, imgs) {
     let startIndex = -4;
     let endIndex = startIndex + 4;
@@ -60,7 +35,7 @@ class HostList extends React.Component {
       endIndex += 4;
 
       return (
-        <div className="row speakers-section" key={i}>
+        <div className="row hosts-section" key={i}>
           {this.renderRow(startIndex, endIndex, imgs)}
         </div>
       );
@@ -71,7 +46,7 @@ class HostList extends React.Component {
     return imgs.slice(startIndex, endIndex).map(e => {
       if (this.state.HostSelected === e.id) {
         return (
-          <div className="col-md-6 col-lg-3 mb-2" key={e.id}>
+          <div className="col-sm-6 col-lg-3 mb-2 host" key={e.id}>
             <div
               className="hotel-room text-center notransition"
               onClick={() => this.openModalHost(e.id)}
@@ -99,7 +74,7 @@ class HostList extends React.Component {
         );
       }
       return (
-        <div className="col-md-6 col-lg-3 mb-2 speaker" key={e.id}>
+        <div className="col-sm-6 col-lg-3 mb-2 host" key={e.id}>
           <div
             className="hotel-room text-center notransition"
             onClick={() => this.openModalHost(e.id)}
@@ -136,22 +111,24 @@ class HostList extends React.Component {
       <div className="site-section bg-white">
         <div className="container">
           <div className="row">
-            <div className="col-md-6 mx-auto text-center mb-5 section-heading">
+            <div className="col-sm-6 mx-auto text-center mb-5 section-heading">
               <h2 className="mb-5" style={{ fontFamily: 'Roboto' }}>
                 Hosts
               </h2>
             </div>
           </div>
           {this.props.hosts.length <= 4 ? (
-            <div className="row">{this.renderImg(1, this.props.hosts)}</div>
+            <div className="row">{this.renderAllImg(this.props.hosts)}</div>
           ) : (
             <div>
               <div className="row">
-                {this.renderFirstRow(1, this.props.hosts)}
+                {this.renderAllImg(this.props.hosts.slice(0, 4))}
               </div>
               <SmoothCollapse expanded={this.state.expanded}>
                 <div className="row">
-                  {this.renderAllImg(this.props.hosts)}
+                  {this.renderAllImg(
+                    this.props.hosts.slice(4, this.props.hosts.length)
+                  )}
                 </div>
               </SmoothCollapse>
               <div className="row">

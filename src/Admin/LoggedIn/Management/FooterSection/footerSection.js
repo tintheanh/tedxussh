@@ -5,52 +5,47 @@ class FooterSection extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      height: 0,
       copyright: '',
-      getUpdate: '',
       facebook: '',
-      instagram: '',
-      twitter: '',
-      linkedin: '',
-      playlist: '',
+      youtube: '',
       sentence: '',
       quote: '',
-      sourceQuote: '',
-      toggleEdit: false
+
+      toggleEditLeft: false,
+      toggleEditMid: false,
+      toggleEditRight: false
     };
+    this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
   }
 
   componentDidMount() {
+    this.updateWindowDimensions();
+    window.addEventListener('resize', this.updateWindowDimensions);
     this.fetchData();
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateWindowDimensions);
+  }
+
+  updateWindowDimensions() {
+    this.setState({ height: window.innerHeight });
   }
 
   onChangeTextInput(e, arg) {
     switch (arg) {
-      case 'getUpdate':
-        this.setState({ getUpdate: e.target.value });
-        break;
       case 'facebook':
         this.setState({ facebook: e.target.value });
         break;
-      case 'twitter':
-        this.setState({ twitter: e.target.value });
-        break;
-      case 'instagram':
-        this.setState({ instagram: e.target.value });
-        break;
-      case 'linkedin':
-        this.setState({ linkedin: e.target.value });
-        break;
-      case 'playlist':
-        this.setState({ playlist: e.target.value });
+      case 'youtube':
+        this.setState({ youtube: e.target.value });
         break;
       case 'sentence':
         this.setState({ sentence: e.target.value });
         break;
       case 'quote':
         this.setState({ quote: e.target.value });
-        break;
-      case 'sourceQuote':
-        this.setState({ sourceQuote: e.target.value });
         break;
       case 'copyright':
         this.setState({ copyright: e.target.value });
@@ -69,15 +64,10 @@ class FooterSection extends React.Component {
         if (footerObj) {
           this.setState({
             copyright: footerObj.copyright,
-            getUpdate: footerObj.left.getUpdate,
             facebook: footerObj.left.links.facebook,
-            instagram: footerObj.left.links.instagram,
-            twitter: footerObj.left.links.twitter,
-            linkedin: footerObj.left.links.linkedin,
-            playlist: footerObj.left.playlist,
+            youtube: footerObj.left.links.youtube,
             sentence: footerObj.middle.sentence,
-            quote: footerObj.right.quote,
-            sourceQuote: footerObj.right.sourceQuote
+            quote: footerObj.right.quote
           });
         }
       });
@@ -87,31 +77,25 @@ class FooterSection extends React.Component {
     const update = {
       copyright: this.state.copyright,
       left: {
-        getUpdate: this.state.getUpdate,
         links: {
           facebook: this.state.facebook,
-          instagram: this.state.instagram,
-          linkedin: this.state.linkedin,
-          twitter: this.state.twitter
-        },
-        playlist: this.state.playlist
+          youtube: this.state.youtube
+        }
       },
       middle: {
         sentence: this.state.sentence
       },
       right: {
-        sourceQuote: this.state.sourceQuote,
         quote: this.state.quote
       }
     };
 
     firebase
       .database()
-      .ref('footer/')
+      .ref('footer')
       .update(update)
       .then(() => {
         alert('Saved!');
-        this.setState({ toggleEdit: false });
       })
       .catch(err => {
         console.error(err);
@@ -119,162 +103,218 @@ class FooterSection extends React.Component {
       });
   }
 
-  renderShowOrEdit() {
-    const {
-      copyright,
-      getUpdate,
-      facebook,
-      instagram,
-      twitter,
-      linkedin,
-      playlist,
-      sentence,
-      quote,
-      sourceQuote
-    } = this.state;
-    if (this.state.toggleEdit) {
-      return (
-        <div>
-          <div className="row">
-            <input
-              type="text"
-              value={getUpdate}
-              onChange={e => this.onChangeTextInput(e, 'getUpdate')}
-            />
-          </div>
-          <div className="row">
-            <input
-              type="text"
-              value={facebook}
-              onChange={e => this.onChangeTextInput(e, 'facebook')}
-            />
-          </div>
-          <div className="row">
-            <input
-              type="text"
-              value={instagram}
-              onChange={e => this.onChangeTextInput(e, 'instagram')}
-            />
-          </div>
-          <div className="row">
-            <input
-              type="text"
-              value={twitter}
-              onChange={e => this.onChangeTextInput(e, 'twitter')}
-            />
-          </div>
-          <div className="row">
-            <input
-              type="text"
-              value={linkedin}
-              onChange={e => this.onChangeTextInput(e, 'linkedin')}
-            />
-          </div>
-          <div className="row">
-            <input
-              type="text"
-              value={playlist}
-              onChange={e => this.onChangeTextInput(e, 'playlist')}
-            />
-          </div>
-          <div className="row">
-            <input
-              type="text"
-              value={sentence}
-              onChange={e => this.onChangeTextInput(e, 'sentence')}
-            />
-          </div>
-          <div className="row">
-            <input
-              type="text"
-              value={quote}
-              onChange={e => this.onChangeTextInput(e, 'quote')}
-            />
-          </div>
-          <div className="row">
-            <input
-              type="text"
-              value={sourceQuote}
-              onChange={e => this.onChangeTextInput(e, 'sourceQuote')}
-            />
-          </div>
-          <div className="row">
-            <input
-              type="text"
-              value={copyright}
-              onChange={e => this.onChangeTextInput(e, 'copyright')}
-            />
-          </div>
-          <button
-            type="button"
-            onClick={() =>
-              this.setState({ toggleEdit: false }, () => this.fetchData())
-            }
-          >
-            Cancel
-          </button>
-          <button type="button" onClick={() => this.onUpdate()}>
-            Save
-          </button>
-        </div>
-      );
-    }
-    return (
-      <div className="row style-section">
-        <div className="col-12">
-          <p>{getUpdate}</p>
-        </div>
-        <div className="col-12">
-          <p>{facebook}</p>
-        </div>
-        <div className="col-12">
-          <p>{instagram}</p>
-        </div>
-        <div className="col-12">
-          <p>{twitter}</p>
-        </div>
-        <div className="col-12">
-          <p>{linkedin}</p>
-        </div>
-        <div className="col-12">
-          <p>{playlist}</p>
-        </div>
-        <div className="col-12">
-          <p>{sentence}</p>
-        </div>
-        <div className="col-12">
-          <p>{quote}</p>
-        </div>
-        <div className="col-12">
-          <p>{sourceQuote}</p>
-        </div>
-        <div className="col-12">
-          <p>{copyright}</p>
-        </div>
-        <button
-          type="button"
-          onClick={() =>
-            this.setState({
-              toggleEdit: true
-            })
-          }
-        >
-          Edit
-        </button>
-      </div>
-    );
-  }
-
   render() {
+    const { copyright, facebook, youtube, sentence, quote } = this.state;
     return (
-      <div className="page-wrapper">
+      <div
+        className="page-wrapper"
+        style={{ height: `${this.state.height - 64}px`, overflowY: 'scroll' }}
+      >
         <div className="page-breadcrumb">
           <div className="row">
             <div className="col-12 d-flex no-block align-items-center">
               <h2 className="page-title">Footer Edit Section</h2>
             </div>
           </div>
-          {this.renderShowOrEdit()}
+          <div>
+            {!this.state.toggleEditLeft ? (
+              <div className="row style-section">
+                <div className="col-12">
+                  <h3>Left</h3>
+                </div>
+                <div className="col-12">
+                  <h5>Facebook link</h5>
+                </div>
+                <div className="col-12">
+                  <p>{facebook}</p>
+                </div>
+                <div className="col-12">
+                  <h5>Youtube link</h5>
+                </div>
+                <div className="col-12">
+                  <p>{youtube}</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() =>
+                    this.setState({
+                      toggleEditLeft: true
+                    })
+                  }
+                >
+                  Edit
+                </button>
+              </div>
+            ) : (
+              <div className="row style-section">
+                <div className="col-12">
+                  <h3>Left</h3>
+                </div>
+                <div className="col-12">
+                  <h5>Facebook link</h5>
+                </div>
+                <div className="col-12">
+                  <input
+                    type="text"
+                    value={facebook}
+                    onChange={e => this.onChangeTextInput(e, 'facebook')}
+                  />
+                </div>
+                <div className="col-12">
+                  <h5>Youtube link</h5>
+                </div>
+                <div className="col-12">
+                  <input
+                    type="text"
+                    value={youtube}
+                    onChange={e => this.onChangeTextInput(e, 'youtube')}
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    this.onUpdate();
+                    this.setState({ toggleEditLeft: false });
+                  }}
+                >
+                  Save
+                </button>
+                <button
+                  type="button"
+                  onClick={() =>
+                    this.setState({ toggleEditLeft: false }, () =>
+                      this.fetchData()
+                    )
+                  }
+                >
+                  Cancel
+                </button>
+              </div>
+            )}
+            {!this.state.toggleEditMid ? (
+              <div className="row style-section">
+                <div className="col-12">
+                  <h3>Middle</h3>
+                </div>
+                <div className="col-12">
+                  <h5>Sentence</h5>
+                </div>
+                <div className="col-12">
+                  <p>{sentence}</p>
+                </div>
+                <div className="col-12">
+                  <p>{copyright}</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() =>
+                    this.setState({
+                      toggleEditMid: true
+                    })
+                  }
+                >
+                  Edit
+                </button>
+              </div>
+            ) : (
+              <div className="row style-section">
+                <div className="col-12">
+                  <h3>Middle</h3>
+                </div>
+                <div className="col-12">
+                  <h5>Sentence</h5>
+                </div>
+                <div className="col-12">
+                  <textarea
+                    value={sentence}
+                    onChange={e => this.onChangeTextInput(e, 'sentence')}
+                  />
+                </div>
+                <div className="col-12">
+                  <textarea
+                    value={copyright}
+                    onChange={e => this.onChangeTextInput(e, 'copyright')}
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    this.onUpdate();
+                    this.setState({ toggleEditMid: false });
+                  }}
+                >
+                  Save
+                </button>
+                <button
+                  type="button"
+                  onClick={() =>
+                    this.setState({ toggleEditMid: false }, () =>
+                      this.fetchData()
+                    )
+                  }
+                >
+                  Cancel
+                </button>
+              </div>
+            )}
+            {!this.state.toggleEditRight ? (
+              <div className="row style-section">
+                <div className="col-12">
+                  <h3>Right</h3>
+                </div>
+                <div className="col-12">
+                  <h5>Sentence</h5>
+                </div>
+                <div className="col-12">
+                  <p>{quote}</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() =>
+                    this.setState({
+                      toggleEditRight: true
+                    })
+                  }
+                >
+                  Edit
+                </button>
+              </div>
+            ) : (
+              <div className="row style-section">
+                <div className="col-12">
+                  <h3>Right</h3>
+                </div>
+                <div className="col-12">
+                  <h5>Sentence</h5>
+                </div>
+                <div className="col-12">
+                  <textarea
+                    value={quote}
+                    onChange={e => this.onChangeTextInput(e, 'quote')}
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    this.onUpdate();
+                    this.setState({ toggleEditRight: false });
+                  }}
+                >
+                  Save
+                </button>
+                <button
+                  type="button"
+                  onClick={() =>
+                    this.setState({ toggleEditRight: false }, () =>
+                      this.fetchData()
+                    )
+                  }
+                >
+                  Cancel
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     );

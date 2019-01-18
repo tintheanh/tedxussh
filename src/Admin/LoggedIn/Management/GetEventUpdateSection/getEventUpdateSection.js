@@ -223,8 +223,7 @@ class GetEventUpdateSection extends React.Component {
         className="page-wrapper"
         style={{
           height: `${this.state.height - 64}px`,
-          overflowY: 'scroll',
-          paddingBottom: '54px'
+          overflowY: 'scroll'
         }}
       >
         <div className="page-breadcrumb">
@@ -331,6 +330,7 @@ class GetEventUpdateSection extends React.Component {
                   <div className="col-12">
                     <h3>Start Date</h3>
                     <DatePicker
+                      dateFormat="d/M/YYYY"
                       selected={moment(this.state.startDate).toDate()}
                       onChange={this.onStartDateChange.bind(this)}
                     />
@@ -371,6 +371,7 @@ class GetEventUpdateSection extends React.Component {
                   <div className="col-12">
                     <h3>End Date</h3>
                     <DatePicker
+                      dateFormat="d/M/YYYY"
                       selected={moment(this.state.endDate).toDate()}
                       onChange={this.onEndDateChange.bind(this)}
                     />

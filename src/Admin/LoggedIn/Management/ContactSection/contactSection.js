@@ -130,7 +130,7 @@ class ContactSection extends React.Component {
           <div>
             <div className="row style-section">
               <div className="col-12">
-                <h3>Cover picture</h3>
+                <h5>Cover picture</h5>
               </div>
               <div className="col-12">
                 <img src={this.state.background} alt="" className="img-fluid" />
@@ -152,22 +152,32 @@ class ContactSection extends React.Component {
             </div>
             {!this.state.toggleEditHQName ? (
               <div className="row style-section">
-                <p>{this.state.hqName}</p>
+                <div className="col-12">
+                  <h5>Headquarter name</h5>
+                </div>
+                <div className="col-12">
+                  <p>{this.state.hqName}</p>
+                </div>
                 <div className="col-12">
                   <button
                     onClick={() => this.setState({ toggleEditHQName: true })}
                   >
-                    Edit HQ name
+                    Edit
                   </button>
                 </div>
               </div>
             ) : (
               <div className="row style-section">
-                <input
-                  type="text"
-                  value={this.state.hqName}
-                  onChange={e => this.onChangeTextInput(e, 'hqName')}
-                />
+                <div className="col-12">
+                  <h5>Headquarter name</h5>
+                </div>
+                <div className="col-12">
+                  <input
+                    type="text"
+                    value={this.state.hqName}
+                    onChange={e => this.onChangeTextInput(e, 'hqName')}
+                  />
+                </div>
                 <div className="col-12">
                   <button
                     onClick={() => {
@@ -190,22 +200,29 @@ class ContactSection extends React.Component {
             )}
             {!this.state.toggleEditHQAddress ? (
               <div className="row style-section">
-                <p>{this.state.hqAddress}</p>
+                <div className="col-12">
+                  <h5>Headquarter address</h5>
+                </div>
+                <div className="col-12">
+                  <p>{this.state.hqAddress}</p>
+                </div>
                 <div className="col-12">
                   <button
                     onClick={() => this.setState({ toggleEditHQAddress: true })}
                   >
-                    Edit HQ address
+                    Edit
                   </button>
                 </div>
               </div>
             ) : (
               <div className="row style-section">
-                <input
-                  type="text"
-                  value={this.state.hqAddress}
-                  onChange={e => this.onChangeTextInput(e, 'hqAddress')}
-                />
+                <div className="col-12">
+                  <input
+                    type="text"
+                    value={this.state.hqAddress}
+                    onChange={e => this.onChangeTextInput(e, 'hqAddress')}
+                  />
+                </div>
                 <div className="col-12">
                   <button
                     onClick={() => {
@@ -215,6 +232,7 @@ class ContactSection extends React.Component {
                   >
                     Save
                   </button>
+
                   <button
                     onClick={() => {
                       this.setState({ toggleEditHQAddress: false });
@@ -231,12 +249,17 @@ class ContactSection extends React.Component {
                 className="row style-section"
                 style={{ marginBottom: '54px' }}
               >
-                <p>{this.state.comment}</p>
+                <div className="col-12">
+                  <h5>Comment</h5>
+                </div>
+                <div className="col-12">
+                  <p>{this.state.comment}</p>
+                </div>
                 <div className="col-12">
                   <button
                     onClick={() => this.setState({ toggleEditComment: true })}
                   >
-                    Edit comment
+                    Edit
                   </button>
                 </div>
               </div>
@@ -245,10 +268,12 @@ class ContactSection extends React.Component {
                 className="row style-section"
                 style={{ marginBottom: '54px' }}
               >
-                <textarea
-                  value={this.state.comment}
-                  onChange={e => this.onChangeTextInput(e, 'comment')}
-                />
+                <div className="col-12">
+                  <textarea
+                    value={this.state.comment}
+                    onChange={e => this.onChangeTextInput(e, 'comment')}
+                  />
+                </div>
                 <div className="col-12">
                   <button
                     onClick={() => {

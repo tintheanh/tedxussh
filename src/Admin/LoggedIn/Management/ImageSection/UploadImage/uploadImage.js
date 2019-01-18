@@ -63,6 +63,15 @@ class UploadImage extends React.Component {
           if (path === 'conference-images/sponsors') {
             databasePath = 'sponsors';
           }
+          if (path === 'conference-images/hosts') {
+            databasePath = 'hosts';
+          }
+          if (path === 'conference-images/performers') {
+            databasePath = 'performers';
+          }
+          if (path === 'conference-images/adventures') {
+            databasePath = 'adventures';
+          }
           if (path === 'stock-images') {
             databasePath = 'stockImages';
           }
@@ -89,6 +98,9 @@ class UploadImage extends React.Component {
           <option value="conference-images/main-picture">Conference</option>
           <option value="conference-images/highlight">Highlight</option>
           <option value="conference-images/speakers">Speaker</option>
+          <option value="conference-images/hosts">Host</option>
+          <option value="conference-images/performers">Performer</option>
+          <option value="conference-images/adventures">Adventure</option>
           <option value="conference-images/sponsors">Sponsor</option>
           <option value="learn-post-images/thumbnails">Thumbnails</option>
           <option value="stock-images">Stock</option>

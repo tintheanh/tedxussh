@@ -32,12 +32,20 @@ class EditHighlight extends React.Component {
   }
 
   onAddImg(url, name) {
-    const newImg = {
+    let newImg = {
       name,
       url,
-      width: Math.floor(Math.random() * (5 - 1 + 1)) + 1,
-      height: Math.floor(Math.random() * (5 - 1 + 1)) + 1
+      width: Math.floor(Math.random() * (5 - 2 + 1)) + 2,
+      height: Math.floor(Math.random() * (5 - 2 + 1)) + 2
     };
+    while (newImg.height - newImg.width > 1) {
+      newImg = {
+        name,
+        url,
+        width: Math.floor(Math.random() * (5 - 2 + 1)) + 2,
+        height: Math.floor(Math.random() * (5 - 2 + 1)) + 2
+      };
+    }
     firebase
       .database()
       .ref('conference/highlight')

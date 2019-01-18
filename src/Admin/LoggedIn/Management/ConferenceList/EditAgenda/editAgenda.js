@@ -3,6 +3,7 @@ import TimePicker from 'react-time-picker';
 import firebase from 'firebase';
 import Modal from 'react-responsive-modal';
 import AddAgenda from './AddAgenda/addAgenda';
+// import Agenda from './Agenda/agenda';
 
 class EditAgenda extends React.Component {
   constructor(props) {
@@ -199,6 +200,24 @@ class EditAgenda extends React.Component {
       </div>
     );
   }
+
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {};
+  // }
+
+  // renderAgenda(agenda) {
+  //   return agenda.map(e => <Agenda agd={e} key={e.id} />);
+  // }
+
+  // render() {
+  //   return (
+  //     <div>
+  //       {this.renderAgenda(this.props.agenda)}
+  //       <button onClick={() => this.props.closeModal()}>Done</button>
+  //     </div>
+  //   );
+  // }
 }
 
 export default EditAgenda;

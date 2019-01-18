@@ -11,7 +11,7 @@ const renderImg = (totalRows, imgs) => {
     startIndex += 4;
     endIndex += 4;
     return (
-      <div className="row" key={i}>
+      <div className="row adventures-section" key={i}>
         {renderRow(startIndex, endIndex, imgs)}
       </div>
     );
@@ -20,7 +20,7 @@ const renderImg = (totalRows, imgs) => {
 
 const renderRow = (startIndex, endIndex, imgs) => {
   return imgs.slice(startIndex, endIndex).map(e => (
-    <div className="col-md-6 col-lg-3 mb-2" key={e.id}>
+    <div className="col-sm-6 col-lg-3 mb-2 adventure" key={e.id}>
       <div
         className="hotel-room text-center notransition"
         style={{ background: 'transparent' }}
@@ -30,7 +30,7 @@ const renderRow = (startIndex, endIndex, imgs) => {
         </div>
       </div>
       <div className="hotel-room-body text-center">
-        <p>{e.name}</p>
+        <p style={{ fontWeight: 700, marginBottom: '6px' }}>{e.name}</p>
         <p>{e.detail}</p>
       </div>
     </div>
@@ -52,19 +52,28 @@ const Adventures = props => {
   return (
     <div className="site-section bg-white">
       <div className="container">
-        <div className="col-md-6 mx-auto text-center mb-5 section-heading">
+        <div className="col-sm-6 mx-auto text-center mb-5 section-heading">
           <h2 className="mb-5" style={{ fontFamily: 'Roboto' }}>
             Adventures
           </h2>
         </div>
-        <div className="row">
+        <div className="row adv-wrapper">
           <div className="col-12">
-            <h1 className="text-center">{adventureHeader}</h1>
+            <h1
+              className="text-center"
+              style={{
+                textTransform: 'uppercase',
+                fontWeight: '500',
+                fontSize: '24px'
+              }}
+            >
+              {adventureHeader}
+            </h1>
           </div>
         </div>
-        <div className="row">
+        <div className="row adv-wrapper" style={{ paddingBottom: '24px' }}>
           <div className="col-12">
-            <p className="text-center">{adventureDesc}</p>
+            <p className="text-center adv-desc">{adventureDesc}</p>
           </div>
         </div>
         <div className="row">{renderAllImg(adventures)}</div>

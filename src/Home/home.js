@@ -23,7 +23,14 @@ class Home extends React.Component {
   }
 
   render() {
-    const { background, title, description } = this.props.home;
+    const {
+      background,
+      title,
+      description,
+      cover1,
+      cover2,
+      cover3
+    } = this.props.home;
     return (
       <div>
         <Parallax
@@ -42,7 +49,7 @@ class Home extends React.Component {
               <div className="row align-items-center">
                 <div className="col-lg-6 col-md-12">
                   <h1 className="home-title mb-1">{title}</h1>
-                  <p className="p-2 description">{description}</p>
+                  <p className="description">{description}</p>
                   <br />
                   <Link to="/attend" className="explore">
                     Explore the event
@@ -60,11 +67,7 @@ class Home extends React.Component {
                 <div className="hotel-room">
                   <div className="d-block mb-0 thumbnail">
                     <Link to="/conference">
-                      <img
-                        src="https://firebasestorage.googleapis.com/v0/b/tedxussh-e39fb.appspot.com/o/conference-images%2Fspeakers%2Ffemale-speaker-1024x683.jpg?alt=media&token=3ff28a0d-f890-4a76-9931-399505df1081"
-                        alt=""
-                        className="img-fluid"
-                      />
+                      <img src={cover1} alt="" className="img-fluid" />
 
                       <div className="my-overlay text-vertical-center">
                         <strong className="text-inside">
@@ -79,11 +82,7 @@ class Home extends React.Component {
                 <div className="hotel-room">
                   <div className="d-block mb-0 thumbnail">
                     <Link to="/learn">
-                      <img
-                        src="https://firebasestorage.googleapis.com/v0/b/tedxussh-e39fb.appspot.com/o/conference-images%2Fspeakers%2Ffemale-speaker-1024x683.jpg?alt=media&token=3ff28a0d-f890-4a76-9931-399505df1081"
-                        alt=""
-                        className="img-fluid"
-                      />
+                      <img src={cover2} alt="" className="img-fluid" />
 
                       <div className="my-overlay text-vertical-center">
                         <strong className="text-inside">READ OUR BLOG</strong>
@@ -96,16 +95,10 @@ class Home extends React.Component {
                 <div className="hotel-room">
                   <div className="d-block mb-0 thumbnail">
                     <Link to="/about">
-                      <img
-                        src="https://firebasestorage.googleapis.com/v0/b/tedxussh-e39fb.appspot.com/o/conference-images%2Fspeakers%2Ffemale-speaker-1024x683.jpg?alt=media&token=3ff28a0d-f890-4a76-9931-399505df1081"
-                        alt=""
-                        className="img-fluid"
-                      />
+                      <img src={cover3} alt="" className="img-fluid" />
 
                       <div className="my-overlay text-vertical-center">
-                        <strong className="text-inside">
-                          ABOUT US
-                        </strong>
+                        <strong className="text-inside">ABOUT US</strong>
                       </div>
                     </Link>
                   </div>

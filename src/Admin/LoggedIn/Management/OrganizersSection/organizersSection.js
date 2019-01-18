@@ -163,7 +163,7 @@ class Organizers extends React.Component {
         className="page-wrapper"
         style={{ height: `${this.state.height - 64}px`, overflowY: 'scroll' }}
       >
-        <div className="page-breadcrumb">
+        <div className="page-breadcrumb" style={{ paddingBottom: '54px' }}>
           <div className="row">
             <div className="col-12 d-flex no-block align-items-center">
               <h2 className="page-title">Organizers Edit Section</h2>

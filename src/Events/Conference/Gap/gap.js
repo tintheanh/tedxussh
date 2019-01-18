@@ -12,8 +12,14 @@ const Gap = props => (
     }}
     className="text-vertical-center"
   >
-    <h1>{props.gap.header}</h1>
-    <p>{props.gap.detail}</p>
+    <div className="container">
+      <div className="row align-items-center">
+        <div className="col-lg-6 col-md-12">
+          <h1 className="gap-header mb-1">{props.gap.header}</h1>
+          <p className="gap-detail">{props.gap.detail}</p>
+        </div>
+      </div>
+    </div>
   </div>
 );
 
