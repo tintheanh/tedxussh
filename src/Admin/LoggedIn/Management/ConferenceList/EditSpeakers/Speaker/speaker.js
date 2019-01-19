@@ -56,7 +56,7 @@ class Speaker extends React.Component {
     if (ask) {
       firebase
         .database()
-        .ref(`conference/speakers/${id}`)
+        .ref(`conference/speakers/speakerList/${id}`)
         .remove()
         .then(() => this.setState({ toggleEdit: false }))
         .catch(err => alert(err.message));

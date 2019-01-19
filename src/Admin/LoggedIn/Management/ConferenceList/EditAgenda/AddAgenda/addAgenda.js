@@ -15,7 +15,13 @@ class AddAgenda extends React.Component {
 
   getCurrentHours() {
     const d = new Date();
-    return `${d.getHours()}:${d.getMinutes()}`;
+    const hour = d.getHours();
+    const min = d.getMinutes();
+    let minformatted = min.toString();
+    if (min < 10) {
+      minformatted = `0${min.toString()}`;
+    }
+    return `${hour}:${minformatted}`;
   }
 
   onHeaderChange(e) {

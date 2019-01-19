@@ -41,7 +41,7 @@ class AddHost extends React.Component {
 
     firebase
       .database()
-      .ref('conference/performers')
+      .ref('conference/performers/performerListp')
       .push(newPerformer)
       .then(() => {
         alert('Added');

@@ -133,13 +133,18 @@ class HostList extends React.Component {
   render() {
     console.log(this.props.performers);
     return (
-      <div className="site-section bg-white">
+      <div className="site-section bg-light">
         <div className="container">
           <div className="row">
             <div className="col-sm-6 mx-auto text-center mb-5 section-heading">
               <h2 className="mb-5" style={{ fontFamily: 'Roboto' }}>
                 Performers
               </h2>
+            </div>
+          </div>
+          <div className="row adv-wrapper" style={{ paddingBottom: '24px' }}>
+            <div className="col-12">
+              <p className="text-center adv-desc">{this.props.performerDesc}</p>
             </div>
           </div>
           {this.props.performers.length <= 4 ? (

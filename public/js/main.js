@@ -85,6 +85,12 @@ jQuery(document).ready(function($) {
         }
       }
     });
+
+    $('.site-nav-wrap li a').click(function() {
+      if ($('body').hasClass('offcanvas-menu')) {
+        $('body').removeClass('offcanvas-menu');
+      }
+    });
   };
   siteMenuClone();
 

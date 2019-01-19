@@ -52,7 +52,8 @@
     "nonblock-statement-body-position": 0,
     "curly": 0,
     "operator-linebreak": 0,
-    "react/button-has-type": 0
+    "react/button-has-type": 0,
+    "implicit-arrow-linebreak": 0
   },
   "env": {
     "browser": true,

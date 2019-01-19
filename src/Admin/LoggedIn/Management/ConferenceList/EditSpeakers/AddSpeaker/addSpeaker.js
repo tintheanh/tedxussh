@@ -41,7 +41,7 @@ class AddMem extends React.Component {
 
     firebase
       .database()
-      .ref('conference/speakers')
+      .ref('conference/speakers/speakerList')
       .push(newSpeaker)
       .then(() => {
         alert('Added');

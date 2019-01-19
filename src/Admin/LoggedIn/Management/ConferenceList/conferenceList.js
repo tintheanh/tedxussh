@@ -3,6 +3,7 @@ import firebase from 'firebase';
 import Modal from 'react-responsive-modal';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
+import TimePicker from 'react-time-picker';
 import ImageManagement from '../ImageMangement/imageManagement';
 import EditSpeakers from './EditSpeakers/editSpeaker';
 import EditHosts from './EditHosts/editHosts';
@@ -23,6 +24,9 @@ class ConferenceList extends React.Component {
       address: '',
       conferencePicture: '',
       date: '',
+      audience: '',
+      startTime: '',
+      endTime: '',
       description: '',
       title: '',
       agenda: [],
@@ -30,9 +34,12 @@ class ConferenceList extends React.Component {
       lat: '',
       lng: '',
       speakers: [],
+      speakerDesc: '',
       adventures: [],
       hosts: [],
+      hostDesc: '',
       performers: [],
+      performerDesc: '',
       sponsors: [],
 
       gapHeader: '',
@@ -47,6 +54,9 @@ class ConferenceList extends React.Component {
       toggleEditAdventureDesc: false,
       toggleEditGapHeader: false,
       toggleEditGapDetail: false,
+      toggleEditSpeakerDesc: false,
+      toggleEditHostDesc: false,
+      toggleEditPerformerDesc: false,
 
       modalGapPic: false,
       modalSpeakers: false,
@@ -201,6 +211,9 @@ class ConferenceList extends React.Component {
       case 'description':
         this.setState({ description: e.target.value });
         break;
+      case 'audience':
+        this.setState({ audience: e.target.value });
+        break;
       case 'lat':
         this.setState({ lat: e.target.value });
         break;
@@ -221,6 +234,15 @@ class ConferenceList extends React.Component {
         break;
       case 'gapDetail':
         this.setState({ gapDetail: e.target.value });
+        break;
+      case 'speakerDesc':
+        this.setState({ speakerDesc: e.target.value });
+        break;
+      case 'hostDesc':
+        this.setState({ hostDesc: e.target.value });
+        break;
+      case 'performerDesc':
+        this.setState({ performerDesc: e.target.value });
         break;
       default:
         break;
@@ -312,6 +334,60 @@ class ConferenceList extends React.Component {
         });
     }
 
+    if (type === 'speakerDesc') {
+      update = {
+        description: this.state.speakerDesc
+      };
+      firebase
+        .database()
+        .ref('conference/speakers')
+        .update(update)
+        .then(() => {
+          console.log('Updated');
+          // this.setState({ toggleEdit: false });
+        })
+        .catch(err => {
+          console.error(err);
+          alert('Error occured!');
+        });
+    }
+
+    if (type === 'hostDesc') {
+      update = {
+        description: this.state.hostDesc
+      };
+      firebase
+        .database()
+        .ref('conference/hosts')
+        .update(update)
+        .then(() => {
+          console.log('Updated');
+          // this.setState({ toggleEdit: false });
+        })
+        .catch(err => {
+          console.error(err);
+          alert('Error occured!');
+        });
+    }
+
+    if (type === 'performerDesc') {
+      update = {
+        description: this.state.performerDesc
+      };
+      firebase
+        .database()
+        .ref('conference/performers')
+        .update(update)
+        .then(() => {
+          console.log('Updated');
+          // this.setState({ toggleEdit: false });
+        })
+        .catch(err => {
+          console.error(err);
+          alert('Error occured!');
+        });
+    }
+
     if (type === 'title') {
       update = {
         title: this.state.title
@@ -324,9 +400,27 @@ class ConferenceList extends React.Component {
       };
     }
 
+    if (type === 'audience') {
+      update = {
+        audience: this.state.audience
+      };
+    }
+
     if (type === 'date') {
       update = {
         date: this.state.date
+      };
+    }
+
+    if (type === 'startTime') {
+      update = {
+        startTime: this.state.startTime
+      };
+    }
+
+    if (type === 'endTime') {
+      update = {
+        endTime: this.state.endTime
       };
     }
 
@@ -389,7 +483,10 @@ class ConferenceList extends React.Component {
       type !== 'adventureDescription' &&
       type !== 'gapPicture' &&
       type !== 'gapHeader' &&
-      type !== 'gapDetail'
+      type !== 'gapDetail' &&
+      type !== 'speakerDesc' &&
+      type !== 'hostDesc' &&
+      type !== 'performerDesc'
     ) {
       firebase
         .database()
@@ -447,40 +544,46 @@ class ConferenceList extends React.Component {
             });
             this.sortAgenda(agenda);
           }
-          if (conferenceObj.speakers) {
-            Object.keys(conferenceObj.speakers).forEach(e => {
+          if (conferenceObj.speakers && conferenceObj.speakers.speakerList) {
+            Object.keys(conferenceObj.speakers.speakerList).forEach(e => {
               const speaker = {
                 id: e,
-                introduction: conferenceObj.speakers[e].introduction,
-                name: conferenceObj.speakers[e].name,
-                occupation: conferenceObj.speakers[e].occupation,
-                picture: conferenceObj.speakers[e].picture
+                introduction:
+                  conferenceObj.speakers.speakerList[e].introduction,
+                name: conferenceObj.speakers.speakerList[e].name,
+                occupation: conferenceObj.speakers.speakerList[e].occupation,
+                picture: conferenceObj.speakers.speakerList[e].picture
               };
               speakers.push(speaker);
             });
           }
 
-          if (conferenceObj.hosts) {
-            Object.keys(conferenceObj.hosts).forEach(e => {
+          if (conferenceObj.hosts && conferenceObj.hosts.hostList) {
+            Object.keys(conferenceObj.hosts.hostList).forEach(e => {
               const host = {
                 id: e,
-                introduction: conferenceObj.hosts[e].introduction,
-                name: conferenceObj.hosts[e].name,
-                occupation: conferenceObj.hosts[e].occupation,
-                picture: conferenceObj.hosts[e].picture
+                introduction: conferenceObj.hosts.hostList[e].introduction,
+                name: conferenceObj.hosts.hostList[e].name,
+                occupation: conferenceObj.hosts.hostList[e].occupation,
+                picture: conferenceObj.hosts.hostList[e].picture
               };
               hosts.push(host);
             });
           }
 
-          if (conferenceObj.performers) {
-            Object.keys(conferenceObj.performers).forEach(e => {
+          if (
+            conferenceObj.performers &&
+            conferenceObj.performers.performerList
+          ) {
+            Object.keys(conferenceObj.performers.performerList).forEach(e => {
               const performer = {
                 id: e,
-                introduction: conferenceObj.performers[e].introduction,
-                name: conferenceObj.performers[e].name,
-                occupation: conferenceObj.performers[e].occupation,
-                picture: conferenceObj.performers[e].picture
+                introduction:
+                  conferenceObj.performers.performerList[e].introduction,
+                name: conferenceObj.performers.performerList[e].name,
+                occupation:
+                  conferenceObj.performers.performerList[e].occupation,
+                picture: conferenceObj.performers.performerList[e].picture
               };
               performers.push(performer);
             });
@@ -522,12 +625,16 @@ class ConferenceList extends React.Component {
             address: conferenceObj.location.address,
             conferencePicture: conferenceObj.conferencePicture,
             date: conferenceObj.date,
+            startTime: conferenceObj.startTime,
+            endTime: conferenceObj.endTime,
+            audience: conferenceObj.audience,
             description: conferenceObj.description,
             title: conferenceObj.title,
             lat: conferenceObj.location.lat,
             lng: conferenceObj.location.lng,
             agenda,
             speakers,
+            speakerDesc: conferenceObj.speakers.description,
             adventures,
             adventureHeader: conferenceObj.adventures.adventureHeader,
             adventureDescription: conferenceObj.adventures.adventureDesc,
@@ -535,7 +642,9 @@ class ConferenceList extends React.Component {
             gapDetail: conferenceObj.gap.detail,
             gapPic: conferenceObj.gap.picture,
             hosts,
+            hostDesc: conferenceObj.hosts.description,
             performers,
+            performerDesc: conferenceObj.performers.description,
             sponsors,
             highlight,
 
@@ -852,11 +961,22 @@ class ConferenceList extends React.Component {
     }
   }
 
+  handleStartTimeChange(startTime) {
+    this.setState({ startTime });
+  }
+
+  handleEndTimeChange(endTime) {
+    this.setState({ endTime });
+  }
+
   renderShowOrEdit() {
     const {
       address,
       conferencePicture,
       date,
+      startTime,
+      endTime,
+      audience,
       description,
       title,
       agenda,
@@ -876,7 +996,10 @@ class ConferenceList extends React.Component {
       toggleEditTitle,
       toggleEditDate,
       toggleEditDescription,
-      toggleEditAddress
+      toggleEditAddress,
+      speakerDesc,
+      hostDesc,
+      performerDesc
     } = this.state;
     return (
       //  --------------------------------------------------------------------Main Picture
@@ -911,10 +1034,25 @@ class ConferenceList extends React.Component {
         {!toggleEditDate ? (
           <div className="row style-section">
             <div className="col-12">
-              <h3>Event date</h3>
+              <h3>Event date and time</h3>
+            </div>
+            <div className="col-12">
+              <h5>Date</h5>
             </div>
             <div className="col-12">
               <p>{this.toVNDate(date)}</p>
+            </div>
+            <div className="col-12">
+              <h5>Start time</h5>
+            </div>
+            <div className="col-12">
+              <p>{startTime}</p>
+            </div>
+            <div className="col-12">
+              <h5>End time</h5>
+            </div>
+            <div className="col-12">
+              <p>{endTime}</p>
             </div>
             <div className="col-12">
               <button
@@ -928,6 +1066,9 @@ class ConferenceList extends React.Component {
         ) : (
           <div className="row style-section">
             <div className="col-12">
+              <h3>Event date and time</h3>
+            </div>
+            <div className="col-12">
               <DatePicker
                 dateFormat="d/M/YYYY"
                 selected={moment(date).toDate()}
@@ -935,10 +1076,34 @@ class ConferenceList extends React.Component {
               />
             </div>
             <div className="col-12">
+              <h5>Start time</h5>
+            </div>
+            <div className="col-12">
+              <TimePicker
+                disableClock
+                clockIcon={null}
+                value={startTime}
+                onChange={this.handleStartTimeChange.bind(this)}
+              />
+            </div>
+            <div className="col-12">
+              <h5>End time</h5>
+            </div>
+            <div className="col-12">
+              <TimePicker
+                disableClock
+                clockIcon={null}
+                value={endTime}
+                onChange={this.handleEndTimeChange.bind(this)}
+              />
+            </div>
+            <div className="col-12">
               <button
                 type="button"
                 onClick={() => {
                   this.onUpdate('date');
+                  this.onUpdate('startTime');
+                  this.onUpdate('endTime');
                   this.setState({ toggleEditDate: false });
                 }}
               >
@@ -1018,6 +1183,12 @@ class ConferenceList extends React.Component {
               <p>{description}</p>
             </div>
             <div className="col-12">
+              <h5>Audience</h5>
+            </div>
+            <div className="col-12">
+              <p>{audience}</p>
+            </div>
+            <div className="col-12">
               <button
                 type="button"
                 onClick={() => this.setState({ toggleEditDescription: true })}
@@ -1029,10 +1200,22 @@ class ConferenceList extends React.Component {
         ) : (
           <div className="row style-section">
             <div className="col-12">
+              <h3>Event description</h3>
+            </div>
+            <div className="col-12">
               <textarea
-                type="text"
                 value={description}
                 onChange={e => this.onChangeTextInput(e, 'description')}
+              />
+            </div>
+            <div className="col-12">
+              <h5>Audience</h5>
+            </div>
+            <div className="col-12">
+              <input
+                type="text"
+                value={audience}
+                onChange={e => this.onChangeTextInput(e, 'audience')}
               />
             </div>
             <div className="col-12">
@@ -1040,6 +1223,7 @@ class ConferenceList extends React.Component {
                 type="button"
                 onClick={() => {
                   this.onUpdate('description');
+                  this.onUpdate('audience');
                   this.setState({ toggleEditDescription: false });
                 }}
               >
@@ -1062,8 +1246,49 @@ class ConferenceList extends React.Component {
           <div className="col-12">
             <h3>Speakers</h3>
           </div>
-          {this.renderImg(1, speakers, 'speakers')}
-          <div className="row">
+          {!this.state.toggleEditSpeakerDesc ? (
+            <div className="col-12">
+              <div>
+                <p>{speakerDesc}</p>
+              </div>
+              <div>
+                <button
+                  onClick={() => this.setState({ toggleEditSpeakerDesc: true })}
+                >
+                  Edit
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="col-12">
+              <div>
+                <textarea
+                  value={speakerDesc}
+                  onChange={e => this.onChangeTextInput(e, 'speakerDesc')}
+                />
+              </div>
+              <div>
+                <button
+                  onClick={() => {
+                    this.onUpdate('speakerDesc');
+                    this.setState({ toggleEditSpeakerDesc: false });
+                  }}
+                >
+                  Save
+                </button>
+                <button
+                  onClick={() => this.setState({ toggleEditSpeakerDesc: true })}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          )}
+
+          <div className="col-12">
+            {this.renderImg(1, speakers, 'speakers')}
+          </div>
+          <div className="col-12">
             <button onClick={this.openModalSpeakers}>Edit speakers ...</button>
           </div>
           <Modal
@@ -1071,12 +1296,10 @@ class ConferenceList extends React.Component {
             onClose={this.closeModalSpeakers}
             center
           >
-            <div style={{ width: '700px' }}>
-              <EditSpeakers
-                speakers={speakers}
-                closeModal={this.closeModalSpeakers}
-              />
-            </div>
+            <EditSpeakers
+              speakers={speakers}
+              closeModal={this.closeModalSpeakers}
+            />
           </Modal>
         </div>
         {/* --------------------------------------------------------------------Hosts */}
@@ -1084,8 +1307,46 @@ class ConferenceList extends React.Component {
           <div className="col-12">
             <h3>Hosts</h3>
           </div>
-          {this.renderImg(1, hosts, 'hosts')}
-          <div className="row">
+          {!this.state.toggleEditHostDesc ? (
+            <div className="col-12">
+              <div>
+                <p>{hostDesc}</p>
+              </div>
+              <div>
+                <button
+                  onClick={() => this.setState({ toggleEditHostDesc: true })}
+                >
+                  Edit
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="col-12">
+              <div>
+                <textarea
+                  value={hostDesc}
+                  onChange={e => this.onChangeTextInput(e, 'hostDesc')}
+                />
+              </div>
+              <div>
+                <button
+                  onClick={() => {
+                    this.onUpdate('hostDesc');
+                    this.setState({ toggleEditHostDesc: false });
+                  }}
+                >
+                  Save
+                </button>
+                <button
+                  onClick={() => this.setState({ toggleEditHostDesc: true })}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          )}
+          <div className="col-12">{this.renderImg(1, hosts, 'hosts')}</div>
+          <div className="col-12">
             <button onClick={this.openModalHosts}>Edit Hosts ...</button>
           </div>
           <Modal
@@ -1093,9 +1354,7 @@ class ConferenceList extends React.Component {
             onClose={this.closeModalHosts}
             center
           >
-            <div style={{ width: '700px' }}>
-              <EditHosts hosts={hosts} closeModal={this.closeModalHosts} />
-            </div>
+            <EditHosts hosts={hosts} closeModal={this.closeModalHosts} />
           </Modal>
         </div>
         {/* --------------------------------------------------------------------Performers */}
@@ -1103,8 +1362,52 @@ class ConferenceList extends React.Component {
           <div className="col-12">
             <h3>Performers</h3>
           </div>
-          {this.renderImg(1, performers, 'performers')}
-          <div className="row">
+          {!this.state.toggleEditPerformerDesc ? (
+            <div className="col-12">
+              <div>
+                <p>{performerDesc}</p>
+              </div>
+              <div>
+                <button
+                  onClick={() =>
+                    this.setState({ toggleEditPerformerDesc: true })
+                  }
+                >
+                  Edit
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="col-12">
+              <div>
+                <textarea
+                  value={performerDesc}
+                  onChange={e => this.onChangeTextInput(e, 'performerDesc')}
+                />
+              </div>
+              <div>
+                <button
+                  onClick={() => {
+                    this.onUpdate('performerDesc');
+                    this.setState({ toggleEditPerformerDesc: false });
+                  }}
+                >
+                  Save
+                </button>
+                <button
+                  onClick={() =>
+                    this.setState({ toggleEditPerformerDesc: true })
+                  }
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          )}
+          <div className="col-12">
+            {this.renderImg(1, performers, 'performers')}
+          </div>
+          <div className="col-12">
             <button onClick={this.openModalPerformers}>
               Edit Performers ...
             </button>
@@ -1114,12 +1417,10 @@ class ConferenceList extends React.Component {
             onClose={this.closeModalPerformers}
             center
           >
-            <div style={{ width: '700px' }}>
-              <EditPerformers
-                performers={performers}
-                closeModal={this.closeModalPerformers}
-              />
-            </div>
+            <EditPerformers
+              performers={performers}
+              closeModal={this.closeModalPerformers}
+            />
           </Modal>
         </div>
         {/* --------------------------------------------------------------------Adventures */}

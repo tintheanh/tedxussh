@@ -58,7 +58,7 @@ class PostList extends React.Component {
     if (ask) {
       firebase
         .database()
-        .ref(`learnPosts/${postID}`)
+        .ref(`learnPosts/postList/${postID}`)
         .remove()
         .catch(err => alert(err.message));
     }

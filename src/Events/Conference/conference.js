@@ -18,6 +18,9 @@ class Conference extends React.Component {
     this.state = {
       agenda: [],
       conferencePicture: '',
+      audience: '',
+      startTime: '',
+      endTime: '',
       date: '',
       description: '',
       highlight: [],
@@ -25,8 +28,11 @@ class Conference extends React.Component {
       lat: 0,
       lng: 0,
       speakers: [],
+      speakerDesc: '',
       hosts: [],
+      hostDesc: '',
       performers: [],
+      performerDesc: '',
       sponsors: [],
       adventures: [],
       adventureHeader: '',
@@ -66,6 +72,9 @@ class Conference extends React.Component {
           }
           const {
             conferencePicture,
+            audience,
+            startTime,
+            endTime,
             date,
             description,
             title,
@@ -87,39 +96,39 @@ class Conference extends React.Component {
             });
           }
 
-          if (conferenceObj.speakers) {
-            Object.keys(conferenceObj.speakers).forEach(e => {
+          if (conferenceObj.speakers && conferenceObj.speakers.speakerList) {
+            Object.keys(conferenceObj.speakers.speakerList).forEach(e => {
               const speaker = {
                 id: e,
-                introduction: conferenceObj.speakers[e].introduction,
-                name: conferenceObj.speakers[e].name,
-                occupation: conferenceObj.speakers[e].occupation,
-                picture: conferenceObj.speakers[e].picture
+                introduction: conferenceObj.speakers.speakerList[e].introduction,
+                name: conferenceObj.speakers.speakerList[e].name,
+                occupation: conferenceObj.speakers.speakerList[e].occupation,
+                picture: conferenceObj.speakers.speakerList[e].picture
               };
               speakers.push(speaker);
             });
           }
-          if (conferenceObj.hosts) {
-            Object.keys(conferenceObj.hosts).forEach(e => {
+          if (conferenceObj.hosts && conferenceObj.hosts.hostList) {
+            Object.keys(conferenceObj.hosts.hostList).forEach(e => {
               const host = {
                 id: e,
-                introduction: conferenceObj.hosts[e].introduction,
-                name: conferenceObj.hosts[e].name,
-                occupation: conferenceObj.hosts[e].occupation,
-                picture: conferenceObj.hosts[e].picture
+                introduction: conferenceObj.hosts.hostList[e].introduction,
+                name: conferenceObj.hosts.hostList[e].name,
+                occupation: conferenceObj.hosts.hostList[e].occupation,
+                picture: conferenceObj.hosts.hostList[e].picture
               };
               hosts.push(host);
             });
           }
 
-          if (conferenceObj.performers) {
-            Object.keys(conferenceObj.performers).forEach(e => {
+          if (conferenceObj.performers && conferenceObj.performers.performerList) {
+            Object.keys(conferenceObj.performers.performerList).forEach(e => {
               const performer = {
                 id: e,
-                introduction: conferenceObj.performers[e].introduction,
-                name: conferenceObj.performers[e].name,
-                occupation: conferenceObj.performers[e].occupation,
-                picture: conferenceObj.performers[e].picture
+                introduction: conferenceObj.performers.performerList[e].introduction,
+                name: conferenceObj.performers.performerList[e].name,
+                occupation: conferenceObj.performers.performerList[e].occupation,
+                picture: conferenceObj.performers.performerList[e].picture
               };
               performers.push(performer);
             });
@@ -151,14 +160,20 @@ class Conference extends React.Component {
             agenda,
             conferencePicture,
             date,
+            audience,
+            endTime,
+            startTime,
             description,
             highlight,
             address,
             lat,
             lng,
             speakers,
+            speakerDesc: conferenceObj.speakers.description,
             hosts,
+            hostDesc: conferenceObj.hosts.description,
             performers,
+            performerDesc: conferenceObj.performers.description,
             sponsors,
             title,
             gap,
@@ -188,6 +203,9 @@ class Conference extends React.Component {
     const {
       agenda,
       conferencePicture,
+      audience,
+      endTime,
+      startTime,
       date,
       description,
       highlight,
@@ -195,8 +213,11 @@ class Conference extends React.Component {
       lat,
       lng,
       speakers,
+      speakerDesc,
       hosts,
+      hostDesc,
       performers,
+      performerDesc,
       sponsors,
       title,
       gap,
@@ -210,11 +231,15 @@ class Conference extends React.Component {
           background={conferencePicture}
           title={title}
           description={description}
+          audience={audience}
+          endTime={endTime}
+          startTime={startTime}
+          date={date}
         />
         {/* <Overview description={description} /> */}
-        <SpeakerList speakers={speakers} />
-        <HostList hosts={hosts} />
-        <PerformerList performers={performers} />
+        <SpeakerList speakers={speakers} speakerDesc={speakerDesc} />
+        <HostList hosts={hosts} hostDesc={hostDesc} />
+        <PerformerList performers={performers} performerDesc={performerDesc} />
         <Agenda date={date} agenda={agenda} />
         <Gap gap={gap} />
         <Adventures

@@ -117,6 +117,11 @@ class SpeakerList extends React.Component {
               </h2>
             </div>
           </div>
+          <div className="row adv-wrapper" style={{ paddingBottom: '24px' }}>
+            <div className="col-12">
+              <p className="text-center adv-desc">{this.props.speakerDesc}</p>
+            </div>
+          </div>
           {this.props.speakers.length <= 4 ? (
             <div className="row">{this.renderAllImg(this.props.speakers)}</div>
           ) : (
@@ -136,7 +141,7 @@ class SpeakerList extends React.Component {
                   <button
                     className="view-btn"
                     onClick={this.toggle.bind(this)}
-                    style={{ textDecoration: 'none' }}
+                    style={{ textDecoration: 'none', cursor: 'pointer' }}
                   >
                     View All
                   </button>
@@ -144,7 +149,7 @@ class SpeakerList extends React.Component {
                   <button
                     className="view-btn"
                     onClick={this.toggle.bind(this)}
-                    style={{ textDecoration: 'none' }}
+                    style={{ textDecoration: 'none', cursor: 'pointer' }}
                   >
                     View Less
                   </button>

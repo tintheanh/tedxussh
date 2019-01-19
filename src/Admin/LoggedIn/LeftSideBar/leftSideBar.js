@@ -44,8 +44,8 @@ const LeftSideBar = () => (
                   : { backgroundColor: '' }
               }
             >
-              <i className="mdi mdi-view-dashboard" />
-              <span className="hide-menu">Conference</span>
+              <i className="fas fa-calendar-alt" />
+              <span className="hide-menu">Event</span>
             </Link>
           </li>
           <li className="sidebar-item">
@@ -61,7 +61,7 @@ const LeftSideBar = () => (
                   : { backgroundColor: '' }
               }
             >
-              <i className="mdi mdi-chart-bar" />
+              <i className="fab fa-leanpub" />
               <span className="hide-menu">Learn</span>
             </Link>
           </li>
@@ -142,7 +142,7 @@ const LeftSideBar = () => (
                   : { backgroundColor: '' }
               }
             >
-              <i className="mdi mdi-blur-linear" />
+              <i className="mdi mdi-view-dashboard" />
               <span className="hide-menu">Images</span>
             </Link>
           </li>

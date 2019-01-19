@@ -65,7 +65,11 @@ const Header = () => (
           </a>
           <div className="dropdown-menu dropdown-menu-right user-dd animated">
             <div className="dropdown-divider" />
-            <a className="dropdown-item" onClick={() => logout()}>
+            <a
+              className="dropdown-item"
+              onClick={() => logout()}
+              style={{ cursor: 'pointer' }}
+            >
               <i className="fa fa-power-off m-r-5 m-l-5" /> Logout
             </a>
           </div>

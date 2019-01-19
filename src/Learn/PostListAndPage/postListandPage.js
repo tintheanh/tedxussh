@@ -1,12 +1,8 @@
 import React from 'react';
 import firebase from 'firebase';
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  Redirect
-} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Pagination from 'react-paginating';
+import VideoList from './VideoList/videoList';
 
 class PostListandPage extends React.Component {
   constructor(props) {
@@ -14,6 +10,7 @@ class PostListandPage extends React.Component {
     this.state = {
       posts: [],
       path: '',
+      videos: [],
       currentPage: this.getUserPath(window.location.href)
     };
   }
@@ -41,6 +38,26 @@ class PostListandPage extends React.Component {
             { posts: this.groupPost(posts), path: window.location.pathname },
             () => console.log(this.state.posts)
           );
+        }
+      });
+
+    firebase
+      .database()
+      .ref('learnPosts')
+      .on('value', snapshot => {
+        const learnPostsObj = snapshot.val();
+        if (learnPostsObj && learnPostsObj.videoList) {
+          const videos = [];
+          Object.keys(learnPostsObj.videoList).forEach(e => {
+            const video = {
+              id: e,
+              title: learnPostsObj.videoList[e].title,
+              link: learnPostsObj.videoList[e].link,
+              by: learnPostsObj.videoList[e].by
+            };
+            videos.push(video);
+          });
+          this.setState({ videos }, () => console.log(this.state.videos));
         }
       });
   }
@@ -118,7 +135,26 @@ class PostListandPage extends React.Component {
     if (this.getUserPath(window.location.href) <= posts.length) {
       return (
         <div className="site-section">
-          {/* <div class="container">{this.renderAllImg(this.state.posts)}</div> */}
+          <div className="row" style={{ width: '100%', margin: '0' }}>
+            <div className="col-sm-6 mx-auto text-center mb-5 section-heading">
+              <h2 className="mb-5" style={{ fontFamily: 'Roboto' }}>
+                Videos
+              </h2>
+            </div>
+          </div>
+          <div
+            className="row"
+            style={{ width: '100%', margin: '0', paddingBottom: '54px' }}
+          >
+            <VideoList videos={this.state.videos} />
+          </div>
+          <div className="row" style={{ width: '100%', margin: '0' }}>
+            <div className="col-sm-6 mx-auto text-center mb-5 section-heading">
+              <h2 className="mb-5" style={{ fontFamily: 'Roboto' }}>
+                Our Posts
+              </h2>
+            </div>
+          </div>
           <div className="row post-page">
             {this.renderItems(posts, currentPage)}
           </div>
@@ -219,7 +255,30 @@ class PostListandPage extends React.Component {
         </div>
       );
     }
-    return null;
+    return (
+      <div>
+        <div className="row" style={{ width: '100%', margin: '0' }}>
+          <div className="col-sm-6 mx-auto text-center mb-5 section-heading">
+            <h2 className="mb-5" style={{ fontFamily: 'Roboto' }}>
+              Videos
+            </h2>
+          </div>
+        </div>
+        <div
+          className="row"
+          style={{ width: '100%', margin: '0', paddingBottom: '54px' }}
+        >
+          <VideoList videos={this.state.videos} />
+        </div>
+        <div className="row" style={{ width: '100%', margin: '0' }}>
+          <div className="col-sm-6 mx-auto text-center mb-5 section-heading">
+            <h2 className="mb-5" style={{ fontFamily: 'Roboto' }}>
+              Our Posts
+            </h2>
+          </div>
+        </div>
+      </div>
+    );
   }
 }
 

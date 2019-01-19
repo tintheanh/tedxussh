@@ -66,12 +66,17 @@ class Home extends React.Component {
               <div className="col-md-12 col-lg-4 mb-2">
                 <div className="hotel-room">
                   <div className="d-block mb-0 thumbnail">
-                    <Link to="/conference">
+                    <Link to="/attend">
                       <img src={cover1} alt="" className="img-fluid" />
 
                       <div className="my-overlay text-vertical-center">
                         <strong className="text-inside">
                           EXPLORE THE UPCOMING EVENT
+                          <br />
+                          <span style={{ fontWeight: '300', fontSize: '18px' }}>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing
+                            elit
+                          </span>
                         </strong>
                       </div>
                     </Link>
@@ -85,7 +90,13 @@ class Home extends React.Component {
                       <img src={cover2} alt="" className="img-fluid" />
 
                       <div className="my-overlay text-vertical-center">
-                        <strong className="text-inside">READ OUR BLOG</strong>
+                        <strong className="text-inside">
+                          READ OUR BLOG <br />
+                          <span style={{ fontWeight: '300', fontSize: '18px' }}>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing
+                            elit
+                          </span>
+                        </strong>
                       </div>
                     </Link>
                   </div>
@@ -98,7 +109,13 @@ class Home extends React.Component {
                       <img src={cover3} alt="" className="img-fluid" />
 
                       <div className="my-overlay text-vertical-center">
-                        <strong className="text-inside">ABOUT US</strong>
+                        <strong className="text-inside">
+                          ABOUT US <br />
+                          <span style={{ fontWeight: '300', fontSize: '18px' }}>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing
+                            elit
+                          </span>
+                        </strong>
                       </div>
                     </Link>
                   </div>

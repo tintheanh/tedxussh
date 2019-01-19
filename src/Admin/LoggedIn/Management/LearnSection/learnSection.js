@@ -7,6 +7,7 @@ import PostList from './PostList/postList';
 import FullPost from '../../../../FullPost/fullPost';
 import AddPost from './AddPost/addPost';
 import ImageManagement from '../ImageMangement/imageManagement';
+import VideoList from './VideoList/videoList';
 
 const history = createBrowserHistory();
 
@@ -17,6 +18,7 @@ class LearnSection extends React.Component {
       height: 0,
       cover: '',
       post: {},
+      videos: [],
       modalAdd: false,
       modalEditCover: false
     };
@@ -48,6 +50,19 @@ class LearnSection extends React.Component {
         const learnPostsObj = snapshot.val();
         if (learnPostsObj) {
           this.setState({ cover: learnPostsObj.cover });
+        }
+        if (learnPostsObj.videoList) {
+          const videos = [];
+          Object.keys(learnPostsObj.videoList).forEach(e => {
+            const video = {
+              id: e,
+              by: learnPostsObj.videoList[e].by,
+              title: learnPostsObj.videoList[e].title,
+              link: learnPostsObj.videoList[e].link
+            };
+            videos.push(video);
+          });
+          this.setState({ videos });
         }
       });
   }
@@ -135,33 +150,43 @@ class LearnSection extends React.Component {
               </div>
             </div>
             {!window.location.href.includes('post') ? (
-              <div className="row style-section">
-                <div className="col-12">
-                  <h2>Cover picture</h2>
+              <div>
+                <div className="row style-section">
+                  <div className="col-12">
+                    <h3>Cover picture</h3>
+                  </div>
+                  <div className="col-12">
+                    <img
+                      className="img-fluid"
+                      src={this.state.cover}
+                      alt="cover"
+                    />
+                  </div>
+                  <div className="col-12">
+                    <button type="button" onClick={this.openModalEditCover}>
+                      Edit cover
+                    </button>
+                  </div>
+                  <Modal
+                    open={this.state.modalEditCover}
+                    onClose={this.closeModalEditCover}
+                    center
+                  >
+                    <ImageManagement
+                      category="stockImages"
+                      pick={this.updateCover.bind(this)}
+                      closeModal={this.closeModalEditCover}
+                    />
+                  </Modal>
                 </div>
-                <div className="col-12">
-                  <img
-                    className="img-fluid"
-                    src={this.state.cover}
-                    alt="cover"
-                  />
+                <div className="row style-section">
+                  <div className="col-12">
+                    <h3>Videos</h3>
+                  </div>
+                  <div className="col-12">
+                    <VideoList videos={this.state.videos} />
+                  </div>
                 </div>
-                <div className="col-12">
-                  <button type="button" onClick={this.openModalEditCover}>
-                    Edit cover
-                  </button>
-                </div>
-                <Modal
-                  open={this.state.modalEditCover}
-                  onClose={this.closeModalEditCover}
-                  center
-                >
-                  <ImageManagement
-                    category="stockImages"
-                    pick={this.updateCover.bind(this)}
-                    closeModal={this.closeModalEditCover}
-                  />
-                </Modal>
               </div>
             ) : null}
           </div>

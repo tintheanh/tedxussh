@@ -58,7 +58,7 @@ class Footer extends React.Component {
                       className="pb-2 pr-2 pl-0"
                     >
                       <span
-                        className="fa icon-facebook"
+                        className="fa icon-facebook-f"
                         style={{ fontSize: '20px' }}
                       />
                     </a>
