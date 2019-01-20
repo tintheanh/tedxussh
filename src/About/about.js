@@ -50,7 +50,6 @@ class About extends React.Component {
           <div>
             <div
               className="about-header text-vertical-center"
-              data-aos="fade"
               style={{
                 backgroundImage: `url(${background})`
               }}

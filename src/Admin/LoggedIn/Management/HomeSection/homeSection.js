@@ -14,9 +14,23 @@ class HomeSection extends React.Component {
       cover1: '',
       cover2: '',
       cover3: '',
+      desc1: '',
+      desc2: '',
+      desc3: '',
+      title1: '',
+      title2: '',
+      title3: '',
 
       toggleEditTitle: false,
       toggleEditDesc: false,
+
+      toggleEditTitle1: false,
+      toggleEditTitle2: false,
+      toggleEditTitle3: false,
+
+      toggleEditDesc1: false,
+      toggleEditDesc2: false,
+      toggleEditDesc3: false,
 
       modalEditPic: false,
       modalEditCover1: false,
@@ -92,6 +106,24 @@ class HomeSection extends React.Component {
       case 'title':
         this.setState({ title: e.target.value });
         break;
+      case 'title1':
+        this.setState({ title1: e.target.value });
+        break;
+      case 'title2':
+        this.setState({ title2: e.target.value });
+        break;
+      case 'title3':
+        this.setState({ title3: e.target.value });
+        break;
+      case 'desc1':
+        this.setState({ desc1: e.target.value });
+        break;
+      case 'desc2':
+        this.setState({ desc2: e.target.value });
+        break;
+      case 'desc3':
+        this.setState({ desc3: e.target.value });
+        break;
       default:
         break;
     }
@@ -108,9 +140,15 @@ class HomeSection extends React.Component {
             background: homeObj.background,
             description: homeObj.description,
             title: homeObj.title,
-            cover1: homeObj.cover1,
-            cover2: homeObj.cover2,
-            cover3: homeObj.cover3
+            cover1: homeObj.left.cover,
+            cover2: homeObj.middle.cover,
+            cover3: homeObj.right.cover,
+            title1: homeObj.left.title,
+            title2: homeObj.middle.title,
+            title3: homeObj.right.title,
+            desc1: homeObj.left.description,
+            desc2: homeObj.middle.description,
+            desc3: homeObj.right.description
           });
         }
       });
@@ -130,36 +168,36 @@ class HomeSection extends React.Component {
 
   onUpdateCover1(newPic) {
     const update = {
-      cover1: newPic
+      cover: newPic
     };
 
     firebase
       .database()
-      .ref('home')
+      .ref('home/left')
       .update(update)
       .catch(err => alert(err.message));
   }
 
   onUpdateCover2(newPic) {
     const update = {
-      cover2: newPic
+      cover: newPic
     };
 
     firebase
       .database()
-      .ref('home')
+      .ref('home/middle')
       .update(update)
       .catch(err => alert(err.message));
   }
 
   onUpdateCover3(newPic) {
     const update = {
-      cover3: newPic
+      cover: newPic
     };
 
     firebase
       .database()
-      .ref('home')
+      .ref('home/right')
       .update(update)
       .catch(err => alert(err.message));
   }
@@ -176,11 +214,79 @@ class HomeSection extends React.Component {
         description: this.state.description
       };
     }
-    firebase
-      .database()
-      .ref('home')
-      .update(update)
-      .catch(err => alert(err.message));
+    if (type === 'title1') {
+      update = {
+        title: this.state.title1
+      };
+      firebase
+        .database()
+        .ref('home/left')
+        .update(update)
+        .catch(err => alert(err.message));
+    }
+    if (type === 'title2') {
+      update = {
+        title: this.state.title2
+      };
+      firebase
+        .database()
+        .ref('home/middle')
+        .update(update)
+        .catch(err => alert(err.message));
+    }
+    if (type === 'title3') {
+      update = {
+        title: this.state.title3
+      };
+      firebase
+        .database()
+        .ref('home/right')
+        .update(update)
+        .catch(err => alert(err.message));
+    }
+    if (type === 'desc1') {
+      update = {
+        description: this.state.desc1
+      };
+      firebase
+        .database()
+        .ref('home/left')
+        .update(update)
+        .catch(err => alert(err.message));
+    }
+    if (type === 'desc2') {
+      update = {
+        description: this.state.desc2
+      };
+      firebase
+        .database()
+        .ref('home/middle')
+        .update(update)
+        .catch(err => alert(err.message));
+    }
+    if (type === 'desc3') {
+      update = {
+        description: this.state.desc3
+      };
+      firebase
+        .database()
+        .ref('home/right')
+        .update(update)
+        .catch(err => alert(err.message));
+    }
+    if (
+      type !== 'title1' &&
+      type !== 'title2' &&
+      type !== 'title3' &&
+      type !== 'desc1' &&
+      type !== 'desc2' &&
+      type !== 'desc3'
+    )
+      firebase
+        .database()
+        .ref('home')
+        .update(update)
+        .catch(err => alert(err.message));
   }
 
   render() {
@@ -306,8 +412,97 @@ class HomeSection extends React.Component {
             )}
             <div className="row style-section">
               <div className="col-12">
-                <h3>Left picture (Explore the event)</h3>
+                <h3>Left</h3>
               </div>
+              <div className="col-12">
+                <h5>Title</h5>
+              </div>
+              {!this.state.toggleEditTitle1 ? (
+                <div className="col-12">
+                  <div>
+                    <p>{this.state.title1}</p>
+                  </div>
+                  <div>
+                    <button
+                      onClick={() => this.setState({ toggleEditTitle1: true })}
+                    >
+                      Edit
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="col-12">
+                  <div>
+                    <input
+                      type="text"
+                      value={this.state.title1}
+                      onChange={e => this.onChangeTextInput(e, 'title1')}
+                    />
+                  </div>
+                  <div>
+                    <button
+                      onClick={() => {
+                        this.onUpdateText('title1');
+                        this.setState({ toggleEditTitle1: false });
+                      }}
+                    >
+                      Save
+                    </button>
+                    <button
+                      onClick={() => {
+                        this.fetchData();
+                        this.setState({ toggleEditTitle1: false });
+                      }}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              )}
+              <div className="col-12">
+                <h5>Description</h5>
+              </div>
+              {!this.state.toggleEditDesc1 ? (
+                <div className="col-12">
+                  <div>
+                    <p>{this.state.desc1}</p>
+                  </div>
+                  <div>
+                    <button
+                      onClick={() => this.setState({ toggleEditDesc1: true })}
+                    >
+                      Edit
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="col-12">
+                  <div>
+                    <textarea
+                      value={this.state.desc1}
+                      onChange={e => this.onChangeTextInput(e, 'desc1')}
+                    />
+                  </div>
+                  <div>
+                    <button
+                      onClick={() => {
+                        this.onUpdateText('desc1');
+                        this.setState({ toggleEditDesc1: false });
+                      }}
+                    >
+                      Save
+                    </button>
+                    <button
+                      onClick={() => {
+                        this.fetchData();
+                        this.setState({ toggleEditDesc1: false });
+                      }}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              )}
               <div className="col-12">
                 <img src={this.state.cover1} alt="" className="img-fluid" />
               </div>
@@ -328,8 +523,97 @@ class HomeSection extends React.Component {
             </div>
             <div className="row style-section">
               <div className="col-12">
-                <h3>Middle picture (Read out blog)</h3>
+                <h3>Middle</h3>
               </div>
+              <div className="col-12">
+                <h5>Title</h5>
+              </div>
+              {!this.state.toggleEditTitle2 ? (
+                <div className="col-12">
+                  <div>
+                    <p>{this.state.title2}</p>
+                  </div>
+                  <div>
+                    <button
+                      onClick={() => this.setState({ toggleEditTitle2: true })}
+                    >
+                      Edit
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="col-12">
+                  <div>
+                    <input
+                      type="text"
+                      value={this.state.title2}
+                      onChange={e => this.onChangeTextInput(e, 'title2')}
+                    />
+                  </div>
+                  <div>
+                    <button
+                      onClick={() => {
+                        this.onUpdateText('title2');
+                        this.setState({ toggleEditTitle2: false });
+                      }}
+                    >
+                      Save
+                    </button>
+                    <button
+                      onClick={() => {
+                        this.fetchData();
+                        this.setState({ toggleEditTitle2: false });
+                      }}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              )}
+              <div className="col-12">
+                <h5>Description</h5>
+              </div>
+              {!this.state.toggleEditDesc2 ? (
+                <div className="col-12">
+                  <div>
+                    <p>{this.state.desc2}</p>
+                  </div>
+                  <div>
+                    <button
+                      onClick={() => this.setState({ toggleEditDesc2: true })}
+                    >
+                      Edit
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="col-12">
+                  <div>
+                    <textarea
+                      value={this.state.desc2}
+                      onChange={e => this.onChangeTextInput(e, 'desc2')}
+                    />
+                  </div>
+                  <div>
+                    <button
+                      onClick={() => {
+                        this.onUpdateText('desc2');
+                        this.setState({ toggleEditDesc2: false });
+                      }}
+                    >
+                      Save
+                    </button>
+                    <button
+                      onClick={() => {
+                        this.fetchData();
+                        this.setState({ toggleEditDesc2: false });
+                      }}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              )}
               <div className="col-12">
                 <img src={this.state.cover2} alt="" className="img-fluid" />
               </div>
@@ -350,8 +634,94 @@ class HomeSection extends React.Component {
             </div>
             <div className="row style-section" style={{ marginBottom: '54px' }}>
               <div className="col-12">
-                <h3>Right picture (About us)</h3>
+                <h3>Right</h3>
               </div>
+              {!this.state.toggleEditTitle3 ? (
+                <div className="col-12">
+                  <div>
+                    <p>{this.state.title3}</p>
+                  </div>
+                  <div>
+                    <button
+                      onClick={() => this.setState({ toggleEditTitle3: true })}
+                    >
+                      Edit
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="col-12">
+                  <div>
+                    <input
+                      type="text"
+                      value={this.state.title3}
+                      onChange={e => this.onChangeTextInput(e, 'title3')}
+                    />
+                  </div>
+                  <div>
+                    <button
+                      onClick={() => {
+                        this.onUpdateText('title3');
+                        this.setState({ toggleEditTitle3: false });
+                      }}
+                    >
+                      Save
+                    </button>
+                    <button
+                      onClick={() => {
+                        this.fetchData();
+                        this.setState({ toggleEditTitle3: false });
+                      }}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              )}
+              <div className="col-12">
+                <h5>Description</h5>
+              </div>
+              {!this.state.toggleEditDesc3 ? (
+                <div className="col-12">
+                  <div>
+                    <p>{this.state.desc3}</p>
+                  </div>
+                  <div>
+                    <button
+                      onClick={() => this.setState({ toggleEditDesc3: true })}
+                    >
+                      Edit
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="col-12">
+                  <div>
+                    <textarea
+                      value={this.state.desc3}
+                      onChange={e => this.onChangeTextInput(e, 'desc3')}
+                    />
+                  </div>
+                  <div>
+                    <button
+                      onClick={() => {
+                        this.onUpdateText('desc3');
+                        this.setState({ toggleEditDesc3: false });
+                      }}
+                    >
+                      Save
+                    </button>
+                    <button
+                      onClick={() => {
+                        this.fetchData();
+                        this.setState({ toggleEditDesc3: false });
+                      }}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              )}
               <div className="col-12">
                 <img src={this.state.cover3} alt="" className="img-fluid" />
               </div>

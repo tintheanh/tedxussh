@@ -21,8 +21,20 @@ class GetEventUpdate extends React.Component {
   }
 
   toVNDate(inputDate) {
-    const date = inputDate.split('-');
-    return `${date[2]}/${date[1]}/${date[0]}`;
+    if (inputDate) {
+      const date = inputDate.split('-');
+      const year = date[0];
+      let month = date[1];
+      let day = date[2];
+      if (parseInt(month) < 10) {
+        month = month.substring(1, 2);
+      }
+      if (parseInt(day) < 10) {
+        day = day.substring(1, 2);
+      }
+      return `${day}/${month}/${year}`;
+    }
+    return '';
   }
 
   openTicketPage(url) {

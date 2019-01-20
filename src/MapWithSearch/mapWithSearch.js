@@ -93,7 +93,7 @@ const MapWithSearch = compose(
           >
             <input
               type="text"
-              placeholder="Customized your placeholder"
+              placeholder="Enter location"
               style={{
                 background: '#fff',
                 boxSizing: 'border-box',

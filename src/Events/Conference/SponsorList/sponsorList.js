@@ -27,7 +27,10 @@ class SponsorList extends React.Component {
   renderRow(startIndex, endIndex, imgs) {
     return imgs.slice(startIndex, endIndex).map(e => (
       <div className="col-sm-6 col-lg-3 mb-2 sponsor" key={e.id}>
-        <div className="hotel-room text-center notransition" style={{ background: 'transparent' }}>
+        <div
+          className="hotel-room text-center notransition"
+          style={{ background: 'transparent' }}
+        >
           <div className="d-block mb-0 thumbnail notransition">
             <a href={e.website} target="_blank">
               <img src={e.logo} alt="" className="img-fluid notransition" />
@@ -45,7 +48,11 @@ class SponsorList extends React.Component {
       }
       return this.renderImg(imgs.length / 4 + 1, imgs);
     }
-    return <h2>No imgs available</h2>;
+    return (
+      <div className="col-12">
+        <h5 className="text-center">Let me know what to put here when no sponsor</h5>
+      </div>
+    );
   }
 
   render() {

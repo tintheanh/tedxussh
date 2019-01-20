@@ -34,7 +34,7 @@ class Organizers extends React.Component {
       startIndex += 4;
       endIndex += 4;
       return (
-        <div className="row sponsors-section" key={i}>
+        <div className="row" key={i}>
           {this.renderRow(startIndex, endIndex, imgs)}
         </div>
       );

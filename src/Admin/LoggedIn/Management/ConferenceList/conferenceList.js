@@ -259,8 +259,20 @@ class ConferenceList extends React.Component {
   }
 
   toVNDate(inputDate) {
-    const date = moment(inputDate).format('D/M/YYYY');
-    return date;
+    if (inputDate) {
+      const date = inputDate.split('-');
+      const year = date[0];
+      let month = date[1];
+      let day = date[2];
+      if (parseInt(month) < 10) {
+        month = month.substring(1, 2);
+      }
+      if (parseInt(day) < 10) {
+        day = day.substring(1, 2);
+      }
+      return `${day}/${month}/${year}`;
+    }
+    return '';
   }
 
   onUpdate(type) {
@@ -945,7 +957,7 @@ class ConferenceList extends React.Component {
   }
 
   handleDateChange(date) {
-    this.setState({ date: moment(date).format('YYYY-M-DD') });
+    this.setState({ date: moment(date).format('YYYY-MM-DD') });
   }
 
   removeAgenda(agendaID) {

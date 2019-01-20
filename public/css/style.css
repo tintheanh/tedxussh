@@ -163,7 +163,7 @@ a:hover {
 .site-footer:before {
   position: absolute;
   content: '';
-  background: rgba(0, 0, 0, 0.8);
+  background: #121212;
   top: 0;
   left: 0;
   right: 0;
@@ -1822,6 +1822,7 @@ a:hover {
   display: inline-block;
   font-family: 'Playfair Display';
   font-size: 40px;
+  text-transform: uppercase;
 }
 .section-heading h2:before,
 .section-heading h2:after {
@@ -1977,17 +1978,15 @@ a:hover {
 }
 
 /* My CSS */
+
+/* @media (min-width: 1600px) { */
 .container {
-  /* margin-right: 48px !important; */
-  /* margin-left: 48px !important; */
+  max-width: 95% !important;
 }
-@media (min-width: 1600px) {
-  .container {
-    max-width: 95% !important;
-  }
-}
+/* } */
 
 .description {
+  color: #fff;
   padding: 0;
   font-family: 'Roboto';
   font-weight: 400;
@@ -1995,6 +1994,7 @@ a:hover {
 }
 
 .event-description {
+  color: #fff;
   padding: 0;
   font-family: 'Roboto';
   font-weight: 400;
@@ -2019,6 +2019,10 @@ a:hover {
   width: 100%;
   color: #fff;
   font-size: 22px;
+}
+
+.overview-parallax {
+  height: 100vh !important;
 }
 
 .text-vertical-center {
@@ -2105,17 +2109,45 @@ a:hover {
 }
 
 .venue-address {
-  margin: 0 124px;
+  margin: 36px 124px;
   font-size: 18px;
   position: relative;
   top: -44px;
 }
 .home-title,
 .event-title {
+  color: #fff;
   font-family: 'Roboto' !important;
   font-weight: 400 !important;
-  font-size: 42px !important;
   text-transform: uppercase !important;
+}
+.home-parallax {
+  height: calc(100vh);
+  position: relative;
+}
+.react-parallax-bgimage {
+  /* margin-left: -500px; */
+  /* height: 100%!important; */
+  /* top: 24.5%;
+  width: 100% !important; */
+}
+/* .home-parallax:before {
+  position: absolute;
+  content: '';
+  left: 0;
+  bottom: 0;
+  right: 0;
+  top: 0;
+  background: rgba(0, 0, 0, 0.4);
+} */
+
+.home-title {
+  font-size: 54px !important;
+}
+
+.event-title {
+  font-size: 42px !important;
+  margin-bottom: 28px !important;
 }
 
 .event-title,
@@ -2195,10 +2227,9 @@ a:hover {
 
 .about-title {
   text-align: center;
-  margin: auto;
   font-family: 'Roboto';
   color: #fff;
-  font-weight: 300;
+  font-weight: 500;
   font-size: 34px;
   text-transform: uppercase;
 }
@@ -2267,6 +2298,20 @@ a:hover {
   font-weight: 700;
 }
 
+.home-text-wrapper {
+  position: absolute;
+  bottom: 64px;
+}
+
+.react-parallax-content {
+  height: 100%;
+}
+
+.header-wrapper {
+  /* position: absolute; */
+  /* top: 20%; */
+}
+
 @media screen and (max-width: 1599.98px) and (min-width: 992px) {
   .youtube {
     height: auto;
@@ -2295,17 +2340,27 @@ a:hover {
   .header-wrapper {
     margin: 0 440px;
   }
+
+  .about-title {
+    margin: 0 544px;
+  }
 }
 
 @media screen and (max-width: 1600px) and (min-width: 992px) {
   .header-wrapper {
     margin: 0 204px;
   }
+  .about-title {
+    margin: 0 30vw;
+  }
 }
 
 @media screen and (max-width: 991.98px) and (min-width: 768px) {
   .header-wrapper {
     margin: 0 104px;
+  }
+  .about-title {
+    margin: 0 10vw;
   }
 }
 
@@ -2361,9 +2416,11 @@ a:hover {
     position: absolute;
     left: 42px;
   }
+
   .home-wrapper {
     margin: 0 14px !important;
   }
+
   .adv-wrapper {
     width: 60vw;
   }
@@ -2398,7 +2455,7 @@ a:hover {
   }
 }
 
-@media screen and (max-height: 884px) {
+/* @media screen and (max-height: 884px) {
   .home-title {
     font-size: 30px !important;
     margin-top: 74px !important;
@@ -2406,7 +2463,7 @@ a:hover {
   .description {
     font-size: 14px !important;
   }
-}
+} */
 
 @media screen and (max-width: 600px) {
   .overview-section {
@@ -2466,4 +2523,8 @@ a:hover {
   .adv-wrapper {
     width: 70vw;
   }
+}
+
+.section-heading {
+  margin-bottom: 0 !important;
 }

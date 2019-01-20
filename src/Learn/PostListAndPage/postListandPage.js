@@ -136,7 +136,7 @@ class PostListandPage extends React.Component {
       return (
         <div className="site-section">
           <div className="row" style={{ width: '100%', margin: '0' }}>
-            <div className="col-sm-6 mx-auto text-center mb-5 section-heading">
+            <div className="col-sm-6 mx-auto text-center mb-5 section-heading" style={{marginTop: '54px'}}>
               <h2 className="mb-5" style={{ fontFamily: 'Roboto' }}>
                 Videos
               </h2>
@@ -151,7 +151,7 @@ class PostListandPage extends React.Component {
           <div className="row" style={{ width: '100%', margin: '0' }}>
             <div className="col-sm-6 mx-auto text-center mb-5 section-heading">
               <h2 className="mb-5" style={{ fontFamily: 'Roboto' }}>
-                Our Posts
+                Blog
               </h2>
             </div>
           </div>
@@ -258,7 +258,7 @@ class PostListandPage extends React.Component {
     return (
       <div>
         <div className="row" style={{ width: '100%', margin: '0' }}>
-          <div className="col-sm-6 mx-auto text-center mb-5 section-heading">
+          <div className="col-sm-6 mx-auto text-center mb-5 section-heading" style={{marginTop: '54px'}}>
             <h2 className="mb-5" style={{ fontFamily: 'Roboto' }}>
               Videos
             </h2>
@@ -273,8 +273,9 @@ class PostListandPage extends React.Component {
         <div className="row" style={{ width: '100%', margin: '0' }}>
           <div className="col-sm-6 mx-auto text-center mb-5 section-heading">
             <h2 className="mb-5" style={{ fontFamily: 'Roboto' }}>
-              Our Posts
+              Blog
             </h2>
+            <h5>Let me know what to put here when no post</h5>
           </div>
         </div>
       </div>

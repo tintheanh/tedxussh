@@ -18,7 +18,7 @@ const Header = () => (
       <div
         className="navbar-header"
         data-logobg="skin5"
-        style={{ backgroundColor: '#1F262D' }}
+        style={{ backgroundColor: '#1F262D', height: '64px' }}
       >
         <a
           className="nav-toggler waves-effect waves-light d-block d-md-none"
@@ -29,19 +29,19 @@ const Header = () => (
         <a className="navbar-brand" href="#">
           <b className="logo-icon p-l-10">
             <i className="wi wi-sunset" />
-            <img
+            {/* <img
               src="/assets/images/logo-icon.png"
               alt="homepage"
               className="light-logo"
-            />
+            /> */}
           </b>
-          <span className="logo-text">
+          {/* <span className="logo-text">
             <img
               src="/assets/images/logo-text.png"
               alt="homepage"
               className="light-logo"
             />
-          </span>
+          </span> */}
         </a>
       </div>
       <div

@@ -11,6 +11,7 @@ class Learn extends React.Component {
     super(props);
     this.state = {
       cover: '',
+      title: '',
       post: {}
     };
   }
@@ -22,8 +23,9 @@ class Learn extends React.Component {
       .on('value', snapshot => {
         const learnPostsObj = snapshot.val();
         if (learnPostsObj) {
-          this.setState({ cover: learnPostsObj.cover }, () =>
-            console.log('learn', this.state.cover)
+          this.setState(
+            { cover: learnPostsObj.cover, title: learnPostsObj.title },
+            () => console.log('learn', this.state.cover)
           );
         }
       });
@@ -57,12 +59,17 @@ class Learn extends React.Component {
     return (
       <div>
         <div
-          className="learn-header"
-          data-aos="fade"
+          className="learn-header text-vertical-center"
           style={{
             backgroundImage: `url(${this.state.cover})`
           }}
-        />
+        >
+          <div className="row" style={{ width: '100%' }}>
+            <div className="col-md-12">
+              <h1 className="about-title">{this.state.title}</h1>
+            </div>
+          </div>
+        </div>
         {this.manualRouter()}
       </div>
     );

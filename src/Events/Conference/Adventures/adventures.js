@@ -73,7 +73,11 @@ const Adventures = props => {
         </div>
         <div className="row adv-wrapper" style={{ paddingBottom: '24px' }}>
           <div className="col-12">
-            <p className="text-center adv-desc">{adventureDesc}</p>
+            {/* <p className="text-center adv-desc">{adventureDesc}</p> */}
+            <div
+              className="text-center adv-desc"
+              dangerouslySetInnerHTML={{ __html: adventureDesc }}
+            />
           </div>
         </div>
         <div className="row">{renderAllImg(adventures)}</div>

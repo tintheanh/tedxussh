@@ -231,7 +231,7 @@ class Conference extends React.Component {
           background={conferencePicture}
           title={title}
           description={description}
-          audience={audience}
+          audience={address}
           endTime={endTime}
           startTime={startTime}
           date={date}

@@ -17,8 +17,11 @@ class LearnSection extends React.Component {
     this.state = {
       height: 0,
       cover: '',
+      title: '',
       post: {},
       videos: [],
+      toggleEditTitle: false,
+
       modalAdd: false,
       modalEditCover: false
     };
@@ -43,13 +46,20 @@ class LearnSection extends React.Component {
   componentDidMount() {
     this.updateWindowDimensions();
     window.addEventListener('resize', this.updateWindowDimensions);
+    this.fetchData();
+  }
+
+  fetchData() {
     firebase
       .database()
       .ref('learnPosts')
       .on('value', snapshot => {
         const learnPostsObj = snapshot.val();
         if (learnPostsObj) {
-          this.setState({ cover: learnPostsObj.cover });
+          this.setState({
+            cover: learnPostsObj.cover,
+            title: learnPostsObj.title
+          });
         }
         if (learnPostsObj.videoList) {
           const videos = [];
@@ -105,6 +115,18 @@ class LearnSection extends React.Component {
     return result;
   }
 
+  updateTitle() {
+    const update = {
+      title: this.state.title
+    };
+
+    firebase
+      .database()
+      .ref('learnPosts')
+      .update(update)
+      .catch(err => alert(err.message));
+  }
+
   manualRouter() {
     const { href } = window.location;
     if (href.includes('learn') && !href.includes('post'))
@@ -155,6 +177,54 @@ class LearnSection extends React.Component {
                   <div className="col-12">
                     <h3>Cover picture</h3>
                   </div>
+                  {!this.state.toggleEditTitle ? (
+                    <div className="col-12">
+                      <div>
+                        <p>{this.state.title}</p>
+                      </div>
+                      <div>
+                        <button
+                          onClick={() =>
+                            this.setState({ toggleEditTitle: true })
+                          }
+                        >
+                          Edit
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="col-12">
+                      <div>
+                        <p>
+                          <input
+                            type="text"
+                            value={this.state.title}
+                            onChange={e =>
+                              this.setState({ title: e.target.value })
+                            }
+                          />
+                        </p>
+                      </div>
+                      <div>
+                        <button
+                          onClick={() => {
+                            this.updateTitle();
+                            this.setState({ toggleEditTitle: false });
+                          }}
+                        >
+                          Save
+                        </button>
+                        <button
+                          onClick={() => {
+                            this.fetchData();
+                            this.setState({ toggleEditTitle: false });
+                          }}
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
+                  )}
                   <div className="col-12">
                     <img
                       className="img-fluid"

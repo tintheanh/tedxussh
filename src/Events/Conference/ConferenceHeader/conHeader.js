@@ -1,5 +1,5 @@
 import React from 'react';
-import { Parallax } from 'react-scroll-parallax';
+import { Parallax } from 'react-parallax';
 
 const toVNDate = inputDate => {
   const date = inputDate.split('-');
@@ -8,32 +8,25 @@ const toVNDate = inputDate => {
 
 const ConferenceHeader = props => (
   <Parallax
-    // disabled={this.state.width <= 414 ? true : false}
-    slowerScrollRate
-    offsetYMax={30}
-    offsetYMin={-30}
-    tag="figure"
+    bgImage={props.background}
+    strength={500}
+    className="overview-parallax"
+    // bgImageSizes={{ width: 1440, height: 810 }}
   >
-    <div
-      className="site-blocks-cover overlay header-cover"
-      data-aos="fade"
-      style={{ backgroundImage: `url(${props.background})` }}
-    >
-      <div className="container">
-        <div className="row align-items-center">
-          <div className="header-wrapper">
-            <div className="col-lg-12 col-md-12">
-              <h1 className="event-title mb-1">{props.title}</h1>
-              <p className="p-2 event-description">{props.description}</p>
-              <p className="p-2 event-description">
-                <span style={{ fontWeight: '500' }}>Audience:</span>{' '}
-                {props.audience}
-              </p>
-              <p className="p-2 event-description">
-                <span style={{ fontWeight: '500' }}>Time:</span>{' '}
-                {props.startTime} - {props.endTime} on {toVNDate(props.date)}
-              </p>
-            </div>
+    <div className="container" style={{ height: '100%' }}>
+      <div className="row align-items-center" style={{ height: '100%' }}>
+        <div className="header-wrapper">
+          <div className="col-lg-12 col-md-12 text-vertical-center">
+            <h1 className="event-title mb-1">{props.title}</h1>
+            <p className="p-2 event-description">{props.description}</p>
+            <p className="p-2 event-description">
+              <span style={{ fontWeight: '500' }}>Location:</span>{' '}
+              {props.audience}
+            </p>
+            <p className="p-2 event-description">
+              <span style={{ fontWeight: '500' }}>Time:</span> {props.startTime}{' '}
+              - {props.endTime} on {toVNDate(props.date)}
+            </p>
           </div>
         </div>
       </div>

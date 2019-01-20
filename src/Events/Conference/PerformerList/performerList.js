@@ -124,7 +124,13 @@ class HostList extends React.Component {
       }
       return this.renderImg(imgs.length / 4 + 1, imgs);
     }
-    return <h2>No imgs available</h2>;
+    return (
+      <div className="col-12">
+        <h5 className="text-center">
+          Let me know what to put here when no performer
+        </h5>
+      </div>
+    );
   }
   toggle() {
     this.setState({ expanded: !this.state.expanded });
