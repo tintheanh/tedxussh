@@ -44,11 +44,11 @@ class Location extends React.Component {
             }
             mapElement={<div style={{ width: '100%', height: '100%' }} />}
           />
-          <div className="bg-light venue-section">
-            <div className="col-md-6 mx-auto text-center mb-5 section-heading">
+          <div className="bg-light venue-section text-vertical-center">
+            <div className="text-center section-heading">
               <h2
-                className="venue-title mb-5"
-                style={{ fontFamily: 'Roboto', marginTop: '92px' }}
+                className="venue-title"
+                style={{ fontFamily: 'Roboto', marginBottom: '0px' }}
               >
                 Venue
               </h2>

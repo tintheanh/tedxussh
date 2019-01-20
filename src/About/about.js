@@ -27,8 +27,10 @@ class About extends React.Component {
           className="hotel-room text-center"
           style={{ background: 'transparent' }}
         >
-          <div className="hotel-room-body">
-            <h3 className="heading mb-0">{v.title}</h3>
+          <div className="hotel-room-body" style={{ padding: '38px' }}>
+            <h3 className="heading mb-0" style={{ paddingBottom: '32px' }}>
+              {v.title}
+            </h3>
             <strong className="price">{v.description}</strong>
           </div>
         </div>
@@ -54,9 +56,11 @@ class About extends React.Component {
                 backgroundImage: `url(${background})`
               }}
             >
-              <div className="row" style={{ width: '100%' }}>
+              <div className="row" style={{ width: '100%', margin: '0' }}>
                 <div className="col-md-12">
-                  <h1 className="about-title">{header}</h1>
+                  <h1 className="about-title">
+                    {header}
+                  </h1>
                 </div>
               </div>
             </div>
@@ -73,7 +77,10 @@ class About extends React.Component {
                     <div className="d-block mb-0 thumbnail">
                       <img src={left.picture} alt="" className="img-fluid" />
                     </div>
-                    <div className="hotel-room-body">
+                    <div
+                      className="hotel-room-body"
+                      style={{ paddingTop: '32px' }}
+                    >
                       <h3 className="heading mb-0">{left.title}</h3>
                       <strong className="price">{left.description}</strong>
                     </div>
@@ -90,7 +97,10 @@ class About extends React.Component {
                       className="youtube"
                     />
 
-                    <div className="hotel-room-body">
+                    <div
+                      className="hotel-room-body"
+                      style={{ paddingTop: '32px' }}
+                    >
                       <h3 className="heading mb-0">{middle.title}</h3>
                       <strong className="price">{middle.description}</strong>
                     </div>
@@ -104,7 +114,10 @@ class About extends React.Component {
                     <a href="#" className="d-block mb-0 thumbnail">
                       <img src={right.picture} alt="" className="img-fluid" />
                     </a>
-                    <div className="hotel-room-body">
+                    <div
+                      className="hotel-room-body"
+                      style={{ paddingTop: '32px' }}
+                    >
                       <h3 className="heading mb-0">{right.title}</h3>
                       <strong className="price">{right.description}</strong>
                     </div>

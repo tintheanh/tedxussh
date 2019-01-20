@@ -41,7 +41,7 @@ class OneAgd extends React.Component {
             >
               {e}{' '}
               {agd.detail !== '' ? (
-                <i className="bounce fa fa-arrow-down" />
+                <i className="fa fa-arrow-down my-bounce" />
               ) : null}
             </h1>
 
