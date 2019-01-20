@@ -58,28 +58,32 @@ class Contact extends React.Component {
         <div>
           <div
             className="about-header text-vertical-center"
-            data-aos="fade"
             style={{
               backgroundImage: `url(${background})`
             }}
-          />
+          >
+            <div className="row" style={{ width: '100%', margin: '0' }}>
+              <div className="col-md-12">
+                <h1 className="about-title">Liên hệ chúng tôi</h1>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="site-section bg-light">
           <div className="container">
             <div className="row">
               <div className="col-md-6 col-lg-4">
-                <h1 style={{ fontWeight: '300' }}>CONTACT US</h1>
-                <p>{hqName}</p>
-                <p>{hqAddress}</p>
-                <p>{comment}</p>
+                <p style={{ fontFamily: 'Montserrat' }}>{hqName}</p>
+                <p style={{ fontFamily: 'Montserrat' }}>{hqAddress}</p>
+                <p style={{ fontFamily: 'Montserrat' }}>{comment}</p>
               </div>
               <div className="col-md-6 col-lg-8">
                 {!this.state.submitted ? (
                   <form onSubmit={this.handleSubmit.bind(this)}>
                     <div className="row">
                       <div className="col-12">
-                        <p className="contact-header">Name</p>
+                        <p className="contact-header">Họ và tên</p>
                       </div>
                       <div className="col-md-12 col-lg-6">
                         <input
@@ -91,7 +95,11 @@ class Contact extends React.Component {
                             )
                           }
                         />
-                        <p style={{ fontSize: '12px' }}>First name</p>
+                        <p
+                          style={{ fontSize: '12px', fontFamily: 'Montserrat' }}
+                        >
+                          Tên
+                        </p>
                       </div>
                       <div className="col-md-12 col-lg-6">
                         <input
@@ -103,12 +111,16 @@ class Contact extends React.Component {
                             )
                           }
                         />
-                        <p style={{ fontSize: '12px' }}>Last name</p>
+                        <p
+                          style={{ fontSize: '12px', fontFamily: 'Montserrat' }}
+                        >
+                          Họ
+                        </p>
                       </div>
                     </div>
                     <div className="row">
                       <div className="col-12">
-                        <p className="contact-header">Email</p>
+                        <p className="contact-header">Địa chỉ email</p>
                       </div>
                       <div className="col-12">
                         <input
@@ -124,7 +136,7 @@ class Contact extends React.Component {
                     </div>
                     <div className="row">
                       <div className="col-12">
-                        <p className="contact-header">Reason for contacting</p>
+                        <p className="contact-header">Lý do liên hệ</p>
                       </div>
                       <div className="col-12">
                         <div className="row">
@@ -140,7 +152,12 @@ class Contact extends React.Component {
                               }
                             />
                           </div>
-                          <div className="col-11 radio-content">Attending</div>
+                          <div
+                            className="col-11 radio-content"
+                            style={{ fontFamily: 'Montserrat' }}
+                          >
+                            Tham dự
+                          </div>
                         </div>
                         <div className="row">
                           <div className="col-1 radio-btn">
@@ -155,22 +172,12 @@ class Contact extends React.Component {
                               }
                             />
                           </div>
-                          <div className="col-11 radio-content">Partnering</div>
-                        </div>
-                        <div className="row">
-                          <div className="col-1 radio-btn">
-                            <input
-                              type="radio"
-                              name="reason"
-                              value="Speaking"
-                              onChange={e =>
-                                this.setState({ reason: e.target.value }, () =>
-                                  console.log(this.state.reason)
-                                )
-                              }
-                            />
+                          <div
+                            className="col-11 radio-content"
+                            style={{ fontFamily: 'Montserrat' }}
+                          >
+                            Tài trợ
                           </div>
-                          <div className="col-11 radio-content">Speaking</div>
                         </div>
                         <div className="row">
                           <div className="col-1 radio-btn">
@@ -185,7 +192,12 @@ class Contact extends React.Component {
                               }
                             />
                           </div>
-                          <div className="col-11 radio-content">Volunteer</div>
+                          <div
+                            className="col-11 radio-content"
+                            style={{ fontFamily: 'Montserrat' }}
+                          >
+                            Trở thành cộng tác viên
+                          </div>
                         </div>
                         <div className="row">
                           <div className="col-1 radio-btn">
@@ -200,13 +212,18 @@ class Contact extends React.Component {
                               }
                             />
                           </div>
-                          <div className="col-11 radio-content">Other</div>
+                          <div
+                            className="col-11 radio-content"
+                            style={{ fontFamily: 'Montserrat' }}
+                          >
+                            Lý do khác
+                          </div>
                         </div>
                       </div>
                     </div>
                     <div className="row">
                       <div className="col-12">
-                        <p className="contact-header">Message</p>
+                        <p className="contact-header">Lời nhắn</p>
                       </div>
                       <div className="col-12">
                         <textarea
@@ -222,7 +239,8 @@ class Contact extends React.Component {
                         <input
                           className="send-btn"
                           type="submit"
-                          value="SEND"
+                          value="GỬI"
+                          style={{ fontFamily: 'Oswald' }}
                         />
                       </div>
                     </div>
@@ -231,8 +249,7 @@ class Contact extends React.Component {
                   <div className="row">
                     <div className="col-12">
                       <p>
-                        Thank you for reaching out! We'll get back to you as
-                        soon as possible.
+                        Cám ơn bạn vì đã liên hệ, chúng tôi sẽ hồi âm sớm nhất có thể.
                       </p>
                     </div>
                   </div>

@@ -4,13 +4,14 @@ import { Link } from 'react-router-dom';
 import Pagination from 'react-paginating';
 import VideoList from './VideoList/videoList';
 
-class PostListandPage extends React.Component {
+class PostListAndPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       posts: [],
       path: '',
       videos: [],
+      left: {},
       currentPage: this.getUserPath(window.location.href)
     };
   }
@@ -58,6 +59,16 @@ class PostListandPage extends React.Component {
             videos.push(video);
           });
           this.setState({ videos }, () => console.log(this.state.videos));
+        }
+      });
+
+    firebase
+      .database()
+      .ref('learnPosts/left')
+      .on('value', snapshot => {
+        const learnPostsObj = snapshot.val();
+        if (learnPostsObj) {
+          this.setState({ left: learnPostsObj });
         }
       });
   }
@@ -111,10 +122,12 @@ class PostListandPage extends React.Component {
                     className="img-fluid notransition"
                   />
                 </div>
-                <h2 className="heading mb-0">{item.title}</h2>
+                <h2 className="heading mb-0" style={{ fontFamily: 'Oswald' }}>
+                  {item.title}
+                </h2>
                 <span
                   className="mb-3 d-block post-date"
-                  style={{ paddingBottom: '12px' }}
+                  style={{ paddingBottom: '12px', fontFamily: 'Montserrat', fontWeight: '500' }}
                 >
                   {item.datePosted} By {item.by}
                 </span>
@@ -135,147 +148,163 @@ class PostListandPage extends React.Component {
     if (this.getUserPath(window.location.href) <= posts.length) {
       return (
         <div className="site-section">
-          <div className="row" style={{ width: '100%', margin: '0' }}>
-            <div className="col-sm-6 mx-auto text-center mb-5 section-heading" style={{marginTop: '54px'}}>
-              <h2 className="mb-5" style={{ fontFamily: 'Roboto' }}>
-                Videos
-              </h2>
+          <div className="container">
+            <div className="row" style={{ width: '100%', margin: '0' }}>
+              <div
+                className="col-sm-6 mx-auto text-center mb-5 section-heading"
+                style={{ marginTop: '54px' }}
+              >
+                <h2 className="mb-5">Videos</h2>
+                <h5 style={{ fontFamily: 'Montserrat', paddingBottom: '24px' }}>
+                  Tổng hợp những video TED Talks bổ ích trên khắp thế giới và
+                  những video độc quyền được sản xuất bởi đội ngũ của
+                  TEDxHCMUSSH
+                </h5>
+              </div>
             </div>
-          </div>
-          <div
-            className="row"
-            style={{ width: '100%', margin: '0', paddingBottom: '54px' }}
-          >
-            <VideoList videos={this.state.videos} />
-          </div>
-          <div className="row" style={{ width: '100%', margin: '0' }}>
-            <div className="col-sm-6 mx-auto text-center mb-5 section-heading">
-              <h2 className="mb-5" style={{ fontFamily: 'Roboto' }}>
-                Blog
-              </h2>
+            <div
+              className="row"
+              style={{ width: '100%', margin: '0', paddingBottom: '54px' }}
+            >
+              <VideoList videos={this.state.videos} left={this.state.left} />
             </div>
-          </div>
-          <div className="row post-page">
-            {this.renderItems(posts, currentPage)}
-          </div>
-          <Pagination
-            total={total}
-            limit={limit}
-            pageCount={pageCount}
-            currentPage={currentPage}
-          >
-            {({
-              pages,
-              currentPage,
-              hasNextPage,
-              hasPreviousPage,
-              previousPage,
-              nextPage,
-              totalPages,
-              getPageItemProps
-            }) => (
-              <div className="row mt-5" style={{ width: '100%' }}>
-                <div className="col-md-12 text-center">
-                  <div className="learn-pagination">
-                    <Link to={`/learn/1`}>
-                      <span
-                        {...getPageItemProps({
-                          pageValue: 1,
-                          onPageChange: this.handlePageChange
-                        })}
-                      >
-                        first
-                      </span>
-                    </Link>
-
-                    {hasPreviousPage && (
-                      <Link to={`/learn/${previousPage}`}>
+            <div className="row" style={{ width: '100%', margin: '0' }}>
+              <div className="col-sm-6 mx-auto text-center mb-5 section-heading">
+                <h2 className="mb-5">Blog</h2>
+                <h5 style={{ fontFamily: 'Montserrat', paddingBottom: '24px' }}>
+                  Tổng hợp những bài viết chuyên sâu bởi các thành viên ban Nội
+                  Dung của TEDxHCMUSSH nhằm cung cấp thêm cho bạn các thông tin
+                  liên quan đến chủ đề chương trình
+                </h5>
+              </div>
+            </div>
+            <div className="row">{this.renderItems(posts, currentPage)}</div>
+            <Pagination
+              total={total}
+              limit={limit}
+              pageCount={pageCount}
+              currentPage={currentPage}
+            >
+              {({
+                pages,
+                currentPage,
+                hasNextPage,
+                hasPreviousPage,
+                previousPage,
+                nextPage,
+                totalPages,
+                getPageItemProps
+              }) => (
+                <div className="row mt-5" style={{ width: '100%' }}>
+                  <div className="col-md-12 text-center">
+                    <div className="learn-pagination">
+                      <Link to={`/learn/1`}>
                         <span
                           {...getPageItemProps({
-                            pageValue: previousPage,
+                            pageValue: 1,
                             onPageChange: this.handlePageChange
                           })}
                         >
-                          {'<'}
+                          first
                         </span>
                       </Link>
-                    )}
 
-                    {pages.map((page, i) => {
-                      let activePage = null;
-                      if (currentPage === page) {
-                        activePage = {
-                          backgroundColor: '#f23a2e',
-                          color: '#fff'
-                        };
-                      }
-                      return (
-                        <Link key={i} to={`/learn/${page}`}>
+                      {hasPreviousPage && (
+                        <Link to={`/learn/${previousPage}`}>
                           <span
                             {...getPageItemProps({
-                              pageValue: page,
-                              key: page,
-                              style: activePage,
+                              pageValue: previousPage,
                               onPageChange: this.handlePageChange
                             })}
                           >
-                            {page}
+                            {'<'}
                           </span>
                         </Link>
-                      );
-                    })}
+                      )}
 
-                    {hasNextPage && (
-                      <Link to={`/learn/${nextPage}`}>
+                      {pages.map((page, i) => {
+                        let activePage = null;
+                        if (currentPage === page) {
+                          activePage = {
+                            backgroundColor: '#f23a2e',
+                            color: '#fff'
+                          };
+                        }
+                        return (
+                          <Link key={i} to={`/learn/${page}`}>
+                            <span
+                              {...getPageItemProps({
+                                pageValue: page,
+                                key: page,
+                                style: activePage,
+                                onPageChange: this.handlePageChange
+                              })}
+                            >
+                              {page}
+                            </span>
+                          </Link>
+                        );
+                      })}
+
+                      {hasNextPage && (
+                        <Link to={`/learn/${nextPage}`}>
+                          <span
+                            {...getPageItemProps({
+                              pageValue: nextPage,
+                              onPageChange: this.handlePageChange
+                            })}
+                          >
+                            {'>'}
+                          </span>
+                        </Link>
+                      )}
+                      <Link to={`/learn/${totalPages}`}>
                         <span
                           {...getPageItemProps({
-                            pageValue: nextPage,
+                            pageValue: totalPages,
                             onPageChange: this.handlePageChange
                           })}
                         >
-                          {'>'}
+                          last
                         </span>
                       </Link>
-                    )}
-                    <Link to={`/learn/${totalPages}`}>
-                      <span
-                        {...getPageItemProps({
-                          pageValue: totalPages,
-                          onPageChange: this.handlePageChange
-                        })}
-                      >
-                        last
-                      </span>
-                    </Link>
+                    </div>
                   </div>
                 </div>
-              </div>
-            )}
-          </Pagination>
+              )}
+            </Pagination>
+          </div>
         </div>
       );
     }
     return (
-      <div>
+      <div className="container">
         <div className="row" style={{ width: '100%', margin: '0' }}>
-          <div className="col-sm-6 mx-auto text-center mb-5 section-heading" style={{marginTop: '54px'}}>
-            <h2 className="mb-5" style={{ fontFamily: 'Roboto' }}>
-              Videos
-            </h2>
+          <div
+            className="col-sm-6 mx-auto text-center mb-5 section-heading"
+            style={{ marginTop: '54px' }}
+          >
+            <h2 className="mb-5">Videos</h2>
+            <h5 style={{ fontFamily: 'Montserrat', paddingBottom: '24px' }}>
+              Tổng hợp những video TED Talks bổ ích trên khắp thế giới và những
+              video độc quyền được sản xuất bởi đội ngũ của TEDxHCMUSSH
+            </h5>
           </div>
         </div>
         <div
           className="row"
           style={{ width: '100%', margin: '0', paddingBottom: '54px' }}
         >
-          <VideoList videos={this.state.videos} />
+          <VideoList videos={this.state.videos} left={this.state.left} />
         </div>
         <div className="row" style={{ width: '100%', margin: '0' }}>
           <div className="col-sm-6 mx-auto text-center mb-5 section-heading">
-            <h2 className="mb-5" style={{ fontFamily: 'Roboto' }}>
-              Blog
-            </h2>
-            <h5>Let me know what to put here when no post</h5>
+            <h2 className="mb-5">Blog</h2>
+            <h5 style={{ fontFamily: 'Montserrat', paddingBottom: '24px' }}>
+              Tổng hợp những bài viết chuyên sâu bởi các thành viên ban Nội Dung
+              của TEDxHCMUSSH nhằm cung cấp thêm cho bạn các thông tin liên quan
+              đến chủ đề chương trình
+            </h5>
           </div>
         </div>
       </div>
@@ -283,4 +312,4 @@ class PostListandPage extends React.Component {
   }
 }
 
-export default PostListandPage;
+export default PostListAndPage;

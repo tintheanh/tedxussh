@@ -23,7 +23,19 @@ class Main extends React.Component {
         title: '',
         teamMem: []
       },
-      contact: {}
+      contact: {},
+      abtBackground: '',
+      abtHeader: '',
+      leftDesc: '',
+      leftTitle: '',
+      leftPic: '',
+      midVideo: '',
+      midTitle: '',
+      midDesc: '',
+      rightDesc: '',
+      rightTitle: '',
+      rightPic: '',
+      vision: []
     };
   }
 
@@ -44,7 +56,20 @@ class Main extends React.Component {
       .on('value', snapshot => {
         const aboutObj = snapshot.val();
         if (aboutObj) {
-          this.setState({ about: aboutObj });
+          this.setState({
+            abtBackground: aboutObj.background,
+            abtHeader: aboutObj.header,
+            leftDesc: aboutObj.left.description,
+            leftTitle: aboutObj.left.title,
+            leftPic: aboutObj.left.picture,
+            midVideo: aboutObj.middle.video,
+            midDesc: aboutObj.middle.description,
+            midTitle: aboutObj.middle.title,
+            rightDesc: aboutObj.right.description,
+            rightPic: aboutObj.right.picture,
+            rightTitle: aboutObj.right.title,
+            vision: aboutObj.visions
+          });
         }
       });
 
@@ -98,6 +123,20 @@ class Main extends React.Component {
 
   render() {
     const { footer, home, about } = this.state;
+    const {
+      abtBackground,
+      abtHeader,
+      leftDesc,
+      leftTitle,
+      leftPic,
+      midVideo,
+      midTitle,
+      midDesc,
+      rightDesc,
+      rightTitle,
+      rightPic,
+      vision
+    } = this.state;
     return (
       <Router>
         <ScrollToTop>
@@ -106,7 +145,25 @@ class Main extends React.Component {
             <Route exact path="/" render={() => <Home home={home} />} />
             <Route path="/attend" component={Conference} />
             <Route path="/learn" component={Learn} />
-            <Route path="/about" render={() => <About {...about} />} />
+            <Route
+              path="/about"
+              render={() => (
+                <About
+                  abtBackground={abtBackground}
+                  abtHeader={abtHeader}
+                  leftDesc={leftDesc}
+                  leftPic={leftPic}
+                  leftTitle={leftTitle}
+                  midVideo={midVideo}
+                  midTitle={midTitle}
+                  midDesc={midDesc}
+                  rightDesc={rightDesc}
+                  rightTitle={rightTitle}
+                  rightPic={rightPic}
+                  vision={vision}
+                />
+              )}
+            />
             <Route
               path="/organizers"
               render={() => <Organizers organizers={this.state.organizers} />}

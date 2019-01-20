@@ -75,7 +75,7 @@ class AddHost extends React.Component {
         <button onClick={this.openModalPic}>Select picture</button>
         <Modal open={this.state.modalPic} onClose={this.closeModalPic} center>
           <ImageManagement
-            category="speakers"
+            category="hosts"
             closeModal={this.closeModalPic}
             pick={this.selectPic.bind(this)}
           />

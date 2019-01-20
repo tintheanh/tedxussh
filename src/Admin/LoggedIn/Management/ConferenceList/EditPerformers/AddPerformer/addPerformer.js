@@ -41,7 +41,7 @@ class AddHost extends React.Component {
 
     firebase
       .database()
-      .ref('conference/performers/performerListp')
+      .ref('conference/performers/performerList')
       .push(newPerformer)
       .then(() => {
         alert('Added');
@@ -75,7 +75,7 @@ class AddHost extends React.Component {
         <button onClick={this.openModalPic}>Select picture</button>
         <Modal open={this.state.modalPic} onClose={this.closeModalPic} center>
           <ImageManagement
-            category="speakers"
+            category="performers"
             closeModal={this.closeModalPic}
             pick={this.selectPic.bind(this)}
           />

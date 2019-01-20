@@ -22,6 +22,10 @@ class LearnSection extends React.Component {
       videos: [],
       toggleEditTitle: false,
 
+      toggleEditDesc1: false,
+      toggleEditTitle1: false,
+      modalEditCover1: false,
+
       modalAdd: false,
       modalEditCover: false
     };
@@ -33,6 +37,9 @@ class LearnSection extends React.Component {
 
     this.openModalEditCover = this.openModalEditCover.bind(this);
     this.closeModalEditCover = this.closeModalEditCover.bind(this);
+
+    this.openModalEditCover1 = this.openModalEditCover1.bind(this);
+    this.closeModalEditCover1 = this.closeModalEditCover1.bind(this);
   }
 
   componentWillUnmount() {
@@ -47,6 +54,37 @@ class LearnSection extends React.Component {
     this.updateWindowDimensions();
     window.addEventListener('resize', this.updateWindowDimensions);
     this.fetchData();
+  }
+
+  onUpdateText(type) {
+    let update = {};
+    if (type === 'title1') {
+      update = {
+        title: this.state.title1
+      };
+    }
+    if (type === 'desc1') {
+      update = {
+        description: this.state.desc1
+      };
+    }
+    firebase
+      .database()
+      .ref('learnPosts/left')
+      .update(update)
+      .catch(err => alert(err.message));
+  }
+
+  onUpdateCover1(newPic) {
+    const update = {
+      cover: newPic
+    };
+
+    firebase
+      .database()
+      .ref('learnPosts/left')
+      .update(update)
+      .catch(err => alert(err.message));
   }
 
   fetchData() {
@@ -74,6 +112,13 @@ class LearnSection extends React.Component {
           });
           this.setState({ videos });
         }
+        if (learnPostsObj.left) {
+          this.setState({
+            cover1: learnPostsObj.left.cover,
+            title1: learnPostsObj.left.title,
+            desc1: learnPostsObj.left.description
+          });
+        }
       });
   }
 
@@ -91,6 +136,14 @@ class LearnSection extends React.Component {
 
   closeModalEditCover() {
     this.setState({ modalEditCover: false });
+  }
+
+  openModalEditCover1() {
+    this.setState({ modalEditCover1: true });
+  }
+
+  closeModalEditCover1() {
+    this.setState({ modalEditCover1: false });
   }
 
   getPost(post) {
@@ -256,6 +309,127 @@ class LearnSection extends React.Component {
                   <div className="col-12">
                     <VideoList videos={this.state.videos} />
                   </div>
+                </div>
+                <div className="row style-section">
+                  <div className="col-12">
+                    <h3>Left</h3>
+                  </div>
+                  <div className="col-12">
+                    <h5>Title</h5>
+                  </div>
+                  {!this.state.toggleEditTitle1 ? (
+                    <div className="col-12">
+                      <div>
+                        <p>{this.state.title1}</p>
+                      </div>
+                      <div>
+                        <button
+                          onClick={() =>
+                            this.setState({ toggleEditTitle1: true })
+                          }
+                        >
+                          Edit
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="col-12">
+                      <div>
+                        <input
+                          type="text"
+                          value={this.state.title1}
+                          onChange={e =>
+                            this.setState({ title1: e.target.value })
+                          }
+                        />
+                      </div>
+                      <div>
+                        <button
+                          onClick={() => {
+                            this.onUpdateText('title1');
+                            this.setState({ toggleEditTitle1: false });
+                          }}
+                        >
+                          Save
+                        </button>
+                        <button
+                          onClick={() => {
+                            this.fetchData();
+                            this.setState({ toggleEditTitle1: false });
+                          }}
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                  <div className="col-12">
+                    <h5>Description</h5>
+                  </div>
+                  {!this.state.toggleEditDesc1 ? (
+                    <div className="col-12">
+                      <div>
+                        <p>{this.state.desc1}</p>
+                      </div>
+                      <div>
+                        <button
+                          onClick={() =>
+                            this.setState({ toggleEditDesc1: true })
+                          }
+                        >
+                          Edit
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="col-12">
+                      <div>
+                        <textarea
+                          value={this.state.desc1}
+                          onChange={e =>
+                            this.setState({ desc1: e.target.value })
+                          }
+                        />
+                      </div>
+                      <div>
+                        <button
+                          onClick={() => {
+                            this.onUpdateText('desc1');
+                            this.setState({ toggleEditDesc1: false });
+                          }}
+                        >
+                          Save
+                        </button>
+                        <button
+                          onClick={() => {
+                            this.fetchData();
+                            this.setState({ toggleEditDesc1: false });
+                          }}
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                  <div className="col-12">
+                    <img src={this.state.cover1} alt="" className="img-fluid" />
+                  </div>
+                  <div className="col-12">
+                    <button onClick={this.openModalEditCover1}>
+                      Edit cover
+                    </button>
+                  </div>
+                  <Modal
+                    open={this.state.modalEditCover1}
+                    onClose={this.closeModalEditCover1}
+                    center
+                  >
+                    <ImageManagement
+                      category="stockImages"
+                      pick={this.onUpdateCover1.bind(this)}
+                      closeModal={this.closeModalEditCover1}
+                    />
+                  </Modal>
                 </div>
               </div>
             ) : null}

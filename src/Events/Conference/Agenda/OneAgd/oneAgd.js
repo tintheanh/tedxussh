@@ -19,7 +19,7 @@ class OneAgd extends React.Component {
   renderParticipants(string) {
     const splitted = string.split('//');
     return splitted.map((e, i) => (
-      <p id={i} style={{ textAlign: 'center' }}>
+      <p id={i} style={{ textAlign: 'center', fontFamily: 'Montserrat' }}>
         {e}
       </p>
     ));
@@ -47,7 +47,7 @@ class OneAgd extends React.Component {
 
             {this.state.selectedAgenda === agd.id && agd.detail !== '' ? (
               <SmoothCollapse expanded={this.state.expanded}>
-                <p>{agd.detail}</p>
+                <p style={{ fontFamily: 'Montserrat' }}>{agd.detail}</p>
                 {this.renderParticipants(agd.participants)}
               </SmoothCollapse>
             ) : (

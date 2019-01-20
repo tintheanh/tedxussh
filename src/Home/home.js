@@ -44,7 +44,11 @@ class Home extends React.Component {
                   <h1 className="home-title mb-1">{title}</h1>
                   <p className="description">{description}</p>
                   <br />
-                  <Link to="/attend" className="explore">
+                  <Link
+                    to="/attend"
+                    className="explore"
+                    style={{ fontFamily: 'Montserrat' }}
+                  >
                     Explore the event
                   </Link>
                 </div>
@@ -66,11 +70,18 @@ class Home extends React.Component {
                         />
 
                         <div className="my-overlay text-vertical-center">
-                          <strong className="text-inside">
+                          <strong
+                            className="text-inside"
+                            style={{ fontFamily: 'Oswald' }}
+                          >
                             {this.props.home.left.title}
                             <br />
                             <span
-                              style={{ fontWeight: '300', fontSize: '18px' }}
+                              style={{
+                                fontWeight: '300',
+                                fontSize: '18px',
+                                fontFamily: 'Montserrat'
+                              }}
                             >
                               {this.props.home.left.description}
                             </span>
@@ -91,10 +102,10 @@ class Home extends React.Component {
                         />
 
                         <div className="my-overlay text-vertical-center">
-                          <strong className="text-inside">
+                          <strong className="text-inside" style={{ fontFamily: 'Oswald' }}>
                             {this.props.home.middle.title} <br />
                             <span
-                              style={{ fontWeight: '300', fontSize: '18px' }}
+                              style={{ fontWeight: '300', fontSize: '18px', fontFamily: 'Montserrat' }}
                             >
                               {this.props.home.middle.description}
                             </span>
@@ -115,10 +126,10 @@ class Home extends React.Component {
                         />
 
                         <div className="my-overlay text-vertical-center">
-                          <strong className="text-inside">
+                          <strong className="text-inside" style={{ fontFamily: 'Oswald' }}>
                             {this.props.home.right.title} <br />
                             <span
-                              style={{ fontWeight: '300', fontSize: '18px' }}
+                              style={{ fontWeight: '300', fontSize: '18px', fontFamily: 'Montserrat' }}
                             >
                               {this.props.home.right.description}
                             </span>

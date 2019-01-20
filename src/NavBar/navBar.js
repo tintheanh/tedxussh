@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Modal from 'react-responsive-modal';
 import GetEventUpdate from './GetEventUpdate/getEventUpdate';
+import logo2 from './logo/logo2.png';
 
 class NavBar extends React.Component {
   constructor(props) {
@@ -31,19 +32,22 @@ class NavBar extends React.Component {
             </div>
           </div>
           <div className="site-mobile-menu-body">
-            <ul className="site-nav-wrap">
+            <ul
+              className="site-nav-wrap"
+              style={{ textTransform: 'uppercase' }}
+            >
               <li>
-                <Link to="/attend" style={{ fontFamily: 'Roboto' }}>
+                <Link to="/attend" style={{ fontFamily: 'Montserrat' }}>
                   Attend
                 </Link>
               </li>
               <li>
-                <Link to="/learn" style={{ fontFamily: 'Roboto' }}>
+                <Link to="/learn" style={{ fontFamily: 'Montserrat' }}>
                   Learn
                 </Link>
               </li>
               <li>
-                <Link to="/about" style={{ fontFamily: 'Roboto' }}>
+                <Link to="/about" style={{ fontFamily: 'Montserrat' }}>
                   About
                 </Link>
               </li>
@@ -64,12 +68,20 @@ class NavBar extends React.Component {
               <div className="py-1">
                 <div className="row align-items-center">
                   <div className="col-2">
-                    <h2
+                    {/* <h2
                       className="mb-0 site-logo"
-                      style={{ fontFamily: 'Roboto' }}
-                    >
-                      <Link to="/">Home</Link>
-                    </h2>
+                      style={{ fontFamily: 'Montserrat' }}
+                    > */}
+                    <Link to="/">
+                      <img
+                        id="logo"
+                        src={logo2}
+                        alt="logo"
+                        className="site-logo"
+                        style={{ width: '100%', padding: '0' }}
+                      />
+                    </Link>
+                    {/* </h2> */}
                   </div>
                   <div className="col-10">
                     <nav
@@ -87,17 +99,17 @@ class NavBar extends React.Component {
                         </div>
                         <ul className="site-menu js-clone-nav d-none d-lg-block">
                           <li>
-                            <Link to="/attend" style={{ fontFamily: 'Roboto' }}>
+                            <Link to="/attend" style={{ fontFamily: 'Montserrat' }}>
                               Attend
                             </Link>
                           </li>
                           <li>
-                            <Link to="/learn" style={{ fontFamily: 'Roboto' }}>
+                            <Link to="/learn" style={{ fontFamily: 'Montserrat' }}>
                               Learn
                             </Link>
                           </li>
                           <li>
-                            <Link to="/about" style={{ fontFamily: 'Roboto' }}>
+                            <Link to="/about" style={{ fontFamily: 'Montserrat' }}>
                               About
                             </Link>
                           </li>

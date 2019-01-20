@@ -83,8 +83,12 @@ class SpeakerList extends React.Component {
               <img src={e.picture} alt="" className="img-fluid notransition" />
             </div>
             <div className="hotel-room-body">
-              <h3 className="heading mb-2">{e.name}</h3>
-              <strong className="price">{e.occupation}</strong>
+              <h3 className="heading mb-2" style={{ fontFamily: 'Oswald' }}>
+                {e.name}
+              </h3>
+              <strong className="price" style={{ fontFamily: 'Montserrat' }}>
+                {e.occupation}
+              </strong>
             </div>
           </div>
         </div>
@@ -99,7 +103,13 @@ class SpeakerList extends React.Component {
       }
       return this.renderImg(imgs.length / 4 + 1, imgs);
     }
-    return <h2>No imgs available</h2>;
+    return (
+      <div className="col-12">
+        <h5 className="text-center" style={{ fontFamily: 'Montserrat' }}>
+          No speakers
+        </h5>
+      </div>
+    );
   }
   toggle() {
     this.setState({ expanded: !this.state.expanded });
@@ -112,14 +122,14 @@ class SpeakerList extends React.Component {
         <div className="container">
           <div className="row">
             <div className="col-sm-6 mx-auto text-center mb-5 section-heading">
-              <h2 className="mb-5" style={{ fontFamily: 'Roboto' }}>
-                Speakers
-              </h2>
+              <h2 className="mb-5">Speakers</h2>
             </div>
           </div>
           <div className="row adv-wrapper" style={{ paddingBottom: '24px' }}>
             <div className="col-12">
-              <p className="text-center adv-desc">{this.props.speakerDesc}</p>
+              <p className="text-center" style={{ fontFamily: 'Montserrat' }}>
+                {this.props.speakerDesc}
+              </p>
             </div>
           </div>
           {this.props.speakers.length <= 4 ? (

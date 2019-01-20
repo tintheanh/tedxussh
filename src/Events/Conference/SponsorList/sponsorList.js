@@ -50,7 +50,9 @@ class SponsorList extends React.Component {
     }
     return (
       <div className="col-12">
-        <h5 className="text-center">Let me know what to put here when no sponsor</h5>
+        <h5 className="text-center" style={{ fontFamily: 'Montserrat' }}>
+          TEDxHCMUSSH được hỗ trợ tổ chức bởi những nhà tài trợ có tầm nhìn và quan tâm đến các vấn đề chung của cộng đồng
+        </h5>
       </div>
     );
   }
@@ -61,9 +63,7 @@ class SponsorList extends React.Component {
         <div className="container" ref={this.element}>
           <div className="row">
             <div className="col-sm-6 mx-auto text-center mb-5 section-heading">
-              <h2 className="mb-5" style={{ fontFamily: 'Roboto' }}>
-                Sponsors
-              </h2>
+              <h2 className="mb-5">Sponsors</h2>
             </div>
           </div>
           <div className="row">{this.renderAllImg(this.props.sponsors)}</div>

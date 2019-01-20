@@ -5,8 +5,8 @@ body {
   font-weight: 400;
   font-size: 1rem;
   font-family: 'Work Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji',
-    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji', 'Roboto';
+    'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol', 'Noto Color Emoji', 'Montserrat', 'Oswald';
 }
 
 ::-moz-selection {
@@ -1820,7 +1820,7 @@ a:hover {
 .section-heading h2 {
   position: relative;
   display: inline-block;
-  font-family: 'Playfair Display';
+  font-family: 'Oswald';
   font-size: 40px;
   text-transform: uppercase;
 }
@@ -1988,7 +1988,7 @@ a:hover {
 .description {
   color: #fff;
   padding: 0;
-  font-family: 'Roboto';
+  font-family: 'Montserrat';
   font-weight: 400;
   font-size: 18px !important;
 }
@@ -1996,7 +1996,7 @@ a:hover {
 .event-description {
   color: #fff;
   padding: 0;
-  font-family: 'Roboto';
+  font-family: 'Montserrat';
   font-weight: 400;
   font-size: 18px;
 }
@@ -2067,11 +2067,13 @@ a:hover {
 }
 
 .agd-time {
+  font-family: 'Oswald';
   font-size: 24px;
   font-weight: 700;
 }
 
 .agd-header {
+  font-family: 'Oswald';
   font-size: 22px;
   font-weight: 700;
 }
@@ -2097,7 +2099,7 @@ a:hover {
 }
 
 .add-border-agenda {
-  border-right: 3px solid #ffdc1a;
+  border-right: 3px solid #e62b1e;
 }
 
 .venue-section {
@@ -2112,13 +2114,12 @@ a:hover {
 .venue-address {
   margin: 36px 124px;
   font-size: 18px;
-  /* position: relative;
-  top: -44px; */
+  font-family: 'Montserrat';
 }
 .home-title,
 .event-title {
   color: #fff;
-  font-family: 'Roboto' !important;
+  font-family: 'Oswald' !important;
   font-weight: 400 !important;
   text-transform: uppercase !important;
 }
@@ -2228,7 +2229,7 @@ a:hover {
 
 .about-title {
   text-align: center;
-  font-family: 'Roboto';
+  font-family: 'Oswald';
   color: #fff;
   font-weight: 500;
   font-size: 34px;
@@ -2280,6 +2281,7 @@ a:hover {
 
 .contact-header {
   font-weight: 700;
+  font-family: 'Oswald';
 }
 
 .radio-btn {
@@ -2350,7 +2352,7 @@ a:hover {
   }
 
   .about-title {
-    margin: 0 544px;
+    margin: 0 40vw;
   }
 }
 
@@ -2359,7 +2361,7 @@ a:hover {
     margin: 0 204px;
   }
   .about-title {
-    margin: 0 30vw;
+    margin: 0 40vw;
   }
 }
 
@@ -2387,9 +2389,6 @@ a:hover {
   }
   .venue-section {
     height: 294px;
-  }
-  .venue-title {
-    /* margin-top: 48px !important; */
   }
 }
 
@@ -2534,11 +2533,13 @@ a:hover {
 }
 
 .gap-header {
+  font-family: 'Oswald';
   text-transform: uppercase;
   font-weight: 500;
 }
 
 .gap-detail {
+  font-family: 'Montserrat';
   padding: 0 !important;
   margin: 0 !important;
   width: 30vw;
@@ -2595,5 +2596,11 @@ a:hover {
   }
   60% {
     transform: translateY(-5px);
+  }
+}
+
+@media screen and (max-width: 1440px) {
+  .home-title {
+    font-size: 32px !important;
   }
 }

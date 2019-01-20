@@ -1,13 +1,14 @@
 import React from 'react';
 import YouTube from 'react-youtube';
+import { SizeMe } from 'react-sizeme';
+import GetHeight from './getHeight';
 
 class About extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { height: 0 };
+    this.element = React.createRef();
   }
-
-  componentDidMount() {}
 
   onReady(event) {
     // access to player in all event handlers via event.target
@@ -28,119 +29,121 @@ class About extends React.Component {
           style={{ background: 'transparent' }}
         >
           <div className="hotel-room-body" style={{ padding: '38px' }}>
-            <h3 className="heading mb-0" style={{ paddingBottom: '32px' }}>
+            <h3 className="heading mb-0" style={{ paddingBottom: '32px', fontFamily: 'Oswald' }}>
               {v.title}
             </h3>
-            <strong className="price">{v.description}</strong>
+            <strong className="price" style={{ fontFamily: 'Montserrat' }}>{v.description}</strong>
           </div>
         </div>
       </div>
     ));
   }
 
+  onSize = size => {
+    this.setState({ height: size.height }, () =>
+      console.log(this.state.height)
+    );
+  };
+
   render() {
-    if (
-      this.props &&
-      this.props.left &&
-      this.props.middle &&
-      this.props.right
-    ) {
-      console.log(this.props);
-      const { background, header, left, middle, right, visions } = this.props;
-      return (
+    return (
+      <div>
         <div>
-          <div>
-            <div
-              className="about-header text-vertical-center"
-              style={{
-                backgroundImage: `url(${background})`
-              }}
-            >
-              <div className="row" style={{ width: '100%', margin: '0' }}>
-                <div className="col-md-12">
-                  <h1 className="about-title">
-                    {header}
-                  </h1>
-                </div>
+          <div
+            className="about-header text-vertical-center"
+            style={{
+              backgroundImage: `url(${this.props.abtBackground})`
+            }}
+          >
+            <div className="row" style={{ width: '100%', margin: '0' }}>
+              <div className="col-md-12">
+                <h1 className="about-title">{this.props.abtHeader}</h1>
               </div>
-            </div>
-          </div>
-
-          <div className="site-section bg-light">
-            <div className="container">
-              <div className="row">
-                <div className="col-md-12 col-lg-4 mb-2">
-                  <div
-                    className="hotel-room text-center"
-                    style={{ background: 'transparent' }}
-                  >
-                    <div className="d-block mb-0 thumbnail">
-                      <img src={left.picture} alt="" className="img-fluid" />
-                    </div>
-                    <div
-                      className="hotel-room-body"
-                      style={{ paddingTop: '32px' }}
-                    >
-                      <h3 className="heading mb-0">{left.title}</h3>
-                      <strong className="price">{left.description}</strong>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-md-12 col-lg-4 mb-2">
-                  <div
-                    className="hotel-room text-center"
-                    style={{ background: 'transparent' }}
-                  >
-                    <YouTube
-                      videoId={this.youtube_parser(middle.video)}
-                      onReady={this.onReady}
-                      className="youtube"
-                    />
-
-                    <div
-                      className="hotel-room-body"
-                      style={{ paddingTop: '32px' }}
-                    >
-                      <h3 className="heading mb-0">{middle.title}</h3>
-                      <strong className="price">{middle.description}</strong>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-md-12 col-lg-4 mb-2">
-                  <div
-                    className="hotel-room text-center"
-                    style={{ background: 'transparent' }}
-                  >
-                    <a href="#" className="d-block mb-0 thumbnail">
-                      <img src={right.picture} alt="" className="img-fluid" />
-                    </a>
-                    <div
-                      className="hotel-room-body"
-                      style={{ paddingTop: '32px' }}
-                    >
-                      <h3 className="heading mb-0">{right.title}</h3>
-                      <strong className="price">{right.description}</strong>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="site-section bg-light">
-            <div className="container">
-              <div className="col-md-6 mx-auto text-center mb-5 section-heading">
-                <h2 className="mb-5" style={{ fontFamily: 'Roboto' }}>
-                  Vision and Goals
-                </h2>
-              </div>
-              <div className="row">{this.renderVisions(visions)}</div>
             </div>
           </div>
         </div>
-      );
-    }
-    return null;
+
+        <div className="site-section bg-light">
+          <div className="container">
+            <div className="row">
+              <div className="col-md-12 col-lg-4 mb-2">
+                <div
+                  className="hotel-room text-center"
+                  style={{ background: 'transparent' }}
+                >
+                  <GetHeight img={this.props.leftPic} onSize={this.onSize} />
+                  <div
+                    className="hotel-room-body"
+                    style={{ paddingTop: '32px' }}
+                  >
+                    <h3
+                      className="heading mb-0"
+                      style={{ fontFamily: 'Oswald' }}
+                    >
+                      {this.props.leftTitle}
+                    </h3>
+                    <strong className="price" style={{ fontFamily: 'Montserrat' }}>{this.props.leftDesc}</strong>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 col-lg-4 mb-2">
+                <div
+                  className="hotel-room text-center"
+                  style={{ background: 'transparent' }}
+                >
+                  <YouTube
+                    videoId={this.youtube_parser(this.props.midVideo)}
+                    onReady={this.onReady}
+                    className="youtube"
+                    opts={{ height: `${this.state.height}px` }}
+                  />
+
+                  <div
+                    className="hotel-room-body"
+                    style={{ paddingTop: '32px' }}
+                  >
+                    <h3 className="heading mb-0" style={{ fontFamily: 'Oswald' }}>{this.props.midTitle}</h3>
+                    <strong className="price" style={{ fontFamily: 'Montserrat' }}>{this.props.midDesc}</strong>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 col-lg-4 mb-2">
+                <div
+                  className="hotel-room text-center"
+                  style={{ background: 'transparent' }}
+                >
+                  <a href="#" className="d-block mb-0 thumbnail">
+                    <img
+                      src={this.props.rightPic}
+                      alt=""
+                      className="img-fluid"
+                    />
+                  </a>
+                  <div
+                    className="hotel-room-body"
+                    style={{ paddingTop: '32px' }}
+                  >
+                    <h3 className="heading mb-0" style={{ fontFamily: 'Oswald' }}>{this.props.rightTitle}</h3>
+                    <strong className="price" style={{ fontFamily: 'Montserrat' }}>{this.props.rightDesc}</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="site-section bg-light">
+          <div className="container">
+            <div className="col-md-6 mx-auto text-center mb-5 section-heading">
+              <h2 className="mb-5" style={{ fontFamily: 'Oswald' }}>
+                Vision and Goals
+              </h2>
+            </div>
+            <div className="row">{this.renderVisions(this.props.vision)}</div>
+          </div>
+        </div>
+      </div>
+    );
   }
 }
 

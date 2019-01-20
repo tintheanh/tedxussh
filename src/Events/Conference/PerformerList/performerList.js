@@ -108,8 +108,12 @@ class HostList extends React.Component {
               <img src={e.picture} alt="" className="img-fluid notransition" />
             </div>
             <div className="hotel-room-body">
-              <h3 className="heading mb-2">{e.name}</h3>
-              <strong className="price">{e.occupation}</strong>
+              <h3 className="heading mb-2" style={{ fontFamily: 'Oswald' }}>
+                {e.name}
+              </h3>
+              <strong className="price" style={{ fontFamily: 'Montserrat' }}>
+                {e.occupation}
+              </strong>
             </div>
           </div>
         </div>
@@ -143,14 +147,16 @@ class HostList extends React.Component {
         <div className="container">
           <div className="row">
             <div className="col-sm-6 mx-auto text-center mb-5 section-heading">
-              <h2 className="mb-5" style={{ fontFamily: 'Roboto' }}>
+              <h2 className="mb-5" style={{ fontFamily: 'Oswald' }}>
                 Performers
               </h2>
             </div>
           </div>
           <div className="row adv-wrapper" style={{ paddingBottom: '24px' }}>
             <div className="col-12">
-              <p className="text-center adv-desc">{this.props.performerDesc}</p>
+              <p className="text-center" style={{ fontFamily: 'Montserrat' }}>
+                {this.props.performerDesc}
+              </p>
             </div>
           </div>
           {this.props.performers.length <= 4 ? (

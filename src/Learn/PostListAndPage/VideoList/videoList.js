@@ -1,16 +1,15 @@
 import React from 'react';
 
-const VideoList = props => {
-  if (props.videos.length) {
-    return props.videos.map(e => (
+const renderVideos = videos => {
+  if (videos) {
+    return videos.map(e => (
       <div
-        className="col-12"
         key={e.id}
         style={{
-          textAlign: 'center'
+          textAlign: 'left'
         }}
       >
-        <p style={{ fontWeight: '500' }}>
+        <p style={{ fontFamily: 'Montserrat', fontWeight: '500' }}>
           <span>
             {e.by} {' | '}
           </span>
@@ -21,9 +20,18 @@ const VideoList = props => {
       </div>
     ));
   }
+  return null;
+};
+
+const VideoList = props => {
   return (
-    <div className="col-12">
-      <h5 className="text-center">Let me know what to put here when no video</h5>
+    <div className="row" style={{ width: '100%' }}>
+      <div className="col-lg-3 col-md-6">
+        <img src={props.left.cover} alt="" style={{ width: '100%' }} />
+        <h1 style={{ fontFamily: 'Oswald', textTransform: 'uppercase', padding: '24px 0' }}>{props.left.title}</h1>
+        <h3 style={{ fontFamily: 'Oswald', textTransform: 'uppercase' }}>{props.left.description}</h3>
+      </div>
+      <div className="col-lg-9 col-md-6">{renderVideos(props.videos)}</div>
     </div>
   );
 };

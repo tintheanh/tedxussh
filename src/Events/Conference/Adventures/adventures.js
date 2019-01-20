@@ -30,8 +30,12 @@ const renderRow = (startIndex, endIndex, imgs) => {
         </div>
       </div>
       <div className="hotel-room-body text-center">
-        <p style={{ fontWeight: 700, marginBottom: '6px' }}>{e.name}</p>
-        <p>{e.detail}</p>
+        <p
+          style={{ fontWeight: 700, marginBottom: '6px', fontFamily: 'Oswald' }}
+        >
+          {e.name}
+        </p>
+        <p style={{ fontFamily: 'Montserrat' }}>{e.detail}</p>
       </div>
     </div>
   ));
@@ -53,9 +57,7 @@ const Adventures = props => {
     <div className="site-section bg-white">
       <div className="container">
         <div className="col-sm-6 mx-auto text-center mb-5 section-heading">
-          <h2 className="mb-5" style={{ fontFamily: 'Roboto' }}>
-            Adventures
-          </h2>
+          <h2 className="mb-5">Adventures</h2>
         </div>
         <div className="row adv-wrapper">
           <div className="col-12">
@@ -64,7 +66,8 @@ const Adventures = props => {
               style={{
                 textTransform: 'uppercase',
                 fontWeight: '500',
-                fontSize: '24px'
+                fontSize: '24px',
+                fontFamily: 'Montserrat'
               }}
             >
               {adventureHeader}
@@ -75,8 +78,9 @@ const Adventures = props => {
           <div className="col-12">
             {/* <p className="text-center adv-desc">{adventureDesc}</p> */}
             <div
-              className="text-center adv-desc"
+              className="text-center"
               dangerouslySetInnerHTML={{ __html: adventureDesc }}
+              style={{ fontFamily: 'Montserrat' }}
             />
           </div>
         </div>

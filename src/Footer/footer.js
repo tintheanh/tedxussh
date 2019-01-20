@@ -38,7 +38,10 @@ class Footer extends React.Component {
             <div className="row">
               <div className="col-md-4">
                 <div className="small-nav">
-                  <p className="text-center">
+                  <p
+                    className="text-center"
+                    style={{ fontFamily: 'Montserrat' }}
+                  >
                     <Link to="/organizers">Organizers</Link> {' - '}
                     <a
                       href="javascript:void(0);"
@@ -56,6 +59,7 @@ class Footer extends React.Component {
                       href={links.facebook}
                       target="_blank"
                       className="pb-2 pr-2 pl-0"
+                      style={{ fontFamily: 'Montserrat' }}
                     >
                       <span
                         className="fa icon-facebook-f"
@@ -75,7 +79,7 @@ class Footer extends React.Component {
                 <div className="row align-items-center justify-content-center">
                   <div className="col-md-12 text-center">
                     {/* <p>{sentence}</p> */}
-                    <div dangerouslySetInnerHTML={{ __html: sentence }} />
+                    <div dangerouslySetInnerHTML={{ __html: sentence }} style={{ fontFamily: 'Montserrat' }} />
                   </div>
                 </div>
               </div>
@@ -83,14 +87,14 @@ class Footer extends React.Component {
               <div className="col-md-4">
                 <div className="col-md-12 text-center">
                   <Link to="/attend">
-                    <p>{quote}</p>
+                    <p style={{ fontFamily: 'Montserrat' }}>{quote}</p>
                   </Link>
                 </div>
               </div>
             </div>
             <div className="row pt-5 mt-5 text-center">
               <div className="col-md-12">
-                <p>
+                <p style={{ fontFamily: 'Montserrat' }}>
                   Copyright &copy; {new Date().getFullYear()} {copyright}
                 </p>
               </div>

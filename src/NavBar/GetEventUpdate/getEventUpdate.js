@@ -61,10 +61,10 @@ class GetEventUpdate extends React.Component {
   render() {
     return (
       <div>
-        <p style={{ textAlign: 'center', margin: '44px' }}>
+        <p style={{ textAlign: 'center', margin: '44px', fontFamily: 'Montserrat' }}>
           {this.state.description}
         </p>
-        <p style={{ textAlign: 'center', fontWeight: '700' }}>
+        <p style={{ textAlign: 'center', fontWeight: '700', fontFamily: 'Montserrat' }}>
           {this.toVNDate(this.state.startDate)} -{' '}
           {this.toVNDate(this.state.endDate)}
         </p>

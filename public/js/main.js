@@ -358,9 +358,11 @@ jQuery(document).ready(function($) {
         st = $w.scrollTop(),
         navbar = $('.js-site-navbar');
 
-      if (st > 100) {
+      if (st > 84) {
         navbar.addClass('scrolled');
+        $('#logo').attr('src', '../logo/logo1.png');
       } else {
+        $('#logo').attr('src', '../logo/logo2.png');
         navbar.removeClass('scrolled');
       }
     });

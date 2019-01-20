@@ -1,6 +1,4 @@
 import React from 'react';
-import SmoothCollapse from 'react-smooth-collapse';
-import moment from 'moment';
 import OneAgd from './OneAgd/oneAgd';
 
 class Agenda extends React.Component {
@@ -16,8 +14,20 @@ class Agenda extends React.Component {
   }
 
   toVNDate(inputDate) {
-    const date = inputDate.split('-');
-    return `${date[2]}/${date[1]}/${date[0]}`;
+    if (inputDate) {
+      const date = inputDate.split('-');
+      const year = date[0];
+      let month = date[1];
+      let day = date[2];
+      if (parseInt(month) < 10) {
+        month = month.substring(1, 2);
+      }
+      if (parseInt(day) < 10) {
+        day = day.substring(1, 2);
+      }
+      return `${day}/${month}/${year}`;
+    }
+    return '';
   }
 
   render() {
@@ -26,16 +36,19 @@ class Agenda extends React.Component {
         <div className="container">
           <div className="row">
             <div className="col-md-6 mx-auto text-center mb-5 section-heading">
-              <h2 className="mb-5" style={{ fontFamily: 'Roboto' }}>
-                Agenda
-              </h2>
+              <h2 className="mb-5">Agenda</h2>
             </div>
           </div>
           <div className="row">
             <div className="mx-auto text-center mb-5">
               <h4
                 className="mb-5"
-                style={{ backgroundColor: '#ffdc1a', padding: '14px 44px' }}
+                style={{
+                  backgroundColor: '#e62b1e',
+                  padding: '14px 44px',
+                  color: '#fff',
+                  fontFamily: 'Oswald'
+                }}
               >
                 {this.toVNDate(this.props.date)}
               </h4>

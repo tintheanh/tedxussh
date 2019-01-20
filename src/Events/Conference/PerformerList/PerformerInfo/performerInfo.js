@@ -6,9 +6,9 @@ const HostInfo = props => (
       <img className="img-fluid" src={props.performer.picture} alt="" />
     </div>
     <div className="col-7">
-      <h3>{props.performer.name}</h3>
-      <h5>{props.performer.occupation}</h5>
-      <p>{props.performer.introduction}</p>
+      <h3 style={{ fontFamily: 'Oswald' }}>{props.performer.name}</h3>
+      <h5 style={{ fontFamily: 'Oswald' }}>{props.performer.occupation}</h5>
+      <p style={{ fontFamily: 'Montserrat' }}>{props.performer.introduction}</p>
     </div>
   </div>
 );

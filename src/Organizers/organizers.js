@@ -49,15 +49,26 @@ class Organizers extends React.Component {
             <img src={e.picture} alt="" className="img-fluid notransition" />
           </div>
           <div className="hotel-room-body">
-            <h3 className="text-left" style={{ margin: '0' }}>
+            <h3
+              className="text-left"
+              style={{ margin: '0', fontFamily: 'Oswald' }}
+            >
               {e.name}
             </h3>
-            <p className="text-left" style={{ margin: '0' }}>
+            <p
+              className="text-left"
+              style={{ margin: '0', fontFamily: 'Montserrat' }}
+            >
               {e.role}
             </p>
             <p
               className="text-left"
-              style={{ margin: '0', fontWeight: '500', color: 'red', cursor: 'pointer' }}
+              style={{
+                margin: '0',
+                fontWeight: '500',
+                color: 'red',
+                cursor: 'pointer'
+              }}
               onClick={this.openLink.bind(this, e.socialLink)}
             >
               {this.formatLink(e.socialLink)}
