@@ -25,11 +25,21 @@ const renderVideos = videos => {
 
 const VideoList = props => {
   return (
-    <div className="row" style={{ width: '100%' }}>
+    <div className="row" style={{ width: '100%', margin: 'auto' }}>
       <div className="col-lg-3 col-md-6">
         <img src={props.left.cover} alt="" style={{ width: '100%' }} />
-        <h1 style={{ fontFamily: 'Oswald', textTransform: 'uppercase', padding: '24px 0' }}>{props.left.title}</h1>
-        <h3 style={{ fontFamily: 'Oswald', textTransform: 'uppercase' }}>{props.left.description}</h3>
+        <h1
+          style={{
+            fontFamily: 'Oswald',
+            textTransform: 'uppercase',
+            padding: '24px 0'
+          }}
+        >
+          {props.left.title}
+        </h1>
+        <h3 style={{ fontFamily: 'Oswald', textTransform: 'uppercase' }}>
+          {props.left.description}
+        </h3>
       </div>
       <div className="col-lg-9 col-md-6">{renderVideos(props.videos)}</div>
     </div>

@@ -67,23 +67,16 @@ class NavBar extends React.Component {
             <div className="site-navbar bg-light">
               <div className="py-1">
                 <div className="row align-items-center">
-                  <div className="col-2">
-                    {/* <h2
-                      className="mb-0 site-logo"
-                      style={{ fontFamily: 'Montserrat' }}
-                    > */}
-                    <Link to="/">
-                      <img
-                        id="logo"
-                        src={logo2}
-                        alt="logo"
-                        className="site-logo"
-                        style={{ width: '100%', padding: '0' }}
-                      />
-                    </Link>
-                    {/* </h2> */}
-                  </div>
-                  <div className="col-10">
+                  <Link to="/" className="col-lg-2 col-4">
+                    <img
+                      id="logo"
+                      src={logo2}
+                      alt="logo"
+                      className="site-logo"
+                      style={{ width: '100%', padding: '0' }}
+                    />
+                  </Link>
+                  <div className="col-lg-10 col-8">
                     <nav
                       className="site-navigation text-right"
                       role="navigation"
@@ -99,17 +92,26 @@ class NavBar extends React.Component {
                         </div>
                         <ul className="site-menu js-clone-nav d-none d-lg-block">
                           <li>
-                            <Link to="/attend" style={{ fontFamily: 'Montserrat' }}>
+                            <Link
+                              to="/attend"
+                              style={{ fontFamily: 'Montserrat' }}
+                            >
                               Attend
                             </Link>
                           </li>
                           <li>
-                            <Link to="/learn" style={{ fontFamily: 'Montserrat' }}>
+                            <Link
+                              to="/learn"
+                              style={{ fontFamily: 'Montserrat' }}
+                            >
                               Learn
                             </Link>
                           </li>
                           <li>
-                            <Link to="/about" style={{ fontFamily: 'Montserrat' }}>
+                            <Link
+                              to="/about"
+                              style={{ fontFamily: 'Montserrat' }}
+                            >
                               About
                             </Link>
                           </li>

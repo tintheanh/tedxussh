@@ -127,7 +127,11 @@ class PostListAndPage extends React.Component {
                 </h2>
                 <span
                   className="mb-3 d-block post-date"
-                  style={{ paddingBottom: '12px', fontFamily: 'Montserrat', fontWeight: '500' }}
+                  style={{
+                    paddingBottom: '12px',
+                    fontFamily: 'Montserrat',
+                    fontWeight: '500'
+                  }}
                 >
                   {item.datePosted} By {item.by}
                 </span>
@@ -162,10 +166,7 @@ class PostListAndPage extends React.Component {
                 </h5>
               </div>
             </div>
-            <div
-              className="row"
-              style={{ width: '100%', margin: '0', paddingBottom: '54px' }}
-            >
+            <div style={{ width: '100%', margin: '0', paddingBottom: '54px' }}>
               <VideoList videos={this.state.videos} left={this.state.left} />
             </div>
             <div className="row" style={{ width: '100%', margin: '0' }}>
@@ -291,10 +292,7 @@ class PostListAndPage extends React.Component {
             </h5>
           </div>
         </div>
-        <div
-          className="row"
-          style={{ width: '100%', margin: '0', paddingBottom: '54px' }}
-        >
+        <div style={{ width: '100%', margin: '0', paddingBottom: '54px' }}>
           <VideoList videos={this.state.videos} left={this.state.left} />
         </div>
         <div className="row" style={{ width: '100%', margin: '0' }}>

@@ -38,8 +38,11 @@ class Home extends React.Component {
             className="home-parallax"
             // bgImageSizes={{ width: 1440, height: 810 }}
           >
-            <div className="container">
-              <div className="row align-items-center">
+            <div className="container" style={{ height: '100%' }}>
+              <div
+                className="row align-items-center"
+                style={{ height: '100%' }}
+              >
                 <div className="col-lg-6 col-md-12 home-text-wrapper">
                   <h1 className="home-title mb-1">{title}</h1>
                   <p className="description">{description}</p>
@@ -102,10 +105,17 @@ class Home extends React.Component {
                         />
 
                         <div className="my-overlay text-vertical-center">
-                          <strong className="text-inside" style={{ fontFamily: 'Oswald' }}>
+                          <strong
+                            className="text-inside"
+                            style={{ fontFamily: 'Oswald' }}
+                          >
                             {this.props.home.middle.title} <br />
                             <span
-                              style={{ fontWeight: '300', fontSize: '18px', fontFamily: 'Montserrat' }}
+                              style={{
+                                fontWeight: '300',
+                                fontSize: '18px',
+                                fontFamily: 'Montserrat'
+                              }}
                             >
                               {this.props.home.middle.description}
                             </span>
@@ -126,10 +136,17 @@ class Home extends React.Component {
                         />
 
                         <div className="my-overlay text-vertical-center">
-                          <strong className="text-inside" style={{ fontFamily: 'Oswald' }}>
+                          <strong
+                            className="text-inside"
+                            style={{ fontFamily: 'Oswald' }}
+                          >
                             {this.props.home.right.title} <br />
                             <span
-                              style={{ fontWeight: '300', fontSize: '18px', fontFamily: 'Montserrat' }}
+                              style={{
+                                fontWeight: '300',
+                                fontSize: '18px',
+                                fontFamily: 'Montserrat'
+                              }}
                             >
                               {this.props.home.right.description}
                             </span>

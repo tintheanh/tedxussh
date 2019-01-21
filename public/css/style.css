@@ -2112,7 +2112,7 @@ a:hover {
 }
 
 .venue-address {
-  margin: 36px 124px;
+  margin: 12px 124px;
   font-size: 18px;
   font-family: 'Montserrat';
 }
@@ -2242,7 +2242,7 @@ a:hover {
 }
 
 .get-event-update {
-  font-family: 'Roboto';
+  font-family: 'Montserrat';
   border: 1px solid #ccc;
   padding: 8px 24px !important;
   cursor: pointer;
@@ -2325,6 +2325,10 @@ a:hover {
 @media screen and (max-width: 992px) {
   .home-title {
     font-size: 32px !important;
+  }
+  .home-text-wrapper {
+    position: relative;
+    margin-top: 84px;
   }
 }
 
@@ -2460,6 +2464,9 @@ a:hover {
   .con-header {
     max-height: 45vh !important;
   }
+  #logo {
+    height: 34px !important;
+  }
 }
 
 /* @media screen and (max-height: 884px) {
@@ -2484,6 +2491,13 @@ a:hover {
   }
 }
 
+@media screen and (max-width: 400px) {
+  .home-text-wrapper {
+    position: relative;
+    margin-top: 44px;
+  }
+}
+
 @media screen and (max-width: 400px) and (max-height: 600px) {
   .home-title {
     font-size: 22px !important;
@@ -2497,9 +2511,9 @@ a:hover {
   }
 }
 
-@media screen and (max-height: 600px) {
+@media screen and (max-height: 700px) {
   .home-parallax {
-    height: 700px;
+    height: 800px;
   }
 }
 
@@ -2521,9 +2535,21 @@ a:hover {
   }
 }
 
-@media screen and (max-height: 600px) {
+/* @media screen and (max-height: 600px) {
   .overview-parallax {
     height: 800px !important;
+  }
+} */
+
+@media screen and (max-height: 800px) {
+  .overview-parallax {
+    height: 900px !important;
+  }
+}
+
+@media screen and (max-height: 600px) {
+  .overview-parallax {
+    height: 954px !important;
   }
 }
 
@@ -2558,6 +2584,11 @@ a:hover {
 
   .adv-wrapper {
     width: 70vw;
+  }
+
+  #logo {
+    width: auto !important;
+    height: 64px;
   }
 }
 

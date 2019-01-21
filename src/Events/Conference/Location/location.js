@@ -46,9 +46,7 @@ class Location extends React.Component {
           />
           <div className="bg-light venue-section text-vertical-center">
             <div className="text-center section-heading">
-              <h2
-                style={{ fontFamily: 'Oswald', marginBottom: '0px' }}
-              >
+              <h2 style={{ fontFamily: 'Oswald', marginBottom: '36px' }}>
                 Venue
               </h2>
             </div>

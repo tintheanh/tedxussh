@@ -32,12 +32,12 @@ const ConferenceHeader = props => (
             <h1 className="event-title mb-1">{props.title}</h1>
             <p className="p-2 event-description">{props.description}</p>
             <p className="p-2 event-description">
-              <span style={{ fontWeight: '500' }}>Location:</span>{' '}
+              <span style={{ fontWeight: '500' }}>Địa điểm:</span>{' '}
               {props.audience}
             </p>
             <p className="p-2 event-description">
-              <span style={{ fontWeight: '500' }}>Time:</span> {props.startTime}{' '}
-              - {props.endTime} on {toVNDate(props.date)}
+              <span style={{ fontWeight: '500' }}>Thời gian:</span> {props.startTime}{' '}
+              - {props.endTime} ngày {toVNDate(props.date)}
             </p>
           </div>
         </div>

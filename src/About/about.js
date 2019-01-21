@@ -29,10 +29,15 @@ class About extends React.Component {
           style={{ background: 'transparent' }}
         >
           <div className="hotel-room-body" style={{ padding: '38px' }}>
-            <h3 className="heading mb-0" style={{ paddingBottom: '32px', fontFamily: 'Oswald' }}>
+            <h3
+              className="heading mb-0"
+              style={{ paddingBottom: '32px', fontFamily: 'Oswald' }}
+            >
               {v.title}
             </h3>
-            <strong className="price" style={{ fontFamily: 'Montserrat' }}>{v.description}</strong>
+            <strong className="price" style={{ fontFamily: 'Montserrat' }}>
+              {v.description}
+            </strong>
           </div>
         </div>
       </div>
@@ -78,11 +83,16 @@ class About extends React.Component {
                   >
                     <h3
                       className="heading mb-0"
-                      style={{ fontFamily: 'Oswald' }}
+                      style={{ fontFamily: 'Oswald', paddingBottom: '20px' }}
                     >
                       {this.props.leftTitle}
                     </h3>
-                    <strong className="price" style={{ fontFamily: 'Montserrat' }}>{this.props.leftDesc}</strong>
+                    <strong
+                      className="price"
+                      style={{ fontFamily: 'Montserrat' }}
+                    >
+                      {this.props.leftDesc}
+                    </strong>
                   </div>
                 </div>
               </div>
@@ -100,10 +110,20 @@ class About extends React.Component {
 
                   <div
                     className="hotel-room-body"
-                    style={{ paddingTop: '32px' }}
+                    style={{ paddingTop: '23px' }}
                   >
-                    <h3 className="heading mb-0" style={{ fontFamily: 'Oswald' }}>{this.props.midTitle}</h3>
-                    <strong className="price" style={{ fontFamily: 'Montserrat' }}>{this.props.midDesc}</strong>
+                    <h3
+                      className="heading mb-0"
+                      style={{ fontFamily: 'Oswald', paddingBottom: '20px' }}
+                    >
+                      {this.props.midTitle}
+                    </h3>
+                    <strong
+                      className="price"
+                      style={{ fontFamily: 'Montserrat' }}
+                    >
+                      {this.props.midDesc}
+                    </strong>
                   </div>
                 </div>
               </div>
@@ -123,8 +143,18 @@ class About extends React.Component {
                     className="hotel-room-body"
                     style={{ paddingTop: '32px' }}
                   >
-                    <h3 className="heading mb-0" style={{ fontFamily: 'Oswald' }}>{this.props.rightTitle}</h3>
-                    <strong className="price" style={{ fontFamily: 'Montserrat' }}>{this.props.rightDesc}</strong>
+                    <h3
+                      className="heading mb-0"
+                      style={{ fontFamily: 'Oswald', paddingBottom: '20px' }}
+                    >
+                      {this.props.rightTitle}
+                    </h3>
+                    <strong
+                      className="price"
+                      style={{ fontFamily: 'Montserrat' }}
+                    >
+                      {this.props.rightDesc}
+                    </strong>
                   </div>
                 </div>
               </div>

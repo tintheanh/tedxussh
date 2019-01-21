@@ -64,7 +64,7 @@ class Learn extends React.Component {
             backgroundImage: `url(${this.state.cover})`
           }}
         >
-          <div className="row" style={{ width: '100%' }}>
+          <div className="row" style={{ width: '100%', margin: '0' }}>
             <div className="col-md-12">
               <h1 className="about-title">{this.state.title}</h1>
             </div>

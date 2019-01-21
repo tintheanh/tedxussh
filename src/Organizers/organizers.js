@@ -102,7 +102,7 @@ class Organizers extends React.Component {
               backgroundImage: `url(${organizers.background})`
             }}
           >
-            <div className="row" style={{ width: '100%' }}>
+            <div className="row" style={{ width: '100%', margin: '0' }}>
               <div className="col-md-12">
                 <h1 className="about-title">{organizers.title}</h1>
               </div>
