@@ -43,6 +43,7 @@ class Conference extends React.Component {
   }
 
   componentDidMount() {
+    window.document.title = 'TEDxHCMUSSH - Event';
     firebase
       .database()
       .ref('conference')
@@ -100,7 +101,8 @@ class Conference extends React.Component {
             Object.keys(conferenceObj.speakers.speakerList).forEach(e => {
               const speaker = {
                 id: e,
-                introduction: conferenceObj.speakers.speakerList[e].introduction,
+                introduction:
+                  conferenceObj.speakers.speakerList[e].introduction,
                 name: conferenceObj.speakers.speakerList[e].name,
                 occupation: conferenceObj.speakers.speakerList[e].occupation,
                 picture: conferenceObj.speakers.speakerList[e].picture
@@ -121,13 +123,18 @@ class Conference extends React.Component {
             });
           }
 
-          if (conferenceObj.performers && conferenceObj.performers.performerList) {
+          if (
+            conferenceObj.performers &&
+            conferenceObj.performers.performerList
+          ) {
             Object.keys(conferenceObj.performers.performerList).forEach(e => {
               const performer = {
                 id: e,
-                introduction: conferenceObj.performers.performerList[e].introduction,
+                introduction:
+                  conferenceObj.performers.performerList[e].introduction,
                 name: conferenceObj.performers.performerList[e].name,
-                occupation: conferenceObj.performers.performerList[e].occupation,
+                occupation:
+                  conferenceObj.performers.performerList[e].occupation,
                 picture: conferenceObj.performers.performerList[e].picture
               };
               performers.push(performer);

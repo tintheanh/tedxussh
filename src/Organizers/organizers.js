@@ -6,7 +6,9 @@ class Organizers extends React.Component {
     this.state = {};
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    window.document.title = 'TEDxHCMUSSH - Organizers';
+  }
 
   openLink(url) {
     if (!url.includes('http')) {

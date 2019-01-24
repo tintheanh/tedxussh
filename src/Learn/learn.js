@@ -17,6 +17,7 @@ class Learn extends React.Component {
   }
 
   componentDidMount() {
+    window.document.title = 'TEDxHCMUSSH - Learn';
     firebase
       .database()
       .ref('learnPosts')

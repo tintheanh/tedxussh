@@ -10,6 +10,7 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
+    window.document.title = 'TEDxHCMUSSH - Home';
     this.updateWindowDimensions();
     window.addEventListener('resize', this.updateWindowDimensions);
   }

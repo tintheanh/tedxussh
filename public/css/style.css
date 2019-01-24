@@ -1943,10 +1943,10 @@ a:hover {
   -ms-transform: scale(1);
   transform: scale(1);
 }
-.hotel-room:hover {
+/* .hotel-room:hover {
   -webkit-box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.05);
   box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.05);
-}
+} */
 .hotel-room:hover img {
   -webkit-transform: scale(1.05);
   -ms-transform: scale(1.05);
@@ -2192,13 +2192,17 @@ a:hover {
   margin-top: 48px;
 }
 
+.text-section {
+  font-family: 'Montserrat';
+}
+
 .text-section img {
   max-width: 100%;
   height: auto;
 }
 
 .thumb {
-  margin: 0 24px 24px 0;
+  width: 100%;
 }
 
 .location {
@@ -2232,7 +2236,7 @@ a:hover {
   font-family: 'Oswald';
   color: #fff;
   font-weight: 500;
-  font-size: 34px;
+  font-size: 36px;
   text-transform: uppercase;
   margin: 0;
 }
@@ -2347,16 +2351,17 @@ a:hover {
     margin: 0 284px;
   }
 
-  .post-section {
-    max-width: 75% !important;
-  }
-
   .header-wrapper {
     margin: 0 440px;
   }
 
   .about-title {
     margin: 0 40vw;
+  }
+}
+@media screen and (min-width: 992px) {
+  .post-section {
+    max-width: 45% !important;
   }
 }
 

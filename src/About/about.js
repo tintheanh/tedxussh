@@ -10,6 +10,10 @@ class About extends React.Component {
     this.element = React.createRef();
   }
 
+  componentDidMount() {
+    window.document.title = 'TEDxHCMUSSH - About';
+  }
+
   onReady(event) {
     // access to player in all event handlers via event.target
     event.target.pauseVideo();
@@ -132,13 +136,13 @@ class About extends React.Component {
                   className="hotel-room text-center"
                   style={{ background: 'transparent' }}
                 >
-                  <a href="#" className="d-block mb-0 thumbnail">
+                  <div className="d-block mb-0 thumbnail">
                     <img
                       src={this.props.rightPic}
                       alt=""
                       className="img-fluid"
                     />
-                  </a>
+                  </div>
                   <div
                     className="hotel-room-body"
                     style={{ paddingTop: '32px' }}

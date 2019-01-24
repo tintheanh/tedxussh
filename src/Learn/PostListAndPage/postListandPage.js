@@ -122,7 +122,10 @@ class PostListAndPage extends React.Component {
                     className="img-fluid notransition"
                   />
                 </div>
-                <h2 className="heading mb-0" style={{ fontFamily: 'Oswald' }}>
+                <h2
+                  className=""
+                  style={{ fontFamily: 'Oswald', textAlign: 'left' }}
+                >
                   {item.title}
                 </h2>
                 <span
@@ -130,10 +133,11 @@ class PostListAndPage extends React.Component {
                   style={{
                     paddingBottom: '12px',
                     fontFamily: 'Montserrat',
-                    fontWeight: '500'
+                    fontWeight: '500',
+                    textAlign: 'left'
                   }}
                 >
-                  {item.datePosted} By {item.by}
+                  By {item.by}
                 </span>
               </div>
             </div>
@@ -159,11 +163,11 @@ class PostListAndPage extends React.Component {
                 style={{ marginTop: '54px' }}
               >
                 <h2 className="mb-5">Videos</h2>
-                <h5 style={{ fontFamily: 'Montserrat', paddingBottom: '24px' }}>
+                <p style={{ fontFamily: 'Montserrat', paddingBottom: '24px' }}>
                   Tổng hợp những video TED Talks bổ ích trên khắp thế giới và
                   những video độc quyền được sản xuất bởi đội ngũ của
                   TEDxHCMUSSH
-                </h5>
+                </p>
               </div>
             </div>
             <div style={{ width: '100%', margin: '0', paddingBottom: '54px' }}>
@@ -172,11 +176,11 @@ class PostListAndPage extends React.Component {
             <div className="row" style={{ width: '100%', margin: '0' }}>
               <div className="col-sm-6 mx-auto text-center mb-5 section-heading">
                 <h2 className="mb-5">Blog</h2>
-                <h5 style={{ fontFamily: 'Montserrat', paddingBottom: '24px' }}>
+                <p style={{ fontFamily: 'Montserrat', paddingBottom: '24px' }}>
                   Tổng hợp những bài viết chuyên sâu bởi các thành viên ban Nội
                   Dung của TEDxHCMUSSH nhằm cung cấp thêm cho bạn các thông tin
                   liên quan đến chủ đề chương trình
-                </h5>
+                </p>
               </div>
             </div>
             <div className="row">{this.renderItems(posts, currentPage)}</div>
@@ -286,10 +290,10 @@ class PostListAndPage extends React.Component {
             style={{ marginTop: '54px' }}
           >
             <h2 className="mb-5">Videos</h2>
-            <h5 style={{ fontFamily: 'Montserrat', paddingBottom: '24px' }}>
+            <p style={{ fontFamily: 'Montserrat', paddingBottom: '24px' }}>
               Tổng hợp những video TED Talks bổ ích trên khắp thế giới và những
               video độc quyền được sản xuất bởi đội ngũ của TEDxHCMUSSH
-            </h5>
+            </p>
           </div>
         </div>
         <div style={{ width: '100%', margin: '0', paddingBottom: '54px' }}>
@@ -298,11 +302,11 @@ class PostListAndPage extends React.Component {
         <div className="row" style={{ width: '100%', margin: '0' }}>
           <div className="col-sm-6 mx-auto text-center mb-5 section-heading">
             <h2 className="mb-5">Blog</h2>
-            <h5 style={{ fontFamily: 'Montserrat', paddingBottom: '24px' }}>
+            <p style={{ fontFamily: 'Montserrat', paddingBottom: '24px' }}>
               Tổng hợp những bài viết chuyên sâu bởi các thành viên ban Nội Dung
               của TEDxHCMUSSH nhằm cung cấp thêm cho bạn các thông tin liên quan
               đến chủ đề chương trình
-            </h5>
+            </p>
           </div>
         </div>
       </div>

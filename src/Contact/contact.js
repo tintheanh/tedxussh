@@ -15,6 +15,10 @@ class Contact extends React.Component {
     };
   }
 
+  componentDidMount() {
+    window.document.title = 'TEDxHCMUSSH - Contact';
+  }
+
   handleSubmit(e) {
     e.preventDefault();
     const { fname, lname, email, reason, message } = this.state;
@@ -35,9 +39,9 @@ class Contact extends React.Component {
       emailjs
         .send(
           'sendgrid',
-          'template_H4PLMkqb',
+          'template_6iyB90g6',
           submit,
-          'user_8ap9pGXVd7RplukevbdIU'
+          'user_G4e0ygqPORINUBnCM5Idd'
         )
         .then(
           response => {
@@ -90,9 +94,7 @@ class Contact extends React.Component {
                           type="text"
                           className="contact-input"
                           onChange={e =>
-                            this.setState({ fname: e.target.value }, () =>
-                              console.log(this.state.fname)
-                            )
+                            this.setState({ fname: e.target.value })
                           }
                         />
                         <p
@@ -106,9 +108,7 @@ class Contact extends React.Component {
                           type="text"
                           className="contact-input"
                           onChange={e =>
-                            this.setState({ lname: e.target.value }, () =>
-                              console.log(this.state.lname)
-                            )
+                            this.setState({ lname: e.target.value })
                           }
                         />
                         <p
@@ -127,9 +127,7 @@ class Contact extends React.Component {
                           type="email"
                           className="contact-input"
                           onChange={e =>
-                            this.setState({ email: e.target.value }, () =>
-                              console.log(this.state.email)
-                            )
+                            this.setState({ email: e.target.value })
                           }
                         />
                       </div>
@@ -144,11 +142,9 @@ class Contact extends React.Component {
                             <input
                               type="radio"
                               name="reason"
-                              value="Attending"
+                              value="Tham dự"
                               onChange={e =>
-                                this.setState({ reason: e.target.value }, () =>
-                                  console.log(this.state.reason)
-                                )
+                                this.setState({ reason: e.target.value })
                               }
                             />
                           </div>
@@ -164,11 +160,9 @@ class Contact extends React.Component {
                             <input
                               type="radio"
                               name="reason"
-                              value="Partnering"
+                              value="Tài trợ"
                               onChange={e =>
-                                this.setState({ reason: e.target.value }, () =>
-                                  console.log(this.state.reason)
-                                )
+                                this.setState({ reason: e.target.value })
                               }
                             />
                           </div>
@@ -184,11 +178,9 @@ class Contact extends React.Component {
                             <input
                               type="radio"
                               name="reason"
-                              value="Volunteer"
+                              value="Trở thành cộng tác viên"
                               onChange={e =>
-                                this.setState({ reason: e.target.value }, () =>
-                                  console.log(this.state.reason)
-                                )
+                                this.setState({ reason: e.target.value })
                               }
                             />
                           </div>
@@ -204,11 +196,9 @@ class Contact extends React.Component {
                             <input
                               type="radio"
                               name="reason"
-                              value="Other"
+                              value="Lý do khác"
                               onChange={e =>
-                                this.setState({ reason: e.target.value }, () =>
-                                  console.log(this.state.reason)
-                                )
+                                this.setState({ reason: e.target.value })
                               }
                             />
                           </div>
@@ -229,9 +219,7 @@ class Contact extends React.Component {
                         <textarea
                           className="contact-input-mes"
                           onChange={e =>
-                            this.setState({ message: e.target.value }, () =>
-                              console.log(this.state.message)
-                            )
+                            this.setState({ message: e.target.value })
                           }
                         />
                       </div>
@@ -249,7 +237,8 @@ class Contact extends React.Component {
                   <div className="row">
                     <div className="col-12">
                       <p>
-                        Cám ơn bạn vì đã liên hệ, chúng tôi sẽ hồi âm sớm nhất có thể.
+                        Cám ơn bạn vì đã liên hệ, chúng tôi sẽ hồi âm sớm nhất
+                        có thể.
                       </p>
                     </div>
                   </div>

@@ -80,7 +80,6 @@ class EditPost extends React.Component {
     const update = {
       title: this.state.title,
       by: this.state.by,
-      datePosted: moment().format('MMM Do YYYY, HH:mm'),
       content: this.state.content,
       thumbnail: this.state.thumbnail
     };
