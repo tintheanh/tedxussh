@@ -11,6 +11,8 @@ import Organizers from './Organizers/organizers';
 import Contact from './Contact/contact';
 import ScrollToTop from './ScrollToTop/scrollToTop';
 
+import { getData } from './config/firebase';
+
 class Main extends React.Component {
   constructor(props) {
     super(props);
@@ -24,54 +26,34 @@ class Main extends React.Component {
         teamMem: []
       },
       contact: {},
-      abtBackground: '',
-      abtHeader: '',
-      leftDesc: '',
-      leftTitle: '',
-      leftPic: '',
-      midVideo: '',
-      midTitle: '',
-      midDesc: '',
-      rightDesc: '',
-      rightTitle: '',
-      rightPic: '',
-      vision: []
+      isVN: true
     };
   }
 
   componentDidMount() {
-    firebase
-      .database()
-      .ref('home')
-      .on('value', snapshot => {
-        const homeObj = snapshot.val();
-        if (homeObj) {
-          this.setState({ home: homeObj });
-        }
-      });
+    // firebase
+    //   .database()
+    //   .ref('home')
+    //   .on('value', snapshot => {
+    //     const homeObj = snapshot.val();
+    //     if (homeObj) {
+    //       this.setState({ home: homeObj });
+    //     }
+    //   });
 
-    firebase
-      .database()
-      .ref('about')
-      .on('value', snapshot => {
-        const aboutObj = snapshot.val();
-        if (aboutObj) {
-          this.setState({
-            abtBackground: aboutObj.background,
-            abtHeader: aboutObj.header,
-            leftDesc: aboutObj.left.description,
-            leftTitle: aboutObj.left.title,
-            leftPic: aboutObj.left.picture,
-            midVideo: aboutObj.middle.video,
-            midDesc: aboutObj.middle.description,
-            midTitle: aboutObj.middle.title,
-            rightDesc: aboutObj.right.description,
-            rightPic: aboutObj.right.picture,
-            rightTitle: aboutObj.right.title,
-            vision: aboutObj.visions
-          });
-        }
-      });
+    getData('home', data => {
+      const homeObj = data.val();
+      if (homeObj) {
+        this.setState({ home: homeObj });
+      }
+    });
+
+    getData('about', data => {
+      const aboutObj = data.val();
+      if (aboutObj) {
+        this.setState({ about: aboutObj });
+      }
+    });
 
     firebase
       .database()
@@ -100,15 +82,12 @@ class Main extends React.Component {
         }
       });
 
-    firebase
-      .database()
-      .ref('footer')
-      .on('value', snapshot => {
-        const footerObj = snapshot.val();
-        if (footerObj) {
-          this.setState({ footer: footerObj });
-        }
-      });
+    getData('footer', data => {
+      const footerObj = data.val();
+      if (footerObj) {
+        this.setState({ footer: footerObj });
+      }
+    });
 
     firebase
       .database()
@@ -121,49 +100,32 @@ class Main extends React.Component {
       });
   }
 
+  toggleVN() {
+    this.setState({ isVN: true });
+  }
+
+  toggleEN() {
+    this.setState({ isVN: false });
+  }
+
   render() {
-    const { footer, home, about } = this.state;
-    const {
-      abtBackground,
-      abtHeader,
-      leftDesc,
-      leftTitle,
-      leftPic,
-      midVideo,
-      midTitle,
-      midDesc,
-      rightDesc,
-      rightTitle,
-      rightPic,
-      vision
-    } = this.state;
+    const { footer, home, about, isVN } = this.state;
     return (
       <Router>
         <ScrollToTop>
           <div>
-            <NavBar />
-            <Route exact path="/" render={() => <Home home={home} />} />
-            <Route path="/attend" component={Conference} />
-            <Route path="/learn" component={Learn} />
-            <Route
-              path="/about"
-              render={() => (
-                <About
-                  abtBackground={abtBackground}
-                  abtHeader={abtHeader}
-                  leftDesc={leftDesc}
-                  leftPic={leftPic}
-                  leftTitle={leftTitle}
-                  midVideo={midVideo}
-                  midTitle={midTitle}
-                  midDesc={midDesc}
-                  rightDesc={rightDesc}
-                  rightTitle={rightTitle}
-                  rightPic={rightPic}
-                  vision={vision}
-                />
-              )}
+            <NavBar
+              toggleVN={this.toggleVN.bind(this)}
+              toggleEN={this.toggleEN.bind(this)}
             />
+            <Route
+              exact
+              path="/"
+              render={() => <Home isVN={isVN} home={home} />}
+            />
+            <Route path="/attend" render={() => <Conference isVN={isVN} />} />
+            <Route path="/learn" component={Learn} />
+            <Route path="/about" render={() => <About about={about} />} />
             <Route
               path="/organizers"
               render={() => <Organizers organizers={this.state.organizers} />}
@@ -172,7 +134,7 @@ class Main extends React.Component {
               path="/contact"
               render={() => <Contact contact={this.state.contact} />}
             />
-            <Footer {...footer} />
+            <Footer isVN={isVN} footer={footer} />
           </div>
         </ScrollToTop>
       </Router>

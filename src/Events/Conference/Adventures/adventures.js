@@ -1,4 +1,5 @@
 import React from 'react';
+import { modifyObj } from '../../../config/functions';
 
 const renderImg = (totalRows, imgs) => {
   let startIndex = -4;
@@ -52,42 +53,45 @@ const renderAllImg = imgs => {
 };
 
 const Adventures = props => {
-  const { adventures, adventureHeader, adventureDesc } = props;
-  return (
-    <div className="site-section bg-white">
-      <div className="container">
-        <div className="col-sm-6 mx-auto text-center mb-5 section-heading">
-          <h2 className="mb-5">Adventures</h2>
-        </div>
-        <div className="row adv-wrapper">
-          <div className="col-12">
-            <h1
-              className="text-center"
-              style={{
-                textTransform: 'uppercase',
-                fontWeight: '500',
-                fontSize: '24px',
-                fontFamily: 'Montserrat'
-              }}
-            >
-              {adventureHeader}
-            </h1>
+  const { isVN } = props;
+  const adventures = modifyObj(isVN, props.adventures, 'adventures');
+  if (adventures.adventureList) {
+    return (
+      <div className="site-section bg-white">
+        <div className="container">
+          <div className="col-sm-6 mx-auto text-center mb-5 section-heading">
+            <h2 className="mb-5">Adventures</h2>
           </div>
-        </div>
-        <div className="row adv-wrapper" style={{ paddingBottom: '24px' }}>
-          <div className="col-12">
-            {/* <p className="text-center adv-desc">{adventureDesc}</p> */}
-            <div
-              className="text-center"
-              dangerouslySetInnerHTML={{ __html: adventureDesc }}
-              style={{ fontFamily: 'Montserrat' }}
-            />
+          <div className="row adv-wrapper">
+            <div className="col-12">
+              <h1
+                className="text-center"
+                style={{
+                  textTransform: 'uppercase',
+                  fontWeight: '500',
+                  fontSize: '24px',
+                  fontFamily: 'Montserrat'
+                }}
+              >
+                {adventures.header}
+              </h1>
+            </div>
           </div>
+          <div className="row adv-wrapper" style={{ paddingBottom: '24px' }}>
+            <div className="col-12">
+              <div
+                className="text-center"
+                dangerouslySetInnerHTML={{ __html: adventures.description }}
+                style={{ fontFamily: 'Montserrat' }}
+              />
+            </div>
+          </div>
+          <div className="row">{renderAllImg(adventures.adventureList)}</div>
         </div>
-        <div className="row">{renderAllImg(adventures)}</div>
       </div>
-    </div>
-  );
+    );
+  }
+  return null;
 };
 
 export default Adventures;

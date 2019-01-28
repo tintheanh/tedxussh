@@ -2,6 +2,7 @@ import React from 'react';
 import Modal from 'react-responsive-modal';
 import SmoothCollapse from 'react-smooth-collapse';
 import HostInfo from './HostInfo/hostInfo';
+import { modifyObj } from '../../../config/functions';
 
 class HostList extends React.Component {
   constructor(props) {
@@ -116,60 +117,64 @@ class HostList extends React.Component {
   }
 
   render() {
-    console.log(this.props.hosts);
-    return (
-      <div className="site-section bg-white">
-        <div className="container">
-          <div className="row">
-            <div className="col-sm-6 mx-auto text-center mb-5 section-heading">
-              <h2 className="mb-5">Hosts</h2>
-            </div>
-          </div>
-          <div className="row adv-wrapper" style={{ paddingBottom: '24px' }}>
-            <div className="col-12">
-              <p className="text-center" style={{ fontFamily: 'Montserrat' }}>
-                {this.props.hostDesc}
-              </p>
-            </div>
-          </div>
-          {this.props.hosts.length <= 4 ? (
-            <div className="row">{this.renderAllImg(this.props.hosts)}</div>
-          ) : (
-            <div>
-              <div className="row">
-                {this.renderAllImg(this.props.hosts.slice(0, 4))}
+    const { isVN } = this.props;
+    const hosts = modifyObj(isVN, this.props.hosts, 'hosts');
+    if (hosts.hostList) {
+      return (
+        <div className="site-section bg-white">
+          <div className="container">
+            <div className="row">
+              <div className="col-sm-6 mx-auto text-center mb-5 section-heading">
+                <h2 className="mb-5">Hosts</h2>
               </div>
-              <SmoothCollapse expanded={this.state.expanded}>
+            </div>
+            <div className="row adv-wrapper" style={{ paddingBottom: '24px' }}>
+              <div className="col-12">
+                <p className="text-center" style={{ fontFamily: 'Montserrat' }}>
+                  {hosts.description}
+                </p>
+              </div>
+            </div>
+            {hosts.hostList.length <= 4 ? (
+              <div className="row">{this.renderAllImg(hosts.hostList)}</div>
+            ) : (
+              <div>
                 <div className="row">
-                  {this.renderAllImg(
-                    this.props.hosts.slice(4, this.props.hosts.length)
+                  {this.renderAllImg(hosts.hostList.slice(0, 4))}
+                </div>
+                <SmoothCollapse expanded={this.state.expanded}>
+                  <div className="row">
+                    {this.renderAllImg(
+                      hosts.hostList.slice(4, hosts.hostList.length)
+                    )}
+                  </div>
+                </SmoothCollapse>
+                <div className="row">
+                  {!this.state.expanded ? (
+                    <button
+                      className="view-btn"
+                      onClick={this.toggle.bind(this)}
+                      style={{ textDecoration: 'none', cursor: 'pointer' }}
+                    >
+                      View All
+                    </button>
+                  ) : (
+                    <button
+                      className="view-btn"
+                      onClick={this.toggle.bind(this)}
+                      style={{ textDecoration: 'none', cursor: 'pointer' }}
+                    >
+                      View Less
+                    </button>
                   )}
                 </div>
-              </SmoothCollapse>
-              <div className="row">
-                {!this.state.expanded ? (
-                  <button
-                    className="view-btn"
-                    onClick={this.toggle.bind(this)}
-                    style={{ textDecoration: 'none', cursor: 'pointer' }}
-                  >
-                    View All
-                  </button>
-                ) : (
-                  <button
-                    className="view-btn"
-                    onClick={this.toggle.bind(this)}
-                    style={{ textDecoration: 'none', cursor: 'pointer' }}
-                  >
-                    View Less
-                  </button>
-                )}
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
-      </div>
-    );
+      );
+    }
+    return null;
   }
 }
 

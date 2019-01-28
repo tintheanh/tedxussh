@@ -19,7 +19,7 @@ class OneAgd extends React.Component {
   renderParticipants(string) {
     const splitted = string.split('//');
     return splitted.map((e, i) => (
-      <p id={i} style={{ textAlign: 'center', fontFamily: 'Montserrat' }}>
+      <p key={i} style={{ textAlign: 'center', fontFamily: 'Montserrat' }}>
         {e}
       </p>
     ));

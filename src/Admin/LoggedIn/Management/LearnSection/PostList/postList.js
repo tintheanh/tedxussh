@@ -41,6 +41,7 @@ class PostList extends React.Component {
               title: learnPostsObj[e].title,
               by: learnPostsObj[e].by,
               content: learnPostsObj[e].content,
+              description: learnPostsObj[e].description,
               datePosted: learnPostsObj[e].datePosted,
               thumbnail: learnPostsObj[e].thumbnail
             };
@@ -87,6 +88,9 @@ class PostList extends React.Component {
                   <span className="mb-3 d-block post-date">
                     {e.datePosted} By {e.by}
                   </span>
+                  <span className="mb-3 d-block post-date">
+                    {e.description}
+                  </span>
                 </div>
               </div>
             </Link>
@@ -127,6 +131,7 @@ class PostList extends React.Component {
                 <span className="mb-3 d-block post-date">
                   {e.datePosted} By {e.by}
                 </span>
+                <span className="mb-3 d-block post-date">{e.description}</span>
               </div>
             </div>
           </Link>

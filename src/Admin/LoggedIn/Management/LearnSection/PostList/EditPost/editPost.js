@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactQuill from 'react-quill';
 import Modal from 'react-responsive-modal';
-import moment from 'moment';
 import firebase from 'firebase';
 import ImageManagement from '../../../ImageMangement/imageManagement';
 
@@ -40,6 +39,7 @@ class EditPost extends React.Component {
     this.state = {
       title: this.props.post.title,
       by: this.props.post.by,
+      description: this.props.post.description,
       content: this.props.post.content,
       thumbnail: this.props.post.thumbnail,
       modalThumbAdd: false
@@ -59,7 +59,7 @@ class EditPost extends React.Component {
   }
 
   onContentChange(value) {
-    this.setState({ content: value }, () => console.log(this.state.content));
+    this.setState({ content: value });
   }
 
   onTitleChange(e) {
@@ -69,17 +69,22 @@ class EditPost extends React.Component {
   }
 
   onAuthorChange(e) {
-    this.setState({ by: e.target.value }, () => console.log(this.state.by));
+    this.setState({ by: e.target.value });
+  }
+
+  onDescriptionChange(e) {
+    this.setState({ description: e.target.value });
   }
 
   onThumbChange(url) {
-    this.setState({ thumbnail: url }, () => console.log(this.state.thumbnail));
+    this.setState({ thumbnail: url });
   }
 
   onEditPost() {
     const update = {
       title: this.state.title,
       by: this.state.by,
+      description: this.state.description,
       content: this.state.content,
       thumbnail: this.state.thumbnail
     };
@@ -111,6 +116,13 @@ class EditPost extends React.Component {
             placeholder="by"
             value={this.state.by}
             onChange={this.onAuthorChange.bind(this)}
+          />
+        </div>
+        <div className="row">
+          <textarea
+            placeholder="description"
+            value={this.state.description}
+            onChange={this.onDescriptionChange.bind(this)}
           />
         </div>
         <div className="row">

@@ -51,7 +51,8 @@ class SponsorList extends React.Component {
     return (
       <div className="col-12">
         <h5 className="text-center" style={{ fontFamily: 'Montserrat' }}>
-          TEDxHCMUSSH được hỗ trợ tổ chức bởi những nhà tài trợ có tầm nhìn và quan tâm đến các vấn đề chung của cộng đồng
+          TEDxHCMUSSH được hỗ trợ tổ chức bởi những nhà tài trợ có tầm nhìn và
+          quan tâm đến các vấn đề chung của cộng đồng
         </h5>
       </div>
     );
@@ -60,7 +61,7 @@ class SponsorList extends React.Component {
   render() {
     return (
       <div className="site-section bg-light">
-        <div className="container" ref={this.element}>
+        <div className="container">
           <div className="row">
             <div className="col-sm-6 mx-auto text-center mb-5 section-heading">
               <h2 className="mb-5">Sponsors</h2>

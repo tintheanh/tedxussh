@@ -1,147 +1,58 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import Modal from 'react-responsive-modal';
-import GetEventUpdate from './GetEventUpdate/getEventUpdate';
-import logo2 from './logo/logo2.png';
+import Logo from './Logo/logo';
+import Burger from './Burger/burger';
+import LiWrap from './LiWrap/liWrap';
+import LiWrapMobile from './LiWrapMobile/liWrapMobile';
+import LiLink from './LiLink/liLink';
+import LiGetEventUpdate from './GetEventUpdate/LiGetEventUpdate';
+import LangPicking from './LanguagePicking/langPicking';
+import vi from './Logo/vi.png';
+import en from './Logo/en.png';
 
-class NavBar extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      modalGetUpdate: false
-    };
-    this.openModalGetUpdate = this.openModalGetUpdate.bind(this);
-    this.closeModalGetUpdate = this.closeModalGetUpdate.bind(this);
-  }
-
-  openModalGetUpdate() {
-    this.setState({ modalGetUpdate: true });
-  }
-
-  closeModalGetUpdate() {
-    this.setState({ modalGetUpdate: false });
-  }
-
-  render() {
-    return (
-      <div>
-        <div className="site-mobile-menu">
-          <div className="site-mobile-menu-header">
-            <div className="site-mobile-menu-close mt-3">
-              <span className="icon-close2 js-menu-toggle" />
-            </div>
-          </div>
-          <div className="site-mobile-menu-body">
-            <ul
-              className="site-nav-wrap"
-              style={{ textTransform: 'uppercase' }}
-            >
-              <li>
-                <Link to="/attend" style={{ fontFamily: 'Montserrat' }}>
-                  Attend
-                </Link>
-              </li>
-              <li>
-                <Link to="/learn" style={{ fontFamily: 'Montserrat' }}>
-                  Learn
-                </Link>
-              </li>
-              <li>
-                <Link to="/about" style={{ fontFamily: 'Montserrat' }}>
-                  About
-                </Link>
-              </li>
-              <li>
-                <a
-                  className="get-event-update"
-                  onClick={this.openModalGetUpdate}
-                >
-                  Get event update
-                </a>
-              </li>
-            </ul>
-          </div>
+const NavBar = props => (
+  <div>
+    <div className="site-mobile-menu">
+      <div className="site-mobile-menu-header">
+        <div className="site-mobile-menu-close mt-3">
+          <span className="icon-close2 js-menu-toggle" />
         </div>
-        <div className="site-navbar-wrap js-site-navbar">
-          <div className="container">
-            <div className="site-navbar bg-light">
-              <div className="py-1">
-                <div className="row align-items-center">
-                  <Link to="/" className="col-lg-2 col-4">
-                    <img
-                      id="logo"
-                      src={logo2}
-                      alt="logo"
-                      className="site-logo"
-                      style={{ width: '100%', padding: '0' }}
-                    />
-                  </Link>
-                  <div className="col-lg-10 col-8">
-                    <nav
-                      className="site-navigation text-right"
-                      role="navigation"
-                    >
-                      <div className="container">
-                        <div className="d-inline-block d-lg-none  ml-md-0 mr-auto py-3">
-                          <a
-                            href="#"
-                            className="site-menu-toggle js-menu-toggle"
-                          >
-                            <span className="icon-menu h3" />
-                          </a>
-                        </div>
-                        <ul className="site-menu js-clone-nav d-none d-lg-block">
-                          <li>
-                            <Link
-                              to="/attend"
-                              style={{ fontFamily: 'Montserrat' }}
-                            >
-                              Attend
-                            </Link>
-                          </li>
-                          <li>
-                            <Link
-                              to="/learn"
-                              style={{ fontFamily: 'Montserrat' }}
-                            >
-                              Learn
-                            </Link>
-                          </li>
-                          <li>
-                            <Link
-                              to="/about"
-                              style={{ fontFamily: 'Montserrat' }}
-                            >
-                              About
-                            </Link>
-                          </li>
-                          <li>
-                            <a
-                              className="get-event-update"
-                              onClick={this.openModalGetUpdate}
-                            >
-                              Get event update
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
-                    </nav>
+      </div>
+      <div className="site-mobile-menu-body">
+        <LiWrapMobile>
+          <LiLink to="/attend" title="Attend" />
+          <LiLink to="/learn" title="Learn" />
+          <LiLink to="/about" title="About" />
+          <LiGetEventUpdate />
+        </LiWrapMobile>
+      </div>
+    </div>
+    <div className="site-navbar-wrap js-site-navbar">
+      <div className="container">
+        <div className="site-navbar bg-light">
+          <div className="py-1">
+            <div className="row align-items-center">
+              <Logo />
+              <div className="col-lg-10 col-8">
+                <nav className="site-navigation text-right" role="navigation">
+                  <div className="container">
+                    <Burger />
+                    <LiWrap>
+                      <LiLink to="/attend" title="Attend" />
+                      <LiLink to="/learn" title="Learn" />
+                      <LiLink to="/about" title="About" />
+                      <LiGetEventUpdate />
+                      <LangPicking img={vi} toggleLang={props.toggleVN} />
+                      <LangPicking img={en} toggleLang={props.toggleEN} />
+                    </LiWrap>
                   </div>
-                </div>
+                </nav>
               </div>
             </div>
           </div>
         </div>
-        <Modal
-          open={this.state.modalGetUpdate}
-          onClose={this.closeModalGetUpdate}
-          center
-        >
-          <GetEventUpdate />
-        </Modal>
       </div>
-    );
-  }
-}
+    </div>
+  </div>
+);
 
 export default NavBar;

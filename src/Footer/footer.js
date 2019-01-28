@@ -2,6 +2,7 @@ import React from 'react';
 import Modal from 'react-responsive-modal';
 import { Link } from 'react-router-dom';
 import GetEventUpdate from '../NavBar/GetEventUpdate/getEventUpdate';
+import { modifyObj } from '../config/functions';
 
 class Footer extends React.Component {
   constructor(props) {
@@ -22,16 +23,17 @@ class Footer extends React.Component {
   }
 
   render() {
+    const { isVN } = this.props;
     if (
-      this.props &&
-      this.props.left &&
-      this.props.middle &&
-      this.props.right
+      this.props.footer &&
+      this.props.footer.left &&
+      this.props.footer.middle &&
+      this.props.footer.right
     ) {
-      const { links } = this.props.left;
-      const { sentence } = this.props.middle;
-      const { quote } = this.props.right;
-      const { copyright } = this.props;
+      const modifyFooter = modifyObj(isVN, this.props.footer, 'footer');
+      const { left } = modifyFooter;
+      const { middle } = modifyFooter;
+      const { right } = modifyFooter;
       return (
         <footer className="site-footer">
           <div className="container">
@@ -42,21 +44,24 @@ class Footer extends React.Component {
                     className="text-center"
                     style={{ fontFamily: 'Montserrat' }}
                   >
-                    <Link to="/organizers">Organizers</Link> {' - '}
+                    <Link to="/organizers">
+                      {isVN ? 'Ban tổ chức' : 'Organizers'}
+                    </Link>{' '}
+                    {' - '}
                     <a
                       href="javascript:void(0);"
                       onClick={this.openModalGetUpdate}
                     >
-                      Get event update
+                      {isVN ? 'Thông báo sự kiện' : 'Get event update'}
                     </a>
                     {' - '}
-                    <Link to="/contact">Contact</Link>
+                    <Link to="/contact">{isVN ? 'Liên hệ' : 'Contact'}</Link>
                   </p>
                 </div>
                 <div className="social-links">
                   <p className="text-center">
                     <a
-                      href={links.facebook}
+                      href={left.links.facebook}
                       target="_blank"
                       className="pb-2 pr-2 pl-0"
                       style={{ fontFamily: 'Montserrat' }}
@@ -66,7 +71,11 @@ class Footer extends React.Component {
                         style={{ fontSize: '20px' }}
                       />
                     </a>
-                    <a href={links.youtube} target="_blank" className="p-2">
+                    <a
+                      href={left.links.youtube}
+                      target="_blank"
+                      className="p-2"
+                    >
                       <span
                         className="fa icon-youtube-play"
                         style={{ fontSize: '20px' }}
@@ -79,7 +88,10 @@ class Footer extends React.Component {
                 <div className="row align-items-center justify-content-center">
                   <div className="col-md-12 text-center">
                     {/* <p>{sentence}</p> */}
-                    <div dangerouslySetInnerHTML={{ __html: sentence }} style={{ fontFamily: 'Montserrat' }} />
+                    <div
+                      dangerouslySetInnerHTML={{ __html: middle.sentence }}
+                      style={{ fontFamily: 'Montserrat' }}
+                    />
                   </div>
                 </div>
               </div>
@@ -87,7 +99,7 @@ class Footer extends React.Component {
               <div className="col-md-4">
                 <div className="col-md-12 text-center">
                   <Link to="/attend">
-                    <p style={{ fontFamily: 'Montserrat' }}>{quote}</p>
+                    <p style={{ fontFamily: 'Montserrat' }}>{right.sentence}</p>
                   </Link>
                 </div>
               </div>
@@ -95,7 +107,8 @@ class Footer extends React.Component {
             <div className="row pt-5 mt-5 text-center">
               <div className="col-md-12">
                 <p style={{ fontFamily: 'Montserrat' }}>
-                  Copyright &copy; {new Date().getFullYear()} {copyright}
+                  Copyright &copy; {new Date().getFullYear()}{' '}
+                  {modifyFooter.copyright}
                 </p>
               </div>
             </div>

@@ -24,10 +24,10 @@ class Learn extends React.Component {
       .on('value', snapshot => {
         const learnPostsObj = snapshot.val();
         if (learnPostsObj) {
-          this.setState(
-            { cover: learnPostsObj.cover, title: learnPostsObj.title },
-            () => console.log('learn', this.state.cover)
-          );
+          this.setState({
+            cover: learnPostsObj.cover,
+            title: learnPostsObj.title
+          });
         }
       });
   }
@@ -37,8 +37,20 @@ class Learn extends React.Component {
   }
 
   processUrl(href) {
+    let result = '';
+    if (!href.includes('fbclid')) {
+      const n = href.lastIndexOf('/');
+      result = href.substring(n + 1);
+      console.log(result);
+      // console.log(window.location.href);
+      return result;
+    }
+
     const n = href.lastIndexOf('/');
-    const result = href.substring(n + 1);
+    let temp = href.substring(n + 1);
+    temp = temp.split('fbclid');
+    result = temp[0].substring(0, temp[0].length - 1);
+    console.log(result);
     return result;
   }
 

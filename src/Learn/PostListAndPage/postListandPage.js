@@ -29,6 +29,7 @@ class PostListAndPage extends React.Component {
               id: e,
               title: learnPostsObj[e].title,
               by: learnPostsObj[e].by,
+              description: learnPostsObj[e].description,
               content: learnPostsObj[e].content,
               datePosted: learnPostsObj[e].datePosted,
               thumbnail: learnPostsObj[e].thumbnail
@@ -128,6 +129,17 @@ class PostListAndPage extends React.Component {
                 >
                   {item.title}
                 </h2>
+
+                <span
+                  className="mb-3 d-block post-date"
+                  style={{
+                    fontFamily: 'Montserrat',
+                    fontWeight: '500',
+                    textAlign: 'left'
+                  }}
+                >
+                  {item.description}
+                </span>
                 <span
                   className="mb-3 d-block post-date"
                   style={{

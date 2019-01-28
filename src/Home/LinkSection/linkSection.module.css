@@ -1,0 +1,61 @@
+.linkSection {
+  -webkit-transition: 0.3s all ease;
+  -o-transition: 0.3s all ease;
+  transition: 0.3s all ease;
+  background: #fff;
+}
+
+.linkSection > .thumbnail {
+  overflow: hidden;
+  position: relative;
+}
+
+.thumbnail img {
+  -webkit-transition: 0.3s all ease;
+  -o-transition: 0.3s all ease;
+  transition: 0.3s all ease;
+  -webkit-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
+}
+
+.linkSection:hover img {
+  -webkit-transform: scale(1.05);
+  -ms-transform: scale(1.05);
+  transform: scale(1.05);
+}
+
+.title {
+  position: absolute;
+  left: 0;
+  text-align: center;
+  width: 100%;
+  color: #fff;
+  font-size: 22px;
+  padding: 24px;
+  font-family: 'Oswald';
+}
+
+.description {
+  font-family: 'Montserrat';
+  font-weight: 300;
+  font-size: 18px;
+}
+
+@media screen and (min-width: 992px) and (max-width: 1038px) {
+  .title {
+    font-size: 18px;
+  }
+  .description {
+    font-size: 16px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .title {
+    font-size: 18px;
+  }
+  .description {
+    font-size: 16px;
+  } 
+}

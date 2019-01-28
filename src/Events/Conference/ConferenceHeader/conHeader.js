@@ -1,5 +1,6 @@
 import React from 'react';
 import { Parallax } from 'react-parallax';
+import { modifyObj } from '../../../config/functions';
 
 const toVNDate = inputDate => {
   if (inputDate) {
@@ -18,32 +19,48 @@ const toVNDate = inputDate => {
   return '';
 };
 
-const ConferenceHeader = props => (
-  <Parallax
-    bgImage={props.background}
-    strength={500}
-    className="overview-parallax"
-    // bgImageSizes={{ width: 1440, height: 810 }}
-  >
-    <div className="container" style={{ height: '100%' }}>
-      <div className="row align-items-center" style={{ height: '100%' }}>
-        <div className="header-wrapper">
-          <div className="col-lg-12 col-md-12 text-vertical-center">
-            <h1 className="event-title mb-1">{props.title}</h1>
-            <p className="p-2 event-description">{props.description}</p>
-            <p className="p-2 event-description">
-              <span style={{ fontWeight: '500' }}>Địa điểm:</span>{' '}
-              {props.audience}
-            </p>
-            <p className="p-2 event-description">
-              <span style={{ fontWeight: '500' }}>Thời gian:</span> {props.startTime}{' '}
-              - {props.endTime} ngày {toVNDate(props.date)}
-            </p>
+const ConferenceHeader = props => {
+  const { isVN } = props;
+  const overview = modifyObj(isVN, props.overview, 'overview');
+  const {
+    conferencePicture,
+    date,
+    description,
+    startTime,
+    endTime,
+    address,
+    title
+  } = overview;
+  return (
+    <Parallax
+      bgImage={conferencePicture}
+      strength={500}
+      className="overview-parallax"
+    >
+      <div className="container" style={{ height: '100%' }}>
+        <div className="row align-items-center" style={{ height: '100%' }}>
+          <div className="header-wrapper">
+            <div className="col-lg-12 col-md-12 text-vertical-center">
+              <h1 className="event-title mb-1">{title}</h1>
+              <p className="p-2 event-description">{description}</p>
+              <p className="p-2 event-description">
+                <span style={{ fontWeight: '500' }}>
+                  {isVN ? 'Địa điểm:' : 'Location:'}
+                </span>{' '}
+                {address}
+              </p>
+              <p className="p-2 event-description">
+                <span style={{ fontWeight: '500' }}>
+                  {isVN ? 'Thời gian:' : 'Time:'}
+                </span>{' '}
+                {startTime} - {endTime} {isVN ? 'ngày' : 'on'} {toVNDate(date)}
+              </p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </Parallax>
-);
+    </Parallax>
+  );
+};
 
 export default ConferenceHeader;

@@ -1,0 +1,81 @@
+.homeParallax {
+  height: calc(100vh);
+  position: relative;
+}
+
+.homeTextWrapper {
+  position: absolute;
+  bottom: 64px;
+}
+
+.homeTitle {
+  font-family: 'Oswald';
+  font-size: 54px;
+  color: #fff;
+}
+
+.description,
+.explore {
+  font-family: 'Montserrat';
+  color: #fff;
+}
+.description {
+  padding: 0;
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.explore {
+  font-weight: 500;
+  border: 2px solid #fff;
+  padding: 12px 22px;
+}
+
+.explore:hover {
+  background-color: #fff;
+  color: #000;
+}
+
+@media screen and (min-height: 600px) and (max-height: 700px) {
+  .homeParallax {
+    height: 800px;
+  }
+}
+
+@media screen and (max-height: 600px) {
+  .homeParallax {
+    height: 650px;
+  }
+}
+
+@media screen and (min-width: 400px) and (max-width: 1440px) {
+  .homeTitle {
+    font-size: 32px;
+  }
+}
+
+@media screen and (max-width: 991.98px) {
+  .homeTextWrapper {
+    position: relative;
+    margin-top: 50%;
+  }
+}
+
+@media screen and (max-width: 414px) {
+  .description {
+    font-size: 16px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .homeTextWrapper {
+    position: relative;
+    margin-top: 65%;
+  }
+  .homeTitle {
+    font-size: 22px;
+  }
+  .description {
+    font-size: 14px;
+  }
+}

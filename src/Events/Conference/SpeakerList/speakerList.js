@@ -2,6 +2,7 @@ import React from 'react';
 import Modal from 'react-responsive-modal';
 import SmoothCollapse from 'react-smooth-collapse';
 import SpeakerInfo from './SpeakerInfo/speakerInfo';
+import { modifyObj } from '../../../config/functions';
 
 class SpeakerList extends React.Component {
   constructor(props) {
@@ -116,60 +117,66 @@ class SpeakerList extends React.Component {
   }
 
   render() {
-    console.log(this.props.speakers);
-    return (
-      <div className="site-section bg-light">
-        <div className="container">
-          <div className="row">
-            <div className="col-sm-6 mx-auto text-center mb-5 section-heading">
-              <h2 className="mb-5">Speakers</h2>
-            </div>
-          </div>
-          <div className="row adv-wrapper" style={{ paddingBottom: '24px' }}>
-            <div className="col-12">
-              <p className="text-center" style={{ fontFamily: 'Montserrat' }}>
-                {this.props.speakerDesc}
-              </p>
-            </div>
-          </div>
-          {this.props.speakers.length <= 4 ? (
-            <div className="row">{this.renderAllImg(this.props.speakers)}</div>
-          ) : (
-            <div>
-              <div className="row">
-                {this.renderAllImg(this.props.speakers.slice(0, 4))}
+    const { isVN } = this.props;
+    const speakers = modifyObj(isVN, this.props.speakers, 'speakers');
+    if (speakers.speakerList) {
+      return (
+        <div className="site-section bg-light">
+          <div className="container">
+            <div className="row">
+              <div className="col-sm-6 mx-auto text-center mb-5 section-heading">
+                <h2 className="mb-5">Speakers</h2>
               </div>
-              <SmoothCollapse expanded={this.state.expanded}>
+            </div>
+            <div className="row adv-wrapper" style={{ paddingBottom: '24px' }}>
+              <div className="col-12">
+                <p className="text-center" style={{ fontFamily: 'Montserrat' }}>
+                  {speakers.description}
+                </p>
+              </div>
+            </div>
+            {speakers.speakerList.length <= 4 ? (
+              <div className="row">
+                {this.renderAllImg(speakers.speakerList)}
+              </div>
+            ) : (
+              <div>
                 <div className="row">
-                  {this.renderAllImg(
-                    this.props.speakers.slice(4, this.props.speakers.length)
+                  {this.renderAllImg(speakers.speakerList.slice(0, 4))}
+                </div>
+                <SmoothCollapse expanded={this.state.expanded}>
+                  <div className="row">
+                    {this.renderAllImg(
+                      speakers.speakerList.slice(4, speakers.speakerList.length)
+                    )}
+                  </div>
+                </SmoothCollapse>
+                <div className="row">
+                  {!this.state.expanded ? (
+                    <button
+                      className="view-btn"
+                      onClick={this.toggle.bind(this)}
+                      style={{ textDecoration: 'none', cursor: 'pointer' }}
+                    >
+                      View All
+                    </button>
+                  ) : (
+                    <button
+                      className="view-btn"
+                      onClick={this.toggle.bind(this)}
+                      style={{ textDecoration: 'none', cursor: 'pointer' }}
+                    >
+                      View Less
+                    </button>
                   )}
                 </div>
-              </SmoothCollapse>
-              <div className="row">
-                {!this.state.expanded ? (
-                  <button
-                    className="view-btn"
-                    onClick={this.toggle.bind(this)}
-                    style={{ textDecoration: 'none', cursor: 'pointer' }}
-                  >
-                    View All
-                  </button>
-                ) : (
-                  <button
-                    className="view-btn"
-                    onClick={this.toggle.bind(this)}
-                    style={{ textDecoration: 'none', cursor: 'pointer' }}
-                  >
-                    View Less
-                  </button>
-                )}
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
-      </div>
-    );
+      );
+    }
+    return null;
   }
 }
 
