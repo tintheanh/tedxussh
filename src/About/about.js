@@ -2,6 +2,7 @@ import React from 'react';
 import YouTube from 'react-youtube';
 import AboutHeader from './AboutHeader/aboutHeader';
 import GetHeight from './getHeight';
+import { modifyObj } from '../config/functions';
 
 class About extends React.Component {
   constructor(props) {
@@ -25,32 +26,34 @@ class About extends React.Component {
   }
 
   renderVisions(visions) {
-    return visions.map((v, i) => (
-      <div className="col-md-12 col-lg-4 mb-2" key={i}>
-        <div
-          className="hotel-room text-center"
-          style={{ background: 'transparent' }}
-        >
-          <div className="hotel-room-body" style={{ padding: '38px' }}>
-            <h3
-              className="heading mb-0"
-              style={{ paddingBottom: '32px', fontFamily: 'Oswald' }}
-            >
-              {v.title}
-            </h3>
-            <strong className="price" style={{ fontFamily: 'Montserrat' }}>
-              {v.description}
-            </strong>
+    return visions.map((v, i) => {
+      const title = v.title.split('||');
+      const description = v.description.split('||');
+      return (
+        <div className="col-md-12 col-lg-4 mb-2" key={i}>
+          <div
+            className="hotel-room text-center"
+            style={{ background: 'transparent' }}
+          >
+            <div className="hotel-room-body" style={{ padding: '38px' }}>
+              <h3
+                className="heading mb-0"
+                style={{ paddingBottom: '32px', fontFamily: 'Oswald' }}
+              >
+                {this.props.isVN ? title[0] : title[1]}
+              </h3>
+              <strong className="price" style={{ fontFamily: 'Montserrat' }}>
+                {this.props.isVN ? description[0] : description[1]}
+              </strong>
+            </div>
           </div>
         </div>
-      </div>
-    ));
+      );
+    });
   }
 
   onSize = size => {
-    this.setState({ height: size.height }, () =>
-      console.log(this.state.height)
-    );
+    this.setState({ height: size.height });
   };
 
   render() {
@@ -60,14 +63,10 @@ class About extends React.Component {
       this.props.about.right &&
       this.props.about.visions
     ) {
-      const {
-        background,
-        header,
-        left,
-        middle,
-        right,
-        visions
-      } = this.props.about;
+      // console.log(this.props.about);
+      const { isVN } = this.props;
+      const about = modifyObj(isVN, this.props.about, 'about');
+      const { background, header, left, middle, right, visions } = about;
       return (
         <div>
           <AboutHeader background={background} header={header} />

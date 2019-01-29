@@ -1,8 +1,9 @@
 import React from 'react';
-import firebase from 'firebase';
 import { createBrowserHistory } from 'history';
 import FullPost from '../FullPost/fullPost';
-import PostListAndPage from './PostListAndPage/postListandPage';
+import PostsAndVideos from './PostsAndVideos/postsAndVideos';
+import { getData } from '../config/firebase';
+import { modifyObj } from '../config/functions';
 
 const history = createBrowserHistory();
 
@@ -11,29 +12,34 @@ class Learn extends React.Component {
     super(props);
     this.state = {
       cover: '',
-      title: '',
-      post: {}
+      title: ''
     };
   }
 
   componentDidMount() {
     window.document.title = 'TEDxHCMUSSH - Learn';
-    firebase
-      .database()
-      .ref('learnPosts')
-      .on('value', snapshot => {
-        const learnPostsObj = snapshot.val();
-        if (learnPostsObj) {
-          this.setState({
-            cover: learnPostsObj.cover,
-            title: learnPostsObj.title
-          });
-        }
-      });
-  }
+    // firebase
+    //   .database()
+    //   .ref('learnPosts')
+    //   .on('value', snapshot => {
+    //     const learnPostsObj = snapshot.val();
+    //     if (learnPostsObj) {
+    //       this.setState({
+    //         cover: learnPostsObj.cover,
+    //         title: learnPostsObj.title
+    //       });
+    //     }
+    //   });
 
-  getPost(post) {
-    this.setState({ post });
+    getData('learnPosts', data => {
+      const learnPostsObj = data.val();
+      if (learnPostsObj) {
+        this.setState({
+          cover: learnPostsObj.cover,
+          title: learnPostsObj.title
+        });
+      }
+    });
   }
 
   processUrl(href) {
@@ -41,8 +47,6 @@ class Learn extends React.Component {
     if (!href.includes('fbclid')) {
       const n = href.lastIndexOf('/');
       result = href.substring(n + 1);
-      console.log(result);
-      // console.log(window.location.href);
       return result;
     }
 
@@ -57,7 +61,7 @@ class Learn extends React.Component {
   manualRouter() {
     const { href } = window.location;
     if (href.includes('learn') && !href.includes('post'))
-      return <PostListAndPage getPost={this.getPost.bind(this)} />;
+      return <PostsAndVideos isVN={this.props.isVN} />;
     if (this.processUrl(href).includes('post'))
       return (
         <FullPost
@@ -69,17 +73,19 @@ class Learn extends React.Component {
   }
 
   render() {
+    const { isVN } = this.props;
+    const learn = modifyObj(isVN, this.state, 'learn');
     return (
       <div>
         <div
           className="learn-header text-vertical-center"
           style={{
-            backgroundImage: `url(${this.state.cover})`
+            backgroundImage: `url(${learn.cover})`
           }}
         >
           <div className="row" style={{ width: '100%', margin: '0' }}>
             <div className="col-md-12">
-              <h1 className="about-title">{this.state.title}</h1>
+              <h1 className="about-title">{learn.title}</h1>
             </div>
           </div>
         </div>

@@ -183,6 +183,84 @@ export const modifyObj = (isVN, obj, type) => {
         return { ...modify };
       }
       return obj;
+    case 'learn':
+      if (modify.title) {
+        const title = modify.title.split('||');
+        if (isVN) {
+          [modify.title] = [title[0]];
+        } else {
+          [modify.title] = [title[1]];
+        }
+        return { ...modify };
+      }
+      return obj;
+    case 'post':
+    case 'video':
+      if (modify.header) {
+        const header = modify.header.split('||');
+        if (isVN) {
+          [modify.header] = [header[0]];
+        } else {
+          [modify.header] = [header[1]];
+        }
+        return { ...modify };
+      }
+      return obj;
+    case 'about':
+      if (
+        modify.header &&
+        modify.header.includes('||') &&
+        modify.left &&
+        modify.left.title.includes('||') &&
+        modify.left.description.includes('||') &&
+        modify.middle &&
+        modify.middle.title.includes('||') &&
+        modify.middle.description.includes('||') &&
+        modify.right &&
+        modify.right.title.includes('||') &&
+        modify.right.description.includes('||') &&
+        modify.visions
+      ) {
+        const header = modify.header.split('||');
+        left = { ...modify.left };
+        middle = { ...modify.middle };
+        right = { ...modify.right };
+
+        const leftTitle = left.title.split('||');
+        const leftDesc = left.description.split('||');
+
+        const midTitle = middle.title.split('||');
+        const midDesc = middle.description.split('||');
+
+        const rightTitle = right.title.split('||');
+        const rightDesc = right.description.split('||');
+
+        if (isVN) {
+          [modify.header] = [header[0]];
+
+          [left.title] = [leftTitle[0]];
+          [left.description] = [leftDesc[0]];
+
+          [middle.title] = [midTitle[0]];
+          [middle.description] = [midDesc[0]];
+
+          [right.title] = [rightTitle[0]];
+          [right.description] = [rightDesc[0]];
+        } else {
+          [modify.header] = [header[1]];
+
+          [left.title] = [leftTitle[1]];
+          [left.description] = [leftDesc[1]];
+
+          [middle.title] = [midTitle[1]];
+          [middle.description] = [midDesc[1]];
+
+          [right.title] = [rightTitle[1]];
+          [right.description] = [rightDesc[1]];
+        }
+        return { ...modify, left, middle, right };
+      }
+      return obj;
     default:
   }
 

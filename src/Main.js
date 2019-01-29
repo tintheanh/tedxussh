@@ -124,8 +124,8 @@ class Main extends React.Component {
               render={() => <Home isVN={isVN} home={home} />}
             />
             <Route path="/attend" render={() => <Conference isVN={isVN} />} />
-            <Route path="/learn" component={Learn} />
-            <Route path="/about" render={() => <About about={about} />} />
+            <Route path="/learn" render={() => <Learn isVN={isVN} />} />
+            <Route path="/about" render={() => <About isVN={isVN} about={about} />} />
             <Route
               path="/organizers"
               render={() => <Organizers organizers={this.state.organizers} />}

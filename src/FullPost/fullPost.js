@@ -1,8 +1,6 @@
 import React from 'react';
 import firebase from 'firebase';
-// import MetaTags from 'react-meta-tags';
-// import { Helmet } from 'react-helmet';
-// import DocumentMeta from 'react-document-meta';
+import { getData } from '../config/firebase';
 
 class FullPost extends React.Component {
   constructor(props) {
@@ -29,23 +27,20 @@ class FullPost extends React.Component {
   }
 
   componentDidMount() {
-    firebase
-      .database()
-      .ref(`learnPosts/postList/${this.props.postID}`)
-      .on('value', snapshot => {
-        const learnPostsObj = snapshot.val();
-        if (learnPostsObj) {
-          const post = {
-            title: learnPostsObj.title,
-            by: learnPostsObj.by,
-            description: learnPostsObj.description,
-            content: learnPostsObj.content,
-            datePosted: learnPostsObj.datePosted,
-            thumbnail: learnPostsObj.thumbnail
-          };
-          this.setState({ post });
-        }
-      });
+    getData(`learnPosts/postSection/postList/${this.props.postID}`, data => {
+      const learnPostsObj = data.val();
+      if (learnPostsObj) {
+        const post = {
+          title: learnPostsObj.title,
+          by: learnPostsObj.by,
+          description: learnPostsObj.description,
+          content: learnPostsObj.content,
+          datePosted: learnPostsObj.datePosted,
+          thumbnail: learnPostsObj.thumbnail
+        };
+        this.setState({ post });
+      }
+    });
   }
 
   goBack() {
@@ -53,20 +48,6 @@ class FullPost extends React.Component {
   }
 
   render() {
-    const meta = {
-      title: 'Samvikshana - New Perspective of Exploration',
-      meta: {
-        property: {
-          'og:title': 'Samvikshana',
-          'og:url': 'https://samvikshana.weebly.com/',
-          'og:description': 'New Perspective of Exploration',
-
-          'twitter:card': 'summary_large_image',
-          'twitter:title': 'Samvikshana',
-          'twitter:description': 'New Perspective of Exploration'
-        }
-      }
-    };
     const { post } = this.state;
     return (
       <div className="container post-section">
