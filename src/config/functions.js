@@ -161,6 +161,28 @@ export const modifyObj = (isVN, obj, type) => {
         return { ...modify };
       }
       return obj;
+    case 'sponsors':
+      if (modify.description) {
+        const description = modify.description.split('||');
+        if (isVN) {
+          [modify.description] = [description[0]];
+        } else {
+          [modify.description] = [description[1]];
+        }
+        return { ...modify };
+      }
+      return obj;
+    case 'location':
+      if (modify.address) {
+        const address = modify.address.split('||');
+        if (isVN) {
+          [modify.address] = [address[0]];
+        } else {
+          [modify.address] = [address[1]];
+        }
+        return { ...modify };
+      }
+      return obj;
     default:
   }
 
@@ -170,10 +192,11 @@ export const modifyObj = (isVN, obj, type) => {
 export const retrieveDataForConference = (obj, type) => {
   const data = { ...obj };
   switch (type) {
-    case 'overview':
+    case 'overview': {
+      let overviewReturned = {};
       if (data.overview) {
         const { overview } = data;
-        const overviewReturned = {
+        overviewReturned = {
           conferencePicture: overview.conferencePicture,
           date: overview.date,
           description: overview.description,
@@ -184,123 +207,200 @@ export const retrieveDataForConference = (obj, type) => {
         };
         return overviewReturned;
       }
-      return data;
-    case 'speakers':
-      if (data.speakers && data.speakers.speakerList) {
+      return overviewReturned;
+    }
+    case 'speakers': {
+      let speakersReturned = {};
+      if (data.speakers) {
         const { speakers } = data;
         const speakerList = [];
-        Object.keys(speakers.speakerList).forEach(e => {
-          const speaker = {
-            id: e,
-            introduction: speakers.speakerList[e].introduction,
-            name: speakers.speakerList[e].name,
-            occupation: speakers.speakerList[e].occupation,
-            picture: speakers.speakerList[e].picture
-          };
-          speakerList.push(speaker);
-        });
-        const speakersReturned = {
+        if (speakers.speakerList) {
+          Object.keys(speakers.speakerList).forEach(e => {
+            const speaker = {
+              id: e,
+              introduction: speakers.speakerList[e].introduction,
+              name: speakers.speakerList[e].name,
+              occupation: speakers.speakerList[e].occupation,
+              picture: speakers.speakerList[e].picture
+            };
+            speakerList.push(speaker);
+          });
+        }
+        speakersReturned = {
           description: speakers.description,
           speakerList
         };
         return speakersReturned;
       }
-      return data;
-    case 'hosts':
-      if (data.hosts && data.hosts.hostList) {
+      return speakersReturned;
+    }
+    case 'hosts': {
+      let hostsReturned = {};
+      if (data.hosts) {
         const { hosts } = data;
         const hostList = [];
-        Object.keys(hosts.hostList).forEach(e => {
-          const host = {
-            id: e,
-            introduction: hosts.hostList[e].introduction,
-            name: hosts.hostList[e].name,
-            occupation: hosts.hostList[e].occupation,
-            picture: hosts.hostList[e].picture
-          };
-          hostList.push(host);
-        });
-        const hostsReturned = {
+        if (hosts.hostList) {
+          Object.keys(hosts.hostList).forEach(e => {
+            const host = {
+              id: e,
+              introduction: hosts.hostList[e].introduction,
+              name: hosts.hostList[e].name,
+              occupation: hosts.hostList[e].occupation,
+              picture: hosts.hostList[e].picture
+            };
+            hostList.push(host);
+          });
+        }
+        hostsReturned = {
           description: hosts.description,
           hostList
         };
         return hostsReturned;
       }
-      return data;
-    case 'performers':
-      if (data.performers && data.performers.performerList) {
+      return hostsReturned;
+    }
+    case 'performers': {
+      let performersReturned = {};
+      if (data.performers) {
         const { performers } = data;
         const performerList = [];
-        Object.keys(performers.performerList).forEach(e => {
-          const performer = {
-            id: e,
-            introduction: performers.performerList[e].introduction,
-            name: performers.performerList[e].name,
-            occupation: performers.performerList[e].occupation,
-            picture: performers.performerList[e].picture
-          };
-          performerList.push(performer);
-        });
-        const performersReturned = {
+        if (performers.performerList) {
+          Object.keys(performers.performerList).forEach(e => {
+            const performer = {
+              id: e,
+              introduction: performers.performerList[e].introduction,
+              name: performers.performerList[e].name,
+              occupation: performers.performerList[e].occupation,
+              picture: performers.performerList[e].picture
+            };
+            performerList.push(performer);
+          });
+        }
+        performersReturned = {
           description: performers.description,
           performerList
         };
         return performersReturned;
       }
-      return data;
-    case 'agenda':
-      if (data.agenda && data.overview) {
+      return performersReturned;
+    }
+    case 'agenda': {
+      let agendaReturn = {};
+      if (data.overview) {
         const { agenda, overview } = data;
         const agendaList = [];
-        Object.keys(agenda).forEach(e => {
-          const agd = {
-            id: e,
-            detail: agenda[e].detail,
-            header: agenda[e].header,
-            participants: agenda[e].participants,
-            time: agenda[e].time
-          };
-          agendaList.push(agd);
-        });
-        const agendaReturn = {
+        if (agenda) {
+          Object.keys(agenda).forEach(e => {
+            const agd = {
+              id: e,
+              detail: agenda[e].detail,
+              header: agenda[e].header,
+              participants: agenda[e].participants,
+              time: agenda[e].time
+            };
+            agendaList.push(agd);
+          });
+        }
+        agendaReturn = {
           date: overview.date,
           agendaList
         };
         return agendaReturn;
       }
-      return data;
-    case 'theme':
+      return agendaReturn;
+    }
+    case 'theme': {
+      let themeReturned = {};
       if (data.theme) {
         const { theme } = data;
-        const themeReturned = {
+        themeReturned = {
           detail: theme.detail,
           header: theme.header,
           picture: theme.picture
         };
         return themeReturned;
       }
-      return data;
-    case 'adventures':
+      return themeReturned;
+    }
+    case 'adventures': {
+      let adventuresReturn = {};
       if (data.adventures) {
         const { adventures } = data;
         const adventureList = [];
-        Object.keys(adventures.adventureList).forEach(e => {
-          const adventure = {
-            id: e,
-            detail: adventures.adventureList[e].detail,
-            name: adventures.adventureList[e].name,
-            picture: adventures.adventureList[e].picture
-          };
-          adventureList.push(adventure);
-        });
-        const adventuresReturn = {
+        if (adventures.adventureList) {
+          Object.keys(adventures.adventureList).forEach(e => {
+            const adventure = {
+              id: e,
+              detail: adventures.adventureList[e].detail,
+              name: adventures.adventureList[e].name,
+              picture: adventures.adventureList[e].picture
+            };
+            adventureList.push(adventure);
+          });
+        }
+        adventuresReturn = {
           description: adventures.description,
           header: adventures.header,
           adventureList
         };
         return adventuresReturn;
       }
-      return data;
+      return adventuresReturn;
+    }
+    case 'sponsors': {
+      let sponsorsReturned = {};
+      if (data.sponsors) {
+        const { sponsors } = data;
+        const sponsorList = [];
+        if (sponsors.sponsorList) {
+          Object.keys(sponsors.sponsorList).forEach(e => {
+            const sponsor = {
+              id: e,
+              website: sponsors.sponsorList[e].website,
+              logo: sponsors.sponsorList[e].logo
+            };
+            sponsorList.push(sponsor);
+          });
+        }
+        sponsorsReturned = {
+          description: sponsors.description,
+          sponsorList
+        };
+        return sponsorsReturned;
+      }
+      return sponsorsReturned;
+    }
+    case 'location': {
+      let locationReturned = {};
+      if (data.overview) {
+        const { overview } = data;
+        locationReturned = {
+          address: overview.location.address,
+          lat: overview.location.lat,
+          lng: overview.location.lng
+        };
+        return locationReturned;
+      }
+      return locationReturned;
+    }
+    case 'highlight': {
+      const highLightReturned = [];
+      if (data.highlight) {
+        const { highlight } = data;
+        Object.keys(highlight).forEach(e => {
+          const picture = {
+            id: e,
+            name: highlight[e].name,
+            url: highlight[e].url,
+            height: highlight[e].height,
+            width: highlight[e].width
+          };
+          highLightReturned.push(picture);
+        });
+        return highLightReturned;
+      }
+      return highLightReturned;
+    }
     default:
   }
 };

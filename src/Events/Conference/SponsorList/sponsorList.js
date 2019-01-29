@@ -1,4 +1,5 @@
 import React from 'react';
+import { modifyObj } from '../../../config/functions';
 
 class SponsorList extends React.Component {
   constructor(props) {
@@ -48,17 +49,36 @@ class SponsorList extends React.Component {
       }
       return this.renderImg(imgs.length / 4 + 1, imgs);
     }
-    return (
-      <div className="col-12">
-        <h5 className="text-center" style={{ fontFamily: 'Montserrat' }}>
-          TEDxHCMUSSH được hỗ trợ tổ chức bởi những nhà tài trợ có tầm nhìn và
-          quan tâm đến các vấn đề chung của cộng đồng
-        </h5>
-      </div>
-    );
+    return null;
   }
 
   render() {
+    const { isVN } = this.props;
+    const sponsors = modifyObj(isVN, this.props.sponsors, 'sponsors');
+    if (sponsors.SponsorList) {
+      return (
+        <div className="site-section bg-light">
+          <div className="container">
+            <div className="row">
+              <div className="col-sm-6 mx-auto text-center mb-5 section-heading">
+                <h2 className="mb-5">Sponsors</h2>
+              </div>
+            </div>
+            <div className="adv-wrapper row">
+              <div className="col-12">
+                <h5
+                  className="text-center"
+                  style={{ fontFamily: 'Montserrat' }}
+                >
+                  {sponsors.description}
+                </h5>
+              </div>
+            </div>
+            <div className="row">{this.renderAllImg(sponsors.SponsorList)}</div>
+          </div>
+        </div>
+      );
+    }
     return (
       <div className="site-section bg-light">
         <div className="container">
@@ -67,7 +87,13 @@ class SponsorList extends React.Component {
               <h2 className="mb-5">Sponsors</h2>
             </div>
           </div>
-          <div className="row">{this.renderAllImg(this.props.sponsors)}</div>
+          <div className="row adv-wrapper" style={{ paddingBottom: '24px' }}>
+            <div className="col-12">
+              <p className="text-center" style={{ fontFamily: 'Montserrat' }}>
+                {sponsors.description}
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     );

@@ -50,9 +50,11 @@ class Conference extends React.Component {
 
     getData('conference', data => {
       const conferenceObj = data.val();
-      this.setState({ conference: conferenceObj }, () =>
-        console.log(this.state.conference)
-      );
+      if (conferenceObj) {
+        this.setState({ conference: conferenceObj }, () =>
+          console.log(this.state.conference)
+        );
+      }
     });
 
     // firebase
@@ -271,6 +273,17 @@ class Conference extends React.Component {
         <Adventures
           isVN={isVN}
           adventures={retrieveDataForConference(conference, 'adventures')}
+        />
+        <SponsorList
+          isVN={isVN}
+          sponsors={retrieveDataForConference(conference, 'sponsors')}
+        />
+        <Location
+          isVN={isVN}
+          location={retrieveDataForConference(conference, 'location')}
+        />
+        <Highlight
+          highlight={retrieveDataForConference(conference, 'highlight')}
         />
         {/* <HostList hosts={hosts} hostDesc={hostDesc} />
         <PerformerList performers={performers} performerDesc={performerDesc} />

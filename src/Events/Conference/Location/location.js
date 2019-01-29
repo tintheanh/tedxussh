@@ -1,5 +1,6 @@
 import React from 'react';
 import MapView from '../../../MapView/mapView';
+import { modifyObj } from '../../../config/functions';
 
 class Location extends React.Component {
   constructor(props) {
@@ -22,6 +23,10 @@ class Location extends React.Component {
   }
 
   render() {
+    const { isVN } = this.props;
+    // console.log(this.props.location);
+    const location = modifyObj(isVN, this.props.location, 'location');
+    const { lat, lng, address } = location;
     return (
       <div className="site-section location" style={{ padding: '0' }}>
         <div
@@ -29,8 +34,8 @@ class Location extends React.Component {
           style={{ width: '100%', padding: '0', margin: '0' }}
         >
           <MapView
-            lat={this.props.lat}
-            lng={this.props.lng}
+            lat={lat}
+            lng={lng}
             isMarkerShown
             googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0vm0l85I8sXbIj2s7WxxoCImg1fjXDgw&v=3.exp&libraries=geometry,drawing,places"
             loadingElement={<div style={{ width: '100%', height: '100%' }} />}
@@ -50,7 +55,7 @@ class Location extends React.Component {
                 Venue
               </h2>
             </div>
-            <p className="venue-address text-center">{this.props.address}</p>
+            <p className="venue-address text-center">{address}</p>
           </div>
         </div>
       </div>

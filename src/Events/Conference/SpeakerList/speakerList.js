@@ -104,13 +104,7 @@ class SpeakerList extends React.Component {
       }
       return this.renderImg(imgs.length / 4 + 1, imgs);
     }
-    return (
-      <div className="col-12">
-        <h5 className="text-center" style={{ fontFamily: 'Montserrat' }}>
-          No speakers
-        </h5>
-      </div>
-    );
+    return null;
   }
   toggle() {
     this.setState({ expanded: !this.state.expanded });
@@ -176,7 +170,24 @@ class SpeakerList extends React.Component {
         </div>
       );
     }
-    return null;
+    return (
+      <div className="site-section bg-light">
+        <div className="container">
+          <div className="row">
+            <div className="col-sm-6 mx-auto text-center mb-5 section-heading">
+              <h2 className="mb-5">Speakers</h2>
+            </div>
+          </div>
+          <div className="row adv-wrapper" style={{ paddingBottom: '24px' }}>
+            <div className="col-12">
+              <p className="text-center" style={{ fontFamily: 'Montserrat' }}>
+                {speakers.description}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   }
 }
 
