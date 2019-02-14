@@ -49,7 +49,7 @@ class EditSponsors extends React.Component {
 
     firebase
       .database()
-      .ref(`conference/sponsors/${sponsor.id}`)
+      .ref(`conference/sponsors/sponsorList/${sponsor.id}`)
       .update(update);
     this.setState({ sponsorSelected: '' });
   }
@@ -61,7 +61,7 @@ class EditSponsors extends React.Component {
 
     firebase
       .database()
-      .ref(`conference/sponsors/${this.state.sponsorSelected}`)
+      .ref(`conference/sponsors/sponsorList/${this.state.sponsorSelected}`)
       .update(update);
   }
 
@@ -70,7 +70,7 @@ class EditSponsors extends React.Component {
     if (ask) {
       firebase
         .database()
-        .ref(`conference/sponsors/${sponsorID}`)
+        .ref(`conference/sponsors/sponsorList/${sponsorID}`)
         .remove();
     } else console.log('stopped');
   }

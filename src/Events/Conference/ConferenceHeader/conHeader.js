@@ -23,7 +23,7 @@ const ConferenceHeader = props => {
   const { isVN } = props;
   const overview = modifyObj(isVN, props.overview, 'overview');
   const {
-    conferencePicture,
+    picture,
     date,
     description,
     startTime,
@@ -33,7 +33,7 @@ const ConferenceHeader = props => {
   } = overview;
   return (
     <Parallax
-      bgImage={conferencePicture}
+      bgImage={picture}
       strength={500}
       className="overview-parallax"
     >

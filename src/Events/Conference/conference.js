@@ -17,43 +17,23 @@ class Conference extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      agenda: [],
-      conferencePicture: '',
-      audience: '',
-      startTime: '',
-      endTime: '',
-      date: '',
-      description: '',
-      highlight: [],
-      address: '',
-      lat: 0,
-      lng: 0,
-      speakers: [],
-      speakerDesc: '',
-      hosts: [],
-      hostDesc: '',
-      performers: [],
-      performerDesc: '',
-      sponsors: [],
-      adventures: [],
-      adventureHeader: '',
-      adventureDesc: '',
-      title: '',
-      gap: '',
-
-      conference: {}
+      conference: null,
+      agenda: null
     };
   }
 
   componentDidMount() {
     window.document.title = 'TEDxHCMUSSH - Event';
 
-    getData('conference', data => {
-      const conferenceObj = data.val();
-      if (conferenceObj) {
-        this.setState({ conference: conferenceObj }, () =>
-          console.log(this.state.conference)
-        );
+    getData('conference').then(doc => {
+      if (doc.exists) {
+        this.setState({ conference: doc.data() });
+        this.setState({
+          agenda: {
+            agendaList: doc.data().agenda,
+            date: doc.data().overview.date
+          }
+        });
       }
     });
 
@@ -220,85 +200,69 @@ class Conference extends React.Component {
   }
 
   render() {
-    const { isVN } = this.props;
-    const {
-      agenda,
-      conferencePicture,
-      audience,
-      endTime,
-      startTime,
-      date,
-      description,
-      highlight,
-      address,
-      lat,
-      lng,
-      speakers,
-      speakerDesc,
-      hosts,
-      hostDesc,
-      performers,
-      performerDesc,
-      sponsors,
-      title,
-      gap,
-      adventures,
-      adventureHeader,
-      adventureDesc,
-      conference
-    } = this.state;
-    return (
-      <div>
-        <ConferenceHeader
-          isVN={isVN}
-          overview={retrieveDataForConference(conference, 'overview')}
-        />
-        <SpeakerList
-          isVN={isVN}
-          speakers={retrieveDataForConference(conference, 'speakers')}
-        />
-        <HostList
-          isVN={isVN}
-          hosts={retrieveDataForConference(conference, 'hosts')}
-        />
-        <PerformerList
-          isVN={isVN}
-          performers={retrieveDataForConference(conference, 'performers')}
-        />
-        <Agenda
-          isVN={isVN}
-          agenda={retrieveDataForConference(conference, 'agenda')}
-        />
-        <Theme theme={retrieveDataForConference(conference, 'theme')} />
-        <Adventures
-          isVN={isVN}
-          adventures={retrieveDataForConference(conference, 'adventures')}
-        />
-        <SponsorList
-          isVN={isVN}
-          sponsors={retrieveDataForConference(conference, 'sponsors')}
-        />
-        <Location
-          isVN={isVN}
-          location={retrieveDataForConference(conference, 'location')}
-        />
-        <Highlight
-          highlight={retrieveDataForConference(conference, 'highlight')}
-        />
-        {/* <HostList hosts={hosts} hostDesc={hostDesc} />
-        <PerformerList performers={performers} performerDesc={performerDesc} />
-        <Agenda date={date} agenda={agenda} />
-        <Gap gap={gap} />
-        <Adventures
-          adventures={adventures}
-          adventureHeader={adventureHeader}
-          adventureDesc={adventureDesc}
-        />
-        <SponsorList sponsors={sponsors} />
-        <Location lat={lat} lng={lng} address={address} />
-        <Highlight highlight={highlight} /> */}
-      </div>
-    );
+    if (this.state.conference !== null && this.state.agenda !== null) {
+      const { isVN } = this.props;
+      const { conference } = this.state;
+      return (
+        <div>
+          <ConferenceHeader isVN={isVN} overview={conference.overview} />
+          <SpeakerList isVN={isVN} speakers={conference.speakers} />
+          <HostList isVN={isVN} hosts={conference.host} />
+          <PerformerList isVN={isVN} performers={conference.performer} />
+          <Agenda isVN={isVN} agenda={this.state.agenda} />
+          <Theme theme={conference.theme} />
+          <Adventures isVN={isVN} adventures={conference.adventures} />
+          <SponsorList isVN={isVN} sponsors={conference.sponsors} />
+          <Location isVN={isVN} location={conference.overview.location} />
+          <Highlight highlight={conference.highlight} />
+          {/* <SpeakerList
+            isVN={isVN}
+            speakers={retrieveDataForConference(conference, 'speakers')}
+          />
+          <HostList
+            isVN={isVN}
+            hosts={retrieveDataForConference(conference, 'hosts')}
+          />
+          <PerformerList
+            isVN={isVN}
+            performers={retrieveDataForConference(conference, 'performers')}
+          />
+          <Agenda
+            isVN={isVN}
+            agenda={retrieveDataForConference(conference, 'agenda')}
+          />
+          <Theme theme={retrieveDataForConference(conference, 'theme')} />
+          <Adventures
+            isVN={isVN}
+            adventures={retrieveDataForConference(conference, 'adventures')}
+          />
+          <SponsorList
+            isVN={isVN}
+            sponsors={retrieveDataForConference(conference, 'sponsors')}
+          />
+          <Location
+            isVN={isVN}
+            location={retrieveDataForConference(conference, 'location')}
+          />
+          <Highlight
+            highlight={retrieveDataForConference(conference, 'highlight')}
+          /> */}
+          {/* <HostList hosts={hosts} hostDesc={hostDesc} />
+          <PerformerList performers={performers} performerDesc={performerDesc} />
+          <Agenda date={date} agenda={agenda} />
+          <Gap gap={gap} />
+          <Adventures
+            adventures={adventures}
+            adventureHeader={adventureHeader}
+            adventureDesc={adventureDesc}
+          />
+          <SponsorList sponsors={sponsors} />
+          <Location lat={lat} lng={lng} address={address} />
+          <Highlight highlight={highlight} /> */}
+        </div>
+      );
+    }
+    return null;
   }
 }
 

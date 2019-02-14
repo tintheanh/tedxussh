@@ -1,5 +1,6 @@
 import React from 'react';
 import * as emailjs from 'emailjs-com';
+import { modifyObj } from '../config/functions';
 
 class Contact extends React.Component {
   constructor(props) {
@@ -56,7 +57,9 @@ class Contact extends React.Component {
   }
 
   render() {
-    const { background, comment, hqAddress, hqName } = this.props.contact;
+    const { isVN } = this.props;
+    const contact = modifyObj(isVN, this.props.contact, 'contact');
+    const { background, comment, hqAddress, hqName } = contact;
     return (
       <div>
         <div>
@@ -68,7 +71,9 @@ class Contact extends React.Component {
           >
             <div className="row" style={{ width: '100%', margin: '0' }}>
               <div className="col-md-12">
-                <h1 className="about-title">Liên hệ chúng tôi</h1>
+                <h1 className="about-title">
+                  {isVN ? 'Liên hệ chúng tôi' : 'Contact us'}
+                </h1>
               </div>
             </div>
           </div>
@@ -87,7 +92,9 @@ class Contact extends React.Component {
                   <form onSubmit={this.handleSubmit.bind(this)}>
                     <div className="row">
                       <div className="col-12">
-                        <p className="contact-header">Họ và tên</p>
+                        <p className="contact-header">
+                          {isVN ? 'Họ và tên' : 'Name'}
+                        </p>
                       </div>
                       <div className="col-md-12 col-lg-6">
                         <input
@@ -100,7 +107,7 @@ class Contact extends React.Component {
                         <p
                           style={{ fontSize: '12px', fontFamily: 'Montserrat' }}
                         >
-                          Tên
+                          {isVN ? 'Tên' : 'First name'}
                         </p>
                       </div>
                       <div className="col-md-12 col-lg-6">
@@ -114,13 +121,15 @@ class Contact extends React.Component {
                         <p
                           style={{ fontSize: '12px', fontFamily: 'Montserrat' }}
                         >
-                          Họ
+                          {isVN ? 'Họ' : 'Last name'}
                         </p>
                       </div>
                     </div>
                     <div className="row">
                       <div className="col-12">
-                        <p className="contact-header">Địa chỉ email</p>
+                        <p className="contact-header">
+                          {isVN ? 'Địa chỉ email' : 'Email address'}
+                        </p>
                       </div>
                       <div className="col-12">
                         <input
@@ -134,7 +143,9 @@ class Contact extends React.Component {
                     </div>
                     <div className="row">
                       <div className="col-12">
-                        <p className="contact-header">Lý do liên hệ</p>
+                        <p className="contact-header">
+                          {isVN ? 'Lý do liên hệ' : 'Reason'}
+                        </p>
                       </div>
                       <div className="col-12">
                         <div className="row">
@@ -152,7 +163,7 @@ class Contact extends React.Component {
                             className="col-11 radio-content"
                             style={{ fontFamily: 'Montserrat' }}
                           >
-                            Tham dự
+                            {isVN ? 'Tham dự' : 'Attending'}
                           </div>
                         </div>
                         <div className="row">
@@ -170,7 +181,7 @@ class Contact extends React.Component {
                             className="col-11 radio-content"
                             style={{ fontFamily: 'Montserrat' }}
                           >
-                            Tài trợ
+                            {isVN ? 'Tài trợ' : 'Sponsor'}
                           </div>
                         </div>
                         <div className="row">
@@ -188,7 +199,7 @@ class Contact extends React.Component {
                             className="col-11 radio-content"
                             style={{ fontFamily: 'Montserrat' }}
                           >
-                            Trở thành cộng tác viên
+                            {isVN ? 'Trở thành cộng tác viên' : 'Partnership'}
                           </div>
                         </div>
                         <div className="row">
@@ -206,14 +217,16 @@ class Contact extends React.Component {
                             className="col-11 radio-content"
                             style={{ fontFamily: 'Montserrat' }}
                           >
-                            Lý do khác
+                            {isVN ? 'Lý do khác' : 'Other'}
                           </div>
                         </div>
                       </div>
                     </div>
                     <div className="row">
                       <div className="col-12">
-                        <p className="contact-header">Lời nhắn</p>
+                        <p className="contact-header">
+                          {isVN ? 'Lời nhắn' : 'Message'}
+                        </p>
                       </div>
                       <div className="col-12">
                         <textarea
@@ -227,7 +240,7 @@ class Contact extends React.Component {
                         <input
                           className="send-btn"
                           type="submit"
-                          value="GỬI"
+                          value={isVN ? 'Gửi' : 'Send'}
                           style={{ fontFamily: 'Oswald' }}
                         />
                       </div>
@@ -237,8 +250,9 @@ class Contact extends React.Component {
                   <div className="row">
                     <div className="col-12">
                       <p>
-                        Cám ơn bạn vì đã liên hệ, chúng tôi sẽ hồi âm sớm nhất
-                        có thể.
+                        {isVN
+                          ? 'Cám ơn bạn vì đã liên hệ, chúng tôi sẽ hồi âm sớm nhất có thể.'
+                          : 'Thank you for contacting us, we will get back to you as soon as possible'}
                       </p>
                     </div>
                   </div>

@@ -93,7 +93,7 @@ class EditPost extends React.Component {
 
     firebase
       .database()
-      .ref(`learnPosts/postList/${this.props.post.id}`)
+      .ref(`learnPosts/postSection/postList/${this.props.post.id}`)
       .update(update)
       .then(() => alert('Updated!'))
       .catch(err => alert(err.message));

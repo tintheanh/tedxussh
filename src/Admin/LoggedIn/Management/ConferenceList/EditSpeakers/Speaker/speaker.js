@@ -42,7 +42,7 @@ class Speaker extends React.Component {
 
     firebase
       .database()
-      .ref(`conference/speakers/${id}`)
+      .ref(`conference/speakers/speakerList/${id}`)
       .update(update)
       .then(() => {
         alert('Updated');

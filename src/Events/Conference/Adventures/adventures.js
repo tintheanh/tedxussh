@@ -20,8 +20,8 @@ const renderImg = (totalRows, imgs) => {
 };
 
 const renderRow = (startIndex, endIndex, imgs) => {
-  return imgs.slice(startIndex, endIndex).map(e => (
-    <div className="col-sm-6 col-lg-3 mb-2 adventure" key={e.id}>
+  return imgs.slice(startIndex, endIndex).map((e, i) => (
+    <div className="col-sm-6 col-lg-3 mb-2 adventure" key={i}>
       <div
         className="hotel-room text-center notransition"
         style={{ background: 'transparent' }}

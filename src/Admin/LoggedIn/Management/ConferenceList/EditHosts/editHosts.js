@@ -3,7 +3,7 @@ import Modal from 'react-responsive-modal';
 import Host from './Host/host';
 import AddHost from './AddHost/addHost';
 
-class EditHost extends React.Component {
+class EditHosts extends React.Component {
   constructor(props) {
     super(props);
     this.state = { modalAdd: false };
@@ -71,4 +71,4 @@ class EditHost extends React.Component {
   }
 }
 
-export default EditHost;
+export default EditHosts;

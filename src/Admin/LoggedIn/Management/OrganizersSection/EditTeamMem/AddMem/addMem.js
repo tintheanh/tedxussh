@@ -2,6 +2,7 @@ import React from 'react';
 import Modal from 'react-responsive-modal';
 import firebase from 'firebase';
 import ImageManagement from '../../../ImageMangement/imageManagement';
+import { root } from '../../../../../../config/firebase';
 
 class AddMem extends React.Component {
   constructor(props) {
@@ -36,18 +37,26 @@ class AddMem extends React.Component {
       name: this.state.name,
       role: this.state.role,
       picture: this.state.picture,
-      socialLink: this.state.socialLink
+      socialLink: this.state.socialLink,
+      createdDate: new Date()
     };
 
-    firebase
-      .database()
-      .ref('organizers/teamMem')
-      .push(newMem)
-      .then(() => {
-        alert('Added');
-        this.props.closeModal();
-      })
+    root
+      .doc('organizer')
+      .collection('teamMembers')
+      .add(newMem)
+      .then(() => this.props.closeModal())
       .catch(err => alert(err.message));
+
+    // firebase
+    //   .database()
+    //   .ref('organizers/teamMem')
+    //   .push(newMem)
+    //   .then(() => {
+    //     alert('Added');
+    //     this.props.closeModal();
+    //   })
+    //   .catch(err => alert(err.message));
   }
 
   render() {

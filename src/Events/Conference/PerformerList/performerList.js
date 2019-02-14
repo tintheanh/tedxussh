@@ -2,6 +2,7 @@ import React from 'react';
 import Modal from 'react-responsive-modal';
 import SmoothCollapse from 'react-smooth-collapse';
 import PerformerInfo from './PerformerInfo/performerInfo';
+import PerformerCard from './PerformerCard/performerCard';
 import { modifyObj } from '../../../config/functions';
 
 class HostList extends React.Component {
@@ -69,57 +70,9 @@ class HostList extends React.Component {
   }
 
   renderRow(startIndex, endIndex, imgs) {
-    return imgs.slice(startIndex, endIndex).map(e => {
-      if (this.state.performerSelected === e.id) {
-        return (
-          <div className="col-sm-6 col-lg-3 mb-2" key={e.id}>
-            <div
-              className="hotel-room text-center notransition"
-              onClick={() => this.openModalPerformer(e.id)}
-            >
-              <div className="d-block mb-2 thumbnail notransition">
-                <img
-                  src={e.picture}
-                  alt=""
-                  className="img-fluid notransition"
-                />
-              </div>
-              <div className="hotel-room-body">
-                <h3 class="heading mb-2">{e.name}</h3>
-                <strong class="price">{e.occupation}</strong>
-              </div>
-            </div>
-            <Modal
-              open={this.state.modalPerformer}
-              onClose={this.closeModalPerformer}
-              center
-            >
-              <PerformerInfo performer={e} />
-            </Modal>
-          </div>
-        );
-      }
-      return (
-        <div className="col-sm-6 col-lg-3 mb-2 speaker" key={e.id}>
-          <div
-            className="hotel-room text-center notransition"
-            onClick={() => this.openModalPerformer(e.id)}
-          >
-            <div className="d-block mb-2 thumbnail notransition">
-              <img src={e.picture} alt="" className="img-fluid notransition" />
-            </div>
-            <div className="hotel-room-body">
-              <h3 className="heading mb-2" style={{ fontFamily: 'Oswald' }}>
-                {e.name}
-              </h3>
-              <strong className="price" style={{ fontFamily: 'Montserrat' }}>
-                {e.occupation}
-              </strong>
-            </div>
-          </div>
-        </div>
-      );
-    });
+    return imgs
+      .slice(startIndex, endIndex)
+      .map((performer, i) => <PerformerCard key={i} performer={performer} />);
   }
 
   renderAllImg(imgs) {

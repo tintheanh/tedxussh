@@ -1,7 +1,7 @@
 import React from 'react';
 import VideoSection from './VideoSection/videoSection';
 import PostSection from './PostSection/postSection';
-import { getData } from '../../config/firebase';
+import { getData, database } from '../../config/firebase';
 
 class PostListAndPage extends React.Component {
   constructor(props) {
@@ -11,68 +11,53 @@ class PostListAndPage extends React.Component {
         header: '',
         posts: []
       },
-      videoSection: {
-        header: '',
-        videos: []
-      }
+      videoSection: null
     };
   }
 
   componentDidMount() {
-    getData('learnPosts/postSection', data => {
-      const learnPostsObj = data.val();
-      if (learnPostsObj) {
+    getData('learn').then(doc => {
+      if (doc.exists) {
+        this.setState(prevState => ({
+          postSection: {
+            ...prevState.postSection,
+            header: doc.data().postSection.header
+          }
+        }));
+      }
+    });
+
+    database
+      .collection('tedxhcmussh-data')
+      .doc('learn')
+      .collection('posts')
+      .get()
+      .then(querySnapshot => {
         const posts = [];
-        Object.keys(learnPostsObj.postList).forEach(e => {
+        querySnapshot.forEach(doc => {
+          const postObj = doc.data();
           const post = {
-            id: e,
-            title: learnPostsObj.postList[e].title,
-            by: learnPostsObj.postList[e].by,
-            description: learnPostsObj.postList[e].description,
-            content: learnPostsObj.postList[e].content,
-            datePosted: learnPostsObj.postList[e].datePosted,
-            thumbnail: learnPostsObj.postList[e].thumbnail
+            id: doc.id,
+            by: postObj.by,
+            content: postObj.content,
+            datePosted: postObj.datePosted,
+            description: postObj.description,
+            thumbnail: postObj.thumbnail,
+            title: postObj.title
           };
           posts.push(post);
         });
         this.setState(prevState => ({
           postSection: {
             ...prevState.postSection,
-            header: learnPostsObj.header,
             posts: this.groupPost(posts)
           }
         }));
-      }
-    });
+      });
 
-    getData('learnPosts/videoSection', data => {
-      const videoObj = data.val();
-      if (videoObj) {
-        const videos = [];
-        Object.keys(videoObj.videoList).forEach(e => {
-          const video = {
-            id: e,
-            title: videoObj.videoList[e].title,
-            link: videoObj.videoList[e].link,
-            by: videoObj.videoList[e].by
-          };
-          videos.push(video);
-        });
-        this.setState(prevState => ({
-          videoSection: {
-            ...prevState.videoSection,
-            header: videoObj.header,
-            left: videoObj.left,
-            videos
-          }
-        }));
-      }
-    });
-
-    getData('learnPosts/videoSection/left', data => {
-      const learnPostsObj = data.val();
-      if (learnPostsObj) {
-        this.setState({ left: learnPostsObj });
+    getData('learn').then(doc => {
+      if (doc.exists) {
+        this.setState({ videoSection: doc.data().videoSection });
       }
     });
   }
@@ -98,11 +83,12 @@ class PostListAndPage extends React.Component {
   render() {
     const { isVN } = this.props;
     const { postSection, videoSection } = this.state;
-
     return (
       <div className="site-section">
         <div className="container">
-          <VideoSection isVN={isVN} videoSection={videoSection} />
+          {this.state.videoSection !== null ? (
+            <VideoSection isVN={isVN} videoSection={videoSection} />
+          ) : null}
           <PostSection isVN={isVN} postSection={postSection} />
         </div>
       </div>

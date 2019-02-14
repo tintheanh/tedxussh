@@ -20,7 +20,7 @@ class AddVideo extends React.Component {
 
     firebase
       .database()
-      .ref('learnPosts/videoList')
+      .ref('learnPosts/videoSection/videoList')
       .push(newVid)
       .then(() => {
         alert('Added');

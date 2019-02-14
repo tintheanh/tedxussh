@@ -5,7 +5,6 @@ import { modifyObj } from '../../../config/functions';
 const VideoSection = props => {
   const { isVN } = props;
   const videoSection = modifyObj(isVN, props.videoSection, 'video');
-  console.log(videoSection.left);
   return (
     <div>
       <div className="row" style={{ width: '100%', margin: '0' }}>

@@ -21,7 +21,7 @@ class Video extends React.Component {
 
     fireabase
       .database()
-      .ref(`learnPosts/videoList/${vid}`)
+      .ref(`learnPosts/videoSection/videoList/${vid}`)
       .update(video)
       .then(() => this.setState({ toggleEdit: false }))
       .catch(err => alert(err.message));
@@ -32,7 +32,7 @@ class Video extends React.Component {
     if (ask) {
       fireabase
         .database()
-        .ref(`learnPosts/videoList/${vid}`)
+        .ref(`learnPosts/videoSection/videoList/${vid}`)
         .remove()
         .catch(err => alert(err.message));
     }

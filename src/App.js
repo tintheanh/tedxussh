@@ -1,10 +1,6 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import { ParallaxProvider } from 'react-scroll-parallax';
 import Main from './Main';
 import Admin from './Admin/admin';
-
-console.log(window.location.pathname);
 
 const ManualRouter = pathname => {
   if (
@@ -15,25 +11,7 @@ const ManualRouter = pathname => {
     return <Admin />;
   return <Main />;
 };
-const App = () => (
-  <div>
-    {/* <nav>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/about/">About</Link>
-          </li>
-          <li>
-            <Link to="/users/">Users</Link>
-          </li>
-        </ul>
-      </nav> */}
-
-    {ManualRouter(window.location.pathname)}
-  </div>
-);
+const App = () => <div>{ManualRouter(window.location.pathname)}</div>;
 
 export default App;
 

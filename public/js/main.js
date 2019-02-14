@@ -86,7 +86,7 @@ jQuery(document).ready(function($) {
       }
     });
 
-    $('.site-nav-wrap li a').click(function() {
+    $('.site-nav-wrap li a, .site-nav-wrap li img').click(function() {
       if ($('body').hasClass('offcanvas-menu')) {
         $('body').removeClass('offcanvas-menu');
       }

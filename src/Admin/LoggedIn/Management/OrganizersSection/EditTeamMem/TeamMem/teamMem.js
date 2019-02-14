@@ -1,7 +1,7 @@
 import React from 'react';
-import firebase from 'firebase';
 import Modal from 'react-responsive-modal';
 import ImageManagement from '../../../ImageMangement/imageManagement';
+import { root } from '../../../../../../config/firebase';
 
 class TeamMem extends React.Component {
   constructor(props) {
@@ -40,24 +40,23 @@ class TeamMem extends React.Component {
       picture: this.state.newPic
     };
 
-    firebase
-      .database()
-      .ref(`organizers/teamMem/${id}`)
-      .update(update)
-      .then(() => {
-        alert('Updated');
-        this.setState({ toggleEdit: false });
-      })
+    root
+      .doc('organizer')
+      .collection('teamMembers')
+      .doc(id)
+      .set(update, { merge: true })
+      .then(() => this.setState({ toggleEdit: false }))
       .catch(err => alert(err.message));
   }
 
   onDelete(id) {
     const ask = window.confirm('Sure to delete?');
     if (ask) {
-      firebase
-        .database()
-        .ref(`organizers/teamMem/${id}`)
-        .remove()
+      root
+        .doc('organizer')
+        .collection('teamMembers')
+        .doc(id)
+        .delete()
         .then(() => this.setState({ toggleEdit: false }))
         .catch(err => alert(err.message));
     }

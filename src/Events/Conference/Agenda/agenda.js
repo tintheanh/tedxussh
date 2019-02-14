@@ -9,9 +9,7 @@ class Agenda extends React.Component {
   }
 
   renderAgenda(agenda) {
-    return agenda.map(agd => {
-      return <OneAgd agd={agd} key={agd.id} />;
-    });
+    return agenda.map((agd, i) => <OneAgd agd={agd} key={i} />);
   }
 
   toVNDate(inputDate) {
@@ -48,42 +46,39 @@ class Agenda extends React.Component {
   render() {
     const { isVN } = this.props;
     const agenda = modifyObj(isVN, this.props.agenda, 'agenda');
-    if (agenda.agendaList) {
-      const agendaList = this.sortAgenda(agenda.agendaList);
-      return (
-        <div className="site-section bg-white">
-          <div className="container">
-            <div className="row">
-              <div className="col-md-6 mx-auto text-center mb-5 section-heading">
-                <h2 className="mb-5">Agenda</h2>
-              </div>
+    const agendaList = this.sortAgenda(agenda.agendaList);
+    return (
+      <div className="site-section bg-white">
+        <div className="container">
+          <div className="row">
+            <div className="col-md-6 mx-auto text-center mb-5 section-heading">
+              <h2 className="mb-5">Agenda</h2>
             </div>
-            <div className="row">
-              <div className="mx-auto text-center mb-5">
-                <h4
-                  className="mb-5"
-                  style={{
-                    backgroundColor: '#e62b1e',
-                    padding: '14px 44px',
-                    color: '#fff',
-                    fontFamily: 'Oswald'
-                  }}
-                >
-                  {this.toVNDate(agenda.date)}
-                </h4>
-              </div>
-            </div>
-            <ul
-              className="agenda-section"
-              style={{ padding: 0, listStyleType: 'none' }}
-            >
-              {this.renderAgenda(agendaList)}
-            </ul>
           </div>
+          <div className="row">
+            <div className="mx-auto text-center mb-5">
+              <h4
+                className="mb-5"
+                style={{
+                  backgroundColor: '#e62b1e',
+                  padding: '14px 44px',
+                  color: '#fff',
+                  fontFamily: 'Oswald'
+                }}
+              >
+                {this.toVNDate(agenda.date)}
+              </h4>
+            </div>
+          </div>
+          <ul
+            className="agenda-section"
+            style={{ padding: 0, listStyleType: 'none' }}
+          >
+            {this.renderAgenda(agendaList)}
+          </ul>
         </div>
-      );
-    }
-    return null;
+      </div>
+    );
   }
 }
 

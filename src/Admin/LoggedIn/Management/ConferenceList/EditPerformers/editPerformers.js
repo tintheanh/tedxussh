@@ -3,7 +3,7 @@ import Modal from 'react-responsive-modal';
 import Performer from './Performer/performer';
 import AddPerformer from './AddPerformer/addPerformer';
 
-class EditHost extends React.Component {
+class EditPerformers extends React.Component {
   constructor(props) {
     super(props);
     this.state = { modalAdd: false };
@@ -71,4 +71,4 @@ class EditHost extends React.Component {
   }
 }
 
-export default EditHost;
+export default EditPerformers;

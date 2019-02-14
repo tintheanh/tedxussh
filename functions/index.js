@@ -39,7 +39,7 @@ exports.seoFunc = functions.https.onRequest((req, res) => {
     console.log(url);
     admin
       .database()
-      .ref('/learnPosts/postList')
+      .ref('/learnPosts/postSection/postList')
       .child(postId)
       .once('value')
       .then(snapshot => {

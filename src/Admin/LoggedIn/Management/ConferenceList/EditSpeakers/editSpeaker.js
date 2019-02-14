@@ -3,7 +3,7 @@ import Modal from 'react-responsive-modal';
 import Speaker from './Speaker/speaker';
 import AddSpeaker from './AddSpeaker/addSpeaker';
 
-class EditTeamMem extends React.Component {
+class EditSpeakers extends React.Component {
   constructor(props) {
     super(props);
     this.state = { modalAdd: false };
@@ -71,4 +71,4 @@ class EditTeamMem extends React.Component {
   }
 }
 
-export default EditTeamMem;
+export default EditSpeakers;

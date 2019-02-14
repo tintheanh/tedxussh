@@ -15,16 +15,23 @@ import EditAgenda from './EditAgenda/editAgenda';
 import EditSponsors from './EditSponsors/editSponsors';
 import EditHighlight from './EditHighlight/editHighlight';
 
+import { root } from '../../../../config/firebase';
+import UpdateBackground from './updateBackground';
+import UpdateTitle from './updateTitle';
+import UpdateDescription from './updateDescription';
+import UpdateDate from './updateDate';
+
 class ConferenceList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       height: 0,
 
+      conference: null,
+
       address: '',
       conferencePicture: '',
       date: '',
-      audience: '',
       startTime: '',
       endTime: '',
       description: '',
@@ -41,6 +48,7 @@ class ConferenceList extends React.Component {
       performers: [],
       performerDesc: '',
       sponsors: [],
+      sponsorDesc: '',
 
       gapHeader: '',
       gapDetail: '',
@@ -57,6 +65,7 @@ class ConferenceList extends React.Component {
       toggleEditSpeakerDesc: false,
       toggleEditHostDesc: false,
       toggleEditPerformerDesc: false,
+      toggleEditSponsorDesc: false,
 
       modalGapPic: false,
       modalSpeakers: false,
@@ -107,6 +116,110 @@ class ConferenceList extends React.Component {
     this.updateWindowDimensions();
     window.addEventListener('resize', this.updateWindowDimensions);
     this.fetchData();
+
+    root.doc('conference').onSnapshot(doc => {
+      if (doc.exists) {
+        const conferenceObj = doc.data();
+        const adventureArray = [];
+        const agendaArray = [];
+        const hostArray = [];
+        const performerArray = [];
+        const speakerArray = [];
+        const sponsorArray = [];
+
+        root
+          .doc('conference')
+          .collection('adventureList')
+          .orderBy('createdDate')
+          .onSnapshot(querySnapshot => {
+            querySnapshot.forEach(adv => {
+              const adventure = { ...adv.data(), id: adv.id };
+              adventureArray.push(adventure);
+            });
+          });
+
+        root
+          .doc('conference')
+          .collection('agendaList')
+          .orderBy('time')
+          .onSnapshot(querySnapshot => {
+            querySnapshot.forEach(agd => {
+              const agenda = { ...agd.data(), id: agd.id };
+              agendaArray.push(agenda);
+            });
+          });
+
+        root
+          .doc('conference')
+          .collection('hostList')
+          .orderBy('createdDate')
+          .onSnapshot(querySnapshot => {
+            querySnapshot.forEach(ht => {
+              const host = { ...ht.data(), id: ht.id };
+              hostArray.push(host);
+            });
+          });
+
+        root
+          .doc('conference')
+          .collection('performerList')
+          .orderBy('createdDate')
+          .onSnapshot(querySnapshot => {
+            querySnapshot.forEach(pm => {
+              const performer = { ...pm.data(), id: pm.id };
+              performerArray.push(performer);
+            });
+          });
+
+        root
+          .doc('conference')
+          .collection('speakerList')
+          .orderBy('createdDate')
+          .onSnapshot(querySnapshot => {
+            querySnapshot.forEach(sp => {
+              const speaker = { ...sp.data(), id: sp.id };
+              speakerArray.push(speaker);
+            });
+          });
+
+        root
+          .doc('conference')
+          .collection('sponsorList')
+          .orderBy('createdDate')
+          .onSnapshot(querySnapshot => {
+            querySnapshot.forEach(ss => {
+              const sponsor = { ...ss.data(), id: ss.id };
+              sponsorArray.push(sponsor);
+            });
+          });
+
+        const conference = {
+          ...conferenceObj,
+          adventures: {
+            ...conferenceObj.adventures,
+            adventureList: adventureArray
+          },
+          agendaList: agendaArray,
+          host: {
+            ...conferenceObj.host,
+            hostList: hostArray
+          },
+          performer: {
+            ...conferenceObj.performer,
+            performerList: performerArray
+          },
+          speakers: {
+            ...conferenceObj.speakers,
+            speakerList: speakerArray
+          },
+          sponsors: {
+            ...conferenceObj.sponsors,
+            sponsorList: sponsorArray
+          }
+        };
+        this.setState({ conference });
+      }
+    });
   }
 
   componentWillUnmount() {
@@ -211,9 +324,6 @@ class ConferenceList extends React.Component {
       case 'description':
         this.setState({ description: e.target.value });
         break;
-      case 'audience':
-        this.setState({ audience: e.target.value });
-        break;
       case 'lat':
         this.setState({ lat: e.target.value });
         break;
@@ -243,6 +353,9 @@ class ConferenceList extends React.Component {
         break;
       case 'performerDesc':
         this.setState({ performerDesc: e.target.value });
+        break;
+      case 'sponsorDesc':
+        this.setState({ sponsorDesc: e.target.value });
         break;
       default:
         break;
@@ -279,12 +392,22 @@ class ConferenceList extends React.Component {
     let update = {};
     if (type === 'location') {
       update = {
-        location: {
-          lat: this.state.lat,
-          lng: this.state.lng,
-          address: this.state.address
-        }
+        lat: this.state.lat,
+        lng: this.state.lng,
+        address: this.state.address
       };
+      firebase
+        .database()
+        .ref('conference/overview/location')
+        .update(update)
+        .then(() => {
+          console.log('Updated');
+          // this.setState({ toggleEdit: false });
+        })
+        .catch(err => {
+          console.error(err);
+          alert('Error occured!');
+        });
     }
 
     if (type === 'conferencePicture') {
@@ -299,7 +422,7 @@ class ConferenceList extends React.Component {
       };
       firebase
         .database()
-        .ref('conference/gap')
+        .ref('conference/theme')
         .update(update)
         .then(() => {
           console.log('Updated');
@@ -316,7 +439,7 @@ class ConferenceList extends React.Component {
       };
       firebase
         .database()
-        .ref('conference/gap')
+        .ref('conference/theme')
         .update(update)
         .then(() => {
           console.log('Updated');
@@ -334,7 +457,7 @@ class ConferenceList extends React.Component {
       };
       firebase
         .database()
-        .ref('conference/gap')
+        .ref('conference/theme')
         .update(update)
         .then(() => {
           console.log('Updated');
@@ -412,12 +535,6 @@ class ConferenceList extends React.Component {
       };
     }
 
-    if (type === 'audience') {
-      update = {
-        audience: this.state.audience
-      };
-    }
-
     if (type === 'date') {
       update = {
         date: this.state.date
@@ -438,7 +555,7 @@ class ConferenceList extends React.Component {
 
     if (type === 'adventureHeader') {
       update = {
-        adventureHeader: this.state.adventureHeader
+        header: this.state.adventureHeader
       };
       firebase
         .database()
@@ -456,11 +573,29 @@ class ConferenceList extends React.Component {
 
     if (type === 'adventureDescription') {
       update = {
-        adventureDesc: this.state.adventureDescription
+        description: this.state.adventureDescription
       };
       firebase
         .database()
         .ref('conference/adventures')
+        .update(update)
+        .then(() => {
+          console.log('Updated');
+          // this.setState({ toggleEdit: false });
+        })
+        .catch(err => {
+          console.error(err);
+          alert('Error occured!');
+        });
+    }
+
+    if (type === 'sponsorDesc') {
+      update = {
+        description: this.state.sponsorDesc
+      };
+      firebase
+        .database()
+        .ref('conference/sponsors')
         .update(update)
         .then(() => {
           console.log('Updated');
@@ -478,7 +613,7 @@ class ConferenceList extends React.Component {
       };
       firebase
         .database()
-        .ref('conference/location')
+        .ref('conference/overview/location')
         .update(update)
         .then(() => {
           console.log('Updated');
@@ -491,6 +626,7 @@ class ConferenceList extends React.Component {
     }
     if (
       type !== 'address' &&
+      type !== 'location' &&
       type !== 'adventureHeader' &&
       type !== 'adventureDescription' &&
       type !== 'gapPicture' &&
@@ -498,7 +634,8 @@ class ConferenceList extends React.Component {
       type !== 'gapDetail' &&
       type !== 'speakerDesc' &&
       type !== 'hostDesc' &&
-      type !== 'performerDesc'
+      type !== 'performerDesc' &&
+      type !== 'sponsorDesc'
     ) {
       firebase
         .database()
@@ -600,23 +737,23 @@ class ConferenceList extends React.Component {
               performers.push(performer);
             });
           }
-          if (conferenceObj.adventures.listAdventures) {
-            Object.keys(conferenceObj.adventures.listAdventures).forEach(e => {
+          if (conferenceObj.adventures.adventureList) {
+            Object.keys(conferenceObj.adventures.adventureList).forEach(e => {
               const adventure = {
                 id: e,
-                name: conferenceObj.adventures.listAdventures[e].name,
-                detail: conferenceObj.adventures.listAdventures[e].detail,
-                picture: conferenceObj.adventures.listAdventures[e].picture
+                name: conferenceObj.adventures.adventureList[e].name,
+                detail: conferenceObj.adventures.adventureList[e].detail,
+                picture: conferenceObj.adventures.adventureList[e].picture
               };
               adventures.push(adventure);
             });
           }
-          if (conferenceObj.sponsors) {
-            Object.keys(conferenceObj.sponsors).forEach(e => {
+          if (conferenceObj.sponsors.sponsorList) {
+            Object.keys(conferenceObj.sponsors.sponsorList).forEach(e => {
               const sponsor = {
                 id: e,
-                logo: conferenceObj.sponsors[e].logo,
-                website: conferenceObj.sponsors[e].website
+                logo: conferenceObj.sponsors.sponsorList[e].logo,
+                website: conferenceObj.sponsors.sponsorList[e].website
               };
               sponsors.push(sponsor);
             });
@@ -634,30 +771,30 @@ class ConferenceList extends React.Component {
           }
 
           this.setState({
-            address: conferenceObj.location.address,
-            conferencePicture: conferenceObj.conferencePicture,
-            date: conferenceObj.date,
-            startTime: conferenceObj.startTime,
-            endTime: conferenceObj.endTime,
-            audience: conferenceObj.audience,
-            description: conferenceObj.description,
-            title: conferenceObj.title,
-            lat: conferenceObj.location.lat,
-            lng: conferenceObj.location.lng,
+            address: conferenceObj.overview.location.address,
+            conferencePicture: conferenceObj.overview.conferencePicture,
+            date: conferenceObj.overview.date,
+            startTime: conferenceObj.overview.startTime,
+            endTime: conferenceObj.overview.endTime,
+            description: conferenceObj.overview.description,
+            title: conferenceObj.overview.title,
+            lat: conferenceObj.overview.location.lat,
+            lng: conferenceObj.overview.location.lng,
             agenda,
             speakers,
             speakerDesc: conferenceObj.speakers.description,
             adventures,
-            adventureHeader: conferenceObj.adventures.adventureHeader,
-            adventureDescription: conferenceObj.adventures.adventureDesc,
-            gapHeader: conferenceObj.gap.header,
-            gapDetail: conferenceObj.gap.detail,
-            gapPic: conferenceObj.gap.picture,
+            adventureHeader: conferenceObj.adventures.header,
+            adventureDescription: conferenceObj.adventures.description,
+            gapHeader: conferenceObj.theme.header,
+            gapDetail: conferenceObj.theme.detail,
+            gapPic: conferenceObj.theme.picture,
             hosts,
             hostDesc: conferenceObj.hosts.description,
             performers,
             performerDesc: conferenceObj.performers.description,
             sponsors,
+            sponsorDesc: conferenceObj.sponsors.description,
             highlight,
 
             speakerSelected: false
@@ -988,7 +1125,6 @@ class ConferenceList extends React.Component {
       date,
       startTime,
       endTime,
-      audience,
       description,
       title,
       agenda,
@@ -1011,7 +1147,8 @@ class ConferenceList extends React.Component {
       toggleEditAddress,
       speakerDesc,
       hostDesc,
-      performerDesc
+      performerDesc,
+      sponsorDesc
     } = this.state;
     return (
       //  --------------------------------------------------------------------Main Picture
@@ -1195,12 +1332,6 @@ class ConferenceList extends React.Component {
               <p>{description}</p>
             </div>
             <div className="col-12">
-              <h5>Audience</h5>
-            </div>
-            <div className="col-12">
-              <p>{audience}</p>
-            </div>
-            <div className="col-12">
               <button
                 type="button"
                 onClick={() => this.setState({ toggleEditDescription: true })}
@@ -1224,18 +1355,10 @@ class ConferenceList extends React.Component {
               <h5>Audience</h5>
             </div>
             <div className="col-12">
-              <input
-                type="text"
-                value={audience}
-                onChange={e => this.onChangeTextInput(e, 'audience')}
-              />
-            </div>
-            <div className="col-12">
               <button
                 type="button"
                 onClick={() => {
                   this.onUpdate('description');
-                  this.onUpdate('audience');
                   this.setState({ toggleEditDescription: false });
                 }}
               >
@@ -1581,16 +1704,16 @@ class ConferenceList extends React.Component {
             />
           </Modal>
         </div>
-        {/* --------------------------------------------------------------------Gap */}
+        {/* --------------------------------------------------------------------Theme */}
         <div className="row style-section">
           <div className="col-12">
-            <h3>Gap</h3>
+            <h3>Theme</h3>
           </div>
           <div className="col-12">
             {!this.state.toggleEditGapHeader ? (
               <div className="row">
                 <div className="col-12">
-                  <h5>Gap title</h5>
+                  <h5>Theme title</h5>
                 </div>
                 <div className="col-12">
                   <p>{gapHeader}</p>
@@ -1639,7 +1762,7 @@ class ConferenceList extends React.Component {
             {!this.state.toggleEditGapDetail ? (
               <div className="row">
                 <div className="col-12">
-                  <h5>Gap description</h5>
+                  <h5>Theme description</h5>
                 </div>
                 <div className="col-12">
                   <p>{gapDetail}</p>
@@ -1684,7 +1807,7 @@ class ConferenceList extends React.Component {
             )}
           </div>
           <div className="col-12">
-            <h5>Gap picture</h5>
+            <h5>Theme picture</h5>
           </div>
           <div className="col-12">
             <img src={gapPic} alt="" className="img-fluid" />
@@ -1714,6 +1837,49 @@ class ConferenceList extends React.Component {
           <div className="col-12">
             <h3>Sponsors</h3>
           </div>
+          {!this.state.toggleEditSponsorDesc ? (
+            <div className="col-12">
+              <div>
+                <p>{sponsorDesc}</p>
+              </div>
+              <div>
+                <button
+                  onClick={() => this.setState({ toggleEditSponsorDesc: true })}
+                >
+                  Edit
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="col-12">
+              <div>
+                <textarea
+                  value={sponsorDesc}
+                  onChange={e => this.onChangeTextInput(e, 'sponsorDesc')}
+                />
+              </div>
+              <div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    this.onUpdate('sponsorDesc');
+                    this.setState({ toggleEditSponsorDesc: false });
+                  }}
+                >
+                  Save
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    this.fetchData();
+                    this.setState({ toggleEditSponsorDesc: false });
+                  }}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          )}
           {this.renderImg(1, sponsors, 'sponsors')}
 
           <button onClick={this.openModalSponsors}>Edit sponsors ...</button>
@@ -1828,21 +1994,34 @@ class ConferenceList extends React.Component {
   }
 
   render() {
-    return (
-      <div
-        className="page-wrapper"
-        style={{ height: `${this.state.height - 64}px`, overflowY: 'scroll' }}
-      >
-        <div className="page-breadcrumb">
-          <div className="row">
-            <div className="col-12 d-flex no-block align-items-center">
-              <h2 className="page-title">Conference Edit Section</h2>
+    if (this.state.conference !== null) {
+      const { conference } = this.state;
+      return (
+        <div
+          className="page-wrapper"
+          style={{ height: `${this.state.height - 64}px`, overflowY: 'scroll' }}
+        >
+          <div className="page-breadcrumb">
+            <div className="row">
+              <div className="col-12 d-flex no-block align-items-center">
+                <h2 className="page-title">Conference Edit Section</h2>
+              </div>
             </div>
+            {/* {this.renderShowOrEdit()} */}
+            <UpdateBackground background={conference.overview.picture} />
+            <UpdateTitle title={conference.overview.title} />
+            <UpdateDescription description={conference.overview.description} />
+            <UpdateDate
+              date={{
+                startTime: conference.overview.startTime,
+                endTime: conference.overview.endTime
+              }}
+            />
           </div>
-          {this.renderShowOrEdit()}
         </div>
-      </div>
-    );
+      );
+    }
+    return null;
   }
 }
 

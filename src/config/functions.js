@@ -119,34 +119,19 @@ export const modifyObj = (isVN, obj, type) => {
         return { ...modify };
       }
       return obj;
-    case 'agenda':
-      if (modify.agendaList) {
-        const agendaList = [...modify.agendaList];
-        agendaList.forEach(e => {
-          if (e && e.header.includes('||')) {
-            if (e.detail.includes('||')) {
-              const header = e.header.split('||');
-              const detail = e.detail.split('||');
-              if (isVN) {
-                [e.header] = [header[0]];
-                [e.detail] = [detail[0]];
-              } else {
-                [e.header] = [header[1]];
-                [e.detail] = [detail[1]];
-              }
-            } else {
-              const header = e.header.split('||');
-              if (isVN) {
-                [e.header] = [header[0]];
-              } else {
-                [e.header] = [header[1]];
-              }
-            }
-          }
-        });
-        return { ...modify, agendaList };
-      }
-      return obj;
+    case 'agenda': {
+      const agendaList = [...modify.agendaList];
+      const enAgd = [];
+      const vnAgd = [];
+      agendaList.forEach(agd => {
+        const header = agd.header.split('||');
+        const detail = agd.detail.split('||');
+        if (isVN) vnAgd.push({ ...agd, header: header[0], detail: detail[0] });
+        else enAgd.push({ ...agd, header: header[1], detail: detail[1] });
+      });
+      if (isVN) return { ...modify, agendaList: vnAgd };
+      return { ...modify, agendaList: enAgd };
+    }
     case 'adventures':
       if (modify.description && modify.header) {
         const description = modify.description.split('||');
@@ -259,6 +244,24 @@ export const modifyObj = (isVN, obj, type) => {
           [right.description] = [rightDesc[1]];
         }
         return { ...modify, left, middle, right };
+      }
+      return obj;
+    case 'contact':
+      if (modify.comment && modify.hqName && modify.hqAddress) {
+        const comment = modify.comment.split('||');
+        const hqName = modify.hqName.split('||');
+        const hqAddress = modify.hqAddress.split('||');
+
+        if (isVN) {
+          [modify.comment] = [comment[0]];
+          [modify.hqName] = [hqName[0]];
+          [modify.hqAddress] = [hqAddress[0]];
+        } else {
+          [modify.comment] = [comment[1]];
+          [modify.hqName] = [hqName[1]];
+          [modify.hqAddress] = [hqAddress[1]];
+        }
+        return { ...modify };
       }
       return obj;
     default:

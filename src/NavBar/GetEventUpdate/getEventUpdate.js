@@ -59,12 +59,26 @@ class GetEventUpdate extends React.Component {
   }
 
   render() {
+    const { isVN } = this.props;
+    const description = this.state.description.split('||');
     return (
       <div>
-        <p style={{ textAlign: 'center', margin: '44px', fontFamily: 'Montserrat' }}>
-          {this.state.description}
+        <p
+          style={{
+            textAlign: 'center',
+            margin: '44px',
+            fontFamily: 'Montserrat'
+          }}
+        >
+          {isVN ? description[0] : description[1]}
         </p>
-        <p style={{ textAlign: 'center', fontWeight: '700', fontFamily: 'Montserrat' }}>
+        <p
+          style={{
+            textAlign: 'center',
+            fontWeight: '700',
+            fontFamily: 'Montserrat'
+          }}
+        >
           {this.toVNDate(this.state.startDate)} -{' '}
           {this.toVNDate(this.state.endDate)}
         </p>
@@ -74,12 +88,17 @@ class GetEventUpdate extends React.Component {
             <button
               className="ticket-btn"
               onClick={this.openTicketPage.bind(this, this.state.link)}
+              style={{ fontFamily: 'Montserrat' }}
             >
-              Get ticket
+              GET ONE NOW
             </button>
           ) : (
-            <button disabled className="ticket-btn">
-              Get ticket
+            <button
+              disabled
+              className="ticket-btn"
+              style={{ fontFamily: 'Montserrat' }}
+            >
+              GET ONE NOW
             </button>
           )}
         </div>

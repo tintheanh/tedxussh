@@ -40,7 +40,7 @@ class Speaker extends React.Component {
 
     firebase
       .database()
-      .ref(`conference/adventures/listAdventures/${id}`)
+      .ref(`conference/adventures/adventureList/${id}`)
       .update(update)
       .then(() => {
         alert('Updated');
@@ -54,7 +54,7 @@ class Speaker extends React.Component {
     if (ask) {
       firebase
         .database()
-        .ref(`conference/adventures/listAdventures/${id}`)
+        .ref(`conference/adventures/adventureList/${id}`)
         .remove()
         .then(() => this.setState({ toggleEdit: false }))
         .catch(err => alert(err.message));

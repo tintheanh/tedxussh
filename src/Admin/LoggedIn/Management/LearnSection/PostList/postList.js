@@ -30,7 +30,7 @@ class PostList extends React.Component {
   componentDidMount() {
     firebase
       .database()
-      .ref('learnPosts/postList')
+      .ref('learnPosts/postSection/postList')
       .on('value', snapshot => {
         const learnPostsObj = snapshot.val();
         if (learnPostsObj) {
@@ -59,7 +59,7 @@ class PostList extends React.Component {
     if (ask) {
       firebase
         .database()
-        .ref(`learnPosts/postList/${postID}`)
+        .ref(`learnPosts/postSection/postList/${postID}`)
         .remove()
         .catch(err => alert(err.message));
     }

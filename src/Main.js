@@ -41,63 +41,76 @@ class Main extends React.Component {
     //     }
     //   });
 
-    getData('home', data => {
-      const homeObj = data.val();
-      if (homeObj) {
-        this.setState({ home: homeObj });
+    getData('home').then(doc => {
+      if (doc.exists) {
+        this.setState({ home: doc.data() });
       }
     });
 
-    getData('about', data => {
-      const aboutObj = data.val();
-      if (aboutObj) {
-        this.setState({ about: aboutObj });
+    getData('about').then(doc => {
+      if (doc.exists) {
+        this.setState({ about: doc.data() });
       }
     });
 
-    firebase
-      .database()
-      .ref('organizers')
-      .on('value', snapshot => {
-        const organizersObj = snapshot.val();
-        if (organizersObj) {
-          const teamMem = [];
-          Object.keys(organizersObj.teamMem).forEach(e => {
-            const organizer = {
-              id: e,
-              name: organizersObj.teamMem[e].name,
-              role: organizersObj.teamMem[e].role,
-              picture: organizersObj.teamMem[e].picture,
-              socialLink: organizersObj.teamMem[e].socialLink
-            };
-            teamMem.push(organizer);
-          });
-          this.setState({
-            organizers: {
-              background: organizersObj.background,
-              title: organizersObj.title,
-              teamMem
-            }
-          });
-        }
-      });
+    // getData('home', data => {
+    //   const homeObj = data.val();
+    //   if (homeObj) {
+    //     this.setState({ home: homeObj });
+    //   }
+    // });
 
-    getData('footer', data => {
-      const footerObj = data.val();
-      if (footerObj) {
-        this.setState({ footer: footerObj });
+    // getData('about', data => {
+    //   const aboutObj = data.val();
+    //   if (aboutObj) {
+    //     this.setState({ about: aboutObj });
+    //   }
+    // });
+
+    // firebase
+    //   .database()
+    //   .ref('organizers')
+    //   .on('value', snapshot => {
+    //     const organizersObj = snapshot.val();
+    //     if (organizersObj) {
+    //       const teamMem = [];
+    //       Object.keys(organizersObj.teamMem).forEach(e => {
+    //         const organizer = {
+    //           id: e,
+    //           name: organizersObj.teamMem[e].name,
+    //           role: organizersObj.teamMem[e].role,
+    //           picture: organizersObj.teamMem[e].picture,
+    //           socialLink: organizersObj.teamMem[e].socialLink
+    //         };
+    //         teamMem.push(organizer);
+    //       });
+    //       this.setState({
+    //         organizers: {
+    //           background: organizersObj.background,
+    //           title: organizersObj.title,
+    //           teamMem
+    //         }
+    //       });
+    //     }
+    //   });
+
+    getData('organizer').then(doc => {
+      if (doc.exists) {
+        this.setState({ organizers: doc.data() });
       }
     });
 
-    firebase
-      .database()
-      .ref('contact')
-      .on('value', snapshot => {
-        const contactObj = snapshot.val();
-        if (contactObj) {
-          this.setState({ contact: contactObj });
-        }
-      });
+    getData('footer').then(doc => {
+      if (doc.exists) {
+        this.setState({ footer: doc.data() });
+      }
+    });
+
+    getData('contact').then(doc => {
+      if (doc.exists) {
+        this.setState({ contact: doc.data() });
+      }
+    });
   }
 
   toggleVN() {
@@ -117,6 +130,7 @@ class Main extends React.Component {
             <NavBar
               toggleVN={this.toggleVN.bind(this)}
               toggleEN={this.toggleEN.bind(this)}
+              isVN={isVN}
             />
             <Route
               exact
@@ -125,14 +139,19 @@ class Main extends React.Component {
             />
             <Route path="/attend" render={() => <Conference isVN={isVN} />} />
             <Route path="/learn" render={() => <Learn isVN={isVN} />} />
-            <Route path="/about" render={() => <About isVN={isVN} about={about} />} />
+            <Route
+              path="/about"
+              render={() => <About isVN={isVN} about={about} />}
+            />
             <Route
               path="/organizers"
               render={() => <Organizers organizers={this.state.organizers} />}
             />
             <Route
               path="/contact"
-              render={() => <Contact contact={this.state.contact} />}
+              render={() => (
+                <Contact isVN={isVN} contact={this.state.contact} />
+              )}
             />
             <Footer isVN={isVN} footer={footer} />
           </div>

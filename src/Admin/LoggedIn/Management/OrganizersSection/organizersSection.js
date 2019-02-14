@@ -1,38 +1,23 @@
 import React from 'react';
 import firebase from 'firebase';
 import Modal from 'react-responsive-modal';
-import ImageManagement from '../ImageMangement/imageManagement';
 import EditTeamMem from './EditTeamMem/editTeamMem';
+import { root } from '../../../../config/firebase';
+import UpdateBackground from './updateBackground';
+import UpdateTitle from './UpdateTitle';
 
 class Organizers extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       height: 0,
-      background: '',
-      title: '',
-      teamMem: [],
-
-      modalEditPic: false,
-      modalEditTeam: false,
-
-      toggleEditTitle: false
+      organizers: null,
+      modalEditTeam: false
     };
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
 
-    this.openModalEditPic = this.openModalEditPic.bind(this);
-    this.closeModalEditPic = this.closeModalEditPic.bind(this);
-
     this.openModalEditTeam = this.openModalEditTeam.bind(this);
     this.closeModalEditTeam = this.closeModalEditTeam.bind(this);
-  }
-
-  openModalEditPic() {
-    this.setState({ modalEditPic: true });
-  }
-
-  closeModalEditPic() {
-    this.setState({ modalEditPic: false });
   }
 
   openModalEditTeam() {
@@ -46,7 +31,30 @@ class Organizers extends React.Component {
   componentDidMount() {
     this.updateWindowDimensions();
     window.addEventListener('resize', this.updateWindowDimensions);
-    this.fetchData();
+
+    root.doc('organizer').onSnapshot(doc => {
+      if (doc.exists) {
+        const organizersObj = doc.data();
+
+        root
+          .doc('organizer')
+          .collection('teamMembers')
+          .orderBy('createdDate')
+          .onSnapshot(querySnapshot => {
+            const organizerArray = [];
+            querySnapshot.forEach(org => {
+              const organizer = { ...org.data(), id: org.id };
+              organizerArray.push(organizer);
+            });
+
+            const organizers = {
+              ...organizersObj,
+              teamMem: organizerArray
+            };
+            this.setState({ organizers });
+          });
+      }
+    });
   }
 
   componentWillUnmount() {
@@ -106,33 +114,6 @@ class Organizers extends React.Component {
     ));
   }
 
-  fetchData() {
-    firebase
-      .database()
-      .ref('organizers')
-      .on('value', snapshot => {
-        const organizersObj = snapshot.val();
-        if (organizersObj) {
-          const teamMem = [];
-          Object.keys(organizersObj.teamMem).forEach(e => {
-            const organizer = {
-              id: e,
-              name: organizersObj.teamMem[e].name,
-              role: organizersObj.teamMem[e].role,
-              picture: organizersObj.teamMem[e].picture,
-              socialLink: organizersObj.teamMem[e].socialLink
-            };
-            teamMem.push(organizer);
-          });
-          this.setState({
-            background: organizersObj.background,
-            title: organizersObj.title,
-            teamMem
-          });
-        }
-      });
-  }
-
   onUpdatePic(newPic) {
     const update = {
       background: newPic
@@ -158,96 +139,42 @@ class Organizers extends React.Component {
   }
 
   render() {
-    return (
-      <div
-        className="page-wrapper"
-        style={{ height: `${this.state.height - 64}px`, overflowY: 'scroll' }}
-      >
-        <div className="page-breadcrumb" style={{ paddingBottom: '54px' }}>
-          <div className="row">
-            <div className="col-12 d-flex no-block align-items-center">
-              <h2 className="page-title">Organizers Edit Section</h2>
-            </div>
-          </div>
-          <div className="row style-section">
-            <div className="col-12">
-              <h3>Cover picture</h3>
-            </div>
-            <div className="col-12">
-              <img src={this.state.background} alt="" className="img-fluid" />
-            </div>
-            <div className="col-12">
-              <button onClick={this.openModalEditPic}>Edit cover</button>
-            </div>
-            <Modal
-              open={this.state.modalEditPic}
-              onClose={this.closeModalEditPic}
-              center
-            >
-              <ImageManagement
-                category="stockImages"
-                pick={this.onUpdatePic.bind(this)}
-                closeModal={this.closeModalEditPic}
-              />
-            </Modal>
-          </div>
-          {!this.state.toggleEditTitle ? (
-            <div className="row style-section">
-              <p>{this.state.title}</p>
-              <div className="col-12">
-                <button
-                  onClick={() => this.setState({ toggleEditTitle: true })}
-                >
-                  Edit title
-                </button>
+    if (this.state.organizers !== null) {
+      const { organizers } = this.state;
+      return (
+        <div
+          className="page-wrapper"
+          style={{ height: `${this.state.height - 64}px`, overflowY: 'scroll' }}
+        >
+          <div className="page-breadcrumb" style={{ paddingBottom: '54px' }}>
+            <div className="row">
+              <div className="col-12 d-flex no-block align-items-center">
+                <h2 className="page-title">Organizers Edit Section</h2>
               </div>
             </div>
-          ) : (
-            <div className="row style-section">
-              <input
-                type="text"
-                value={this.state.title}
-                onChange={e => this.setState({ title: e.target.value })}
-              />
-              <div className="col-12">
-                <button
-                  onClick={() => {
-                    this.onUpdateText();
-                    this.setState({ toggleEditTitle: false });
-                  }}
-                >
-                  Save
-                </button>
-                <button
-                  onClick={() => {
-                    this.setState({ toggleEditTitle: false });
-                    this.fetchData();
-                  }}
-                >
-                  Cancel
-                </button>
-              </div>
+            <UpdateBackground background={organizers.background} />
+            <UpdateTitle title={organizers.title} />
+            <div className="row style-section-pictures">
+              {this.renderImg(1, organizers.teamMem)}
+              <button onClick={this.openModalEditTeam}>
+                Edit team members...
+              </button>
+              <Modal
+                open={this.state.modalEditTeam}
+                onClose={this.closeModalEditTeam}
+                center
+              >
+                <EditTeamMem
+                  teamMem={organizers.teamMem}
+                  closeModal={this.closeModalEditTeam}
+                />
+              </Modal>
             </div>
-          )}
-          <div className="row style-section-pictures">
-            {this.renderImg(1, this.state.teamMem)}
-            <button onClick={this.openModalEditTeam}>
-              Edit team members...
-            </button>
-            <Modal
-              open={this.state.modalEditTeam}
-              onClose={this.closeModalEditTeam}
-              center
-            >
-              <EditTeamMem
-                teamMem={this.state.teamMem}
-                closeModal={this.closeModalEditTeam}
-              />
-            </Modal>
           </div>
         </div>
-      </div>
-    );
+      );
+    }
+    return null;
   }
 }
 

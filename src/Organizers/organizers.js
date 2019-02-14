@@ -44,8 +44,8 @@ class Organizers extends React.Component {
   }
 
   renderRow(startIndex, endIndex, imgs) {
-    return imgs.slice(startIndex, endIndex).map(e => (
-      <div className="col-md-6 col-lg-3 mb-2" key={e.id}>
+    return imgs.slice(startIndex, endIndex).map((e, i) => (
+      <div className="col-md-6 col-lg-3 mb-2" key={i}>
         <div className="hotel-room text-center notransition">
           <div className="d-block mb-0 thumbnail notransition">
             <img src={e.picture} alt="" className="img-fluid notransition" />

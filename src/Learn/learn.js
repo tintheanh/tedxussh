@@ -31,12 +31,11 @@ class Learn extends React.Component {
     //     }
     //   });
 
-    getData('learnPosts', data => {
-      const learnPostsObj = data.val();
-      if (learnPostsObj) {
+    getData('learn').then(doc => {
+      if (doc.exists) {
         this.setState({
-          cover: learnPostsObj.cover,
-          title: learnPostsObj.title
+          cover: doc.data().cover,
+          title: doc.data().title
         });
       }
     });
@@ -54,7 +53,6 @@ class Learn extends React.Component {
     let temp = href.substring(n + 1);
     temp = temp.split('fbclid');
     result = temp[0].substring(0, temp[0].length - 1);
-    console.log(result);
     return result;
   }
 

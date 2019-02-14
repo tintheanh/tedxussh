@@ -1,8 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-console.log(window.location.pathname);
-
 const LeftSideBar = () => (
   <aside
     className="left-sidebar"

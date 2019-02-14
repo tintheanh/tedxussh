@@ -28,7 +28,9 @@ class AddSponsor extends React.Component {
   }
 
   onAddSponsor() {
-    const sponsorsRef = firebase.database().ref('conference/sponsors');
+    const sponsorsRef = firebase
+      .database()
+      .ref('conference/sponsors/sponsorList');
     const newSponsor = {
       website: this.state.website,
       logo: this.state.logo

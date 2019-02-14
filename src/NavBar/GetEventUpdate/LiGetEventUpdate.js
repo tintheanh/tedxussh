@@ -21,6 +21,7 @@ class LiGetEventUpdate extends React.Component {
   }
 
   render() {
+    const { isVN } = this.props;
     return (
       <li>
         <a className="get-event-update" onClick={this.openModalGetUpdate}>
@@ -31,7 +32,7 @@ class LiGetEventUpdate extends React.Component {
           onClose={this.closeModalGetUpdate}
           center
         >
-          <GetEventUpdate />
+          <GetEventUpdate isVN={isVN} />
         </Modal>
       </li>
     );

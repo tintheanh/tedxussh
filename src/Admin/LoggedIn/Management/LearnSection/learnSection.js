@@ -70,7 +70,7 @@ class LearnSection extends React.Component {
     }
     firebase
       .database()
-      .ref('learnPosts/left')
+      .ref('learnPosts/videoSection/left')
       .update(update)
       .catch(err => alert(err.message));
   }
@@ -82,7 +82,7 @@ class LearnSection extends React.Component {
 
     firebase
       .database()
-      .ref('learnPosts/left')
+      .ref('learnPosts/videoSection/left')
       .update(update)
       .catch(err => alert(err.message));
   }
@@ -99,24 +99,24 @@ class LearnSection extends React.Component {
             title: learnPostsObj.title
           });
         }
-        if (learnPostsObj.videoList) {
+        if (learnPostsObj.videoSection.videoList) {
           const videos = [];
-          Object.keys(learnPostsObj.videoList).forEach(e => {
+          Object.keys(learnPostsObj.videoSection.videoList).forEach(e => {
             const video = {
               id: e,
-              by: learnPostsObj.videoList[e].by,
-              title: learnPostsObj.videoList[e].title,
-              link: learnPostsObj.videoList[e].link
+              by: learnPostsObj.videoSection.videoList[e].by,
+              title: learnPostsObj.videoSection.videoList[e].title,
+              link: learnPostsObj.videoSection.videoList[e].link
             };
             videos.push(video);
           });
           this.setState({ videos });
         }
-        if (learnPostsObj.left) {
+        if (learnPostsObj.videoSection.left) {
           this.setState({
-            cover1: learnPostsObj.left.cover,
-            title1: learnPostsObj.left.title,
-            desc1: learnPostsObj.left.description
+            cover1: learnPostsObj.videoSection.left.cover,
+            title1: learnPostsObj.videoSection.left.title,
+            desc1: learnPostsObj.videoSection.left.description
           });
         }
       });

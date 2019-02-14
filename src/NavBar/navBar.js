@@ -22,7 +22,9 @@ const NavBar = props => (
           <LiLink to="/attend" title="Attend" />
           <LiLink to="/learn" title="Learn" />
           <LiLink to="/about" title="About" />
-          <LiGetEventUpdate />
+          <LiGetEventUpdate isVN={props.isVN} />
+          <LangPicking img={vi} toggleLang={props.toggleVN} />
+          <LangPicking img={en} toggleLang={props.toggleEN} />
         </LiWrapMobile>
       </div>
     </div>
@@ -40,7 +42,7 @@ const NavBar = props => (
                       <LiLink to="/attend" title="Attend" />
                       <LiLink to="/learn" title="Learn" />
                       <LiLink to="/about" title="About" />
-                      <LiGetEventUpdate />
+                      <LiGetEventUpdate isVN={props.isVN} />
                       <LangPicking img={vi} toggleLang={props.toggleVN} />
                       <LangPicking img={en} toggleLang={props.toggleEN} />
                     </LiWrap>

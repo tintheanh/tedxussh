@@ -1,6 +1,5 @@
 import React from 'react';
-import firebase from 'firebase';
-import { getData } from '../config/firebase';
+import { database } from '../config/firebase';
 
 class FullPost extends React.Component {
   constructor(props) {
@@ -27,20 +26,25 @@ class FullPost extends React.Component {
   }
 
   componentDidMount() {
-    getData(`learnPosts/postSection/postList/${this.props.postID}`, data => {
-      const learnPostsObj = data.val();
-      if (learnPostsObj) {
-        const post = {
-          title: learnPostsObj.title,
-          by: learnPostsObj.by,
-          description: learnPostsObj.description,
-          content: learnPostsObj.content,
-          datePosted: learnPostsObj.datePosted,
-          thumbnail: learnPostsObj.thumbnail
-        };
-        this.setState({ post });
-      }
-    });
+    database.collection('tedxhcmussh-data')
+      .doc('learn')
+      .collection('posts')
+      .doc(this.props.postID)
+      .get()
+      .then(doc => {
+        if (doc.exists) {
+          const learnPostsObj = doc.data();
+          const post = {
+            title: learnPostsObj.title,
+            by: learnPostsObj.by,
+            description: learnPostsObj.description,
+            content: learnPostsObj.content,
+            datePosted: learnPostsObj.datePosted,
+            thumbnail: learnPostsObj.thumbnail
+          };
+          this.setState({ post });
+        }
+      });
   }
 
   goBack() {
