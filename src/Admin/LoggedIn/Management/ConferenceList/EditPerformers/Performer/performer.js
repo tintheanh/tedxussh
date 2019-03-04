@@ -1,85 +1,107 @@
-import React from 'react';
-import firebase from 'firebase';
-import Modal from 'react-responsive-modal';
-import ImageManagement from '../../../ImageMangement/imageManagement';
+import React from 'react'
+import Modal from 'react-responsive-modal'
+import ImageManagement from '../../../ImageMangement/imageManagement'
+import { root } from '../../../../../../config/firebase'
 
-class Speaker extends React.Component {
+export default class Performer extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       toggleEdit: false,
       modalEditPic: false,
 
-      newIntroduction: this.props.performer.introduction,
-      newName: this.props.performer.name,
-      newOccupation: this.props.performer.occupation,
-      newPic: this.props.performer.picture
-    };
+      performer: this.props.performer,
+    }
 
-    this.openModalEditPic = this.openModalEditPic.bind(this);
-    this.closeModalEditPic = this.closeModalEditPic.bind(this);
+    this.openModalEditPic = this.openModalEditPic.bind(this)
+    this.closeModalEditPic = this.closeModalEditPic.bind(this)
   }
 
   openModalEditPic() {
-    this.setState({ modalEditPic: true });
+    this.setState({ modalEditPic: true })
   }
 
   closeModalEditPic() {
-    this.setState({ modalEditPic: false });
-  }
-
-  selectPic(newPic) {
-    this.setState({ newPic });
+    this.setState({ modalEditPic: false })
   }
 
   onUpdate(id) {
+    const { performer } = this.state
     const update = {
-      introduction: this.state.newIntroduction,
-      name: this.state.newName,
-      occupation: this.state.newOccupation,
-      picture: this.state.newPic
-    };
+      introduction: performer.introduction,
+      name: performer.name,
+      occupation: performer.occupation,
+      picture: performer.picture
+    }
 
-    firebase
-      .database()
-      .ref(`conference/performers/performerList/${id}`)
-      .update(update)
-      .then(() => {
-        alert('Updated');
-        this.setState({ toggleEdit: false });
-      })
-      .catch(err => alert(err.message));
+    root
+      .doc('conference')
+      .collection('performerList')
+      .doc(id)
+      .set(update, { merge: true })
+      .then(() => this.setState({ toggleEdit: false }))
+      .catch(err => alert(err.message))
   }
 
   onDelete(id) {
-    const ask = window.confirm('Sure to delete?');
+    const ask = window.confirm('Sure to delete?')
     if (ask) {
-      firebase
-        .database()
-        .ref(`conference/performers/performerList/${id}`)
-        .remove()
+      root
+        .doc('conference')
+        .collection('performerList')
+        .doc(id)
+        .delete()
         .then(() => this.setState({ toggleEdit: false }))
-        .catch(err => alert(err.message));
+        .catch(err => alert(err.message))
     }
   }
 
+  onPictureChange(newPic) {
+    const performer = {
+      ...this.state.performer,
+      picture: newPic
+    }
+    this.setState({ performer })
+  }
+
+  onNameChange(e) {
+    const performer = {
+      ...this.state.performer,
+      name: e.target.value
+    }
+    this.setState({ performer })
+  }
+
+  onOccupationChange(e) {
+    const performer = {
+      ...this.state.performer,
+      occupation: e.target.value
+    }
+    this.setState({ performer })
+  }
+
+  onIntroductionChange(e) {
+    const performer = {
+      ...this.state.performer,
+      introduction: e.target.value
+    }
+    this.setState({ performer })
+  }
+
   render() {
+    const { performer } = this.state
     return !this.state.toggleEdit ? (
       <div className="col-md-6 col-lg-3 mb-2">
         <div className="hotel-room text-center notransition">
           <div className="d-block mb-0 thumbnail notransition">
-            <img
-              src={this.props.performer.picture}
-              alt=""
-              className="img-fluid notransition"
-            />
+            <img src={performer.picture} alt="" className="img-fluid notransition" />
           </div>
           <div className="hotel-room-body">
             <h3 className="text-left" style={{ margin: '0' }}>
-              {this.props.performer.name}
+              {performer.name}
             </h3>
             <p className="text-left" style={{ margin: '0' }}>
-              {this.props.performer.occupation}
+              {performer.occupation}
             </p>
             <p
               className="text-left"
@@ -87,77 +109,31 @@ class Speaker extends React.Component {
                 margin: '0'
               }}
             >
-              {this.props.performer.introduction}
+              {performer.introduction}
             </p>
           </div>
         </div>
-        <button onClick={() => this.setState({ toggleEdit: true })}>
-          Edit
-        </button>
-        <button onClick={this.onDelete.bind(this, this.props.performer.id)}>
-          Delete
-        </button>
+        <button onClick={() => this.setState({ toggleEdit: true })}>Edit</button>
+        <button onClick={this.onDelete.bind(this, performer.id)}>Delete</button>
       </div>
     ) : (
       <div className="col-md-6 col-lg-3 mb-2">
         <div className="hotel-room text-center notransition">
           <div className="d-block mb-0 thumbnail notransition">
-            <img
-              src={this.state.newPic}
-              alt=""
-              className="img-fluid notransition"
-              onClick={this.openModalEditPic}
-            />
-            <Modal
-              open={this.state.modalEditPic}
-              onClose={this.closeModalEditPic}
-              center
-            >
-              <ImageManagement
-                category="performers"
-                closeModal={this.closeModalEditPic}
-                pick={this.selectPic.bind(this)}
-              />
+            <img src={performer.picture} alt="" className="img-fluid notransition" onClick={this.openModalEditPic} />
+            <Modal open={this.state.modalEditPic} onClose={this.closeModalEditPic} center>
+              <ImageManagement category="performers" closeModal={this.closeModalEditPic} pick={this.onPictureChange.bind(this)} />
             </Modal>
           </div>
           <div className="hotel-room-body">
-            <input
-              type="text"
-              value={this.state.newName}
-              onChange={e =>
-                this.setState({ newName: e.target.value }, () =>
-                  console.log(this.state.newName)
-                )
-              }
-            />
-            <input
-              type="text"
-              value={this.state.newOccupation}
-              onChange={e =>
-                this.setState({ newOccupation: e.target.value }, () =>
-                  console.log(this.state.newOccupation)
-                )
-              }
-            />
-            <textarea
-              defaultValue={this.state.newIntroduction}
-              onChange={e =>
-                this.setState({ newIntroduction: e.target.value }, () =>
-                  console.log(this.state.newIntroduction)
-                )
-              }
-            />
+            <input type="text" value={performer.name} onChange={e => this.onNameChange(e)} />
+            <input type="text" value={performer.occupation} onChange={e => this.onOccupationChange(e)} />
+            <textarea value={performer.introduction} onChange={e => this.onIntroductionChange(e)} />
           </div>
         </div>
-        <button onClick={this.onUpdate.bind(this, this.props.performer.id)}>
-          Save
-        </button>
-        <button onClick={() => this.setState({ toggleEdit: false })}>
-          Cancel
-        </button>
+        <button onClick={this.onUpdate.bind(this, performer.id)}>Save</button>
+        <button onClick={() => this.setState({ toggleEdit: false })}>Cancel</button>
       </div>
-    );
+    )
   }
 }
-
-export default Speaker;

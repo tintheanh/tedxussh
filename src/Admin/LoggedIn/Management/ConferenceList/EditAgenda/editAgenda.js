@@ -1,13 +1,13 @@
-import React from 'react';
-import TimePicker from 'react-time-picker';
-import firebase from 'firebase';
-import Modal from 'react-responsive-modal';
-import AddAgenda from './AddAgenda/addAgenda';
+import React from 'react'
+import TimePicker from 'react-time-picker'
+import firebase from 'firebase'
+import Modal from 'react-responsive-modal'
+import AddAgenda from './AddAgenda/addAgenda'
 // import Agenda from './Agenda/agenda';
 
 class EditAgenda extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       keySelected: '',
       changedHeader: '',
@@ -18,93 +18,74 @@ class EditAgenda extends React.Component {
       focus: [],
 
       modalAdd: false
-    };
-    this.openModalAdd = this.openModalAdd.bind(this);
-    this.closeModalAdd = this.closeModalAdd.bind(this);
+    }
+    this.openModalAdd = this.openModalAdd.bind(this)
+    this.closeModalAdd = this.closeModalAdd.bind(this)
   }
 
   openModalAdd() {
-    this.setState({ modalAdd: true });
+    this.setState({ modalAdd: true })
   }
 
   closeModalAdd() {
-    this.setState({ modalAdd: false });
+    this.setState({ modalAdd: false })
   }
 
   onHeaderChange(e) {
-    e.preventDefault();
-    const focus = [...this.state.focus];
+    e.preventDefault()
+    const focus = [...this.state.focus]
     if (!focus.includes('header')) {
-      focus.push('header');
+      focus.push('header')
     }
-    this.setState({ changedHeader: e.target.value, focus }, () =>
-      console.log(this.state.changedHeader, this.state.focus)
-    );
+    this.setState({ changedHeader: e.target.value, focus }, () => console.log(this.state.changedHeader, this.state.focus))
   }
 
   onDetailChange(e) {
-    e.preventDefault();
-    const focus = [...this.state.focus];
+    e.preventDefault()
+    const focus = [...this.state.focus]
     if (!focus.includes('detail')) {
-      focus.push('detail');
+      focus.push('detail')
     }
-    this.setState({ changedDetail: e.target.value, focus }, () =>
-      console.log(this.state.changedDetail, this.state.focus)
-    );
+    this.setState({ changedDetail: e.target.value, focus }, () => console.log(this.state.changedDetail, this.state.focus))
   }
 
   onParticipantsChange(e) {
-    e.preventDefault();
-    const focus = [...this.state.focus];
+    e.preventDefault()
+    const focus = [...this.state.focus]
     if (!focus.includes('participants')) {
-      focus.push('participants');
+      focus.push('participants')
     }
-    this.setState({ changedParticipants: e.target.value, focus }, () =>
-      console.log(this.state.changedParticipants, this.state.focus)
-    );
+    this.setState({ changedParticipants: e.target.value, focus }, () => console.log(this.state.changedParticipants, this.state.focus))
   }
 
   onTimeChange(time) {
-    const focus = [...this.state.focus];
+    const focus = [...this.state.focus]
     if (!focus.includes('time')) {
-      focus.push('time');
+      focus.push('time')
     }
-    this.setState({ changedTime: time, focus });
+    this.setState({ changedTime: time, focus })
   }
 
   onSaveChanges(agd) {
     const update = {
       id: agd.id,
-      header:
-        this.state.changedHeader === '' && !this.state.focus.includes('header')
-          ? agd.header
-          : this.state.changedHeader,
-      detail:
-        this.state.changedDetail === '' && !this.state.focus.includes('detail')
-          ? agd.detail
-          : this.state.changedDetail,
-      participants:
-        this.state.changedParticipants === '' &&
-        !this.state.focus.includes('participants')
-          ? agd.participants
-          : this.state.changedParticipants,
-      time:
-        this.state.changedTime === '' && !this.state.focus.includes('time')
-          ? agd.time
-          : this.state.changedTime
-    };
+      header: this.state.changedHeader === '' && !this.state.focus.includes('header') ? agd.header : this.state.changedHeader,
+      detail: this.state.changedDetail === '' && !this.state.focus.includes('detail') ? agd.detail : this.state.changedDetail,
+      participants: this.state.changedParticipants === '' && !this.state.focus.includes('participants') ? agd.participants : this.state.changedParticipants,
+      time: this.state.changedTime === '' && !this.state.focus.includes('time') ? agd.time : this.state.changedTime
+    }
 
-    this.props.updateOneAgenda(update);
+    this.props.updateOneAgenda(update)
     this.setState({
       keySelected: ''
-    });
+    })
   }
 
   deleteAgenda(agdID) {
     firebase
       .database()
       .ref(`conference/agenda/${agdID}`)
-      .remove();
+      .remove()
   }
 
   render() {
@@ -132,42 +113,20 @@ class EditAgenda extends React.Component {
                 >
                   Edit
                 </button>
-                <button onClick={this.deleteAgenda.bind(this, agd.id)}>
-                  Delete
-                </button>
+                <button onClick={this.deleteAgenda.bind(this, agd.id)}>Delete</button>
               </div>
-            );
+            )
           }
           return (
             <div key={agd.id}>
-              <input
-                type="text"
-                defaultValue={agd.header}
-                onChange={this.onHeaderChange.bind(this)}
-              />
+              <input type="text" defaultValue={agd.header} onChange={this.onHeaderChange.bind(this)} />
               <br />
-              <input
-                type="text"
-                defaultValue={agd.detail}
-                onChange={this.onDetailChange.bind(this)}
-              />
+              <input type="text" defaultValue={agd.detail} onChange={this.onDetailChange.bind(this)} />
               <br />
-              <input
-                type="text"
-                defaultValue={agd.participants}
-                onChange={this.onParticipantsChange.bind(this)}
-              />
+              <input type="text" defaultValue={agd.participants} onChange={this.onParticipantsChange.bind(this)} />
               <br />
-              <TimePicker
-                disableClock
-                clockIcon={null}
-                value={agd.time}
-                onChange={this.onTimeChange.bind(this)}
-              />
-              <button
-                type="button"
-                onClick={this.onSaveChanges.bind(this, agd)}
-              >
+              <TimePicker disableClock clockIcon={null} value={agd.time} onChange={this.onTimeChange.bind(this)} />
+              <button type="button" onClick={this.onSaveChanges.bind(this, agd)}>
                 Save
               </button>
               <button
@@ -184,11 +143,11 @@ class EditAgenda extends React.Component {
                 Cancel
               </button>
             </div>
-          );
+          )
         })}
         <button
           onClick={() => {
-            this.props.closeModalAgenda();
+            this.props.closeModalAgenda()
           }}
         >
           Done
@@ -198,7 +157,7 @@ class EditAgenda extends React.Component {
           <AddAgenda closeModalAdd={this.closeModalAdd} />
         </Modal>
       </div>
-    );
+    )
   }
 
   // constructor(props) {
@@ -220,4 +179,4 @@ class EditAgenda extends React.Component {
   // }
 }
 
-export default EditAgenda;
+export default EditAgenda
