@@ -1,65 +1,71 @@
-import React from 'react';
-import { getDataRealtime } from '../../../../config/firebase';
+import React from 'react'
+import { getDataRealtime } from 'config/firebase'
 
-import UpdateBackground from './updateBackground';
-import UpdateComment from './updateComment';
-import UpdateEmail from './updateEmail';
-import UpdateIntroduction from './UpdateIntroduction';
+import {
+  PageTitle, PageWrapper, SectionWrapper, SectionTitle
+} from 'utils/components/PageComponents'
 
-class ContactSection extends React.Component {
+import { UpdateText, UpdatePicture } from 'utils/components/Updates'
+
+export default class ContactSection extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
-      height: 0,
       contact: null
-    };
+    }
   }
 
   componentDidMount() {
-    this.updateWindowDimensions();
-    window.addEventListener('resize', this.updateWindowDimensions);
     getDataRealtime('contact', doc => {
       if (doc.exists) {
-        const contactObj = doc.data();
-        this.setState({ contact: contactObj });
+        const contactObj = doc.data()
+        this.setState({ contact: contactObj })
       }
-    });
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.updateWindowDimensions);
-  }
-
-  updateWindowDimensions() {
-    this.setState({ height: window.innerHeight });
+    })
   }
 
   render() {
-    if (this.state.contact !== null) {
-      const { contact } = this.state;
+    const { contact } = this.state
+    if (contact !== null) {
       return (
-        <div
-          className="page-wrapper"
-          style={{ height: `${this.state.height - 64}px`, overflowY: 'scroll' }}
-        >
-          <div className="page-breadcrumb">
-            <div className="row">
-              <div className="col-12 d-flex no-block align-items-center">
-                <h2 className="page-hqName">Contact Edit Section</h2>
-              </div>
-            </div>
-            <div>
-              <UpdateBackground background={contact.background} />
-              <UpdateComment comment={contact.comment} />
-              <UpdateEmail email={contact.hqAddress} />
-              <UpdateIntroduction introduction={contact.hqName} />
-            </div>
-          </div>
-        </div>
-      );
+        <PageWrapper>
+          <PageTitle title="Contact section" />
+          <SectionWrapper>
+            <SectionTitle title="Cover" />
+            <UpdatePicture
+              name="Picture"
+              data={contact.cover_picture}
+              field="cover_picture"
+              updateTo="contact"
+            />
+          </SectionWrapper>
+          <SectionWrapper>
+            <SectionTitle title="Infomation" />
+            <UpdateText
+              name="Introduction"
+              data={contact.introduction}
+              useTextarea
+              field="introduction"
+              updateTo="contact"
+            />
+            <UpdateText
+              name="Location description"
+              data={contact.location_description}
+              useTextarea
+              field="location_description"
+              updateTo="contact"
+            />
+            <UpdateText
+              name="Email"
+              data={contact.email_contact}
+              useTextarea
+              field="email_contact"
+              updateTo="contact"
+            />
+          </SectionWrapper>
+        </PageWrapper>
+      )
     }
-    return null;
+    return null
   }
 }
-
-export default ContactSection;

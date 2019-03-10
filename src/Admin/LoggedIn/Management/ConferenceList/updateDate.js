@@ -2,7 +2,7 @@ import React from 'react'
 import moment from 'moment'
 import DatePicker from 'react-datepicker'
 import TimePicker from 'react-time-picker'
-import { updateData } from '../../../../config/firebase'
+import { updateData } from 'config/firebase'
 
 export default class UpdateDate extends React.Component {
   constructor(props) {
@@ -98,49 +98,28 @@ export default class UpdateDate extends React.Component {
     const { startTime, endTime } = this.state.date
     if (!this.state.toggle) {
       return (
-        <div className="row style-section">
-          <div className="col-12">
-            <h3>Start</h3>
-          </div>
-          <div className="col-12">
-            <p>{this.toDate(startTime)}</p>
-          </div>
-          <div className="col-12">
-            <h3>End</h3>
-          </div>
-          <div className="col-12">
-            <p>{this.toDate(endTime)}</p>
-          </div>
-          <div className="col-12">
-            <button onClick={() => this.setState({ toggle: true })}>Edit</button>
-          </div>
+        <div className="col-12">
+          <h5>Start</h5>
+          <p>{this.toDate(startTime)}</p>
+          <h5>End</h5>
+          <p>{this.toDate(endTime)}</p>
+          <button onClick={() => this.setState({ toggle: true })}>Edit</button>
         </div>
       )
     }
     return (
-      <div className="row style-section">
-        <div className="col-12">
-          <h3>Start</h3>
-        </div>
-        <div className="col-12">
-          <DatePicker dateFormat="d/M/YYYY" selected={moment(startTime).toDate()} onChange={this.onStartDateChange.bind(this)} />
-        </div>
-        <div className="col-12">
-          <TimePicker disableClock clockIcon={null} value={this.toHours(startTime)} onChange={this.onStartTimeChange.bind(this)} />
-        </div>
-        <div className="col-12">
-          <h3>End</h3>
-        </div>
-        <div className="col-12">
-          <DatePicker dateFormat="d/M/YYYY" selected={moment(endTime).toDate()} onChange={this.onEndDateChange.bind(this)} />
-        </div>
-        <div className="col-12">
-          <TimePicker disableClock clockIcon={null} value={this.toHours(endTime)} onChange={this.onEndTimeChange.bind(this)} />
-        </div>
-        <div className="col-12">
-          <button onClick={this.onUpdate.bind(this)}>Save</button>
-          <button onClick={this.cancel.bind(this)}>Cancel</button>
-        </div>
+      <div className="col-12">
+        <h5>Start</h5>
+        <DatePicker dateFormat="d/M/YYYY" selected={moment(startTime).toDate()} onChange={this.onStartDateChange.bind(this)} />
+        <br />
+        <TimePicker disableClock clockIcon={null} value={this.toHours(startTime)} onChange={this.onStartTimeChange.bind(this)} />
+        <h5>End</h5>
+        <DatePicker dateFormat="d/M/YYYY" selected={moment(endTime).toDate()} onChange={this.onEndDateChange.bind(this)} />
+        <br />
+        <TimePicker disableClock clockIcon={null} value={this.toHours(endTime)} onChange={this.onEndTimeChange.bind(this)} />
+        <br />
+        <button onClick={this.onUpdate.bind(this)}>Save</button>
+        <button onClick={this.cancel.bind(this)}>Cancel</button>
       </div>
     )
   }

@@ -1,66 +1,72 @@
-import React from 'react';
-import { getDataRealtime } from '../../../../config/firebase';
-import UpdateLeftLinks from './updateLeftLinks';
-import UpdateMiddleSentence from './updateMiddleSentence';
-import UpdateRightSentence from './updateRightSentence';
+import React from 'react'
+import { getDataRealtime } from 'config/firebase'
 
-class FooterSection extends React.Component {
+import {
+  PageTitle, PageWrapper, SectionWrapper, SectionTitle
+} from 'utils/components/PageComponents'
+
+import { UpdateText } from 'utils/components/Updates'
+
+import UpdateLeftLinks from './updateLeftLinks'
+
+export default class FooterSection extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
-      height: 0,
       footer: null
-    };
-    this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+    }
   }
 
   componentDidMount() {
-    this.updateWindowDimensions();
-    window.addEventListener('resize', this.updateWindowDimensions);
     getDataRealtime('footer', doc => {
       if (doc.exists) {
-        const footerObj = doc.data();
-        this.setState({ footer: footerObj });
+        const footerObj = doc.data()
+        this.setState({ footer: footerObj })
       }
-    });
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.updateWindowDimensions);
-  }
-
-  updateWindowDimensions() {
-    this.setState({ height: window.innerHeight });
+    })
   }
 
   render() {
-    if (this.state.footer !== null) {
-      const { footer } = this.state;
+    const { footer } = this.state
+    if (footer !== null) {
       return (
-        <div
-          className="page-wrapper"
-          style={{ height: `${this.state.height - 64}px`, overflowY: 'scroll' }}
-        >
-          <div className="page-breadcrumb">
-            <div className="row">
-              <div className="col-12 d-flex no-block align-items-center">
-                <h2 className="page-title">Footer Edit Section</h2>
-              </div>
-            </div>
+        <PageWrapper>
+          <PageTitle title="Footer section" />
+          <SectionWrapper>
+            <SectionTitle title="Left info" />
             <UpdateLeftLinks data={footer.left.links} />
-            <UpdateMiddleSentence
-              data={{
-                copyright: footer.copyright,
-                sentence: footer.middle.sentence
-              }}
+          </SectionWrapper>
+          <SectionWrapper>
+            <SectionTitle title="Middle info" />
+            <UpdateText
+              name="Authority"
+              data={footer.middle.authority}
+              useTextarea
+              outer="middle"
+              field="authority"
+              updateTo="footer"
             />
-            <UpdateRightSentence data={footer.right.sentence} />
-          </div>
-        </div>
-      );
+            <UpdateText
+              name="Copyright"
+              data={footer.copyright}
+              useTextarea
+              field="copyright"
+              updateTo="footer"
+            />
+          </SectionWrapper>
+          <SectionWrapper>
+            <SectionTitle title="Right info" />
+            <UpdateText
+              name="Navigate to event"
+              data={footer.right.navigate}
+              outer="right"
+              field="navigate"
+              updateTo="footer"
+            />
+          </SectionWrapper>
+        </PageWrapper>
+      )
     }
-    return null;
+    return null
   }
 }
-
-export default FooterSection;

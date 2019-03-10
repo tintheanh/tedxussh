@@ -1,82 +1,66 @@
-import React from 'react';
-import Modal from 'react-responsive-modal';
-import firebase from 'firebase';
-import ImageManagement from '../../../ImageMangement/imageManagement';
+import React from 'react'
+import Modal from 'react-responsive-modal'
+import ImageManagement from '../../../ImageMangement/imageManagement'
+import { root } from '../../../../../../config/firebase'
 
-class AddSponsor extends React.Component {
+export default class AddSponsor extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
-      website: '',
-      logo: '',
-      togglePicture: false
-    };
-    this.openModalPicture = this.openModalPicture.bind(this);
-    this.closeModalPicture = this.closeModalPicture.bind(this);
+      link: '',
+      picture: '',
+
+      modalPic: false
+    }
+
+    this.openModalPic = this.openModalPic.bind(this)
+    this.closeModalPic = this.closeModalPic.bind(this)
   }
 
-  openModalPicture() {
-    this.setState({ togglePicture: true });
+  openModalPic() {
+    this.setState({ modalPic: true })
   }
 
-  closeModalPicture() {
-    this.setState({ togglePicture: false });
+  closeModalPic() {
+    this.setState({ modalPic: false })
   }
 
-  pickImg(url) {
-    this.setState({ logo: url }, () => console.log(this.state.logo));
+  selectPic(newPic) {
+    this.setState({ picture: newPic })
   }
 
   onAddSponsor() {
-    const sponsorsRef = firebase
-      .database()
-      .ref('conference/sponsors/sponsorList');
-    const newSponsor = {
-      website: this.state.website,
-      logo: this.state.logo
-    };
-    sponsorsRef
-      .push(newSponsor)
-      .then(() => alert('Sponsor added'))
-      .catch(err => {
-        console.error(err);
-        alert('Error');
-      });
+    const newSpeaker = {
+      picture: this.state.picture,
+      link: this.state.link,
+      createdDate: new Date()
+    }
+
+    root
+      .doc('conference')
+      .collection('sponsorList')
+      .add(newSpeaker)
+      .then(() => {
+        alert('Added')
+        this.props.closeModal()
+      })
+      .catch(err => alert(err.message))
   }
 
   render() {
+    const { link, picture } = this.state
     return (
       <div>
-        <input
-          type="text"
-          placeholder="website"
-          value={this.state.website}
-          onChange={e => this.setState({ website: e.target.value })}
-        />
-        <img className="img-fluid" src={this.state.logo} alt="" />
-        <button onClick={this.openModalPicture}>Select logo</button>
-        <Modal
-          open={this.state.togglePicture}
-          onClose={this.closeModalPicture}
-          center
-        >
-          <ImageManagement
-            category="sponsors"
-            closeModal={this.closeModalPicture}
-            pick={this.pickImg.bind(this)}
-          />
+        <input type="text" placeholder="link" value={link} onChange={e => this.setState({ link: e.target.value })} />
+        <img src={picture} alt="" className="img-fluid" />
+        <br />
+        <button onClick={this.openModalPic}>Select picture</button>
+        <Modal open={this.state.modalPic} onClose={this.closeModalPic} center>
+          <ImageManagement category="sponsors" closeModal={this.closeModalPic} pick={this.selectPic.bind(this)} />
         </Modal>
-        <button
-          onClick={() => {
-            this.onAddSponsor();
-            this.props.closeModal();
-          }}
-        >
-          Add sponsor
-        </button>
+        <button onClick={this.onAddSponsor.bind(this)}>Add</button>
+        <button onClick={() => this.props.closeModal()}>Done</button>
       </div>
-    );
+    )
   }
 }
-
-export default AddSponsor;

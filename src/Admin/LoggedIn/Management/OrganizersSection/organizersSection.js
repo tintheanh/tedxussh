@@ -1,86 +1,83 @@
-import React from 'react';
-import firebase from 'firebase';
-import Modal from 'react-responsive-modal';
-import EditTeamMem from './EditTeamMem/editTeamMem';
-import { root } from '../../../../config/firebase';
-import UpdateBackground from './updateBackground';
-import UpdateTitle from './UpdateTitle';
+import React from 'react'
+import Modal from 'react-responsive-modal'
+import EditTeamMem from './EditTeamMem/editTeamMem'
+import { root } from '../../../../config/firebase'
+import UpdateBackground from './updateBackground'
+import UpdateTitle from './UpdateTitle'
 
 class Organizers extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       height: 0,
       organizers: null,
       modalEditTeam: false
-    };
-    this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+    }
+    this.updateWindowDimensions = this.updateWindowDimensions.bind(this)
 
-    this.openModalEditTeam = this.openModalEditTeam.bind(this);
-    this.closeModalEditTeam = this.closeModalEditTeam.bind(this);
+    this.openModalEditTeam = this.openModalEditTeam.bind(this)
+    this.closeModalEditTeam = this.closeModalEditTeam.bind(this)
   }
 
   openModalEditTeam() {
-    this.setState({ modalEditTeam: true });
+    this.setState({ modalEditTeam: true })
   }
 
   closeModalEditTeam() {
-    this.setState({ modalEditTeam: false });
+    this.setState({ modalEditTeam: false })
   }
 
   componentDidMount() {
-    this.updateWindowDimensions();
-    window.addEventListener('resize', this.updateWindowDimensions);
+    this.updateWindowDimensions()
+    window.addEventListener('resize', this.updateWindowDimensions)
 
     root.doc('organizer').onSnapshot(doc => {
       if (doc.exists) {
-        const organizersObj = doc.data();
+        const organizersObj = doc.data()
 
         root
           .doc('organizer')
           .collection('teamMembers')
           .orderBy('createdDate')
           .onSnapshot(querySnapshot => {
-            const organizerArray = [];
+            const organizerArray = []
             querySnapshot.forEach(org => {
-              const organizer = { ...org.data(), id: org.id };
-              organizerArray.push(organizer);
-            });
+              const organizer = { ...org.data(), id: org.id }
+              organizerArray.push(organizer)
+            })
 
             const organizers = {
               ...organizersObj,
               teamMem: organizerArray
-            };
-            this.setState({ organizers });
-          });
+            }
+            this.setState({ organizers })
+          })
       }
-    });
+    })
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.updateWindowDimensions);
+    window.removeEventListener('resize', this.updateWindowDimensions)
   }
 
   updateWindowDimensions() {
-    this.setState({ height: window.innerHeight });
+    this.setState({ height: window.innerHeight })
   }
 
   renderImg(totalRows, imgs) {
-    let startIndex = -4;
-    let endIndex = startIndex + 4;
-    const temp = Array.from({ length: totalRows }, () =>
-      Math.floor(Math.random())
-    );
+    let startIndex = -4
+    let endIndex = startIndex + 4
+    const temp = Array.from({ length: totalRows }, () => Math.floor(Math.random()))
 
     return temp.map((_, i) => {
-      startIndex += 4;
-      endIndex += 4;
+      startIndex += 4
+      endIndex += 4
       return (
         <div className="row sponsors-section" key={i}>
           {this.renderRow(startIndex, endIndex, imgs)}
         </div>
-      );
-    });
+      )
+    })
   }
 
   renderRow(startIndex, endIndex, imgs) {
@@ -111,41 +108,14 @@ class Organizers extends React.Component {
           </div>
         </div>
       </div>
-    ));
-  }
-
-  onUpdatePic(newPic) {
-    const update = {
-      background: newPic
-    };
-
-    firebase
-      .database()
-      .ref('organizers')
-      .update(update)
-      .catch(err => alert(err.message));
-  }
-
-  onUpdateText() {
-    const update = {
-      title: this.state.title
-    };
-
-    firebase
-      .database()
-      .ref('organizers')
-      .update(update)
-      .catch(err => alert(err.message));
+    ))
   }
 
   render() {
     if (this.state.organizers !== null) {
-      const { organizers } = this.state;
+      const { organizers } = this.state
       return (
-        <div
-          className="page-wrapper"
-          style={{ height: `${this.state.height - 64}px`, overflowY: 'scroll' }}
-        >
+        <div className="page-wrapper" style={{ height: `${this.state.height - 64}px`, overflowY: 'scroll' }}>
           <div className="page-breadcrumb" style={{ paddingBottom: '54px' }}>
             <div className="row">
               <div className="col-12 d-flex no-block align-items-center">
@@ -156,26 +126,17 @@ class Organizers extends React.Component {
             <UpdateTitle title={organizers.title} />
             <div className="row style-section-pictures">
               {this.renderImg(1, organizers.teamMem)}
-              <button onClick={this.openModalEditTeam}>
-                Edit team members...
-              </button>
-              <Modal
-                open={this.state.modalEditTeam}
-                onClose={this.closeModalEditTeam}
-                center
-              >
-                <EditTeamMem
-                  teamMem={organizers.teamMem}
-                  closeModal={this.closeModalEditTeam}
-                />
+              <button onClick={this.openModalEditTeam}>Edit team members...</button>
+              <Modal open={this.state.modalEditTeam} onClose={this.closeModalEditTeam} center>
+                <EditTeamMem teamMem={organizers.teamMem} closeModal={this.closeModalEditTeam} />
               </Modal>
             </div>
           </div>
         </div>
-      );
+      )
     }
-    return null;
+    return null
   }
 }
 
-export default Organizers;
+export default Organizers

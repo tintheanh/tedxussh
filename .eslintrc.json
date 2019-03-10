@@ -36,6 +36,8 @@
     "no-use-before-define": 0,
     "semi": ["error", "never"],
     "no-multi-assign": 0,
+    "react/no-multi-comp": 0,
+    "import/no-unresolved": 0,
     "no-plusplus": 0,
     "react/jsx-no-bind": 0,
     "react/destructuring-assignment": 0,

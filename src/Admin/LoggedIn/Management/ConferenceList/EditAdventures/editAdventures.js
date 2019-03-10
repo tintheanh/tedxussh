@@ -3,7 +3,7 @@ import Modal from 'react-responsive-modal'
 import Adventure from './Adventure/adventure'
 import AddAdventure from './AddAdventure/addAdventure'
 
-class EditHost extends React.Component {
+export default class EditAdventures extends React.Component {
   constructor(props) {
     super(props)
     this.state = { modalAdd: false }
@@ -46,7 +46,7 @@ class EditHost extends React.Component {
       }
       return this.renderImg(imgs.length / 4 + 1, imgs)
     }
-    return <h2>No imgs available</h2>
+    return null
   }
 
   render() {
@@ -62,5 +62,3 @@ class EditHost extends React.Component {
     )
   }
 }
-
-export default EditHost

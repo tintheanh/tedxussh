@@ -7,46 +7,27 @@ export default class Agenda extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      agenda: {
-        ...this.props.agenda,
-        time: moment.unix(this.props.agenda.time.seconds).toDate()
-      },
+      agenda: this.props.agenda,
       toggleEdit: false
     }
   }
 
-  toTime(inputTime) {
-    const date = moment(inputTime).format('h:mm A')
-    return date
-  }
-
-  toHours(inputTime) {
-    const hours = moment(inputTime).format('hh:mm')
-    return hours
+  toATime(inputTime) {
+    const time = moment(inputTime, 'hh:mm').format('h:mm A')
+    return time
   }
 
   cancel() {
     this.setState({
       toggleEdit: false,
-      agenda: {
-        ...this.props.agenda,
-        time: moment.unix(this.props.agenda.time.seconds).toDate()
-      }
+      agenda: this.props.agenda
     })
   }
 
   onTimeChange(hour) {
-    const h = moment(hour, 'hh:mm:ss')
-    const time = moment(this.state.agenda.time.toISOString())
-    time.set({
-      hour: h.get('hour'),
-      minute: h.get('minute'),
-      second: h.get('second')
-    })
-
     const agenda = {
       ...this.state.agenda,
-      time
+      time: hour
     }
     this.setState({ agenda })
   }
@@ -84,9 +65,8 @@ export default class Agenda extends React.Component {
       header: agenda.header,
       detail: agenda.detail,
       participants: agenda.participants,
-      time: agenda.time.toDate()
+      time: agenda.time
     }
-
     root
       .doc('conference')
       .collection('agendaList')
@@ -113,7 +93,7 @@ export default class Agenda extends React.Component {
     const { agenda, toggleEdit } = this.state
     return !toggleEdit ? (
       <div>
-        <strong>{this.toTime(agenda.time)}</strong>
+        <strong>{this.toATime(agenda.time)}</strong>
         <div>{agenda.header}</div>
         <p>{agenda.detail}</p>
         <p>{agenda.participants}</p>
@@ -122,7 +102,7 @@ export default class Agenda extends React.Component {
       </div>
     ) : (
       <div>
-        <TimePicker disableClock clockIcon={null} value={this.toHours(agenda.time)} onChange={this.onTimeChange.bind(this)} />
+        <TimePicker disableClock clockIcon={null} value={agenda.time} onChange={this.onTimeChange.bind(this)} />
         <input type="text" value={agenda.header} onChange={e => this.onHeaderChange(e)} />
         <textarea value={agenda.detail} onChange={e => this.onDetailChange(e)} />
         <textarea value={agenda.participants} onChange={e => this.onParticipantsChange(e)} />

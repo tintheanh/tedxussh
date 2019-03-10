@@ -1,116 +1,133 @@
-import React from 'react';
-import { getDataRealtime } from '../../../../config/firebase';
+import React from 'react'
+import { getDataRealtime } from 'config/firebase'
 
-import UpdateTitle from './updateTitle';
-import UpdateBackground from './updateBackground';
-import UpdateDescription from './updateDescription';
-import UpdateLeftTitle from './LeftUpdate/updateLeftTitle';
-import UpdateLeftDescription from './LeftUpdate/updateLeftDescription';
-import UpdateLeftCover from './LeftUpdate/updateLeftCover';
-import UpdateMiddleTitle from './MiddleUpdate/updateMiddleTitle';
-import UpdateMiddleDescription from './MiddleUpdate/updateMiddleDescription';
-import UpdateMiddleCover from './MiddleUpdate/updateMiddleCover';
-import UpdateRightTitle from './RightUpdate/updateRightTitle';
-import UpdateRightDescription from './RightUpdate/updateRightDescription';
-import UpdateRightCover from './RightUpdate/updateRightCover';
+import { PageTitle, PageWrapper, SectionWrapper, SectionTitle } from 'utils/components/PageComponents'
+import { UpdateText, UpdatePicture } from 'utils/components/Updates'
 
-class HomeSection extends React.Component {
+export default class HomeSection extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
-      height: 0,
       home: null
-    };
+    }
   }
 
   componentDidMount() {
-    this.updateWindowDimensions();
-    window.addEventListener('resize', this.updateWindowDimensions);
     getDataRealtime('home', doc => {
       if (doc.exists) {
-        const homeObj = doc.data();
-        this.setState({ home: homeObj });
+        const homeObj = doc.data()
+        this.setState({ home: homeObj })
       }
-    });
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.updateWindowDimensions);
-  }
-
-  updateWindowDimensions() {
-    this.setState({ height: window.innerHeight });
+    })
   }
 
   render() {
-    if (this.state.home !== null) {
-      const { home } = this.state;
+    const { home } = this.state
+    if (home !== null) {
       return (
-        <div
-          className="page-wrapper"
-          style={{ height: `${this.state.height - 64}px`, overflowY: 'scroll' }}
-        >
-          <div className="page-breadcrumb">
-            <div className="row">
-              <div className="col-12 d-flex no-block align-items-center">
-                <h2 className="page-title">Home Edit Section</h2>
-              </div>
-            </div>
-            <div>
-              <UpdateBackground background={home.background} />
-              <UpdateTitle title={home.title} />
-              <UpdateDescription description={home.description} />
-              <div className="row style-section">
-                <div className="col-12">
-                  <h3>Left</h3>
-                </div>
-                <div className="col-12">
-                  <h5>Title</h5>
-                </div>
-                <UpdateLeftTitle title={home.left.title} />
-                <div className="col-12">
-                  <h5>Description</h5>
-                </div>
-                <UpdateLeftDescription description={home.left.description} />
-                <UpdateLeftCover cover={home.left.cover} />
-              </div>
-              <div className="row style-section">
-                <div className="col-12">
-                  <h3>Middle</h3>
-                </div>
-                <div className="col-12">
-                  <h5>Title</h5>
-                </div>
-                <UpdateMiddleTitle title={home.middle.title} />
-                <div className="col-12">
-                  <h5>Description</h5>
-                </div>
-                <UpdateMiddleDescription
-                  description={home.middle.description}
-                />
-                <UpdateMiddleCover cover={home.middle.cover} />
-              </div>
-              <div
-                className="row style-section"
-                style={{ marginBottom: '54px' }}
-              >
-                <div className="col-12">
-                  <h3>Right</h3>
-                </div>
-                <UpdateRightTitle title={home.right.title} />
-                <div className="col-12">
-                  <h5>Description</h5>
-                </div>
-                <UpdateRightDescription description={home.right.description} />
-                <UpdateRightCover cover={home.right.cover} />
-              </div>
-            </div>
-          </div>
-        </div>
-      );
+        <PageWrapper>
+          <PageTitle title="Home section" />
+          <SectionWrapper>
+            <SectionTitle title="Cover" />
+            <UpdatePicture
+              name="Picture"
+              data={home.cover_picture}
+              field="cover_picture"
+              updateTo="home"
+            />
+            <UpdateText
+              name="Title"
+              data={home.title}
+              useTextarea
+              field="title"
+              updateTo="home"
+            />
+            <UpdateText
+              name="Title"
+              data={home.description}
+              useTextarea
+              field="description"
+              updateTo="home"
+            />
+          </SectionWrapper>
+          <SectionWrapper>
+            <SectionTitle title="Left info" />
+            <UpdatePicture
+              name="Picture"
+              data={home.left.cover}
+              outer="left"
+              field="cover"
+              updateTo="home"
+            />
+            <UpdateText
+              name="Title"
+              data={home.left.title}
+              outer="left"
+              field="title"
+              updateTo="home"
+            />
+            <UpdateText
+              name="Description"
+              data={home.left.description}
+              useTextarea
+              outer="left"
+              field="description"
+              updateTo="home"
+            />
+          </SectionWrapper>
+          <SectionWrapper>
+            <SectionTitle title="Middle info" />
+            <UpdatePicture
+              name="Picture"
+              data={home.middle.cover}
+              outer="middle"
+              field="cover"
+              updateTo="home"
+            />
+            <UpdateText
+              name="Title"
+              data={home.middle.title}
+              outer="middle"
+              field="title"
+              updateTo="home"
+            />
+            <UpdateText
+              name="Description"
+              data={home.middle.description}
+              useTextarea
+              outer="middle"
+              field="description"
+              updateTo="home"
+            />
+          </SectionWrapper>
+          <SectionWrapper>
+            <SectionTitle title="Right info" />
+            <UpdatePicture
+              name="Picture"
+              data={home.right.cover}
+              outer="right"
+              field="cover"
+              updateTo="home"
+            />
+            <UpdateText
+              name="Title"
+              data={home.right.title}
+              outer="right"
+              field="title"
+              updateTo="home"
+            />
+            <UpdateText
+              name="Description"
+              data={home.right.description}
+              useTextarea
+              outer="right"
+              field="description"
+              updateTo="home"
+            />
+          </SectionWrapper>
+        </PageWrapper>
+      )
     }
-    return null;
+    return null
   }
 }
-
-export default HomeSection;

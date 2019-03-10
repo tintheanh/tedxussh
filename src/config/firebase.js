@@ -26,20 +26,35 @@ export const root = database.collection('tedxhcmussh-data')
 //     .ref(path)
 //     .once('value', data => callback(data));
 
-export const getData = path =>
-  database
-    .collection('tedxhcmussh-data')
-    .doc(path)
-    .get()
+export const getData = path => root.doc(path).get()
 
-export const getDataRealtime = (path, callback) =>
-  database
-    .collection('tedxhcmussh-data')
-    .doc(path)
-    .onSnapshot(doc => callback(doc))
+export const getDataRealtime = (path, callback) => root.doc(path).onSnapshot(doc => callback(doc))
 
-export const updateData = (path, update) =>
-  database
-    .collection('tedxhcmussh-data')
+export const getListRealtime = (path, collection, order, callback) =>
+  root
     .doc(path)
+    .collection(collection)
+    .orderBy(order)
+    .onSnapshot(res => callback(res))
+
+export const updateData = (path, update) => root.doc(path).set(update, { merge: true })
+
+export const updatePersonData = (path, collection, id, update) =>
+  root
+    .doc(path)
+    .collection(collection)
+    .doc(id)
     .set(update, { merge: true })
+
+export const addPerson = (path, collection, data) =>
+  root
+    .doc(path)
+    .collection(collection)
+    .add(data)
+
+export const deletePersonData = (path, collection, id) =>
+  root
+    .doc(path)
+    .collection(collection)
+    .doc(id)
+    .delete()

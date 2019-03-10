@@ -10,7 +10,7 @@ export default class Speaker extends React.Component {
       toggleEdit: false,
       modalEditPic: false,
 
-      speaker: this.props.speaker,
+      speaker: this.props.speaker
     }
 
     this.openModalEditPic = this.openModalEditPic.bind(this)

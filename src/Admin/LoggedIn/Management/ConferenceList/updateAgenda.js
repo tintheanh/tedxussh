@@ -1,6 +1,7 @@
 import React from 'react'
 import Modal from 'react-responsive-modal'
 import Agenda from './EditAgenda/Agenda/agenda'
+import AddAgenda from './EditAgenda/AddAgenda/addAgenda'
 
 export default class UpdateAgenda extends React.Component {
   constructor(props) {
@@ -21,8 +22,12 @@ export default class UpdateAgenda extends React.Component {
         <div className="col-12">
           <h3>Agenda</h3>
         </div>
+        <div className="col-12">{this.renderAgendas(agendas)}</div>
         <div className="col-12">
-          {this.renderAgendas(agendas)}
+          <button onClick={() => this.setState({ modal: true })}>Add agenda</button>
+          <Modal open={this.state.modal} onClose={() => this.setState({ modal: false })} center>
+            <AddAgenda closeModalAdd={() => this.setState({ modal: false })} />
+          </Modal>
         </div>
       </div>
     )

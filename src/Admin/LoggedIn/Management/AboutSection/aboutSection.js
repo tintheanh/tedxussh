@@ -1,110 +1,130 @@
-import React from 'react';
-import firebase from 'firebase';
-import { getDataRealtime } from '../../../../config/firebase';
+import React from 'react'
+import { getDataRealtime } from 'config/firebase'
 
-import UpdateBackground from './updateBackground';
-import UpdateHeader from './updateHeader';
-import UpdateLeftCover from './LeftUpdate/updateLeftCover';
-import UpdateLeftTitle from './LeftUpdate/updateLeftTitle';
-import UpdateLeftDescription from './LeftUpdate/updateLeftDescription';
-import UpdateMiddleYT from './MiddleUpdate/UpdateMiddleYT';
-import UpdateMiddleTitle from './MiddleUpdate/updateMiddleTitle';
-import UpdateMiddleDescription from './MiddleUpdate/updateMiddleDescription';
-import UpdateRightCover from './RightUpdate/updateRightCover';
-import UpdateRightTitle from './RightUpdate/updateRightTitle';
-import UpdateRightDescription from './RightUpdate/updateRightDescription';
-import UpdateVision from './updateVision';
+import {
+  PageTitle, PageWrapper, SectionWrapper, SectionTitle
+} from 'utils/components/PageComponents'
 
-class AboutSection extends React.Component {
+import { UpdateText, UpdatePicture } from 'utils/components/Updates'
+
+import UpdateMiddleYT from './Update/UpdateMiddleYT'
+
+import UpdateVisions from './Update/UpdateVisions/updateVisions'
+
+export default class AboutSection extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
-      height: 0,
       about: null
-    };
-
-    this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+    }
   }
 
   componentDidMount() {
-    this.updateWindowDimensions();
-    window.addEventListener('resize', this.updateWindowDimensions);
     getDataRealtime('about', doc => {
       if (doc.exists) {
-        const aboutObj = doc.data();
-        this.setState({ about: aboutObj });
+        const aboutObj = doc.data()
+        this.setState({ about: aboutObj })
       }
-    });
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.updateWindowDimensions);
-  }
-
-  updateWindowDimensions() {
-    this.setState({ height: window.innerHeight });
-  }
-
-  sortVisions(aboutObj) {
-    const visionSort = [...aboutObj.visions];
-    visionSort.sort((a, b) => a.order - b.order);
-    return { ...aboutObj, visions: visionSort };
+    })
   }
 
   render() {
-    if (this.state.about !== null) {
-      const about = this.sortVisions(this.state.about);
+    const { about } = this.state
+    if (about !== null) {
       return (
-        <div
-          className="page-wrapper"
-          style={{ height: `${this.state.height - 64}px`, overflowY: 'scroll' }}
-        >
-          <div className="page-breadcrumb" style={{ paddingBottom: '54px' }}>
-            <div className="row">
-              <div className="col-12 d-flex no-block align-items-center">
-                <h2 className="page-title">About edit section</h2>
-              </div>
-            </div>
-            <UpdateBackground background={about.background} />
-            <UpdateHeader header={about.header} />
-            <div className="row style-section">
-              <div className="col-12">
-                <h3>Left</h3>
-              </div>
-              <UpdateLeftCover picture={about.left.picture} />
-              <UpdateLeftTitle title={about.left.title} />
-              <UpdateLeftDescription description={about.left.description} />
-            </div>
-            <div className="row style-section">
-              <div className="col-12">
-                <h3>Middle</h3>
-              </div>
-              <UpdateMiddleYT video={about.middle.video} />
-              <UpdateMiddleTitle title={about.middle.title} />
-              <UpdateMiddleDescription description={about.middle.description} />
-            </div>
-            <div className="row style-section">
-              <div className="col-12">
-                <h3>Right</h3>
-              </div>
-              <UpdateRightCover picture={about.right.picture} />
-              <UpdateRightTitle title={about.right.title} />
-              <UpdateRightDescription description={about.right.description} />
-            </div>
-            <div className="row style-section">
-              <div className="col-12">
-                <h3>Vision</h3>
-              </div>
-              {about.visions.map((vision, i) => (
-                <UpdateVision key={i} vision={vision} />
-              ))}
-            </div>
-          </div>
-        </div>
-      );
+        <PageWrapper>
+          <PageTitle title="About section" />
+          <SectionWrapper>
+            <SectionTitle title="Cover" />
+            <UpdatePicture
+              name="Picture"
+              data={about.cover_picture}
+              field="cover_picture"
+              updateTo="about"
+            />
+            <UpdateText
+              name="Title"
+              data={about.title}
+              field="title"
+              updateTo="about"
+            />
+          </SectionWrapper>
+          <SectionWrapper>
+            <SectionTitle title="Left info" />
+            <UpdatePicture
+              name="Picture"
+              data={about.left.picture}
+              outer="left"
+              field="picture"
+              updateTo="about"
+            />
+            <UpdateText
+              name="Title"
+              data={about.left.title}
+              outer="left"
+              field="title"
+              updateTo="about"
+            />
+            <UpdateText
+              name="Description"
+              data={about.left.description}
+              useTextarea
+              outer="left"
+              field="description"
+              updateTo="about"
+            />
+          </SectionWrapper>
+          <SectionWrapper>
+            <SectionTitle title="Middle info" />
+            <UpdateMiddleYT video={about.middle.video} />
+            <UpdateText
+              name="Title"
+              data={about.middle.title}
+              outer="middle"
+              field="title"
+              updateTo="about"
+            />
+            <UpdateText
+              name="Description"
+              data={about.middle.description}
+              useTextarea
+              outer="middle"
+              field="description"
+              updateTo="about"
+            />
+          </SectionWrapper>
+          <SectionWrapper>
+            <SectionTitle title="Right info" />
+            <UpdatePicture
+              name="Picture"
+              data={about.right.picture}
+              outer="right"
+              field="picture"
+              updateTo="about"
+            />
+            <UpdateText
+              name="Title"
+              data={about.right.title}
+              outer="middle"
+              field="title"
+              updateTo="about"
+            />
+            <UpdateText
+              name="Description"
+              data={about.right.description}
+              useTextarea
+              outer="right"
+              field="description"
+              updateTo="about"
+            />
+          </SectionWrapper>
+          <SectionWrapper>
+            <SectionTitle title="Visions" />
+            <UpdateVisions visions={about.visions} />
+          </SectionWrapper>
+        </PageWrapper>
+      )
     }
-    return null;
+    return null
   }
 }
-
-export default AboutSection;

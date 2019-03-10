@@ -1,14 +1,14 @@
-import React from 'react';
-import firebase from 'firebase';
-import './style.css';
+import React from 'react'
+import firebase from 'firebase'
+import './style.css'
 
-class LoggedOut extends React.Component {
+export default class LoggedOut extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       email: '',
       password: ''
-    };
+    }
   }
 
   login() {
@@ -19,44 +19,14 @@ class LoggedOut extends React.Component {
         this.setState({
           email: '',
           password: ''
-        });
-        alert('login successfully');
+        })
+        alert('login successfully')
       })
-      .catch(err => {
-        console.error(err);
-        alert('error occured');
-      });
+      .catch(err => alert(err.message))
   }
 
   render() {
     return (
-      // <div style={{ width: '100vw', height: '100vh' }}>
-      //   <form className="Absolute-Center">
-      //     <div className="col-12-lg div-center">
-      //       <input
-      //         type="text"
-      //         placeholder="email"
-      //         value={this.state.email}
-      //         onChange={e => this.setState({ email: e.target.value })}
-      //       />
-      //     </div>
-      //     <div className="col-12-lg div-center">
-      //       <input
-      //         type="password"
-      //         placeholder="password"
-      //         value={this.state.password}
-      //         onChange={e => this.setState({ password: e.target.value })}
-      //       />
-      //     </div>
-      //     <div className="col-12-lg div-center">
-      //       <input
-      //         type="button"
-      //         value="Login"
-      //         onClick={this.login.bind(this)}
-      //       />
-      //     </div>
-      //   </form>
-      // </div>
       <div className="login-wrapper">
         <div id="loginbox">
           <form id="loginform" className="form-vertical" action="index.html">
@@ -66,12 +36,7 @@ class LoggedOut extends React.Component {
                   <span className="add-on bg_lg">
                     <i className="icon-user" />
                   </span>
-                  <input
-                    type="text"
-                    placeholder="email"
-                    value={this.state.email}
-                    onChange={e => this.setState({ email: e.target.value })}
-                  />
+                  <input type="text" placeholder="email" value={this.state.email} onChange={e => this.setState({ email: e.target.value })} />
                 </div>
               </div>
             </div>
@@ -81,33 +46,18 @@ class LoggedOut extends React.Component {
                   <span className="add-on bg_ly">
                     <i className="icon-lock" />
                   </span>
-                  <input
-                    type="password"
-                    placeholder="password"
-                    value={this.state.password}
-                    onChange={e => this.setState({ password: e.target.value })}
-                  />
+                  <input type="password" placeholder="password" value={this.state.password} onChange={e => this.setState({ password: e.target.value })} />
                 </div>
               </div>
             </div>
-            <div
-              className="form-actions"
-              style={{ margin: 'auto', textAlign: 'center' }}
-            >
+            <div className="form-actions" style={{ margin: 'auto', textAlign: 'center' }}>
               <span className="pull-right">
-                <input
-                  className="btn btn-success"
-                  type="button"
-                  value="Login"
-                  onClick={this.login.bind(this)}
-                />
+                <input className="btn btn-success" type="button" value="Login" onClick={this.login.bind(this)} />
               </span>
             </div>
           </form>
         </div>
       </div>
-    );
+    )
   }
 }
-
-export default LoggedOut;

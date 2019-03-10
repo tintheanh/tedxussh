@@ -1,19 +1,14 @@
-import React from 'react';
-import Main from './Main';
-import Admin from './Admin/admin';
+import React from 'react'
+import Main from './Main'
+import Admin from './Admin/admin'
 
 const ManualRouter = pathname => {
-  if (
-    pathname === '/admin' ||
-    pathname === '/admin/' ||
-    pathname.includes('admin/')
-  )
-    return <Admin />;
-  return <Main />;
-};
-const App = () => <div>{ManualRouter(window.location.pathname)}</div>;
+  if (pathname === '/admin' || pathname === '/admin/' || pathname.includes('admin/')) return <Admin />
+  return <Main />
+}
+const App = () => <div>{ManualRouter(window.location.pathname)}</div>
 
-export default App;
+export default App
 
 // import React from "react";
 // import { BrowserRouter as Router, Route, Link } from "react-router-dom";
