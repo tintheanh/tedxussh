@@ -62,7 +62,7 @@ export default class UpdateLeftLinks extends React.Component {
       <div className="col-12">
         <h5>Facebook link</h5>
         <input type="text" value={facebook} onChange={e => this.onChangeFb(e)} />
-        <h5>Youtube link</h5>>
+        <h5>Youtube link</h5>
         <input type="text" value={youtube} onChange={e => this.onChangeYT(e)} />
         <button onClick={this.onUpdate.bind(this)}>Save</button>
         <button onClick={this.cancel.bind(this)}>Cancel</button>

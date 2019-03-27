@@ -1,7 +1,7 @@
 import React from 'react'
 import { getDataRealtime } from 'config/firebase'
 
-import { PageTitle, PageWrapper, SectionWrapper, SectionTitle } from 'utils/components/PageComponents'
+import { PageTitle, PageWrapper, SectionWrapper, SectionTitle, Loading } from 'utils/components/PageComponents'
 import { UpdateText, UpdatePicture } from 'utils/components/Updates'
 
 export default class HomeSection extends React.Component {
@@ -43,7 +43,7 @@ export default class HomeSection extends React.Component {
               updateTo="home"
             />
             <UpdateText
-              name="Title"
+              name="Description"
               data={home.description}
               useTextarea
               field="description"
@@ -128,6 +128,6 @@ export default class HomeSection extends React.Component {
         </PageWrapper>
       )
     }
-    return null
+    return <Loading />
   }
 }

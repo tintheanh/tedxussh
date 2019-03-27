@@ -2,7 +2,7 @@ import React from 'react'
 import { getDataRealtime } from 'config/firebase'
 
 import {
-  PageTitle, PageWrapper, SectionWrapper, SectionTitle
+  PageTitle, PageWrapper, SectionWrapper, SectionTitle, Loading
 } from 'utils/components/PageComponents'
 
 import { UpdateText, UpdatePicture } from 'utils/components/Updates'
@@ -66,6 +66,6 @@ export default class ContactSection extends React.Component {
         </PageWrapper>
       )
     }
-    return null
+    return <Loading />
   }
 }

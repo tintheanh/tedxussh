@@ -1,7 +1,6 @@
 import React from 'react'
 import TimePicker from 'react-time-picker'
-import moment from 'moment'
-import { root } from '../../../../../../config/firebase'
+import { root, addUnit } from 'config/firebase'
 
 class AddAgenda extends React.Component {
   constructor(props) {
@@ -38,24 +37,7 @@ class AddAgenda extends React.Component {
   }
 
   onTimeChange(time) {
-    // this.setState({ time })
-
-    const hr = time.substring(0, 2)
-    const min = time.substring(3, 5)
-    const dateTime = moment(new Date().toISOString())
-    dateTime.set({
-      hour: hr,
-      minute: min,
-      second: '00'
-    })
-
-    console.log(dateTime)
-
-    // const date = {
-    //   ...this.state.date,
-    //   endTime: end.toDate()
-    // }
-    this.setState({ time: dateTime })
+    this.setState({ time })
   }
 
   onAddAgenda() {
@@ -63,15 +45,14 @@ class AddAgenda extends React.Component {
       header: this.state.header,
       detail: this.state.detail,
       participants: this.state.participants,
-      time: new Date(this.state.time),
-      createdDate: new Date()
+      time: this.state.time
     }
 
-    root
-      .doc('conference')
-      .collection('agendaList')
-      .add(newAgenda)
-      .then(() => alert('Agenda added'))
+    addUnit('conference', 'agendaList', newAgenda)
+      .then(() => {
+        alert('Added')
+        this.props.closeModalAdd()
+      })
       .catch(err => alert(err.message))
   }
 
@@ -86,14 +67,7 @@ class AddAgenda extends React.Component {
         <br />
         <TimePicker disableClock clockIcon={null} onChange={this.onTimeChange.bind(this)} />
         <br />
-        <button
-          onClick={() => {
-            this.onAddAgenda()
-            this.props.closeModalAdd()
-          }}
-        >
-          Add
-        </button>
+        <button onClick={this.onAddAgenda.bind(this)}>Add</button>
         <button onClick={() => this.props.closeModalAdd()}>Cancel</button>
       </div>
     )

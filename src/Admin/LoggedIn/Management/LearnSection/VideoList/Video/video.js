@@ -1,5 +1,5 @@
 import React from 'react'
-import { root } from '../../../../../../config/firebase'
+import { updateUnitData, deleteUnitData } from 'config/firebase'
 
 export default class Video extends React.Component {
   constructor(props) {
@@ -13,30 +13,19 @@ export default class Video extends React.Component {
   }
 
   onUpdate(vid) {
-    const video = {
+    const update = {
       title: this.state.title,
       link: this.state.link,
       by: this.state.by
     }
-
-    root
-      .doc('learn')
-      .collection('videoList')
-      .doc(vid)
-      .set(video, { merge: true })
-      .then(() => this.setState({ toggleEdit: false }))
-      .catch(err => alert(err.message))
+    updateUnitData('learn', 'videoList', vid, update)
+    this.setState({ toggleEdit: false })
   }
 
   onDelete(vid) {
     const ask = window.confirm('Sure to delete?')
     if (ask) {
-      root
-        .doc('learn')
-        .collection('videoList')
-        .doc(vid)
-        .delete()
-        .catch(err => alert(err.message))
+      deleteUnitData('learn', 'videoList', vid)
     }
   }
 
@@ -57,14 +46,14 @@ export default class Video extends React.Component {
         <button onClick={this.onUpdate.bind(this, this.props.video.id)}>Save</button>
         <button
           onClick={() =>
-            this.setState({
-              toggleEdit: false,
-              title: this.props.video.title,
-              link: this.props.video.link
-            })
-          }
+					  this.setState({
+					    toggleEdit: false,
+					    title: this.props.video.title,
+					    link: this.props.video.link
+					  })
+					}
         >
-          Cancel
+					Cancel
         </button>
       </div>
     )

@@ -20,12 +20,6 @@ export const database = firebase.firestore()
 
 export const root = database.collection('tedxhcmussh-data')
 
-// export const getData = (path, callback) =>
-//   firebase
-//     .database()
-//     .ref(path)
-//     .once('value', data => callback(data));
-
 export const getData = path => root.doc(path).get()
 
 export const getDataRealtime = (path, callback) => root.doc(path).onSnapshot(doc => callback(doc))
@@ -39,22 +33,36 @@ export const getListRealtime = (path, collection, order, callback) =>
 
 export const updateData = (path, update) => root.doc(path).set(update, { merge: true })
 
-export const updatePersonData = (path, collection, id, update) =>
+export const updateUnitData = (path, collection, id, update) =>
   root
     .doc(path)
     .collection(collection)
     .doc(id)
     .set(update, { merge: true })
 
-export const addPerson = (path, collection, data) =>
+export const addUnit = (path, collection, data) =>
   root
     .doc(path)
     .collection(collection)
     .add(data)
 
-export const deletePersonData = (path, collection, id) =>
+export const deleteUnitData = (path, collection, id) =>
   root
     .doc(path)
     .collection(collection)
     .doc(id)
     .delete()
+
+export const getPost = postID =>
+  root
+    .doc('learn')
+    .collection('posts')
+    .doc(postID)
+    .get()
+
+export const addPost = (postID, post) =>
+  root
+    .doc('learn')
+    .collection('posts')
+    .doc(postID)
+    .set(post)

@@ -1,7 +1,8 @@
 import React from 'react'
-import firebase from 'firebase'
+import { Loading } from 'utils/components/PageComponents'
+import { getListRealtime } from 'config/firebase'
 
-class ImageManagement extends React.Component {
+export default class ImageManagement extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -12,24 +13,14 @@ class ImageManagement extends React.Component {
   }
 
   componentDidMount() {
-    firebase
-      .database()
-      .ref(`images/${this.props.category}`)
-      .on('value', snapshot => {
-        const imgObj = snapshot.val()
-        const imgs = []
-        if (imgObj) {
-          Object.keys(imgObj).forEach(e => {
-            const img = {
-              id: e,
-              name: imgObj[e].name,
-              url: imgObj[e].url
-            }
-            imgs.push(img)
-          })
-          this.setState({ imgs })
-        }
+    getListRealtime('images', this.props.category, 'dateAdded', querySnapshot => {
+      const imgs = []
+      querySnapshot.forEach(doc => {
+        const img = { ...doc.data(), id: doc.id }
+        imgs.push(img)
       })
+      this.setState({ imgs })
+    })
   }
 
   renderImg(totalRows, imgs) {
@@ -116,8 +107,6 @@ class ImageManagement extends React.Component {
         </div>
       )
     }
-    return null
+    return <Loading forPicture />
   }
 }
-
-export default ImageManagement

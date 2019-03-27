@@ -1,6 +1,6 @@
 import React from 'react'
-import MapWithSearch from '../../../../../MapWithSearch/mapWithSearch'
-import { updateData } from '../../../../../config/firebase'
+import MapWithSearch from 'utils/components/MapWithSearch'
+import { updateData } from 'config/firebase'
 
 const setNewLocation = (lat, lng, address) => {
   const update = {

@@ -1,7 +1,7 @@
 import React from 'react'
 import moment from 'moment'
 import TimePicker from 'react-time-picker'
-import { root } from '../../../../../../config/firebase'
+import { updateUnitData, deleteUnitData } from 'config/firebase'
 
 export default class Agenda extends React.Component {
   constructor(props) {
@@ -67,11 +67,7 @@ export default class Agenda extends React.Component {
       participants: agenda.participants,
       time: agenda.time
     }
-    root
-      .doc('conference')
-      .collection('agendaList')
-      .doc(id)
-      .set(update, { merge: true })
+    updateUnitData('conference', 'agendaList', id, update)
       .then(() => this.setState({ toggleEdit: false }))
       .catch(err => alert(err.message))
   }
@@ -79,11 +75,7 @@ export default class Agenda extends React.Component {
   onDelete(id) {
     const ask = window.confirm('Sure to delete?')
     if (ask) {
-      root
-        .doc('conference')
-        .collection('agendaList')
-        .doc(id)
-        .delete()
+      deleteUnitData('conference', 'agendaList', id)
         .then(() => this.setState({ toggleEdit: false }))
         .catch(err => alert(err.message))
     }

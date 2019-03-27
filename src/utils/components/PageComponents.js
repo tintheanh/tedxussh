@@ -8,7 +8,16 @@ const PageTitle = props => (
   </div>
 )
 
-const SectionWrapper = props => <div className="row style-section">{props.children}</div>
+const SectionWrapper = props => {
+  if (props.forPicture) {
+    return <div className="row style-section-pictures">{props.children}</div>
+  }
+  return <div className="row style-section">{props.children}</div>
+}
+
+SectionWrapper.defaultProps = {
+  forPicture: false
+}
 
 const SectionTitle = props => (
   <div className="col-12">
@@ -49,6 +58,24 @@ class PageWrapper extends React.Component {
   }
 }
 
+const Loading = props => {
+  if (!props.forPicture)
+    return (
+      <PageWrapper>
+        <h1>Loading</h1>
+      </PageWrapper>
+    )
+  return (
+    <div>
+      <h1>Loading</h1>
+    </div>
+  )
+}
+
+Loading.defaultProps = {
+  forPicture: false
+}
+
 export {
-  PageTitle, SectionWrapper, SectionTitle, PageWrapper
+  PageTitle, SectionWrapper, SectionTitle, PageWrapper, Loading
 }

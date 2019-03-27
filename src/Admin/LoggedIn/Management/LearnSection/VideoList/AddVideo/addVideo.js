@@ -1,5 +1,5 @@
 import React from 'react'
-import { root } from '../../../../../../config/firebase'
+import { addUnit } from 'config/firebase'
 
 export default class AddVideo extends React.Component {
   constructor(props) {
@@ -19,15 +19,8 @@ export default class AddVideo extends React.Component {
       createdDate: new Date()
     }
 
-    root
-      .doc('learn')
-      .collection('videoList')
-      .add(newVid)
-      .then(() => {
-        alert('Added')
-        this.props.closeModal()
-      })
-      .catch(err => alert(err.message))
+    addUnit('learn', 'videoList', newVid)
+    this.props.closeModal()
   }
 
   render() {

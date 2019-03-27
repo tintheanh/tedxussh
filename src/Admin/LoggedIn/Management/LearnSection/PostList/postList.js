@@ -1,15 +1,15 @@
 import React from 'react'
-import firebase from 'firebase'
+import moment from 'moment'
 import { Link } from 'react-router-dom'
+import { getListRealtime, deleteUnitData } from 'config/firebase'
 import Modal from 'react-responsive-modal'
 import EditPost from './EditPost/editPost'
 
-class PostList extends React.Component {
+export default class PostList extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       posts: [],
-      path: '',
 
       selectedPost: '',
       modalEdit: false
@@ -28,43 +28,36 @@ class PostList extends React.Component {
   }
 
   componentDidMount() {
-    firebase
-      .database()
-      .ref('learnPosts/postSection/postList')
-      .on('value', snapshot => {
-        const learnPostsObj = snapshot.val()
-        if (learnPostsObj) {
-          const posts = []
-          Object.keys(learnPostsObj).forEach(e => {
-            const post = {
-              id: e,
-              title: learnPostsObj[e].title,
-              by: learnPostsObj[e].by,
-              content: learnPostsObj[e].content,
-              description: learnPostsObj[e].description,
-              datePosted: learnPostsObj[e].datePosted,
-              thumbnail: learnPostsObj[e].thumbnail
-            }
-            posts.push(post)
-          })
-          this.setState({ posts, path: window.location.pathname }, () => console.log(this.state.path))
-        }
+    getListRealtime('learn', 'posts', 'datePosted', querySnapshot => {
+      const postArray = []
+      querySnapshot.forEach(doc => {
+        const post = { ...doc.data(), id: doc.id }
+        postArray.push(post)
       })
+      this.setState({ posts: postArray.reverse() })
+    })
   }
 
   deletePost(postID) {
     const ask = window.confirm('Sure to delete?')
     if (ask) {
-      firebase
-        .database()
-        .ref(`learnPosts/postSection/postList/${postID}`)
-        .remove()
-        .catch(err => alert(err.message))
+      deleteUnitData('learn', 'posts', postID).catch(err => alert(err.message))
     }
   }
 
-  renderRow(startIndex, endIndex, imgs) {
-    return imgs.slice(startIndex, endIndex).map(e => {
+  toTime(time) {
+    return moment.unix(time.seconds).format('d/m/YYYY hh:mm a')
+  }
+
+  shortenDescription(text) {
+    if (text !== undefined && text.length > 150)
+      return text.substring(0, 150)
+    return text
+  }
+
+  renderPost(startIndex, endIndex) {
+    const { posts } = this.state
+    return posts.slice(startIndex, endIndex).map(e => {
       if (this.state.selectedPost === e.id) {
         return (
           <div onClick={this.props.getPost.bind(this, e)} className="col-3" key={e.id}>
@@ -76,9 +69,9 @@ class PostList extends React.Component {
                   </div>
                   <h2 className="heading mb-0">{e.title}</h2>
                   <span className="mb-3 d-block post-date">
-                    {e.datePosted} By {e.by}
+                    {this.toTime(e.datePosted)} By {e.by}
                   </span>
-                  <span className="mb-3 d-block post-date">{e.description}</span>
+                  <span className="mb-3 d-block post-date">{this.shortenDescription(e.description)}</span>
                 </div>
               </div>
             </Link>
@@ -102,9 +95,9 @@ class PostList extends React.Component {
                 </div>
                 <h2 className="heading mb-0">{e.title}</h2>
                 <span className="mb-3 d-block post-date">
-                  {e.datePosted} By {e.by}
+                  {this.toTime(e.datePosted)} By {e.by}
                 </span>
-                <span className="mb-3 d-block post-date">{e.description}</span>
+                <span className="mb-3 d-block post-date">{this.shortenDescription(e.description)}</span>
               </div>
             </div>
           </Link>
@@ -117,7 +110,7 @@ class PostList extends React.Component {
     })
   }
 
-  renderImg(totalRows, imgs) {
+  renderPostRow(totalRows) {
     let startIndex = -4
     let endIndex = startIndex + 4
     const temp = Array.from({ length: totalRows }, () => Math.floor(Math.random()))
@@ -127,20 +120,21 @@ class PostList extends React.Component {
       endIndex += 4
       return (
         <div className="row" key={i}>
-          {this.renderRow(startIndex, endIndex, imgs)}
+          {this.renderPost(startIndex, endIndex)}
         </div>
       )
     })
   }
 
-  renderAllImg(imgs) {
-    if (imgs.length > 0) {
-      if (imgs.length % 4 === 0) {
-        return this.renderImg(imgs.length / 4, imgs)
+  renderAllPosts() {
+    const { posts } = this.state
+    if (posts.length > 0) {
+      if (posts.length % 4 === 0) {
+        return this.renderPostRow(posts.length / 4)
       }
-      return this.renderImg(imgs.length / 4 + 1, imgs)
+      return this.renderPostRow(posts.length / 4 + 1)
     }
-    return <h2>No imgs available</h2>
+    return <h2>No post available</h2>
   }
 
   render() {
@@ -149,10 +143,8 @@ class PostList extends React.Component {
         <div className="col-12">
           <h2>Posts</h2>
         </div>
-        {this.renderAllImg(this.state.posts)}
+        {this.renderAllPosts()}
       </div>
     )
   }
 }
-
-export default PostList

@@ -1,7 +1,7 @@
 import React from 'react'
 import Modal from 'react-responsive-modal'
-import ImageManagement from '../ImageMangement/imageManagement'
-import { root } from '../../../../config/firebase'
+import ImageManagement from 'utils/components/ImageManagement'
+import { root } from 'config/firebase'
 
 export default class UpdateHighlight extends React.Component {
   constructor(props) {
@@ -105,16 +105,9 @@ export default class UpdateHighlight extends React.Component {
     return (
       <div>
         {this.renderAllImg(this.props.highlight)}
-        <button
-          onClick={() => {
-            this.props.closeModal()
-          }}
-        >
-          Done
-        </button>
         <button onClick={this.openModalAdd}>Add</button>
         <Modal open={this.state.modalAdd} onClose={this.closeModalAdd} center>
-          <ImageManagement category="highlightImages" pick={this.onAddImg.bind(this)} closeModal={this.closeModalAdd} />
+          <ImageManagement category="highlight" pick={this.onAddImg.bind(this)} closeModal={this.closeModalAdd} />
         </Modal>
       </div>
     )
