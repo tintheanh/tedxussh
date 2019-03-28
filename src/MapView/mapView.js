@@ -5,10 +5,10 @@ import {
 
 const MapView = withScriptjs(
   withGoogleMap(props => {
-    const { location } = props
+    const { lat, lng } = props
     return (
-      <GoogleMap defaultZoom={18} center={{ lat: location.lat, lng: location.lng }}>
-        {props.isMarkerShown && <Marker position={{ lat: location.lat, lng: location.lng }} />}
+      <GoogleMap defaultZoom={18} center={{ lat, lng }}>
+        {props.isMarkerShown && <Marker position={{ lat, lng }} />}
       </GoogleMap>
     )
   })

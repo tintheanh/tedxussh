@@ -1,32 +1,24 @@
 import React from 'react'
+import moment from 'moment'
 import { Parallax } from 'react-parallax'
 import { modifyObj } from '../../../config/functions'
 
 const toVNDate = inputDate => {
-  if (inputDate) {
-    const date = inputDate.split('-')
-    const year = date[0]
-    let month = date[1]
-    let day = date[2]
-    if (parseInt(month) < 10) {
-      month = month.substring(1, 2)
-    }
-    if (parseInt(day) < 10) {
-      day = day.substring(1, 2)
-    }
-    return `${day}/${month}/${year}`
-  }
-  return ''
+  return moment(inputDate).format('D/M/YYYY')
+}
+
+const toTime = epoch => {
+  return moment.unix(epoch.seconds).format('h:mm a')
 }
 
 const ConferenceHeader = props => {
   const { isVN } = props
   const overview = modifyObj(isVN, props.overview, 'overview')
   const {
-    picture, date, description, startTime, endTime, address, title
+    cover_picture, date, description, startTime, endTime, location, title
   } = overview
   return (
-    <Parallax bgImage={picture} strength={500} className="overview-parallax">
+    <Parallax bgImage={cover_picture} strength={500} className="overview-parallax">
       <div className="container" style={{ height: '100%' }}>
         <div className="row align-items-center" style={{ height: '100%' }}>
           <div className="header-wrapper">
@@ -34,10 +26,11 @@ const ConferenceHeader = props => {
               <h1 className="event-title mb-1">{title}</h1>
               <p className="p-2 event-description">{description}</p>
               <p className="p-2 event-description">
-                <span style={{ fontWeight: '500' }}>{isVN ? 'Địa điểm:' : 'Location:'}</span> {address}
+                <span style={{ fontWeight: '500' }}>{isVN ? 'Địa điểm:' : 'Location:'}</span> {location.address}
               </p>
               <p className="p-2 event-description">
-                <span style={{ fontWeight: '500' }}>{isVN ? 'Thời gian:' : 'Time:'}</span> {startTime} - {endTime} {isVN ? 'ngày' : 'on'} {toVNDate(date)}
+                <span style={{ fontWeight: '500' }}>{isVN ? 'Thời gian:' : 'Time:'}</span> {toTime(startTime)} -{' '}
+                {toTime(endTime)} {isVN ? 'ngày' : 'on'} {toVNDate(date)}
               </p>
             </div>
           </div>

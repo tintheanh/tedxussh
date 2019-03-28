@@ -7,13 +7,7 @@ import {
 import ImageManagement from 'utils/components/ImageManagement'
 
 function renderImageManagement(type, onUpdate, close) {
-  return (
-    <ImageManagement
-      category={type}
-      pick={onUpdate}
-      closeModal={close}
-    />
-  )
+  return <ImageManagement category={type} pick={onUpdate} closeModal={close} />
 }
 
 function classifyImageInput(list) {
@@ -140,7 +134,8 @@ class UpdatePicture extends React.Component {
         </div>
         <button onClick={() => this.setState({ modal: true })}>Edit</button>
         <Modal open={this.state.modal} onClose={() => this.setState({ modal: false })} center>
-          {renderImageManagement('coverPage', this.onUpdate.bind(this), () => this.setState({ modal: false }))}
+          {renderImageManagement('coverPage', this.onUpdate.bind(this), () =>
+					  this.setState({ modal: false }))}
         </Modal>
       </div>
     )
@@ -355,8 +350,7 @@ class Unit extends React.Component {
   }
 
   shorten(string) {
-    if (string && string.length > 50)
-      return `${string.substring(0, 50)}...`
+    if (string && string.length > 50) return `${string.substring(0, 50)}...`
     return string
   }
 
@@ -418,17 +412,36 @@ class Unit extends React.Component {
     ) : (
       <div className="col-md-6 col-lg-3 mb-2">
         <div className="hotel-room text-center notransition">
-          <div className="d-block mb-0 thumbnail notransition">
-            <img
-              src={unit.picture}
-              alt=""
-              className="img-fluid notransition"
-              onClick={this.openModalEditPic}
-            />
-            <Modal open={this.state.modalEditPic} onClose={this.closeModalEditPic} center>
-              {renderImageManagement(classifyImageInput(this.props.list), this.onPictureChange.bind(this), this.closeModalEditPic)}
-            </Modal>
-          </div>
+          {unit.picture === '' ? (
+            <div className="d-block mb-0 thumbnail notransition">
+              <button onClick={this.openModalEditPic}>Add picture</button>
+              <Modal open={this.state.modalEditPic} onClose={this.closeModalEditPic} center>
+                {renderImageManagement(
+								  classifyImageInput(this.props.list),
+								  this.onPictureChange.bind(this),
+								  this.closeModalEditPic
+                )}
+              </Modal>
+            </div>
+          ) : (
+            <div className="d-block mb-0 thumbnail notransition">
+              <img
+                style={{ cursor: 'pointer' }}
+                src={unit.picture}
+                alt=""
+                className="img-fluid notransition"
+                onClick={this.openModalEditPic}
+              />
+              <Modal open={this.state.modalEditPic} onClose={this.closeModalEditPic} center>
+                {renderImageManagement(
+								  classifyImageInput(this.props.list),
+								  this.onPictureChange.bind(this),
+								  this.closeModalEditPic
+                )}
+              </Modal>
+            </div>
+          )}
+
           <div className="hotel-room-body">{this.renderEditable(unit)}</div>
         </div>
         <button onClick={this.onUpdate.bind(this, unit.id)}>Save</button>
@@ -571,7 +584,10 @@ class AddUnit extends React.Component {
             value={link}
             onChange={e => this.setState({ link: e.target.value })}
           />
-          <select value={this.state.sponsorType} onChange={e => this.setState({ sponsorType: e.target.value })}>
+          <select
+            value={this.state.sponsorType}
+            onChange={e => this.setState({ sponsorType: e.target.value })}
+          >
             <option value="gold">Gold</option>
             <option value="silver">Silver</option>
             <option value="supporting">Supporting</option>
@@ -613,7 +629,11 @@ class AddUnit extends React.Component {
         <br />
         <button onClick={this.openModalPic}>Select picture</button>
         <Modal open={this.state.modalPic} onClose={this.closeModalPic} center>
-          {renderImageManagement(classifyImageInput(this.props.list), this.selectPic.bind(this), this.closeModalPic)}
+          {renderImageManagement(
+					  classifyImageInput(this.props.list),
+					  this.selectPic.bind(this),
+					  this.closeModalPic
+          )}
         </Modal>
         <button onClick={this.onAdd.bind(this)}>Add</button>
         <button onClick={() => this.props.closeModal()}>Done</button>

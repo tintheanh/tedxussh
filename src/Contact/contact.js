@@ -59,14 +59,14 @@ class Contact extends React.Component {
   render() {
     const { isVN } = this.props;
     const contact = modifyObj(isVN, this.props.contact, 'contact');
-    const { background, comment, hqAddress, hqName } = contact;
+    const { cover_picture, location_description, email_contact, introduction } = contact;
     return (
       <div>
         <div>
           <div
             className="about-header text-vertical-center"
             style={{
-              backgroundImage: `url(${background})`
+              backgroundImage: `url(${cover_picture})`
             }}
           >
             <div className="row" style={{ width: '100%', margin: '0' }}>
@@ -83,9 +83,9 @@ class Contact extends React.Component {
           <div className="container">
             <div className="row">
               <div className="col-md-6 col-lg-4">
-                <p style={{ fontFamily: 'Montserrat' }}>{hqName}</p>
-                <p style={{ fontFamily: 'Montserrat' }}>{hqAddress}</p>
-                <p style={{ fontFamily: 'Montserrat' }}>{comment}</p>
+                <p style={{ fontFamily: 'Montserrat' }}>{introduction}</p>
+                <p style={{ fontFamily: 'Montserrat' }}>{email_contact}</p>
+                <p style={{ fontFamily: 'Montserrat' }}>{location_description}</p>
               </div>
               <div className="col-md-6 col-lg-8">
                 {!this.state.submitted ? (

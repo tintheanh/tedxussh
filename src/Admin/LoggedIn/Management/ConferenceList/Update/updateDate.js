@@ -25,12 +25,12 @@ export default class UpdateDate extends React.Component {
   }
 
   toDate(inputDate) {
-    const date = moment(inputDate).format('D/M/YYYY, h:mm A')
+    const date = moment(inputDate).format('D/M/YYYY, h:mm a')
     return date
   }
 
   toHours(inputTime) {
-    const hours = moment(inputTime).format('hh:mm')
+    const hours = moment(inputTime).format('HH:mm')
     return hours
   }
 
@@ -110,11 +110,11 @@ export default class UpdateDate extends React.Component {
     return (
       <div className="col-12">
         <h5>Start</h5>
-        <DatePicker dateFormat="d/M/YYYY" selected={moment(startTime).toDate()} onChange={this.onStartDateChange.bind(this)} />
+        <DatePicker dateFormat="d/M/YYYY" selected={startTime} onChange={this.onStartDateChange.bind(this)} />
         <br />
         <TimePicker disableClock clockIcon={null} value={this.toHours(startTime)} onChange={this.onStartTimeChange.bind(this)} />
         <h5>End</h5>
-        <DatePicker dateFormat="d/M/YYYY" selected={moment(endTime).toDate()} onChange={this.onEndDateChange.bind(this)} />
+        <DatePicker dateFormat="d/M/YYYY" selected={endTime} onChange={this.onEndDateChange.bind(this)} />
         <br />
         <TimePicker disableClock clockIcon={null} value={this.toHours(endTime)} onChange={this.onEndTimeChange.bind(this)} />
         <br />

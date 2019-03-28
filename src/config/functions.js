@@ -1,39 +1,39 @@
 export const modifyObj = (isVN, obj, type) => {
-  const modify = { ...obj };
-  let left = {};
-  let middle = {};
-  let right = {};
+  const modify = { ...obj }
+  let left = {}
+  let middle = {}
+  let right = {}
   switch (type) {
     case 'home':
       if (
         modify.title &&
-        modify.title.includes('||') &&
-        modify.description &&
-        modify.description.includes('||') &&
-        modify.left &&
-        modify.left.title.includes('||') &&
-        modify.left.description.includes('||') &&
-        modify.middle &&
-        modify.middle.title.includes('||') &&
-        modify.middle.description.includes('||') &&
-        modify.right &&
-        modify.right.title.includes('||') &&
-        modify.right.description.includes('||')
+				modify.title.includes('||') &&
+				modify.description &&
+				modify.description.includes('||') &&
+				modify.left &&
+				modify.left.title.includes('||') &&
+				modify.left.description.includes('||') &&
+				modify.middle &&
+				modify.middle.title.includes('||') &&
+				modify.middle.description.includes('||') &&
+				modify.right &&
+				modify.right.title.includes('||') &&
+				modify.right.description.includes('||')
       ) {
-        const title = modify.title.split('||');
-        const description = modify.description.split('||');
-        left = { ...modify.left };
-        middle = { ...modify.middle };
-        right = { ...modify.right };
+        const title = modify.title.split('||')
+        const description = modify.description.split('||')
+        left = { ...modify.left }
+        middle = { ...modify.middle }
+        right = { ...modify.right }
 
-        const leftTitle = left.title.split('||');
-        const leftDesc = left.description.split('||');
+        const leftTitle = left.title.split('||')
+        const leftDesc = left.description.split('||')
 
-        const midTitle = middle.title.split('||');
-        const midDesc = middle.description.split('||');
+        const midTitle = middle.title.split('||')
+        const midDesc = middle.description.split('||')
 
-        const rightTitle = right.title.split('||');
-        const rightDesc = right.description.split('||');
+        const rightTitle = right.title.split('||')
+        const rightDesc = right.description.split('||')
         if (isVN) {
           [modify.title] = [title[0]];
           [modify.description] = [description[0]];
@@ -45,7 +45,7 @@ export const modifyObj = (isVN, obj, type) => {
           [middle.description] = [midDesc[0]];
 
           [right.title] = [rightTitle[0]];
-          [right.description] = [rightDesc[0]];
+          [right.description] = [rightDesc[0]]
         } else {
           [modify.title] = [title[1]];
           [modify.description] = [description[1]];
@@ -57,171 +57,177 @@ export const modifyObj = (isVN, obj, type) => {
           [middle.description] = [midDesc[1]];
 
           [right.title] = [rightTitle[1]];
-          [right.description] = [rightDesc[1]];
+          [right.description] = [rightDesc[1]]
         }
-        return { ...modify, left, middle, right };
+        return {
+          ...modify,
+          left,
+          middle,
+          right
+        }
       }
-      return obj;
+      return obj
     case 'footer':
       if (
         modify.copyright &&
-        modify.copyright.includes('||') &&
-        modify.middle &&
-        modify.middle.sentence.includes('||') &&
-        modify.right &&
-        modify.right.sentence.includes('||')
+				modify.copyright.includes('||') &&
+				modify.middle &&
+				modify.middle.authority.includes('||') &&
+				modify.right &&
+				modify.right.navigate.includes('||')
       ) {
-        const copyright = modify.copyright.split('||');
-        middle = { ...modify.middle };
-        right = { ...modify.right };
+        const copyright = modify.copyright.split('||')
+        middle = { ...modify.middle }
+        right = { ...modify.right }
 
-        const midSen = middle.sentence.split('||');
-        const rightSen = right.sentence.split('||');
+        const midSen = middle.authority.split('||')
+        const rightSen = right.navigate.split('||')
         if (isVN) {
           [modify.copyright] = [copyright[0]];
 
-          [middle.sentence] = [midSen[0]];
-          [right.sentence] = [rightSen[0]];
+          [middle.authority] = [midSen[0]];
+          [right.navigate] = [rightSen[0]]
         } else {
           [modify.copyright] = [copyright[1]];
 
-          [middle.sentence] = [midSen[1]];
-          [right.sentence] = [rightSen[1]];
+          [middle.authority] = [midSen[1]];
+          [right.navigate] = [rightSen[1]]
         }
-        return { ...modify, middle, right };
+        return { ...modify, middle, right }
       }
-      return obj;
+      return obj
 
     case 'overview':
-      if (modify.description && modify.address) {
-        const description = modify.description.split('||');
-        const address = modify.address.split('||');
+      if (modify.description && modify.location.address) {
+        const description = modify.description.split('||')
+        const location = { ...modify.location }
+        const addressSplited = location.address.split('||')
         if (isVN) {
           [modify.description] = [description[0]];
-          [modify.address] = [address[0]];
+          [location.address] = [addressSplited[0]]
         } else {
           [modify.description] = [description[1]];
-          [modify.address] = [address[1]];
+          [location.address] = [addressSplited[1]]
         }
-        return { ...modify };
+        return { ...modify, location }
       }
-      return obj;
+      return obj
     case 'speakers':
     case 'hosts':
     case 'performers':
       if (modify.description) {
-        const description = modify.description.split('||');
+        const description = modify.description.split('||')
         if (isVN) {
-          [modify.description] = [description[0]];
+          [modify.description] = [description[0]]
         } else {
-          [modify.description] = [description[1]];
+          [modify.description] = [description[1]]
         }
-        return { ...modify };
+        return { ...modify }
       }
-      return obj;
+      return obj
     case 'agenda': {
-      const agendaList = [...modify.agendaList];
-      const enAgd = [];
-      const vnAgd = [];
+      const agendaList = [...obj]
+      const enAgd = []
+      const vnAgd = []
       agendaList.forEach(agd => {
-        const header = agd.header.split('||');
-        const detail = agd.detail.split('||');
-        if (isVN) vnAgd.push({ ...agd, header: header[0], detail: detail[0] });
-        else enAgd.push({ ...agd, header: header[1], detail: detail[1] });
-      });
-      if (isVN) return { ...modify, agendaList: vnAgd };
-      return { ...modify, agendaList: enAgd };
+        const header = agd.header.split('||')
+        const detail = agd.detail.split('||')
+        if (isVN) vnAgd.push({ ...agd, header: header[0], detail: detail[0] })
+        else enAgd.push({ ...agd, header: header[1], detail: detail[1] })
+      })
+      if (isVN) return [...vnAgd]
+      return [...enAgd]
     }
     case 'adventures':
       if (modify.description && modify.header) {
-        const description = modify.description.split('||');
-        const header = modify.header.split('||');
+        const description = modify.description.split('||')
+        const header = modify.header.split('||')
         if (isVN) {
           [modify.description] = [description[0]];
-          [modify.header] = [header[0]];
+          [modify.header] = [header[0]]
         } else {
           [modify.description] = [description[1]];
-          [modify.header] = [header[1]];
+          [modify.header] = [header[1]]
         }
-        return { ...modify };
+        return { ...modify }
       }
-      return obj;
+      return obj
     case 'sponsors':
       if (modify.description) {
-        const description = modify.description.split('||');
+        const description = modify.description.split('||')
         if (isVN) {
-          [modify.description] = [description[0]];
+          [modify.description] = [description[0]]
         } else {
-          [modify.description] = [description[1]];
+          [modify.description] = [description[1]]
         }
-        return { ...modify };
+        return { ...modify }
       }
-      return obj;
+      return obj
     case 'location':
       if (modify.address) {
-        const address = modify.address.split('||');
+        const address = modify.address.split('||')
         if (isVN) {
-          [modify.address] = [address[0]];
+          [modify.address] = [address[0]]
         } else {
-          [modify.address] = [address[1]];
+          [modify.address] = [address[1]]
         }
-        return { ...modify };
+        return { ...modify }
       }
-      return obj;
+      return obj
     case 'learn':
       if (modify.title) {
-        const title = modify.title.split('||');
+        const title = modify.title.split('||')
         if (isVN) {
-          [modify.title] = [title[0]];
+          [modify.title] = [title[0]]
         } else {
-          [modify.title] = [title[1]];
+          [modify.title] = [title[1]]
         }
-        return { ...modify };
+        return { ...modify }
       }
-      return obj;
+      return obj
     case 'post':
     case 'video':
       if (modify.header) {
-        const header = modify.header.split('||');
+        const header = modify.header.split('||')
         if (isVN) {
-          [modify.header] = [header[0]];
+          [modify.header] = [header[0]]
         } else {
-          [modify.header] = [header[1]];
+          [modify.header] = [header[1]]
         }
-        return { ...modify };
+        return { ...modify }
       }
-      return obj;
+      return obj
     case 'about':
       if (
-        modify.header &&
-        modify.header.includes('||') &&
-        modify.left &&
-        modify.left.title.includes('||') &&
-        modify.left.description.includes('||') &&
-        modify.middle &&
-        modify.middle.title.includes('||') &&
-        modify.middle.description.includes('||') &&
-        modify.right &&
-        modify.right.title.includes('||') &&
-        modify.right.description.includes('||') &&
-        modify.visions
+        modify.title &&
+				modify.title.includes('||') &&
+				modify.left &&
+				modify.left.title.includes('||') &&
+				modify.left.description.includes('||') &&
+				modify.middle &&
+				modify.middle.title.includes('||') &&
+				modify.middle.description.includes('||') &&
+				modify.right &&
+				modify.right.title.includes('||') &&
+				modify.right.description.includes('||') &&
+				modify.visions
       ) {
-        const header = modify.header.split('||');
-        left = { ...modify.left };
-        middle = { ...modify.middle };
-        right = { ...modify.right };
+        const title = modify.title.split('||')
+        left = { ...modify.left }
+        middle = { ...modify.middle }
+        right = { ...modify.right }
 
-        const leftTitle = left.title.split('||');
-        const leftDesc = left.description.split('||');
+        const leftTitle = left.title.split('||')
+        const leftDesc = left.description.split('||')
 
-        const midTitle = middle.title.split('||');
-        const midDesc = middle.description.split('||');
+        const midTitle = middle.title.split('||')
+        const midDesc = middle.description.split('||')
 
-        const rightTitle = right.title.split('||');
-        const rightDesc = right.description.split('||');
+        const rightTitle = right.title.split('||')
+        const rightDesc = right.description.split('||')
 
         if (isVN) {
-          [modify.header] = [header[0]];
+          [modify.title] = [title[0]];
 
           [left.title] = [leftTitle[0]];
           [left.description] = [leftDesc[0]];
@@ -230,9 +236,9 @@ export const modifyObj = (isVN, obj, type) => {
           [middle.description] = [midDesc[0]];
 
           [right.title] = [rightTitle[0]];
-          [right.description] = [rightDesc[0]];
+          [right.description] = [rightDesc[0]]
         } else {
-          [modify.header] = [header[1]];
+          [modify.title] = [title[1]];
 
           [left.title] = [leftTitle[1]];
           [left.description] = [leftDesc[1]];
@@ -241,42 +247,47 @@ export const modifyObj = (isVN, obj, type) => {
           [middle.description] = [midDesc[1]];
 
           [right.title] = [rightTitle[1]];
-          [right.description] = [rightDesc[1]];
+          [right.description] = [rightDesc[1]]
         }
-        return { ...modify, left, middle, right };
+        return {
+          ...modify,
+          left,
+          middle,
+          right
+        }
       }
-      return obj;
+      return obj
     case 'contact':
-      if (modify.comment && modify.hqName && modify.hqAddress) {
-        const comment = modify.comment.split('||');
-        const hqName = modify.hqName.split('||');
-        const hqAddress = modify.hqAddress.split('||');
+      if (modify.email_contact && modify.introduction && modify.location_description) {
+        const email_contact = modify.email_contact.split('||')
+        const introduction = modify.introduction.split('||')
+        const location_description = modify.location_description.split('||')
 
         if (isVN) {
-          [modify.comment] = [comment[0]];
-          [modify.hqName] = [hqName[0]];
-          [modify.hqAddress] = [hqAddress[0]];
+          [modify.email_contact] = [email_contact[0]];
+          [modify.introduction] = [introduction[0]];
+          [modify.location_description] = [location_description[0]]
         } else {
-          [modify.comment] = [comment[1]];
-          [modify.hqName] = [hqName[1]];
-          [modify.hqAddress] = [hqAddress[1]];
+          [modify.email_contact] = [email_contact[1]];
+          [modify.introduction] = [introduction[1]];
+          [modify.location_description] = [location_description[1]]
         }
-        return { ...modify };
+        return { ...modify }
       }
-      return obj;
+      return obj
     default:
   }
 
-  return null;
-};
+  return null
+}
 
 export const retrieveDataForConference = (obj, type) => {
-  const data = { ...obj };
+  const data = { ...obj }
   switch (type) {
     case 'overview': {
-      let overviewReturned = {};
+      let overviewReturned = {}
       if (data.overview) {
-        const { overview } = data;
+        const { overview } = data
         overviewReturned = {
           conferencePicture: overview.conferencePicture,
           date: overview.date,
@@ -285,16 +296,16 @@ export const retrieveDataForConference = (obj, type) => {
           address: overview.location.address,
           startTime: overview.startTime,
           title: overview.title
-        };
-        return overviewReturned;
+        }
+        return overviewReturned
       }
-      return overviewReturned;
+      return overviewReturned
     }
     case 'speakers': {
-      let speakersReturned = {};
+      let speakersReturned = {}
       if (data.speakers) {
-        const { speakers } = data;
-        const speakerList = [];
+        const { speakers } = data
+        const speakerList = []
         if (speakers.speakerList) {
           Object.keys(speakers.speakerList).forEach(e => {
             const speaker = {
@@ -303,23 +314,23 @@ export const retrieveDataForConference = (obj, type) => {
               name: speakers.speakerList[e].name,
               occupation: speakers.speakerList[e].occupation,
               picture: speakers.speakerList[e].picture
-            };
-            speakerList.push(speaker);
-          });
+            }
+            speakerList.push(speaker)
+          })
         }
         speakersReturned = {
           description: speakers.description,
           speakerList
-        };
-        return speakersReturned;
+        }
+        return speakersReturned
       }
-      return speakersReturned;
+      return speakersReturned
     }
     case 'hosts': {
-      let hostsReturned = {};
+      let hostsReturned = {}
       if (data.hosts) {
-        const { hosts } = data;
-        const hostList = [];
+        const { hosts } = data
+        const hostList = []
         if (hosts.hostList) {
           Object.keys(hosts.hostList).forEach(e => {
             const host = {
@@ -328,23 +339,23 @@ export const retrieveDataForConference = (obj, type) => {
               name: hosts.hostList[e].name,
               occupation: hosts.hostList[e].occupation,
               picture: hosts.hostList[e].picture
-            };
-            hostList.push(host);
-          });
+            }
+            hostList.push(host)
+          })
         }
         hostsReturned = {
           description: hosts.description,
           hostList
-        };
-        return hostsReturned;
+        }
+        return hostsReturned
       }
-      return hostsReturned;
+      return hostsReturned
     }
     case 'performers': {
-      let performersReturned = {};
+      let performersReturned = {}
       if (data.performers) {
-        const { performers } = data;
-        const performerList = [];
+        const { performers } = data
+        const performerList = []
         if (performers.performerList) {
           Object.keys(performers.performerList).forEach(e => {
             const performer = {
@@ -353,23 +364,23 @@ export const retrieveDataForConference = (obj, type) => {
               name: performers.performerList[e].name,
               occupation: performers.performerList[e].occupation,
               picture: performers.performerList[e].picture
-            };
-            performerList.push(performer);
-          });
+            }
+            performerList.push(performer)
+          })
         }
         performersReturned = {
           description: performers.description,
           performerList
-        };
-        return performersReturned;
+        }
+        return performersReturned
       }
-      return performersReturned;
+      return performersReturned
     }
     case 'agenda': {
-      let agendaReturn = {};
+      let agendaReturn = {}
       if (data.overview) {
-        const { agenda, overview } = data;
-        const agendaList = [];
+        const { agenda, overview } = data
+        const agendaList = []
         if (agenda) {
           Object.keys(agenda).forEach(e => {
             const agd = {
@@ -378,36 +389,36 @@ export const retrieveDataForConference = (obj, type) => {
               header: agenda[e].header,
               participants: agenda[e].participants,
               time: agenda[e].time
-            };
-            agendaList.push(agd);
-          });
+            }
+            agendaList.push(agd)
+          })
         }
         agendaReturn = {
           date: overview.date,
           agendaList
-        };
-        return agendaReturn;
+        }
+        return agendaReturn
       }
-      return agendaReturn;
+      return agendaReturn
     }
     case 'theme': {
-      let themeReturned = {};
+      let themeReturned = {}
       if (data.theme) {
-        const { theme } = data;
+        const { theme } = data
         themeReturned = {
           detail: theme.detail,
           header: theme.header,
           picture: theme.picture
-        };
-        return themeReturned;
+        }
+        return themeReturned
       }
-      return themeReturned;
+      return themeReturned
     }
     case 'adventures': {
-      let adventuresReturn = {};
+      let adventuresReturn = {}
       if (data.adventures) {
-        const { adventures } = data;
-        const adventureList = [];
+        const { adventures } = data
+        const adventureList = []
         if (adventures.adventureList) {
           Object.keys(adventures.adventureList).forEach(e => {
             const adventure = {
@@ -415,59 +426,59 @@ export const retrieveDataForConference = (obj, type) => {
               detail: adventures.adventureList[e].detail,
               name: adventures.adventureList[e].name,
               picture: adventures.adventureList[e].picture
-            };
-            adventureList.push(adventure);
-          });
+            }
+            adventureList.push(adventure)
+          })
         }
         adventuresReturn = {
           description: adventures.description,
           header: adventures.header,
           adventureList
-        };
-        return adventuresReturn;
+        }
+        return adventuresReturn
       }
-      return adventuresReturn;
+      return adventuresReturn
     }
     case 'sponsors': {
-      let sponsorsReturned = {};
+      let sponsorsReturned = {}
       if (data.sponsors) {
-        const { sponsors } = data;
-        const sponsorList = [];
+        const { sponsors } = data
+        const sponsorList = []
         if (sponsors.sponsorList) {
           Object.keys(sponsors.sponsorList).forEach(e => {
             const sponsor = {
               id: e,
               website: sponsors.sponsorList[e].website,
               logo: sponsors.sponsorList[e].logo
-            };
-            sponsorList.push(sponsor);
-          });
+            }
+            sponsorList.push(sponsor)
+          })
         }
         sponsorsReturned = {
           description: sponsors.description,
           sponsorList
-        };
-        return sponsorsReturned;
+        }
+        return sponsorsReturned
       }
-      return sponsorsReturned;
+      return sponsorsReturned
     }
     case 'location': {
-      let locationReturned = {};
+      let locationReturned = {}
       if (data.overview) {
-        const { overview } = data;
+        const { overview } = data
         locationReturned = {
           address: overview.location.address,
           lat: overview.location.lat,
           lng: overview.location.lng
-        };
-        return locationReturned;
+        }
+        return locationReturned
       }
-      return locationReturned;
+      return locationReturned
     }
     case 'highlight': {
-      const highLightReturned = [];
+      const highLightReturned = []
       if (data.highlight) {
-        const { highlight } = data;
+        const { highlight } = data
         Object.keys(highlight).forEach(e => {
           const picture = {
             id: e,
@@ -475,13 +486,13 @@ export const retrieveDataForConference = (obj, type) => {
             url: highlight[e].url,
             height: highlight[e].height,
             width: highlight[e].width
-          };
-          highLightReturned.push(picture);
-        });
-        return highLightReturned;
+          }
+          highLightReturned.push(picture)
+        })
+        return highLightReturned
       }
-      return highLightReturned;
+      return highLightReturned
     }
     default:
   }
-};
+}

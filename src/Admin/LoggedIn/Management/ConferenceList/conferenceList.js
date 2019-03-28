@@ -141,7 +141,7 @@ export default class ConferenceList extends React.Component {
               }}
             />
           </SectionWrapper>
-          <SectionWrapper>
+          <SectionWrapper forPicture>
             <SectionTitle title="Speakers" />
             <UpdateUnitSection
               unitData={conference.speakers}
@@ -151,7 +151,7 @@ export default class ConferenceList extends React.Component {
               updateTo="conference"
             />
           </SectionWrapper>
-          <SectionWrapper>
+          <SectionWrapper forPicture>
             <SectionTitle title="Hosts" />
             <UpdateUnitSection
               unitData={conference.hosts}
@@ -161,7 +161,7 @@ export default class ConferenceList extends React.Component {
               updateTo="conference"
             />
           </SectionWrapper>
-          <SectionWrapper>
+          <SectionWrapper forPicture>
             <SectionTitle title="Performers" />
             <UpdateUnitSection
               unitData={conference.performers}
@@ -199,7 +199,7 @@ export default class ConferenceList extends React.Component {
               updateTo="conference"
             />
           </SectionWrapper>
-          <SectionWrapper>
+          <SectionWrapper forPicture>
             <SectionTitle title="Adventures" />
             <UpdateUnitSection
               unitData={conference.adventures}
@@ -209,7 +209,7 @@ export default class ConferenceList extends React.Component {
               updateTo="conference"
             />
           </SectionWrapper>
-          <SectionWrapper>
+          <SectionWrapper forPicture>
             <SectionTitle title="Sponsors" />
             <UpdateUnitSection
               unitData={conference.sponsors}
@@ -223,7 +223,7 @@ export default class ConferenceList extends React.Component {
             <SectionTitle title="Location" />
             <UpdateLocation locationData={conference.overview.location} />
           </SectionWrapper>
-          <SectionWrapper>
+          <SectionWrapper forPicture>
             <SectionTitle title="Highlight" />
             <UpdateHighlight highlight={conference.highlight} />
           </SectionWrapper>

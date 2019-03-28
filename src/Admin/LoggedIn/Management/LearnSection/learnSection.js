@@ -12,6 +12,7 @@ import PostList from './PostList/postList'
 import FullPost from '../../../../FullPost/fullPost'
 import AddPost from './AddPost/addPost'
 import VideoList from './VideoList/videoList'
+import './styles.css'
 
 const history = createBrowserHistory()
 
@@ -32,7 +33,7 @@ export default class LearnSection extends React.Component {
       if (doc.exists) {
         const learnObj = doc.data()
         let learn
-        
+
         let videoArray
 
         getListRealtime('learn', 'videoList', 'createdDate', querySnapshot => {
@@ -78,10 +79,22 @@ export default class LearnSection extends React.Component {
       return (
         <div style={{ paddingBottom: '54px' }}>
           <PostList getPost={this.getPost.bind(this)} />
-          <button style={{ border: '2px solid #ccc', margin: '24px' }} onClick={this.openModalAdd}>
+          <button
+            style={{
+              width: '100px', height: '50px', position: 'fixed', bottom: '10px', zIndex: 1000
+            }}
+            onClick={this.openModalAdd}
+          >
 						Add post
           </button>
-          <Modal open={this.state.modalAdd} showCloseIcon={false} onClose={() => console.log('')}>
+          <Modal
+            open={this.state.modalAdd}
+            showCloseIcon={false}
+            onClose={() => console.log('')}
+            classNames={{
+						  modal: 'customModal'
+            }}
+          >
             <AddPost closeModal={this.closeModalAdd} />
           </Modal>
         </div>
@@ -103,18 +116,8 @@ export default class LearnSection extends React.Component {
               <div>
                 <SectionWrapper>
                   <SectionTitle title="Cover" />
-                  <UpdatePicture
-                    name="Picture"
-                    data={learn.cover}
-                    field="cover"
-                    updateTo="learn"
-                  />
-                  <UpdateText
-                    name="Title"
-                    data={learn.title}
-                    field="title"
-                    updateTo="learn"
-                  />
+                  <UpdatePicture name="Picture" data={learn.cover} field="cover" updateTo="learn" />
+                  <UpdateText name="Title" data={learn.title} field="title" updateTo="learn" />
                 </SectionWrapper>
                 <SectionWrapper>
                   <SectionTitle title="Video section introduction" />

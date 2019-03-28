@@ -24,6 +24,13 @@ export const getData = path => root.doc(path).get()
 
 export const getDataRealtime = (path, callback) => root.doc(path).onSnapshot(doc => callback(doc))
 
+export const getList = (path, collection, order) =>
+  root
+    .doc(path)
+    .collection(collection)
+    .orderBy(order)
+    .get()
+
 export const getListRealtime = (path, collection, order, callback) =>
   root
     .doc(path)
@@ -53,16 +60,39 @@ export const deleteUnitData = (path, collection, id) =>
     .doc(id)
     .delete()
 
-export const getPost = postID =>
-  root
-    .doc('learn')
-    .collection('posts')
-    .doc(postID)
-    .get()
+export const getPost = (postID, callback) =>
+  firebase
+    .database()
+    .ref('postList')
+    .child(postID)
+    .once('value', snapshot => callback(snapshot))
 
 export const addPost = (postID, post) =>
-  root
-    .doc('learn')
-    .collection('posts')
-    .doc(postID)
+  firebase
+    .database()
+    .ref(`postList/${postID}`)
     .set(post)
+
+export const updatePost = (postID, post) =>
+  firebase
+    .database()
+    .ref(`postList/${postID}`)
+    .update(post)
+
+export const deletePost = postID =>
+  firebase
+    .database()
+    .ref(`postList/${postID}`)
+    .remove()
+
+export const getPostList = callback =>
+  firebase
+    .database()
+    .ref('postList')
+    .once('value', snapshot => callback(snapshot))
+
+export const getPostListRealtime = callback =>
+  firebase
+    .database()
+    .ref('postList')
+    .on('value', snapshot => callback(snapshot))

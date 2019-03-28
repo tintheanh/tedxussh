@@ -223,7 +223,7 @@ export default class ImageSection extends React.Component {
             <SectionTitle title="Other images" />
             {this.renderAllImgs(images.others, 'others')}
           </SectionWrapper>
-          <button onClick={this.openModalUpload}>Upload</button>
+          <button onClick={this.openModalUpload} style={{ width: '100px', height: '50px', position: 'fixed', bottom: '10px', zIndex: 1000 }}>Upload</button>
           <Modal open={this.state.modalUpload} onClose={this.closeModalUpload} center>
             <UploadImage closeModal={this.closeModalUpload} />
           </Modal>

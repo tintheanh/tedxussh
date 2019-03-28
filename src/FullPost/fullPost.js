@@ -1,6 +1,6 @@
 import React from 'react'
-import moment from 'moment'
 import { getPost } from 'config/firebase'
+import moment from 'moment'
 
 export default class FullPost extends React.Component {
   constructor(props) {
@@ -27,19 +27,19 @@ export default class FullPost extends React.Component {
   }
 
   componentDidMount() {
-    getPost(this.props.postID).then(doc => {
-      const postObj = doc.data()
+    getPost(this.props.postID, doc => {
+      const postObj = doc.val()
       const post = { ...postObj }
-      this.setState({ post }, () => console.log(this.state.post))
+      this.setState({ post })
     })
+  }
+
+  toTime(epoch) {
+    return moment(epoch).format('D/M/YYYY')
   }
 
   goBack() {
     this.props.history.goBack()
-  }
-
-  toTime(time) {
-    return moment.unix(time.seconds).format('d/m/YYYY hh:mm a')
   }
 
   render() {

@@ -2,31 +2,8 @@ import React from 'react'
 import ReactQuill from 'react-quill'
 import Modal from 'react-responsive-modal'
 import ImageManagement from 'utils/components/ImageManagement'
-import { updateUnitData } from 'config/firebase'
-
-const modules = {
-  toolbar: [
-    [{ header: [1, 2, false] }],
-    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-    [{ list: 'ordered' }, { list: 'bullet' }, { indent: '-1' }, { indent: '+1' }],
-    ['link', 'image'],
-    ['clean']
-  ]
-}
-
-const formats = [
-  'header',
-  'bold',
-  'italic',
-  'underline',
-  'strike',
-  'blockquote',
-  'list',
-  'bullet',
-  'indent',
-  'link',
-  'image'
-]
+import { updatePost } from 'config/firebase'
+import { modules, formats } from 'utils/functions'
 
 export default class EditPost extends React.Component {
   constructor(props) {
@@ -69,7 +46,7 @@ export default class EditPost extends React.Component {
       thumbnail: this.state.thumbnail
     }
 
-    updateUnitData('learn', 'posts', this.props.post.id, update)
+    updatePost(this.props.post.id, update)
       .then(() => this.props.closeModal())
       .catch(err => alert(err.message))
   }
@@ -96,7 +73,7 @@ export default class EditPost extends React.Component {
           />
         </div>
         <div className="row">
-          <img className="img-fluid" src={this.state.thumbnail} alt="" />
+          <img className="img-fluid" src={this.state.thumbnail} alt="" style={{ width: '50%', height: '50%' }} />
         </div>
         <button onClick={this.openModalThumbAdd}>Thumbnail</button>
         <Modal open={this.state.modalThumbAdd} onClose={this.closeModalThumbAdd} center>

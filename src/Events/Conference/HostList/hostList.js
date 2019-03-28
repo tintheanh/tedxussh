@@ -1,58 +1,54 @@
-import React from 'react';
-import SmoothCollapse from 'react-smooth-collapse';
-import HostCard from './HostCard/hostCard';
-import { modifyObj } from '../../../config/functions';
+import React from 'react'
+import SmoothCollapse from 'react-smooth-collapse'
+import HostCard from './HostCard/hostCard'
+import { modifyObj } from '../../../config/functions'
 
 class HostList extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       expanded: false
-    };
+    }
   }
 
   renderImg(totalRows, imgs) {
-    let startIndex = -4;
-    let endIndex = startIndex + 4;
-    const temp = Array.from({ length: totalRows }, () =>
-      Math.floor(Math.random())
-    );
+    let startIndex = -4
+    let endIndex = startIndex + 4
+    const temp = Array.from({ length: totalRows }, () => Math.floor(Math.random()))
 
     return temp.map((_, i) => {
-      startIndex += 4;
-      endIndex += 4;
+      startIndex += 4
+      endIndex += 4
 
       return (
         <div className="row hosts-section" key={i}>
           {this.renderRow(startIndex, endIndex, imgs)}
         </div>
-      );
-    });
+      )
+    })
   }
 
   renderRow(startIndex, endIndex, imgs) {
-    return imgs
-      .slice(startIndex, endIndex)
-      .map((host, i) => <HostCard key={i} host={host} />);
+    return imgs.slice(startIndex, endIndex).map((host, i) => <HostCard key={i} host={host} />)
   }
 
   renderAllImg(imgs) {
     if (imgs.length > 0) {
       if (imgs.length % 4 === 0) {
-        return this.renderImg(imgs.length / 4, imgs);
+        return this.renderImg(imgs.length / 4, imgs)
       }
-      return this.renderImg(imgs.length / 4 + 1, imgs);
+      return this.renderImg(imgs.length / 4 + 1, imgs)
     }
-    return null;
+    return null
   }
 
   toggle() {
-    this.setState({ expanded: !this.state.expanded });
+    this.setState({ expanded: !this.state.expanded })
   }
 
   render() {
-    const { isVN } = this.props;
-    const hosts = modifyObj(isVN, this.props.hosts, 'hosts');
+    const { isVN } = this.props
+    const hosts = modifyObj(isVN, this.props.hosts, 'hosts')
     if (hosts.hostList) {
       return (
         <div className="site-section bg-white">
@@ -73,14 +69,10 @@ class HostList extends React.Component {
               <div className="row">{this.renderAllImg(hosts.hostList)}</div>
             ) : (
               <div>
-                <div className="row">
-                  {this.renderAllImg(hosts.hostList.slice(0, 4))}
-                </div>
+                <div className="row">{this.renderAllImg(hosts.hostList.slice(0, 4))}</div>
                 <SmoothCollapse expanded={this.state.expanded}>
                   <div className="row">
-                    {this.renderAllImg(
-                      hosts.hostList.slice(4, hosts.hostList.length)
-                    )}
+                    {this.renderAllImg(hosts.hostList.slice(4, hosts.hostList.length))}
                   </div>
                 </SmoothCollapse>
                 <div className="row">
@@ -90,7 +82,7 @@ class HostList extends React.Component {
                       onClick={this.toggle.bind(this)}
                       style={{ textDecoration: 'none', cursor: 'pointer' }}
                     >
-                      View All
+											View All
                     </button>
                   ) : (
                     <button
@@ -98,7 +90,7 @@ class HostList extends React.Component {
                       onClick={this.toggle.bind(this)}
                       style={{ textDecoration: 'none', cursor: 'pointer' }}
                     >
-                      View Less
+											View Less
                     </button>
                   )}
                 </div>
@@ -106,7 +98,7 @@ class HostList extends React.Component {
             )}
           </div>
         </div>
-      );
+      )
     }
     return (
       <div className="site-section bg-white">
@@ -125,8 +117,8 @@ class HostList extends React.Component {
           </div>
         </div>
       </div>
-    );
+    )
   }
 }
 
-export default HostList;
+export default HostList

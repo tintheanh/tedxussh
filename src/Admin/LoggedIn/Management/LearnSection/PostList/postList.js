@@ -1,9 +1,11 @@
 import React from 'react'
-import moment from 'moment'
 import { Link } from 'react-router-dom'
-import { getListRealtime, deleteUnitData } from 'config/firebase'
+import _ from 'lodash'
+import moment from 'moment'
+import { getPostListRealtime, deletePost } from 'config/firebase'
 import Modal from 'react-responsive-modal'
 import EditPost from './EditPost/editPost'
+import './styles.css'
 
 export default class PostList extends React.Component {
   constructor(props) {
@@ -28,31 +30,42 @@ export default class PostList extends React.Component {
   }
 
   componentDidMount() {
-    getListRealtime('learn', 'posts', 'datePosted', querySnapshot => {
-      const postArray = []
-      querySnapshot.forEach(doc => {
-        const post = { ...doc.data(), id: doc.id }
-        postArray.push(post)
-      })
-      this.setState({ posts: postArray.reverse() })
+    getPostListRealtime(snapshot => {
+      const obj = snapshot.val()
+      if (obj) {
+        const posts = []
+        Object.keys(obj).forEach(e => {
+          const post = {
+            id: e,
+            thumbnail: obj[e].thumbnail,
+            by: obj[e].by,
+            datePosted: obj[e].datePosted,
+            title: obj[e].title,
+            description: obj[e].description,
+            content: obj[e].content
+          }
+          posts.push(post)
+        })
+        const sorted = _.sortBy(posts, ['datePosted'])
+        this.setState({ posts: sorted.reverse() })
+      }
     })
   }
 
   deletePost(postID) {
     const ask = window.confirm('Sure to delete?')
     if (ask) {
-      deleteUnitData('learn', 'posts', postID).catch(err => alert(err.message))
+      deletePost(postID).catch(err => alert(err.message))
     }
   }
 
-  toTime(time) {
-    return moment.unix(time.seconds).format('d/m/YYYY hh:mm a')
+  shortenDescription(text) {
+    if (text !== undefined && text.length > 150) return text.substring(0, 150)
+    return text
   }
 
-  shortenDescription(text) {
-    if (text !== undefined && text.length > 150)
-      return text.substring(0, 150)
-    return text
+  toTime(epoch) {
+    return moment(epoch).format('D/M/YYYY')
   }
 
   renderPost(startIndex, endIndex) {
@@ -71,7 +84,9 @@ export default class PostList extends React.Component {
                   <span className="mb-3 d-block post-date">
                     {this.toTime(e.datePosted)} By {e.by}
                   </span>
-                  <span className="mb-3 d-block post-date">{this.shortenDescription(e.description)}</span>
+                  <span className="mb-3 d-block post-date">
+                    {this.shortenDescription(e.description)}
+                  </span>
                 </div>
               </div>
             </Link>
@@ -79,7 +94,15 @@ export default class PostList extends React.Component {
               <button onClick={this.openModalEdit.bind(this, e.id)}>Edit</button>
               <button onClick={this.deletePost.bind(this, e.id)}>Delete</button>
             </div>
-            <Modal showCloseIcon={false} open={this.state.modalEdit} onClose={() => console.log('')} center>
+            <Modal
+              showCloseIcon={false}
+              open={this.state.modalEdit}
+              onClose={() => console.log('')}
+              center
+              classNames={{
+							  modal: 'customModal'
+              }}
+            >
               <EditPost post={e} closeModal={this.closeModalEdit} />
             </Modal>
           </div>

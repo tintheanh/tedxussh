@@ -1,32 +1,10 @@
 import React from 'react'
 import ReactQuill from 'react-quill'
 import Modal from 'react-responsive-modal'
+import moment from 'moment'
 import ImageManagement from 'utils/components/ImageManagement'
-import { addPost, getListRealtime } from 'config/firebase'
-
-const modules = {
-  toolbar: [
-    [{ header: [1, 2, false] }],
-    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-    [{ list: 'ordered' }, { list: 'bullet' }, { indent: '-1' }, { indent: '+1' }],
-    ['link', 'image'],
-    ['clean']
-  ]
-}
-
-const formats = [
-  'header',
-  'bold',
-  'italic',
-  'underline',
-  'strike',
-  'blockquote',
-  'list',
-  'bullet',
-  'indent',
-  'link',
-  'image'
-]
+import { addPost, getPostListRealtime } from 'config/firebase'
+import { modules, formats } from 'utils/functions'
 
 export default class AddPost extends React.Component {
   constructor(props) {
@@ -37,6 +15,7 @@ export default class AddPost extends React.Component {
       by: '',
       content: '',
       thumbnail: '',
+      description: '',
       modalThumbAdd: false
     }
 
@@ -46,10 +25,15 @@ export default class AddPost extends React.Component {
   }
 
   componentDidMount() {
-    getListRealtime('learn', 'posts', 'datePosted', querySnapshot => {
-      const postIDs = []
-      querySnapshot.forEach(doc => postIDs.push(doc.id))
-      this.setState({ postIDs })
+    getPostListRealtime(snapshot => {
+      const obj = snapshot.val()
+      if (obj) {
+        const postIDs = []
+        Object.keys(obj).forEach(e => {
+          postIDs.push(e)
+        })
+        this.setState({ postIDs })
+      }
     })
   }
 
@@ -101,7 +85,8 @@ export default class AddPost extends React.Component {
     const post = {
       title: this.state.title,
       by: this.state.by,
-      datePosted: new Date(),
+      description: this.state.description,
+      datePosted: moment().valueOf(),
       content: this.state.content,
       thumbnail: this.state.thumbnail
     }
@@ -133,12 +118,19 @@ export default class AddPost extends React.Component {
           />
         </div>
         <div className="row">
-          <img className="img-fluid" src={this.state.thumbnail} alt="" />
+          <textarea
+            placeholder="Description"
+            value={this.state.description}
+            onChange={e => this.setState({ description: e.target.value })}
+          />
+        </div>
+        <div className="row">
+          <img className="img-fluid" src={this.state.thumbnail} alt="" style={{ width: '50%', height: '50%' }} />
         </div>
         <button onClick={this.openModalThumbAdd}>Thumbnail</button>
-        <Modal open={this.state.modalThumbAdd} onClose={this.closeModalThumbAdd} center>
+        <Modal open={this.state.modalThumbAdd} onClose={this.closeModalThumbAdd} center style={{width: '1000px q'}}>
           <ImageManagement
-            category="thumbnails"
+            category="posts"
             closeModal={this.closeModalThumbAdd}
             pick={this.onThumbChange.bind(this)}
           />

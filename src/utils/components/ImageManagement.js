@@ -39,6 +39,12 @@ export default class ImageManagement extends React.Component {
     })
   }
 
+  shorten(string) {
+    if (string && string.length > 10)
+      return `${string.substring(0, 10)}...`
+    return string
+  }
+
   renderRow(startIndex, endIndex, imgs) {
     return imgs.slice(startIndex, endIndex).map(e => (
       <div
@@ -59,7 +65,7 @@ export default class ImageManagement extends React.Component {
               backgroundColor: this.state.pickedImgUrl === e.url ? 'cyan' : ''
             }}
           >
-            <strong className="price">{e.name}</strong>
+            <strong className="price">{this.shorten(e.name)}</strong>
           </div>
         </div>
       </div>

@@ -69,8 +69,8 @@ export default class UpdateHighlight extends React.Component {
               <p>{hl.name}</p>
             </div>
           </div>
-          <button onClick={this.deleteImg.bind(this, hl.id)}>Delete</button>
         </div>
+        <button onClick={this.deleteImg.bind(this, hl.id)}>Delete</button>
       </div>
     ))
   }

@@ -55,7 +55,7 @@ export default class Organizers extends React.Component {
               updateTo="organizers"
             />
           </SectionWrapper>
-          <SectionWrapper>
+          <SectionWrapper forPicture>
             <SectionTitle title="Team members" />
             <UpdateUnitSection
               unitData={organizers.members}
