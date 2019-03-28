@@ -35,11 +35,10 @@ exports.seoFunc = functions.https.onRequest((req, res) => {
 
     // postId = url.substring(13, url.length);
 
-    console.log(postId);
-    console.log(url);
+    console.log('id', postId);
     admin
       .database()
-      .ref('/learnPosts/postSection/postList')
+      .ref('postList')
       .child(postId)
       .once('value')
       .then(snapshot => {
