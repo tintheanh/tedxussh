@@ -1,110 +1,80 @@
-import React from 'react';
-import moment from 'moment';
-import firebase from 'firebase';
+import React from 'react'
+import moment from 'moment'
+import { getData } from 'config/firebase'
 
 class GetEventUpdate extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      description: '',
-      link: '',
-      startDate: '',
-      endDate: ''
-    };
-  }
-
   toEpoch(inputDate) {
-    const date = moment(inputDate);
-    const unix = moment(date).unix();
+    const date = moment(inputDate)
+    const unix = moment(date).unix()
 
-    return unix;
+    return unix
   }
 
   toVNDate(inputDate) {
     if (inputDate) {
-      const date = inputDate.split('-');
-      const year = date[0];
-      let month = date[1];
-      let day = date[2];
+      const date = inputDate.split('-')
+      const year = date[0]
+      let month = date[1]
+      let day = date[2]
       if (parseInt(month) < 10) {
-        month = month.substring(1, 2);
+        month = month.substring(1, 2)
       }
       if (parseInt(day) < 10) {
-        day = day.substring(1, 2);
+        day = day.substring(1, 2)
       }
-      return `${day}/${month}/${year}`;
+      return `${day}/${month}/${year}`
     }
-    return '';
+    return ''
   }
 
   openTicketPage(url) {
-    window.open(url, '_blank');
-  }
-
-  componentDidMount() {
-    firebase
-      .database()
-      .ref('getEventUpdate')
-      .on('value', snapshot => {
-        const getEventUpdateObj = snapshot.val();
-        if (getEventUpdateObj) {
-          this.setState({
-            description: getEventUpdateObj.description,
-            link: getEventUpdateObj.link,
-            startDate: getEventUpdateObj.startDate,
-            endDate: getEventUpdateObj.endDate
-          });
-        }
-      });
+    window.open(url, '_blank')
   }
 
   render() {
-    const { isVN } = this.props;
-    const description = this.state.description.split('||');
-    return (
-      <div>
-        <p
-          style={{
-            textAlign: 'center',
-            margin: '44px',
-            fontFamily: 'Montserrat'
-          }}
-        >
-          {isVN ? description[0] : description[1]}
-        </p>
-        <p
-          style={{
-            textAlign: 'center',
-            fontWeight: '700',
-            fontFamily: 'Montserrat'
-          }}
-        >
-          {this.toVNDate(this.state.startDate)} -{' '}
-          {this.toVNDate(this.state.endDate)}
-        </p>
-        <div style={{ margin: 'auto', textAlign: 'center' }}>
-          {moment().unix() >= this.toEpoch(this.state.startDate) &&
-          moment().unix() <= this.toEpoch(this.state.endDate) ? (
-            <button
-              className="ticket-btn"
-              onClick={this.openTicketPage.bind(this, this.state.link)}
-              style={{ fontFamily: 'Montserrat' }}
-            >
-              GET ONE NOW
-            </button>
-          ) : (
-            <button
-              disabled
-              className="ticket-btn"
-              style={{ fontFamily: 'Montserrat' }}
-            >
-              GET ONE NOW
-            </button>
-          )}
+    const { isVN } = this.props
+    const { getEventUpdate } = this.props
+    
+    const description = getEventUpdate.description.split('||')
+      return (
+        <div>
+          <p
+            style={{
+						  textAlign: 'center',
+						  margin: '44px',
+						  fontFamily: 'Montserrat'
+            }}
+          >
+            {isVN ? description[0] : description[1]}
+          </p>
+          <p
+            style={{
+						  textAlign: 'center',
+						  fontWeight: '700',
+						  fontFamily: 'Montserrat'
+            }}
+          >
+            {this.toVNDate(getEventUpdate.startDate)} - {this.toVNDate(getEventUpdate.endDate)}
+          </p>
+          <div style={{ margin: 'auto', textAlign: 'center' }}>
+            {moment().unix() >= this.toEpoch(getEventUpdate.startDate) &&
+						moment().unix() <= this.toEpoch(getEventUpdate.endDate) ? (
+  <button
+    className="ticket-btn"
+    onClick={this.openTicketPage.bind(this, getEventUpdate.ticket_link)}
+    style={{ fontFamily: 'Montserrat' }}
+  >
+								GET ONE NOW
+  </button>
+						  ) : (
+  <button disabled className="ticket-btn" style={{ fontFamily: 'Montserrat' }}>
+								GET ONE NOW
+  </button>
+						  )}
+          </div>
         </div>
-      </div>
-    );
+      )
   }
 }
 
-export default GetEventUpdate;
+export default GetEventUpdate

@@ -156,7 +156,7 @@ export default class ImageSection extends React.Component {
       <div className="col-3" key={e.id}>
         <div className="hotel-room text-center notransition">
           <div className="d-block mb-0 thumbnail notransition">
-            <img src={e.url} className="img-fluid notransition" />
+            <img src={e.url} className="img-fluid notransition" alt="" />
           </div>
           <div className="hotel-room-body">
             <strong className="price">{this.shorten(e.name)}</strong>

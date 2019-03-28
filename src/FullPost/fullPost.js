@@ -64,12 +64,25 @@ export default class FullPost extends React.Component {
           <div className="row">
             <div className="back-btn">
               <button onClick={this.goBack} style={{ textDecoration: 'none', color: '#000' }}>
-                Go Back
+								Go Back
               </button>
             </div>
           </div>
         </div>
       )
-    } return null
+    }
+    return (
+      <div
+        style={{
+				  width: '100vw',
+				  height: '50vh',
+				  display: 'flex',
+				  justifyContent: 'center',
+				  alignItems: 'center'
+        }}
+      >
+        <i className="fa fa-spinner loading" />
+      </div>
+    )
   }
 }

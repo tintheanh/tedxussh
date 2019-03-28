@@ -1,12 +1,8 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react'
+import { Link } from 'react-router-dom'
 
 const LeftSideBar = () => (
-  <aside
-    className="left-sidebar"
-    data-sidebarbg="skin5"
-    style={{ backgroundColor: '#1F262D' }}
-  >
+  <aside className="left-sidebar" data-sidebarbg="skin5" style={{ backgroundColor: '#1F262D' }}>
     <div className="scroll-sidebar">
       <nav className="sidebar-nav">
         <ul id="sidebarnav" className="p-t-30">
@@ -16,14 +12,14 @@ const LeftSideBar = () => (
               to="/admin/home"
               className="sidebar-link waves-effect waves-dark sidebar-link"
               aria-expanded="false"
-              // style={{ backgroundColor: window.location.pathname === '/admin/conference' ? '#27a9e3' : '' }}
+							// style={{ backgroundColor: window.location.pathname === '/admin/conference' ? '#27a9e3' : '' }}
               style={
-                window.location.pathname === '/admin/home' ||
-                window.location.pathname === '/admin' ||
-                window.location.pathname === '/admin/'
-                  ? { backgroundColor: '#27a9e3', opacity: 1 }
-                  : { backgroundColor: '' }
-              }
+								window.location.pathname === '/admin/home' ||
+								window.location.pathname === '/admin' ||
+								window.location.pathname === '/admin/'
+								  ? { backgroundColor: '#27a9e3', opacity: 1 }
+								  : { backgroundColor: '' }
+							}
             >
               <i className="fa fa-home" />
               <span className="hide-menu">Home</span>
@@ -35,12 +31,12 @@ const LeftSideBar = () => (
               to="/admin/conference"
               className="sidebar-link waves-effect waves-dark sidebar-link"
               aria-expanded="false"
-              // style={{ backgroundColor: window.location.pathname === '/admin/conference' ? '#27a9e3' : '' }}
+							// style={{ backgroundColor: window.location.pathname === '/admin/conference' ? '#27a9e3' : '' }}
               style={
-                window.location.pathname === '/admin/conference'
-                  ? { backgroundColor: '#27a9e3', opacity: 1 }
-                  : { backgroundColor: '' }
-              }
+								window.location.pathname === '/admin/conference'
+								  ? { backgroundColor: '#27a9e3', opacity: 1 }
+								  : { backgroundColor: '' }
+							}
             >
               <i className="fas fa-calendar-alt" />
               <span className="hide-menu">Event</span>
@@ -52,12 +48,12 @@ const LeftSideBar = () => (
               to="/admin/learn"
               className="sidebar-link waves-effect waves-dark sidebar-link"
               aria-expanded="false"
-              // style={{ backgroundColor: window.location.pathname === '/admin/conference' ? '#27a9e3' : '' }}
+							// style={{ backgroundColor: window.location.pathname === '/admin/conference' ? '#27a9e3' : '' }}
               style={
-                window.location.pathname === '/admin/learn'
-                  ? { backgroundColor: '#27a9e3', opacity: 1 }
-                  : { backgroundColor: '' }
-              }
+								window.location.pathname === '/admin/learn'
+								  ? { backgroundColor: '#27a9e3', opacity: 1 }
+								  : { backgroundColor: '' }
+							}
             >
               <i className="fab fa-leanpub" />
               <span className="hide-menu">Learn</span>
@@ -69,12 +65,12 @@ const LeftSideBar = () => (
               to="/admin/footer"
               className="sidebar-link waves-effect waves-dark sidebar-link"
               aria-expanded="false"
-              // style={{ backgroundColor: window.location.pathname === '/admin/conference' ? '#27a9e3' : '' }}
+							// style={{ backgroundColor: window.location.pathname === '/admin/conference' ? '#27a9e3' : '' }}
               style={
-                window.location.pathname === '/admin/footer'
-                  ? { backgroundColor: '#27a9e3', opacity: 1 }
-                  : { backgroundColor: '' }
-              }
+								window.location.pathname === '/admin/footer'
+								  ? { backgroundColor: '#27a9e3', opacity: 1 }
+								  : { backgroundColor: '' }
+							}
             >
               <i className="mdi mdi-chart-bubble" />
               <span className="hide-menu">Footer</span>
@@ -87,10 +83,10 @@ const LeftSideBar = () => (
               className="sidebar-link waves-effect waves-dark sidebar-link"
               aria-expanded="false"
               style={
-                window.location.pathname === '/admin/about'
-                  ? { backgroundColor: '#27a9e3', opacity: 1 }
-                  : { backgroundColor: '' }
-              }
+								window.location.pathname === '/admin/about'
+								  ? { backgroundColor: '#27a9e3', opacity: 1 }
+								  : { backgroundColor: '' }
+							}
             >
               <i className="mdi mdi-blur-linear" />
               <span className="hide-menu">About</span>
@@ -103,10 +99,10 @@ const LeftSideBar = () => (
               className="sidebar-link waves-effect waves-dark sidebar-link"
               aria-expanded="false"
               style={
-                window.location.pathname === '/admin/organizers'
-                  ? { backgroundColor: '#27a9e3', opacity: 1 }
-                  : { backgroundColor: '' }
-              }
+								window.location.pathname === '/admin/organizers'
+								  ? { backgroundColor: '#27a9e3', opacity: 1 }
+								  : { backgroundColor: '' }
+							}
             >
               <i className="mdi mdi-blur-linear" />
               <span className="hide-menu">Organizers</span>
@@ -119,10 +115,10 @@ const LeftSideBar = () => (
               className="sidebar-link waves-effect waves-dark sidebar-link"
               aria-expanded="false"
               style={
-                window.location.pathname === '/admin/contact'
-                  ? { backgroundColor: '#27a9e3', opacity: 1 }
-                  : { backgroundColor: '' }
-              }
+								window.location.pathname === '/admin/contact'
+								  ? { backgroundColor: '#27a9e3', opacity: 1 }
+								  : { backgroundColor: '' }
+							}
             >
               <i className="mdi mdi-blur-linear" />
               <span className="hide-menu">Contact</span>
@@ -135,10 +131,10 @@ const LeftSideBar = () => (
               className="sidebar-link waves-effect waves-dark sidebar-link"
               aria-expanded="false"
               style={
-                window.location.pathname === '/admin/images'
-                  ? { backgroundColor: '#27a9e3', opacity: 1 }
-                  : { backgroundColor: '' }
-              }
+								window.location.pathname === '/admin/images'
+								  ? { backgroundColor: '#27a9e3', opacity: 1 }
+								  : { backgroundColor: '' }
+							}
             >
               <i className="mdi mdi-view-dashboard" />
               <span className="hide-menu">Images</span>
@@ -151,10 +147,10 @@ const LeftSideBar = () => (
               className="sidebar-link waves-effect waves-dark sidebar-link"
               aria-expanded="false"
               style={
-                window.location.pathname === '/admin/get-event-update'
-                  ? { backgroundColor: '#27a9e3', opacity: 1 }
-                  : { backgroundColor: '' }
-              }
+								window.location.pathname === '/admin/get-event-update'
+								  ? { backgroundColor: '#27a9e3', opacity: 1 }
+								  : { backgroundColor: '' }
+							}
             >
               <i className="mdi mdi-blur-linear" />
               <span className="hide-menu">Get event update</span>
@@ -164,6 +160,6 @@ const LeftSideBar = () => (
       </nav>
     </div>
   </aside>
-);
+)
 
-export default LeftSideBar;
+export default LeftSideBar

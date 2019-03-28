@@ -13,7 +13,7 @@ const renderVideos = videos => {
           <span>
             {e.by} {' | '}
           </span>
-          <a href={e.link} target="_blank" style={{ color: '#c0392b' }}>
+          <a href={e.link} target="_blank" rel="noopener noreferrer" style={{ color: '#c0392b' }}>
             {e.title}
           </a>
         </p>

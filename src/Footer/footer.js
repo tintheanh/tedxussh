@@ -23,7 +23,7 @@ export default class Footer extends React.Component {
   }
 
   render() {
-    const { isVN } = this.props
+    const { isVN, getEventUpdate } = this.props
     if (this.props.footer && this.props.footer.left && this.props.footer.middle && this.props.footer.right) {
       const modifyFooter = modifyObj(isVN, this.props.footer, 'footer')
       const { left, middle, right } = modifyFooter
@@ -86,7 +86,7 @@ export default class Footer extends React.Component {
             </div>
           </div>
           <Modal open={this.state.modalGetUpdate} onClose={this.closeModalGetUpdate} center>
-            <GetEventUpdate />
+            <GetEventUpdate isVN={isVN} getEventUpdate={getEventUpdate} />
           </Modal>
         </footer>
       )

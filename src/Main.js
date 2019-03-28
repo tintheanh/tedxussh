@@ -1,5 +1,4 @@
 import React from 'react'
-import firebase from 'firebase'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import { getData, getList, getPostList } from 'config/firebase'
 import _ from 'lodash'
@@ -18,22 +17,24 @@ export default class Main extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      getEventUpdate: null,
       home: null,
       about: null,
       footer: null,
       conference: null,
       learn: null,
-      organizers: {
-        background: '',
-        title: '',
-        teamMem: []
-      },
+      organizers: null,
       contact: null,
       isVN: true
     }
   }
 
   componentDidMount() {
+    getData('getEventUpdate').then(doc => {
+      if (doc.exists) {
+        this.setState({ getEventUpdate: doc.data() })
+      }
+    })
     getData('home').then(doc => {
       if (doc.exists) {
         this.setState({ home: doc.data() })
@@ -46,9 +47,21 @@ export default class Main extends React.Component {
       }
     })
 
-    getData('organizer').then(doc => {
+    getData('organizers').then(doc => {
       if (doc.exists) {
-        this.setState({ organizers: doc.data() })
+        const organizerObj = doc.data()
+        getList('organizers', 'teamMemList', 'createdDate').then(querySnapshot => {
+          const organizerArr = []
+          querySnapshot.forEach(doc => {
+            const organizer = { ...doc.data(), id: doc.id }
+            organizerArr.push(organizer)
+          })
+          const organizers = {
+            ...organizerObj,
+            teamMemList: organizerArr
+          }
+          this.setState({ organizers })
+        })
       }
     })
 
@@ -185,8 +198,6 @@ export default class Main extends React.Component {
             this.setState({ learn })
           }
         })
-
-
       })
     })
   }
@@ -201,26 +212,28 @@ export default class Main extends React.Component {
 
   render() {
     const {
-      footer, home, about, isVN, conference, learn, contact
+      footer, home, about, isVN, conference, learn, contact, organizers, getEventUpdate
     } = this.state
-    if (about && home && conference && footer && learn) {
+    if (getEventUpdate && about && home && conference && footer && learn && organizers) {
       return (
         <Router>
           <ScrollToTop>
             <div>
-              <NavBar toggleVN={this.toggleVN.bind(this)} toggleEN={this.toggleEN.bind(this)} isVN={isVN} />
+              <NavBar toggleVN={this.toggleVN.bind(this)} toggleEN={this.toggleEN.bind(this)} isVN={isVN} getEventUpdate={getEventUpdate} />
               <Route exact path="/" render={() => <Home isVN={isVN} home={home} />} />
               <Route path="/attend" render={() => <Conference isVN={isVN} conference={conference} />} />
               <Route path="/learn" render={() => <Learn isVN={isVN} learn={learn} />} />
               <Route path="/about" render={() => <About isVN={isVN} about={about} />} />
               <Route path="/contact" render={() => <Contact isVN={isVN} contact={contact} />} />
+              <Route path="/organizers" render={() => <Organizers organizers={organizers} />} />
+              <Footer isVN={isVN} footer={footer} getEventUpdate={getEventUpdate} />
               {/* <Route path="/attend" render={() => <Conference isVN={isVN} />} />
               <Route path="/learn" render={() => <Learn isVN={isVN} />} />
               <Route path="/about" render={() => <About isVN={isVN} about={about} />} />
               <Route path="/organizers" render={() => <Organizers organizers={this.state.organizers} />} />
               <Route path="/contact" render={() => <Contact isVN={isVN} contact={this.state.contact} />} />
               <Footer isVN={isVN} footer={footer} /> */}
-              <Footer isVN={isVN} footer={footer} />
+              
             </div>
           </ScrollToTop>
         </Router>

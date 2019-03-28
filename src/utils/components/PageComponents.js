@@ -1,4 +1,5 @@
 import React from 'react'
+import logo1 from '../../NavBar/Logo/logo1.png'
 
 const PageTitle = props => (
   <div className="row">
@@ -66,8 +67,18 @@ const Loading = props => {
       </PageWrapper>
     )
   return (
-    <div>
-      <h1>Loading</h1>
+    <div
+      style={{
+			  width: '100vw',
+			  height: '100vh',
+			  display: 'flex',
+			  flexDirection: 'column',
+			  justifyContent: 'center',
+			  alignItems: 'center'
+      }}
+    >
+      <img className="loading-logo" src={logo1} alt="" />
+      <i className="fa fa-spinner loading" />
     </div>
   )
 }

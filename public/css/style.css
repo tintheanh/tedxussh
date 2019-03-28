@@ -2120,7 +2120,9 @@ a:hover {
 }
 
 .text-section {
-	font-family: 'Montserrat';
+	font-family: 'Helvetica';
+	line-height: 25px;
+	color: '#E2120';
 }
 
 .text-section img {
@@ -2245,6 +2247,10 @@ a:hover {
 .header-wrapper {
 	/* position: absolute; */
 	/* top: 20%; */
+}
+
+.loading-logo {
+	width: 20%;
 }
 
 /* @media screen and (max-width: 1599.98px) and (min-width: 992px) {
@@ -2415,6 +2421,9 @@ a:hover {
 	.overview-section {
 		margin: 0 34px;
 	}
+	.loading-logo {
+		width: 40%;
+	}
 }
 
 @media screen and (max-width: 768px) and (max-height: 1024px) {
@@ -2571,4 +2580,41 @@ a:hover {
 .ql-container .ql-editor {
 	min-height: 300px;
 	max-height: 500px;
+}
+
+.loading {
+	font-size: 24px;
+	margin-top: 12px;
+	-webkit-animation-name: spin;
+	-webkit-animation-duration: 1000ms;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-timing-function: linear;
+	-moz-animation-name: spin;
+	-moz-animation-duration: 1000ms;
+	-moz-animation-iteration-count: infinite;
+	-moz-animation-timing-function: linear;
+	-ms-animation-name: spin;
+	-ms-animation-duration: 1000ms;
+	-ms-animation-iteration-count: infinite;
+	-ms-animation-timing-function: linear;
+	
+	animation-name: spin;
+	animation-duration: 1000ms;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+}
+
+
+
+@-moz-keyframes spin {
+	from { -moz-transform: rotate(0deg); }
+	to { -moz-transform: rotate(360deg); }
+}
+@-webkit-keyframes spin {
+	from { -webkit-transform: rotate(0deg); }
+	to { -webkit-transform: rotate(360deg); }
+}
+@keyframes spin {
+	from {transform:rotate(0deg);}
+	to {transform:rotate(360deg);}
 }

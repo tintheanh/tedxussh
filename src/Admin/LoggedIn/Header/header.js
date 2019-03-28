@@ -44,7 +44,12 @@ const Header = () => (
           </li>
         </ul>
         <li className="nav-item dropdown">
-          <a className="nav-link dropdown-toggle text-muted waves-effect waves-dark pro-pic" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a
+            className="nav-link dropdown-toggle text-muted waves-effect waves-dark pro-pic"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
             <i className="icon-user rounded-circle" width="31" />
           </a>
           <div className="dropdown-menu dropdown-menu-right user-dd animated">

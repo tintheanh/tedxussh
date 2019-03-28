@@ -1,13 +1,13 @@
-import React from 'react';
-import Logo from './Logo/logo';
-import Burger from './Burger/burger';
-import LiWrap from './LiWrap/liWrap';
-import LiWrapMobile from './LiWrapMobile/liWrapMobile';
-import LiLink from './LiLink/liLink';
-import LiGetEventUpdate from './GetEventUpdate/LiGetEventUpdate';
-import LangPicking from './LanguagePicking/langPicking';
-import vi from './Logo/vi.png';
-import en from './Logo/en.png';
+import React from 'react'
+import Logo from './Logo/logo'
+import Burger from './Burger/burger'
+import LiWrap from './LiWrap/liWrap'
+import LiWrapMobile from './LiWrapMobile/liWrapMobile'
+import LiLink from './LiLink/liLink'
+import LiGetEventUpdate from './GetEventUpdate/LiGetEventUpdate'
+import LangPicking from './LanguagePicking/langPicking'
+import vi from './Logo/vi.png'
+import en from './Logo/en.png'
 
 const NavBar = props => (
   <div>
@@ -22,7 +22,7 @@ const NavBar = props => (
           <LiLink to="/attend" title="Attend" />
           <LiLink to="/learn" title="Learn" />
           <LiLink to="/about" title="About" />
-          <LiGetEventUpdate isVN={props.isVN} />
+          <LiGetEventUpdate isVN={props.isVN} getEventUpdate={props.getEventUpdate} />
           <LangPicking img={vi} toggleLang={props.toggleVN} />
           <LangPicking img={en} toggleLang={props.toggleEN} />
         </LiWrapMobile>
@@ -42,7 +42,7 @@ const NavBar = props => (
                       <LiLink to="/attend" title="Attend" />
                       <LiLink to="/learn" title="Learn" />
                       <LiLink to="/about" title="About" />
-                      <LiGetEventUpdate isVN={props.isVN} />
+                      <LiGetEventUpdate isVN={props.isVN} getEventUpdate={props.getEventUpdate} />
                       <LangPicking img={vi} toggleLang={props.toggleVN} />
                       <LangPicking img={en} toggleLang={props.toggleEN} />
                     </LiWrap>
@@ -55,6 +55,6 @@ const NavBar = props => (
       </div>
     </div>
   </div>
-);
+)
 
-export default NavBar;
+export default NavBar

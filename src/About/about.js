@@ -44,19 +44,19 @@ class About extends React.Component {
 				</div>
 			);
 		});
-  }
-  
-  objToArr(obj) {
-    const arr = []
-    Object.keys(obj).forEach(key => {
-      const vision = {
-        description: obj[key].description,
-        title: obj[key].title
-      }
-      arr.push(vision)
-    })
-    return arr
-  }
+	}
+
+	objToArr(obj) {
+		const arr = [];
+		Object.keys(obj).forEach(key => {
+			const vision = {
+				description: obj[key].description,
+				title: obj[key].title
+			};
+			arr.push(vision);
+		});
+		return arr;
+	}
 
 	onSize = size => {
 		this.setState({ height: size.height });
