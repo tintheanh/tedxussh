@@ -13,5 +13,5 @@ The project uses Firebase as database and storage. Also, it has its own CMS. See
 ```
 git clone https://github.com/tintheanh/tedxussh.git
 cd tedxussh
-npm start
+npm install && npm start
 ```
