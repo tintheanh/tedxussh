@@ -1,8 +1,7 @@
 # TedxUSSH
 This is the webased news-project of TEDx at The University of Social Sciences and Humanities Vietnam National University Ho Chi Minh City. See more at https://tedxussh.com/
-<p>
-  <img src="https://i.imgur.com/x4OlaTH.gif">
-</p>
+
+![alt text](https://i.imgur.com/pgdWkrP.png)
 
 ## SEO friendly on social networks
 ![alt text](https://i.imgur.com/Lva8PBj.png)
